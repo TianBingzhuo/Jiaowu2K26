@@ -1,0 +1,630 @@
+{
+  "schema_version": "3.9",
+  "updated_at": "2026-07-23",
+  "project": {
+    "id": "jiaowu2K26",
+    "canonical_root": "D:/10451/Desktop/黑客松",
+    "identity": "SIS/URP/LMS、校园身份、财务、科研与人事等权威系统之上的大学生涯决策与体验层",
+    "p0": "F-001 智课工坊 + F-002 MyCareer 轻量入口",
+    "event": "AdventureX 2026"
+  },
+  "status": {
+    "phase": "hacking",
+    "implementation": "phase0_foundation_in_progress",
+    "all_modules": "pending_except_phase0_foundation",
+    "technology_approval": "gate_1_in_progress; all primary technologies remain conditional until evidence passes",
+    "design_approval": "user_approved_unified_game_world; implementation_details_awaiting_team_review",
+    "code_baseline": "authorized_after_hacking_start_verification; public_repository_bootstrap_in_progress",
+    "completion_claims_allowed": false
+  },
+  "agent_entrypoint": "AGENTS.md",
+  "current_work": {
+    "schema_version": "1.1",
+    "queue_revision": 4,
+    "authoritative_for": "current phase, gate, active slice, team identity mapping and immediately claimable work",
+    "phase": "hacking",
+    "current_gate": "GATE-1",
+    "active_slice": "P0-00",
+    "active_issue": "https://github.com/TianBingzhuo/Jiaowu2K26/issues/1",
+    "wip_limit": 1,
+    "sync_status": "current",
+    "last_synced_at": "2026-07-23T07:18:05+08:00",
+    "staleness_rule": "stale immediately if organizer start/freeze/submission state, active slice, task status, owner or GitHub board state changes without updating this snapshot",
+    "task_source": {
+      "mode": "github_live",
+      "live_url": "https://github.com/TianBingzhuo/Jiaowu2K26/issues",
+      "offline_snapshot": "PROJECT-MANIFEST.json.current_work",
+      "after_repo_creation": "GitHub Issues and pull requests are live task state; this object remains a timestamped offline routing snapshot",
+      "source_precedence": ["GitHub Project/Issue when mode is github_live and accessible", "this current_work snapshot", "module STATUS for module progress only", "conversation is never a task source"]
+    },
+    "team_registry_status": "elastic_capability_pool_active; add identities only after explicit consent",
+    "team_member_schema": {
+      "required": ["member_id", "github_handle", "primary_role", "secondary_roles", "current_task", "consent_confirmed"],
+      "allowed_primary_roles": ["product_integrator", "frontend", "backend", "ai_pipeline", "design", "human_factors_research"],
+      "privacy_rule": "store only collaboration identity and self-confirmed role/capacity; do not store unrelated personal attributes"
+    },
+    "team_members": [],
+    "staffing_model": {
+      "mode": "elastic_capability_pool",
+      "roles_are_capabilities_not_fixed_seats": true,
+      "claim_rule": "any available teammate may claim one allowed work package matching their skills; no role is reserved for a fixed headcount",
+      "unclaimed_rule": "when ai_allowed=true and no human claims the package, Codex may research, draft, test or implement within scope; the product integrator remains the human owner and performs final review",
+      "human_accountability": "every accepted deliverable must have a human who can explain, test and approve it; AI is never the sole accountable author",
+      "real_user_evidence": "AI-generated personas or simulations may prepare hypotheses but never count as participant evidence",
+      "review_authority": "product_integrator"
+    },
+    "ready_tasks": [
+      {
+        "id": "P0-00-A",
+        "title": "建立公开主仓、环境基线与一键验证入口",
+        "status": "in_progress",
+        "priority": 1,
+        "priority_reason": "所有队友和 AI 必须先从同一仓库、锁定工具链和可重复命令起跑，之后才允许写领域代码",
+        "roles": ["any", "backend", "product_integrator"],
+        "owner": "product_integrator",
+        "reviewers": ["product_integrator"],
+        "allowed_now": true,
+        "ai_allowed": true,
+        "depends_on": [],
+        "required_reads": ["engineering/TECH-STACK.md", "engineering/ARCHITECTURE.md", "engineering/GITHUB-COLLAB.md", "gates/GATE-1-技术验证-6h.md", "reference/ENVIRONMENT.md"],
+        "inputs": ["公开 GitHub 主仓", "最终演示机工具版本", "当前文档基线", "赛事开工核验"],
+        "outputs": ["首个可追溯 main 基线", "分支保护与 PR 规则", "doctor/bootstrap/verify 入口", "锁定版本与环境记录"],
+        "acceptance": ["公开仓可克隆且不含秘密、依赖缓存、第三方联系方式抓取稿或历史 ZIP", "main 禁止未审直接变更并只允许 squash merge", "最终演示机可运行统一验证命令", "文档状态与 GitHub Issue 一致"],
+        "forbidden": ["把本机 token、env 或私钥提交到 Git", "在环境未固定前展开产品功能", "把未验证的 Rust/OceanBase 写成既成技术"],
+        "fallback": "OceanBase、特定 Node 或特定 IDE 不可用时保持原生工具链加 SQLite/fixture 回退，不阻塞仓库基线",
+        "issue_url": "https://github.com/TianBingzhuo/Jiaowu2K26/issues/1",
+        "branch": "main",
+        "claimed_at": "2026-07-23T07:18:05+08:00",
+        "updated_at": "2026-07-23",
+        "execution_support": ["codex"]
+      },
+      {
+        "id": "P0-00-B",
+        "title": "冻结跨平台合同与 Rust 领域骨架",
+        "status": "ready",
+        "priority": 2,
+        "priority_reason": "稳定领域对象、端口、OpenAPI、JSON Schema 与事件版本是后续多端和数据库替换的兼容性宪章",
+        "roles": ["backend", "product_integrator", "any"],
+        "owner": null,
+        "reviewers": ["product_integrator"],
+        "allowed_now": false,
+        "ai_allowed": true,
+        "depends_on": ["P0-00-A"],
+        "required_reads": ["engineering/ARCHITECTURE.md", "modules/00-smartcourse/SPEC.md", "product/BOUNDARIES.md", "gates/QUALITY.md"],
+        "inputs": ["F-001 审核状态机", "来源与权威级别规则", "可信/可读归档要求", "跨平台目标"],
+        "outputs": ["Rust workspace 与无框架领域 crate", "versioned OpenAPI/JSON Schema/event contracts", "兼容性与不变量测试"],
+        "acceptance": ["跨客户端真相不只存在于 Rust 类型", "领域层不依赖 Axum、SQLx、OceanBase 或 UI 引擎", "合同版本、来源、责任方和失败状态可表达", "cargo fmt/check/test/clippy 通过"],
+        "forbidden": ["微服务拆分", "把 Unreal/Unity 绑定进领域层", "把用户画像或温度评级写入权威学术记录"],
+        "fallback": "若 Rust 闸门失败，保留同一公开合同并切团队最熟悉的 FastAPI 或 Node 实现",
+        "issue_url": "https://github.com/TianBingzhuo/Jiaowu2K26/issues/1",
+        "branch": null,
+        "claimed_at": null,
+        "updated_at": "2026-07-23"
+      },
+      {
+        "id": "P0-00-C",
+        "title": "跑通 SQLite 同合同纵向切片与失败回退",
+        "status": "ready",
+        "priority": 3,
+        "priority_reason": "先证明写入、查询、审核状态迁移和失败响应可以离线运行，OceanBase 才能作为可替换条件适配器",
+        "roles": ["backend", "ai_pipeline", "any"],
+        "owner": null,
+        "reviewers": ["product_integrator"],
+        "allowed_now": false,
+        "ai_allowed": true,
+        "depends_on": ["P0-00-B"],
+        "required_reads": ["gates/GATE-1-技术验证-6h.md", "engineering/DEMO-PATH.md", "modules/00-smartcourse/SPEC.md"],
+        "inputs": ["稳定 repository port", "原创最小 fixture", "审核状态机"],
+        "outputs": ["SQLite adapter", "写入/查询/状态迁移/失败响应测试", "OceanBase 条件 spike 入口"],
+        "acceptance": ["SQLite 与候选 OceanBase 共享 repository 合同", "重复请求、非法迁移和数据库不可用都有确定结果", "无云账号也能完整运行基线验证"],
+        "forbidden": ["让 OceanBase 成为唯一启动路径", "为展示吞掉错误", "使用真实学生或学校数据"],
+        "fallback": "OceanBase spike 失败即记录证据并继续 SQLite，不改领域合同",
+        "issue_url": "https://github.com/TianBingzhuo/Jiaowu2K26/issues/1",
+        "branch": null,
+        "claimed_at": null,
+        "updated_at": "2026-07-23"
+      },
+      {
+        "id": "P0-00-D",
+        "title": "建立 Web/PWA 最小体验壳与真实健康调用",
+        "status": "ready",
+        "priority": 4,
+        "priority_reason": "验证 React/Vite 统一体验壳能消费公开合同并保留未来 Tauri/HarmonyOS 适配边界，不提前堆完整 UI",
+        "roles": ["frontend", "design", "any"],
+        "owner": null,
+        "reviewers": ["product_integrator"],
+        "allowed_now": false,
+        "ai_allowed": true,
+        "depends_on": ["P0-00-B", "P0-00-C"],
+        "required_reads": ["engineering/DESIGN-SYSTEM.md", "engineering/ARCHITECTURE.md", "gates/QUALITY.md"],
+        "inputs": ["versioned API contract", "统一游戏 Design System tokens", "后端健康与版本端点"],
+        "outputs": ["React/Vite/PWA 最小壳", "API contract handshake", "加载/离线/错误三态"],
+        "acceptance": ["不复制 NBA 2K 资产或商标", "同一语义可由未来桌面/移动壳复用", "失败状态可见且不伪装成功", "键盘和降低动效基础可用"],
+        "forbidden": ["此阶段接入 Unreal 或 Unity", "用静态截图冒充真实调用", "在不同角色端另起一套美术体系"],
+        "fallback": "前端框架闸门失败时保留标准 Web 合同和最小 HTML client，不阻塞后端证据",
+        "issue_url": "https://github.com/TianBingzhuo/Jiaowu2K26/issues/1",
+        "branch": null,
+        "claimed_at": null,
+        "updated_at": "2026-07-23"
+      },
+      {
+        "id": "P0-00-HF",
+        "title": "建立逐切片人因审计与 Degree Fahrenheit 研究包",
+        "status": "ready",
+        "priority": 5,
+        "priority_reason": "游戏机制必须在进入 UI 前检查理解、压力、公平、隐私和可访问性；原人因岗位空缺由 Codex 起草、用户审核",
+        "roles": ["human_factors_research", "design", "product_integrator", "any"],
+        "owner": "product_integrator",
+        "reviewers": ["product_integrator"],
+        "allowed_now": true,
+        "ai_allowed": true,
+        "depends_on": [],
+        "required_reads": ["product/HUMAN-FACTORS.md", "brainstorm/03-2K全功能对标与实现构思.md", "modules/06-performance-center/SPEC.md#4-degree-fahrenheit-实验", "product/BOUNDARIES.md#游戏化安全原则"],
+        "inputs": ["139 条机制事实表", "Degree Fahrenheit A/B/C 假设", "当前所有 P0 交互与文案"],
+        "outputs": ["逐切片 AI 预审卡", "认知访谈脚本与同意说明", "风险登记、停损条件和用户审核清单"],
+        "acceptance": ["已确认事实、AI 假设和必须由真人回答的问题分开", "用户逐项审核研究结论", "没有真人样本时状态明确为 needs_real_user_evidence", "反复出现成绩/医学/越高越好误解时改版或回退"],
+        "forbidden": ["把便利样本写成全体学生结论", "把温度当能力总分", "用门禁、消费、夜间在线或健康数据推断状态", "仅凭 AI 模拟用户宣称验证通过"],
+        "fallback": "只完成可查证研究、协议和假设登记，所有效果结论保持待真人验证",
+        "issue_url": "https://github.com/TianBingzhuo/Jiaowu2K26/issues/1",
+        "branch": "agent/phase0-human-factors",
+        "claimed_at": "2026-07-23T07:18:05+08:00",
+        "updated_at": "2026-07-23",
+        "execution_support": ["codex"]
+      }
+    ],
+    "blocked_by_phase": [
+      {
+        "id": "P0-01..P0-07",
+        "title": "F-001 产品切片序列",
+        "status": "queued",
+        "activate_when": "previous slice is accepted and tagged",
+        "source": "product/MODULE-MAP.md#p0-实现顺序"
+      },
+      {
+        "id": "P1-selection",
+        "title": "最多一个 P1 支线",
+        "status": "future",
+        "activate_when": "all P0 is stable before the 36h stop line and the whole team records one choice",
+        "source": "product/MODULE-MAP.md#裁剪决策树"
+      }
+    ],
+    "next_transition": {
+      "id": "ACCEPT-P0-00",
+      "automatic": false,
+      "trigger": "all mandatory GATE-1 checks pass or each failed conditional technology has been explicitly switched to its documented fallback",
+      "required_evidence": ["public baseline commit", "doctor/bootstrap/verify logs", "contract and state-machine tests", "SQLite fallback proof", "human reviewer approval"],
+      "atomic_updates": ["mark P0-00 packages accepted or fallback_selected", "tag p0-00-accepted", "activate only P0-01", "keep P0-02 and later queued", "sync GitHub Issue and this offline snapshot"],
+      "activation_sources": ["gates/GATE-1-技术验证-6h.md", "product/MODULE-MAP.md#四人单功能-wip-协议", "engineering/GITHUB-COLLAB.md"],
+      "do_not_infer_from_clock": true
+    },
+    "answer_contract": {
+      "source": "AGENTS.md#4-固定回答格式",
+      "default_when_role_unknown": "return exactly one highest-priority ready task whose roles include any, then at most two role-specific alternatives",
+      "claim_requires_explicit_user_statement": true,
+      "question_alone_is_read_only": true
+    }
+  },
+  "event_deadlines": {
+    "timezone": "Asia/Shanghai (UTC+08:00)",
+    "opening_ceremony": {"starts_at":"2026-07-22T19:00:00+08:00","ends_at":"2026-07-22T22:30:00+08:00","hacking_starts_after_ceremony":true},
+    "submission_portal": {"opens_at":"2026-07-25T12:00:00+08:00","closes_at":"2026-07-26T01:00:00+08:00","window_hours":13,"late_policy":"submissions after the deadline will not be reviewed"},
+    "expo": {"starts_at":"2026-07-26T09:00:00+08:00","ends_at":"2026-07-26T15:00:00+08:00","cleanup_by":"2026-07-26T15:30:00+08:00"},
+    "submission_requirements_source": "reference/RESEARCH.md#提交物清单",
+    "official_source": "https://adventurex.feishu.cn/docx/FOhLdr0Y3okbATxWvBQcoFx0nEd",
+    "captured_at": "2026-07-22",
+    "hacking_start_evidence": {
+      "status": "verified",
+      "verified_at": "2026-07-23T07:18:05+08:00",
+      "verifier_member_id": "product_integrator",
+      "official_source": "https://adventurex.feishu.cn/docx/FOhLdr0Y3okbATxWvBQcoFx0nEd",
+      "official_semantics": "开幕式结束后正式 Hacking",
+      "witness_source": "product integrator explicitly confirmed in the working session that official Hacking has started",
+      "interpretation": "repository creation and Phase 0 implementation are now allowed",
+      "caveat": "the exact organizer announcement instant was not captured; this records the exact verification time and is not inferred from the schedule alone"
+    },
+    "dynamic_fact_rule": "recheck the official guide and live United Portal when submission opens"
+  },
+  "canonical_read_order": [
+    "README.md",
+    "product/VISION.md",
+    "product/MODULE-MAP.md",
+    "product/BOUNDARIES.md",
+    "engineering/ARCHITECTURE.md",
+    "engineering/TECH-STACK.md",
+    "reference/RESEARCH.md",
+    "PROJECT-MANIFEST.json"
+  ],
+  "documentation_portal": {
+    "status": "implemented_and_locally_verified_as_non_product_collaboration_tooling",
+    "product_implementation_status_unchanged": true,
+    "canonical_source_policy": "root Markdown, topic directories and PROJECT-MANIFEST.json remain authoritative; docs-site/src/content/docs is an ignored read-only projection",
+    "site_root": "docs-site",
+    "formal_product_workspace": "app",
+    "framework": {
+      "astro": "6.0.3",
+      "starlight": "0.38.0",
+      "pagefind": "1.5.2",
+      "lockfile": "docs-site/package-lock.json"
+    },
+    "team_runtime_baseline": "Node.js 24 LTS",
+    "local_validation_runtime": "Node.js 25.8.1; accepted for this local verification only and not the team baseline",
+    "setup_command": "pwsh -NoProfile -ExecutionPolicy Bypass -File .\\tools\\Docs.ps1 -Action Setup",
+    "launcher": "tools/Docs.ps1",
+    "desktop_shortcut": "D:/10451/Desktop/Jiaowu2K26 文档中心.lnk",
+    "local_url": "http://127.0.0.1:4321/",
+    "git_update_policy": "git pull --ff-only only when this is a Git clone, the worktree is clean and an upstream exists; otherwise skip without mutation",
+    "junction_build_policy": "retain D:/10451/Desktop/黑客松 as the stable human and AI path; on this machine run each Astro/Vite build wholly through the verified equivalent C:/Desktop/黑客松 path to prevent duplicate module identities and missing core CSS",
+    "repository_front_door": ["README.md", "AGENTS.md", "CONTRIBUTING.md", "SECURITY.md", "CHANGELOG.md", "docs/PROJECT-STRUCTURE.md", "docs/GETTING-STARTED.md"],
+    "validated_at": "2026-07-23T00:40:00+08:00",
+    "validation": {
+      "canonical_markdown_sources": 132,
+      "archived_markdown_sources_excluded_from_search": 71,
+      "generated_content_pages": 150,
+      "verified_active_local_links": 203,
+      "built_html_files": 151,
+      "offline_search_index": "passed; browser query Degree Fahrenheit returned 12 results",
+      "visual_smoke_test": "passed; Starlight core CSS loaded, dark sports HUD rendered, Career Control Room visible with three quick-action cards",
+      "automated_build_guard": "docs-site/scripts/verify-build.mjs checks core CSS markers, homepage deck, Pagefind and key handoff pages after every build"
+    },
+    "claim_boundary": "the portal is a local reading and collaboration tool, not an AdventureX product prototype or implemented Jiaowu2K26 feature"
+  },
+  "truth_precedence": [
+    "current official AdventureX rules and organizer interpretation",
+    "for immediate work only: live GitHub Project/Issue after repository creation, otherwise PROJECT-MANIFEST.json.current_work",
+    "the eight canonical entries in canonical_read_order",
+    "module SPEC.md and STATUS.md for the selected module",
+    "module PROMPT.md and other current working documents",
+    "dated archives and external reference libraries",
+    "conversation summaries"
+  ],
+  "catalog_consolidation": {
+    "active_catalog_file": "PROJECT-MANIFEST.json",
+    "separate_active_catalog_json": false,
+    "reason": "资源目录并入单一 Manifest，减少竞争事实源和入口数量",
+    "historical_catalog": "archive/superseded-8entries-20260721/CATALOG.json"
+  },
+  "feature_contract": {
+    "stable_id_policy": "published Fxxx-yy meanings must never be changed, shifted or reused",
+    "new_slice_policy": "use P0-* or EXP-* acceptance ids until a new stable feature id is approved",
+    "detailed_feature_count": 214,
+    "module_feature_counts": {
+      "F-001": 16,
+      "F-002": 15,
+      "F-003": 15,
+      "F-004": 16,
+      "F-005": 14,
+      "F-006": 14,
+      "F-007": 14,
+      "F-008": 14,
+      "F-009": 16,
+      "F-010": 14,
+      "F-011": 18,
+      "F-012": 14,
+      "F-013": 16,
+      "F-014": 18
+    },
+    "experimental_slices": [
+      {"id":"EXP-CASE-01","name":"Human Override Protocol","maps_to":["X-02","X-03","X-04","X-09","F-001","F-003","F-004","F-013","F-014"],"p0_effect":"minimum_contract_only"},
+      {"id":"EXP-CASE-02","name":"Academic Replay and Evidence Pack","maps_to":["X-03","X-12","F-001","F-002","F-005","F-013","F-014"],"p0_effect":"minimum_contract_only"},
+      {"id":"EXP-CASE-03","name":"Research Quest Tree","maps_to":["F-009","F-013"],"p0_effect":"none"},
+      {"id":"EXP-CASE-04","name":"Scenario Draft Board","maps_to":["F-002","F-004","F-009"],"p0_effect":"none"},
+      {"id":"EXP-CASE-05","name":"Season Highlight Reel","maps_to":["F-002","F-005","F-006"],"p0_effect":"none"},
+      {"id":"EXP-CASE-06","name":"Mastery Gates and Builder Mode","maps_to":["F-001","F-005","F-006","F-008","F-009"],"p0_effect":"none"},
+      {"id":"EXP-CASE-07","name":"Institutional Transaction State Machine","maps_to":["X-03","X-04","X-14","X-15","F-010","F-011","F-014"],"p0_effect":"none"},
+      {"id":"EXP-CASE-08","name":"Campus Footprints","maps_to":["F-008","F-010","F-012"],"p0_effect":"none"},
+      {"id":"EXP-CASE-09","name":"Builder and Test Court","maps_to":["F-002","F-004","F-006","F-009"],"p0_effect":"none"},
+      {"id":"EXP-CASE-10","name":"Learning Rhythm and Buddy Chart","maps_to":["F-001","F-005","F-006","F-007","F-008"],"p0_effect":"contract_extension_only"},
+      {"id":"EXP-CASE-11","name":"Season Spotlight and Mentorship","maps_to":["F-002","F-005","F-006","F-007","F-008","F-009","F-013"],"p0_effect":"none"}
+    ],
+    "experimental_slice_policy": "acceptance and research ids only; they do not increase the 214 stable feature count or bypass P0/P1 scope gates"
+  },
+  "modules": [
+    {"id":"F-001","directory":"modules/00-smartcourse","priority":"P0","prompt":"modules/00-smartcourse/PROMPT.md","spec":"modules/00-smartcourse/SPEC.md","status_file":"modules/00-smartcourse/STATUS.md","implementation":"pending"},
+    {"id":"F-002","directory":"modules/01-mycareer-shell","priority":"P0-light","prompt":"modules/01-mycareer-shell/PROMPT.md","spec":"modules/01-mycareer-shell/SPEC.md","status_file":"modules/01-mycareer-shell/STATUS.md","implementation":"pending"},
+    {"id":"F-003","directory":"modules/02-academic-mirror","priority":"P1-candidate","prompt":"modules/02-academic-mirror/PROMPT.md","spec":"modules/02-academic-mirror/SPEC.md","status_file":"modules/02-academic-mirror/STATUS.md","implementation":"pending"},
+    {"id":"F-004","directory":"modules/03-roster-lab","priority":"P1-candidate","prompt":"modules/03-roster-lab/PROMPT.md","spec":"modules/03-roster-lab/SPEC.md","status_file":"modules/03-roster-lab/STATUS.md","implementation":"pending"},
+    {"id":"F-005","directory":"modules/04-world-exam","priority":"P1-preferred","prompt":"modules/04-world-exam/PROMPT.md","spec":"modules/04-world-exam/SPEC.md","status_file":"modules/04-world-exam/STATUS.md","implementation":"pending"},
+    {"id":"F-009","directory":"modules/05-opportunity-market","priority":"P1-candidate","prompt":"modules/05-opportunity-market/PROMPT.md","spec":"modules/05-opportunity-market/SPEC.md","status_file":"modules/05-opportunity-market/STATUS.md","implementation":"pending"},
+    {"id":"F-006","directory":"modules/06-performance-center","priority":"P2","prompt":"modules/06-performance-center/PROMPT.md","spec":"modules/06-performance-center/SPEC.md","status_file":"modules/06-performance-center/STATUS.md","implementation":"pending"},
+    {"id":"F-007","directory":"modules/07-coach-scouting","priority":"P2","prompt":"modules/07-coach-scouting/PROMPT.md","spec":"modules/07-coach-scouting/SPEC.md","status_file":"modules/07-coach-scouting/STATUS.md","implementation":"pending"},
+    {"id":"F-008","directory":"modules/08-campus-life","priority":"Vision","prompt":"modules/08-campus-life/PROMPT.md","spec":"modules/08-campus-life/SPEC.md","status_file":"modules/08-campus-life/STATUS.md","implementation":"pending"},
+    {"id":"F-010","directory":"modules/09-university-os","priority":"P2-Vision","prompt":"modules/09-university-os/PROMPT.md","spec":"modules/09-university-os/SPEC.md","status_file":"modules/09-university-os/STATUS.md","documentation_mode":"consolidated_future_pack","scope_status":"user_approved_vision","implementation":"pending"},
+    {"id":"F-011","directory":"modules/09-university-os","priority":"P2-Vision","prompt":"modules/09-university-os/PROMPT.md","spec":"modules/09-university-os/SPEC.md","status_file":"modules/09-university-os/STATUS.md","documentation_mode":"consolidated_future_pack","scope_status":"user_approved_vision","implementation":"pending"},
+    {"id":"F-012","directory":"modules/09-university-os","priority":"P2-Vision","prompt":"modules/09-university-os/PROMPT.md","spec":"modules/09-university-os/SPEC.md","status_file":"modules/09-university-os/STATUS.md","documentation_mode":"consolidated_future_pack","scope_status":"user_approved_vision","implementation":"pending"},
+    {"id":"F-013","directory":"modules/09-university-os","priority":"P2-Vision","prompt":"modules/09-university-os/PROMPT.md","spec":"modules/09-university-os/SPEC.md","status_file":"modules/09-university-os/STATUS.md","documentation_mode":"consolidated_future_pack","scope_status":"user_approved_vision","implementation":"pending"},
+    {"id":"F-014","directory":"modules/09-university-os","priority":"P2-Vision","prompt":"modules/09-university-os/PROMPT.md","spec":"modules/09-university-os/SPEC.md","status_file":"modules/09-university-os/STATUS.md","documentation_mode":"consolidated_future_pack","scope_status":"user_approved_vision","implementation":"pending"}
+  ],
+  "scope_expansion": {
+    "approved_at": "2026-07-22",
+    "status": "approved_vision_not_scheduled",
+    "pack": "modules/09-university-os",
+    "logical_modules": [
+      "F-010 Campus Pass & Entitlements",
+      "F-011 General Balance & Campus Commerce",
+      "F-012 Dining & Wellbeing",
+      "F-013 Faculty Success Studio",
+      "F-014 Institutional Front Office"
+    ],
+    "scheduling_rule": "all remain pending; after P0 stability at most one smallest slice may compete with every other P1/P2 candidate",
+    "real_world_integration_rule": "payments, access control, institutional identity and high-stakes decisions require separate institutional, security, privacy and compliance approval"
+  },
+  "experience_contract": {
+    "status": "user_approved_direction",
+    "principle": "one original game world across Student MyCareer, Faculty Coach Studio and Institutional Front Office",
+    "required_source": "engineering/DESIGN-SYSTEM.md",
+    "shared": [
+      "experience shell and navigation",
+      "design tokens and component geometry",
+      "typography, icons, motion and asset pipeline",
+      "state vocabulary and evidence presentation",
+      "Briefing -> Choose -> Execute -> Replay -> Next Move loop"
+    ],
+    "forbidden": [
+      "module-specific skins or private palettes",
+      "generic admin templates for faculty or institution lenses",
+      "mixed illustration styles or unregistered assets",
+      "NBA, 2K or ESPN protected assets"
+    ],
+    "accessibility_modes": ["immersive", "light", "traditional", "reduced_motion"],
+    "equal_information_completeness": true,
+    "primary_key_art_direction": "original university sports-career launch screen with student hero, campus arena, season context, one primary objective and readable HUD; not cyber concept art or copied 2K trade dress"
+  },
+  "local_case_audit": {
+    "audited_at": "2026-07-22",
+    "source_root": "D:/10451/Downloads/已经整理",
+    "source_mode": "read_only_targeted_audit",
+    "source_writes": false,
+    "trace_document": "reference/RESEARCH.md#本地黑客松与成品项目审计2026-07-22",
+    "integration_document": "product/MODULE-MAP.md#本地黑客松与成品案例归并实验验收-id",
+    "decision": "merge reusable patterns as cross-cutting contracts or subfeature semantics; reject direct asset/code copying and any P0 scope expansion"
+  },
+  "game_mechanics_audit": {
+    "audited_at": "2026-07-22",
+    "scope": "NBA 2K25 official system reports plus explicitly labeled series history, and maimai DX official play/features pages",
+    "analysis_document": "brainstorm/03-2K全功能对标与实现构思.md",
+    "research_index": "reference/RESEARCH.md#nba-2k-设计研究",
+    "new_experimental_ids": ["EXP-CASE-09", "EXP-CASE-10", "EXP-CASE-11"],
+    "inventory_counts": {
+      "nba_2k_and_explicit_series_rows": 94,
+      "strict_2k25_rows": 92,
+      "explicit_series_reference_rows": 2,
+      "maimai_dx_rows": 45,
+      "total_rows": 139,
+      "adopt_adapt_syntax_or_target": 116,
+      "deferred": 21,
+      "rejected_original_mechanism": 2,
+      "mapped_to_feature_modules": 134,
+      "mapped_only_to_base_or_shared_contracts": 5,
+      "implemented": 0,
+      "human_validated": 0
+    },
+    "coverage_document": "product/HUMAN-FACTORS.md#5-139-条机制的覆盖账本",
+    "traceability_gap": "all 139 rows have module/shared-contract destinations, but not every row is yet linked to exact Fxxx-xx, page/API and test evidence",
+    "decision": "NBA 2K supplies macro career/season/management grammar; maimai supplies micro learning rhythm/cooperation grammar; all features require adopt/adapt/defer/reject and Vought Test review; no P0 scope expansion or protected asset copying"
+  },
+  "human_factors": {
+    "status": "research_baseline_created; real_participant_validation_not_started",
+    "owner_role": "human_factors_research",
+    "charter": "product/HUMAN-FACTORS.md",
+    "workflow": "product/HUMAN-FACTORS.md#7-human-factors-scouting-room-工作流",
+    "workflow_states": ["INBOX", "AI_PRE_AUDIT", "BLIND_FIRST_READ", "FIELD_MISSION", "DECISION_REVIEW", "BUILD_READY", "IN_PRODUCT_RETEST", "CLOSED"],
+    "decision_states": ["KEEP", "REVISE", "DEFER", "STOP"],
+    "anti_anchoring_rule": "human blind first read precedes disclosure of AI hypotheses or recommendations; AI must separate sourced facts, falsifiable hypotheses and questions requiring real participants",
+    "wip_rule": "at most one high-risk card in FIELD_MISSION; a daily 20-minute clinic may triage at most three cards",
+    "scope": ["cultural_semantics", "comprehension", "actionability", "pressure_and_identity", "fairness_and_power", "privacy_and_consent", "social_dynamics", "accessibility_and_inclusion"],
+    "first_recommended_task": "HF-02 Degree Fahrenheit A/B/C cognitive interviews, then expand HF-01 mechanism register",
+    "privacy_rule": "do not store a teammate's academic major or other personal background in the registry; store only a self-confirmed collaboration role and necessary capacity",
+    "implementation_gate": "a module mapping is not human validation; high-risk findings keep the slice in review until revised, rejected or explicitly accepted with rationale"
+  },
+  "visual_assets": [
+    {
+      "id": "career-mode-concept-v1",
+      "path": "reference/assets/jiaowu2k26-career-mode-concept-v1.png",
+      "role": "pre-event recruitment and original game-world direction reference",
+      "status": "concept_reference_not_product_screenshot",
+      "generated_by": "OpenAI built-in ImageGen",
+      "dimensions": {"width":972,"height":1619},
+      "bytes": 2377125,
+      "sha256": "21C86D33ED89BB802D2376E1213EB960366624F9AB456A9A529220AB9D2FA2F4",
+      "prompt_source": "reference/PITCH-COPY.md#ai-游戏主视觉-prompt带文字快速稿",
+      "allowed_use": ["internal design review","pre-event recruiting when explicitly labeled concept visual"],
+      "forbidden_use": ["claim as product screenshot","claim as AdventureX implementation output","imply NBA or 2K endorsement"]
+    },
+    {
+      "id": "a4-software-universe-map-v1",
+      "path": "reference/assets/jiaowu2k26-a4-software-universe-map-v1.png",
+      "role": "A4 pre-event software-universe map and fourteen-module explainer",
+      "status": "concept_reference_not_product_screenshot",
+      "generated_by": "OpenAI built-in ImageGen background plus deterministic HTML/CSS typography",
+      "dimensions": {"width":2480,"height":3508},
+      "bytes": 8159074,
+      "sha256": "7E270F94B77618FACE5E5C873CF2CC7B9E916765874ECD21239213CA76A9A3B2",
+      "prompt_source": "reference/PITCH-COPY.md#a4-软件功能全景海报第一页",
+      "style_references": ["reference/assets/jiaowu2k26-career-mode-concept-v1.png","reference/assets/jiaowu2k26-a4-explainer-role-map-v1.png"],
+      "allowed_use": ["internal design review","pre-event recruiting and printing when explicitly labeled concept visual"],
+      "forbidden_use": ["claim as product screenshot","claim as AdventureX implementation output","imply NBA or 2K endorsement"]
+    },
+    {
+      "id": "a4-explainer-role-map-v1",
+      "path": "reference/assets/jiaowu2k26-a4-explainer-role-map-v1.png",
+      "role": "A4 pre-event project explainer and contributor role-matching poster",
+      "status": "concept_reference_not_product_screenshot",
+      "generated_by": "OpenAI built-in ImageGen background plus deterministic HTML/CSS typography",
+      "dimensions": {"width":2480,"height":3508},
+      "bytes": 8111307,
+      "sha256": "F6E1CFE81D4CF143442EDE09905412A8497B686255671C3A0AE8E07E4C41F877",
+      "prompt_source": "reference/PITCH-COPY.md#a4-项目说明与岗位速配海报",
+      "style_reference": "reference/assets/jiaowu2k26-career-mode-concept-v1.png",
+      "allowed_use": ["internal design review","pre-event recruiting and printing when explicitly labeled concept visual"],
+      "forbidden_use": ["claim as product screenshot","claim as AdventureX implementation output","imply NBA or 2K endorsement"]
+    }
+  ],
+  "technology_proposal": {
+    "approval_status": "awaiting_user_and_team_review",
+    "backend_candidate": "Rust + Axum + Tokio; FastAPI or Node fallback",
+    "database_candidate": "OceanBase MySQL mode; SQLite mandatory fallback",
+    "frontend_candidate": "React + TypeScript + Vite Web/PWA",
+    "experience_candidate": "one React Experience Shell + centralized design tokens/components/assets for all role lenses",
+    "api_contract": "all active module specifications use the versioned /api/v1 prefix plus OpenAPI/JSON Schema/Golden Fixtures; no duplicate unversioned routes",
+    "platform_contract": "Windows-first validation, cross-platform by versioned OpenAPI/JSON Schema/capability adapters; future macOS, iOS, iPadOS, Android and HarmonyOS clients may not own domain rules",
+    "native_shell_candidates": "Tauri 2 after P0 for supported desktop/mobile platforms; WinUI 3 only for Windows-specific adapters; HarmonyOS 7 requires a separately verified ArkUI/ArkTS or Web adapter",
+    "personal_archive_contract": "human-readable non-authoritative export plus issuer-signed portable trusted archive with optional authenticated encryption and quarantined reconciliation on import",
+    "institution_federation_contract": "school sovereign data plane plus shared minimal control plane; authorized central grade copies remain replica/cache unless the institution designates authority",
+    "identity_and_entitlement_candidate": "demo RBAC for event; OIDC/SAML/SCIM and physical credential adapters only after institutional approval",
+    "payment_candidate": "typed append-only ledger + deterministic policy engine + provider-neutral PaymentRail adapters; sandbox/fixture only by default",
+    "ai_candidate": "provider-neutral adapter with one selected model and fixture fallback",
+    "deployment_candidate": "local-first; verified sponsor cloud secondary",
+    "game_engine": "not in P0; installed Unity may be evaluated only after P0",
+    "selection_gate": "gates/GATE-1-技术验证-6h.md"
+  },
+  "collaboration_contract": {
+    "status": "active_during_hacking",
+    "canonical_host": "GitHub",
+    "repository_url": "https://github.com/TianBingzhuo/Jiaowu2K26",
+    "repository_visibility": "public",
+    "repository_created_at": "2026-07-23T07:18:05+08:00",
+    "reason": "AdventureX submission requires a GitHub repository link",
+    "repository_creation_rule": "created only after the product integrator verified official Hacking had started; first baseline commit contains the public-safe specification and collaboration state, not a prebuilt product",
+    "beginner_gui_guide": "engineering/GITHUB-COLLAB.md",
+    "task_router": "AGENTS.md plus PROJECT-MANIFEST.json.current_work; asking for work is read-only and claiming requires an explicit task id plus role/member_id",
+    "visibility": "public by user decision because project ideas and development are intended to be open; local secrets, third-party contact snapshots and backup bundles remain excluded",
+    "backup": "optional GitHub-to-Gitee one-way backup after Gate-1; never allow multi-platform writes or bidirectional mirroring",
+    "not_selected": ["CNB as a second CI/task system", "GitCode as a second source of truth", "long-lived develop branch", "GitFlow"],
+    "workflow": {
+      "integration_branch": "main",
+      "product_wip_limit": 1,
+      "merge_method": "squash pull request",
+      "review_rule": "the claimed experiment and acceptance checks must run before approval; then at least one non-author approval is required and the integrator performs merge",
+      "unclaimed_work_rule": "Codex may fill ai_allowed gaps under the elastic staffing model, but a human owner must understand, test and approve the result",
+      "realtime_validation": "CI on every push; reviewer or integrator checks out Ready PR in isolation; only accepted PRs enter main and the final demo checkout",
+      "accepted_tag_pattern": "p0-xx-accepted",
+      "active_slice_order": ["P0-00", "P0-01", "P0-02", "P0-03", "P0-04", "P0-05", "P0-06", "P0-07"],
+      "source": "product/MODULE-MAP.md#四人单功能-wip-协议"
+    },
+    "environment_contract": {
+      "strategy": "native fast path plus pinned toolchains, lockfiles, doctor/bootstrap/verify scripts, SQLite and fixture fallback",
+      "must_verify_on": ["final demo machine", "at least one second teammate machine"],
+      "source": "engineering/TECH-STACK.md#15-版本控制协作平台与统一环境"
+    }
+  },
+  "open_source_policy": {
+    "policy": "open_source_first_but_auditable",
+    "project_license_status": "undecided; no open-source license or reuse permission may be assumed until the rights holder selects and adds one",
+    "required_after_selection": [
+      "upstream repository",
+      "exact version or commit",
+      "registry or download URL",
+      "hash where applicable",
+      "SPDX license and notices",
+      "transitive license check",
+      "reuse mode and local changes",
+      "security check",
+      "event rule check",
+      "fallback"
+    ]
+  },
+  "external_reference_libraries": [
+    {
+      "id": "winui3-reference",
+      "path": "D:/10451/Users/10451/Downloads/WinUI3-Reference",
+      "manifest": "D:/10451/Users/10451/Downloads/WinUI3-Reference/SOURCE-MANIFEST.json",
+      "manifest_sha256": "B5BD94162F8184FC3933285BE1F275441FD429D4EDF7EE9B5672726F621A4C82",
+      "use": "reference_only",
+      "copied_into_project": false
+    },
+    {
+      "id": "nba2k-design-reference",
+      "path": "D:/10451/Users/10451/Downloads/NBA2K-Design-Reference",
+      "manifest": "D:/10451/Users/10451/Downloads/NBA2K-Design-Reference/SOURCE-MANIFEST.json",
+      "manifest_sha256": "8BB484643B7E0104931F534AC989FC4243E95CC2E9D67A600A56F19BA6D3F23F",
+      "use": "internal_research_only",
+      "product_asset_reuse_authorized": false
+    }
+  ],
+  "research_inputs": [
+    {
+      "id": "adventurex-rtf-resource-list",
+      "path": "D:/10451/Desktop/研究/Adventure X.rtf",
+      "bytes": 23040,
+      "sha256": "8F4B4E901393F3BB3DFD29D96AD40C517B48D6F280A4FDBDC2DB6E80272E1AFE",
+      "status": "available"
+    },
+    {
+      "id": "drobotics-embedded-track-resource-pdf",
+      "path": "D:/10451/Desktop/地瓜/嵌入式竞赛地瓜机器人赛道资料.pdf",
+      "bytes": 3020973,
+      "sha256": "F945FE12C1077BBFFB50DEC870D80506A8695B2FB89F2C7E11151E4A9D1F823A",
+      "status": "missing_reprovide_and_verify"
+    },
+    {
+      "id": "drobotics-competition-pack-pdf",
+      "path": "D:/10451/Desktop/地瓜/嵌赛资料包.pdf",
+      "bytes": 211974,
+      "sha256": "EE5A926C2DEF2B656709A2004FBC5B0B8BB175FA748C8AB8D233A813701361D0",
+      "status": "missing_reprovide_and_verify"
+    }
+  ],
+  "external_handoff_provenance": [
+    {"path":"D:/10451/Users/10451/Downloads/jiaowu2K26-Qoder-Handoff.md","role":"historical standalone Qoder transfer envelope","status":"missing_relocate_if_needed","canonical":false},
+    {"path":"D:/10451/Desktop/jiaowu2K26_飞书组队帖_终稿.txt","role":"historical Feishu recruitment copy","status":"missing_superseded_by_reference/PITCH-COPY.md","canonical":false},
+    {"path":"D:/10451/Users/10451/.qoderworkcn/workspace/mrrplz38jg9oa1a5/outputs/AI_HANDOFF_jiaowu2K26.md","role":"historical consolidation input","bytes":8826,"sha256":"95163E7EB87AE34751E7A83630FA8E244A46835722F2F5DF9B813655C230AB05","status":"available_verified_2026-07-22","canonical":false},
+    {"path":"D:/10451/Users/10451/.qoderworkcn/workspace/mrrplz38jg9oa1a5/outputs/smartcourse_team_recruitment.md","role":"historical recruitment input","bytes":9165,"sha256":"815907D9B802B1880943F3F7AA5311292A40863F2890292391B3778B3E95847E","status":"available_verified_2026-07-22","canonical":false},
+    {"path":"D:/10451/Desktop/jiaowu2K26_美术资产白名单与缺口表.md","role":"historical art asset whitelist","status":"missing_rebuild_or_relocate_before_reliance","canonical":false}
+  ],
+  "resource_candidates": [
+    {"id":"stepfun-platform","name":"阶跃星辰开放平台","relationship":"current_principal_sponsor_recorded_2026-07-21","position":"primary_model_candidate","sources":["https://adventure-x.org/zh","https://platform.stepfun.com/"]},
+    {"id":"feishu-base","name":"飞书多维表格 / Base","relationship":"current_principal_sponsor_recorded_2026-07-21","position":"secondary_review_candidate","sources":["https://adventure-x.org/zh","https://open.feishu.cn/"]},
+    {"id":"d-robotics-rdk","name":"地瓜机器人 RDK 生态","relationship":"current_principal_sponsor_recorded_2026-07-21","position":"hardware_primary_candidate","sources":["https://adventure-x.org/zh","https://developer.d-robotics.cc/rdk_doc_center/","https://developer.d-robotics.cc/tros_doc/tros","https://github.com/D-Robotics/rdk_model_zoo"]},
+    {"id":"tuyaopen","name":"TuyaOpen","relationship":"current_principal_sponsor_recorded_2026-07-21","position":"hardware_primary_candidate","sources":["https://adventure-x.org/zh","https://www.tuyaopen.ai/zh/docs/about-tuyaopen"]},
+    {"id":"iflytek-speech","name":"科大讯飞语音能力","relationship":"current_principal_sponsor_recorded_2026-07-21","position":"secondary_candidate","sources":["https://adventure-x.org/zh","https://www.xfyun.cn/"]},
+    {"id":"dify","name":"Dify","relationship":"current_technical_or_device_supporter_recorded_2026-07-21","position":"optional_orchestration","sources":["https://adventure-x.org/zh","https://docs.dify.ai/zh/home","https://github.com/langgenius/dify"]},
+    {"id":"qoder","name":"Qoder","relationship":"current_exclusive_partner_recorded_2026-07-21","position":"development_tool_only","sources":["https://adventure-x.org/zh","https://qoder.com/","https://docs.qoder.com/"]},
+    {"id":"aws-cloud","name":"AWS","relationship":"current_principal_sponsor_recorded_2026-07-21","position":"fallback_or_deployment","sources":["https://adventure-x.org/zh","https://aws.amazon.com/"]},
+    {"id":"baidu-miaoda","name":"百度秒哒","relationship":"current_principal_sponsor_recorded_2026-07-21","position":"secondary_candidate","sources":["https://adventure-x.org/zh","https://www.miaoda.cn/"]},
+    {"id":"pico-xr","name":"PICO XR","relationship":"current_principal_sponsor_recorded_2026-07-21","position":"p1_only","sources":["https://adventure-x.org/zh","https://developer.picoxr.com/"]},
+    {"id":"agilex-robotics","name":"松灵机器人 AGILE-X","relationship":"current_principal_sponsor_recorded_2026-07-21","position":"p1_only","sources":["https://adventure-x.org/zh","https://global.agilex.ai/"]},
+    {"id":"injective","name":"Injective","relationship":"current_exclusive_partner_recorded_2026-07-21","position":"rejected_for_current_p0","sources":["https://adventure-x.org/zh","https://docs.injective.network"]},
+    {"id":"nothing-glyph","name":"Nothing Glyph Matrix","relationship":"current_hardware_lab_resource_recorded_2026-07-21","position":"secondary_candidate","sources":["https://faq.adventure-x.org/advx/01-activities","https://github.com/Nothing-Developer-Programme/GlyphMatrix-Developer-Kit"]},
+    {"id":"apple-platforms","name":"Apple Vision / Core ML / visionOS / Foundation Models","relationship":"current_hardware_lab_resource_recorded_2026-07-21","position":"p1_only","sources":["https://faq.adventure-x.org/advx/01-activities","https://developer.apple.com/cn/videos/"]},
+    {"id":"minimax-platform","name":"MiniMax","relationship":"historical_signal_only","position":"fallback_only","sources":["https://platform.minimaxi.com/","https://www.minimax.io"]},
+    {"id":"camel-ai","name":"CAMEL-AI","relationship":"unverified_for_2026","position":"rejected_for_p0","sources":["https://docs.camel-ai.org/get_started/installation"]},
+    {"id":"modelscope","name":"ModelScope","relationship":"unverified_for_2026","position":"fallback_only","sources":["https://www.modelscope.cn/docs","https://github.com/modelscope/modelscope"]},
+    {"id":"ppio-model-api","name":"PPIO Model API","relationship":"unverified_for_2026","position":"fallback_only","sources":["https://ppio.com/docs/model/get-start"]},
+    {"id":"cloudstudio","name":"CloudStudio","relationship":"unverified_for_2026","position":"development_tool_only","sources":["https://cloudstudio.net/t"]},
+    {"id":"clackyai","name":"ClackyAI","relationship":"unverified_for_2026","position":"development_tool_only","sources":["https://clacky.ai/"]},
+    {"id":"ten-framework-agora","name":"TEN Framework + Agora","relationship":"unverified_for_2026","position":"p1_only","sources":["https://github.com/TEN-framework/ten-framework","https://docs.agora.io/en/video-calling/get-started/get-started-sdk"]},
+    {"id":"xion","name":"XION","relationship":"unverified_for_2026","position":"rejected_for_p0","sources":["https://docs.burnt.com/xion/developers/computation/xion-quick-start"]},
+    {"id":"seeed-lerobot","name":"Seeed LeRobot SO-ARM100/101","relationship":"unverified_for_2026","position":"p1_only","sources":["https://wiki.seeedstudio.com/lerobot_so100m/","https://wiki.seeedstudio.com/lerobot_so100m_isaacsim/"]}
+  ],
+  "archive_state": {
+    "previous_docs_archive": "archive/superseded-8entries-20260721",
+    "previous_docs_files_preserved": 7,
+    "previous_root_readme_preserved": false,
+    "previous_root_readme_known_sha256": "0742B92E8D80337637C289EB6B2B6B7A795637E0D908EF0340560937CEA7532A",
+    "note": "Qoder 计划称旧 8 入口完整归档，但根 README 被重写且项目内无已知哈希匹配；不得声称该快照字节级完整。"
+  },
+  "path_policy": {
+    "canonical_project_root": "D:/10451/Desktop/黑客松",
+    "approved_junction_roots": ["D:/10451", "D:/DiskC"],
+    "preferred_root_for_this_project": "D:/10451",
+    "equivalent_aliases_must_not_be_scanned_together": true,
+    "write_outside_approved_D_junctions": false
+  },
+  "update_protocol": [
+    "for phase, gate, active slice, owner or task status changes: update the live GitHub Project/Issue after repository creation, then synchronize current_work atomically; before repository creation current_work is authoritative",
+    "update the owning topic document",
+    "update module SPEC and STATUS when feature meaning or implementation state changes",
+    "update PROJECT-MANIFEST.json",
+    "update README current state if the change affects handoff",
+    "move superseded material to a dated archive with hashes",
+    "never publish externally without explicit user action"
+  ],
+  "do_not_claim": [
+    "unimplemented modules are complete",
+    "technology proposals are approved before GATE-1",
+    "historical prototypes or reference images are current event output",
+    "market, learning or retention effects without reverified primary evidence",
+    "sponsor credits, hardware SKUs or rights not confirmed at the event",
+    "NBA, 2K, ESPN or university endorsement"
+  ]
+}

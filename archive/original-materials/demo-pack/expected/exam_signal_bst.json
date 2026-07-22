@@ -1,0 +1,41 @@
+{
+  "lesson_id": "bst-001",
+  "signals": [
+    {
+      "id": "sig-001",
+      "source_type": "transcript",
+      "source_ref": "bst_transcript.md#L17",
+      "timestamp_range": "03:05-03:25",
+      "quote": "本节最重要的是记住三点：第一，左小右大；第二，查找和插入都依赖同一个比较路径；第三，树是否平衡决定了操作效率。",
+      "signal_type": "teacher_explicit_emphasis",
+      "priority": "S",
+      "knowledge_points": ["左小右大规则", "查找与插入路径", "平衡性影响效率"],
+      "why_it_matters": "老师用“最重要”明确标记，适合进入考情情报表和最后24小时清单。",
+      "suggested_quiz_types": ["判断题", "路径选择题", "简答题"]
+    },
+    {
+      "id": "sig-002",
+      "source_type": "slide",
+      "source_ref": "bst_slide_extract.json#slides[1]",
+      "slide_page": 2,
+      "quote": "左子树所有值小于根节点；右子树所有值大于根节点；左右子树本身也必须是BST",
+      "signal_type": "slide_title_level_concept",
+      "priority": "S",
+      "knowledge_points": ["递归定义", "左小右大规则"],
+      "why_it_matters": "PPT标题级核心规则，是本节所有动画和题目的基础。",
+      "suggested_quiz_types": ["选择题", "画树题"]
+    },
+    {
+      "id": "sig-003",
+      "source_type": "slide",
+      "source_ref": "bst_slide_extract.json#slides[4]",
+      "slide_page": 5,
+      "quote": "平均 O(log n)；最坏 O(n)；树是否平衡非常关键",
+      "signal_type": "complexity_contrast",
+      "priority": "A",
+      "knowledge_points": ["时间复杂度", "平衡性"],
+      "why_it_matters": "复杂度对比适合简答题，能区分“会用规则”和“理解性能”的学生。",
+      "suggested_quiz_types": ["简答题", "判断题"]
+    }
+  ]
+}

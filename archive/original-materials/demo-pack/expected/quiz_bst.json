@@ -1,0 +1,57 @@
+{
+  "lesson_id": "bst-001",
+  "quizzes": [
+    {
+      "quiz_id": "q1",
+      "scene_id": "s2",
+      "trigger_second": 95,
+      "type": "single_choice",
+      "question": "在二叉搜索树中，如果当前节点是 8，插入值是 5，下一步应该往哪里走？",
+      "options": ["左子树", "右子树", "留在根节点", "无法判断"],
+      "answer_index": 0,
+      "explanation": "5 小于 8，所以按照左小右大的规则，下一步进入左子树。"
+    },
+    {
+      "quiz_id": "q2",
+      "scene_id": "s3",
+      "trigger_second": 170,
+      "type": "single_choice",
+      "question": "查找目标值 6 时，路径 8 -> 3 -> 6 的第二步为什么从 3 往右走？",
+      "options": ["因为 6 小于 3", "因为 6 大于 3", "因为 3 是叶子节点", "因为 8 是根节点"],
+      "answer_index": 1,
+      "explanation": "到达节点 3 后，目标值 6 大于 3，因此应该沿右子树继续查找。"
+    },
+    {
+      "quiz_id": "q3",
+      "scene_id": "s5",
+      "trigger_second": 300,
+      "type": "true_false",
+      "question": "如果二叉搜索树退化成一条链，查找的最坏时间复杂度可能变成 O(n)。",
+      "answer": true,
+      "explanation": "正确。极端插入顺序可能让树失去平衡，搜索路径接近链表长度。"
+    },
+    {
+      "quiz_id": "q_code",
+      "scene_id": "s4",
+      "trigger_second": 245,
+      "type": "code",
+      "language": "python",
+      "question": "补全 insert 函数，让插入后的中序遍历仍然有序。",
+      "starter_code": "class Node:\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None\n\ndef insert(root, val):\n    # TODO: 补全这里\n    return root",
+      "reference_solution": "def insert(root, val):\n    if root is None:\n        return Node(val)\n    if val < root.val:\n        root.left = insert(root.left, val)\n    elif val > root.val:\n        root.right = insert(root.right, val)\n    return root",
+      "test_cases": [
+        {
+          "name": "insert_left",
+          "input": [8, 3],
+          "expected_inorder": [3, 8]
+        },
+        {
+          "name": "insert_right",
+          "input": [8, 3, 10],
+          "expected_inorder": [3, 8, 10]
+        }
+      ],
+      "explanation": "BST 插入的关键是递归返回子树根节点，并保持左小右大的结构。"
+    }
+  ]
+}

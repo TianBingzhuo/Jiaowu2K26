@@ -1,0 +1,177 @@
+{
+  "schema_version": "2.0",
+  "updated_at": "2026-07-21",
+  "project": "jiaowu2K26",
+  "status": "pre_event_research_only",
+  "purpose": "Machine-readable index for canonical documents, proposed technology, sponsor/resource candidates, local reference libraries and archived evidence.",
+  "canonical_documents": {
+    "entry": "../README.md",
+    "product": "PRODUCT.md",
+    "engineering": "ENGINEERING.md",
+    "research": "RESEARCH.md",
+    "playbook": "PLAYBOOK.md",
+    "ai_handoff": "AI-HANDOFF.md",
+    "project_manifest": "PROJECT-MANIFEST.json"
+  },
+  "truth_precedence": [
+    "current official AdventureX rules and organizer interpretation",
+    "README.md and canonical docs in docs/",
+    "PROJECT-MANIFEST.json and this catalog",
+    "exact superseded documents in archive/",
+    "conversation summaries"
+  ],
+  "source_snapshots": {
+    "legacy_technology_catalog": "../archive/superseded-current-20260721/docs/tech-stacks/catalog.json",
+    "legacy_download_manifest": "../archive/superseded-current-20260721/docs/tech-stacks/downloads/manifest.json",
+    "legacy_source_inventory": "../archive/superseded-current-20260721/docs/tech-stacks/SOURCE-INVENTORY.md",
+    "legacy_website_audit": "../archive/superseded-current-20260721/docs/tech-stacks/WEBSITE-AUDIT.md",
+    "adventurex_rtf": {
+      "path": "D:/10451/Desktop/研究/Adventure X.rtf",
+      "sha256": "8F4B4E901393F3BB3DFD29D96AD40C517B48D6F280A4FDBDC2DB6E80272E1AFE",
+      "interpretation": "Technology-resource collection, not a formal entitlement list."
+    }
+  },
+  "competition": {
+    "name": "AdventureX 2026",
+    "phase": "pre_event",
+    "functional_build_allowed_now": false,
+    "official_guide": "https://adventurex.feishu.cn/docx/FOhLdr0Y3okbATxWvBQcoFx0nEd",
+    "event": "2026-07-22/2026-07-26",
+    "hacking_starts_after_opening": true,
+    "theme_count": 1,
+    "track_count_min": 1,
+    "track_count_max": 6
+  },
+  "proposed_stack": {
+    "approval_status": "awaiting_user_review",
+    "client_primary": "React + TypeScript + Vite Web/PWA",
+    "ui": "design tokens + accessible headless components + bounded motion",
+    "windows_secondary": "WinUI 3 teacher review or demo console",
+    "game_engine_secondary": "Unity 6000.3.17f1 only after P0; already installed",
+    "unreal": "Unreal Engine 5.8 rejected for P0 and not installed",
+    "backend_conditional_primary": "Rust + Axum + Tokio modular monolith",
+    "backend_fallback": "one team-familiar API: FastAPI or Node/Fastify",
+    "data_conditional_primary": "OceanBase MySQL mode + SQLx",
+    "data_fallback": "SQLite; JSONL only for bounded fixtures or read-only fallback",
+    "document_worker": "Python only where PDF/OCR/ASR ecosystem is stronger",
+    "ai": "provider-neutral adapter plus one event-confirmed sponsor model",
+    "personal_resolver": "SAT or MaxSAT candidate",
+    "institution_resolver": "OR-Tools CP-SAT candidate",
+    "resolver_fallback": "deterministic best-feasible heuristic with explicit violations",
+    "architecture": "modular monolith; no P0 microservices"
+  },
+  "local_environment": {
+    "checked_at": "2026-07-21",
+    "os": "Windows 11 Home build 26200",
+    "cpu": "Intel Core i7-13700H",
+    "ram_gib_approx": 64,
+    "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+    "vram_mib_from_nvidia_smi": 8188,
+    "unity": "6000.3.17f1",
+    "unity_hub": "3.13.0",
+    "visual_studio": "Community 2026 18.7.1 with native game workload visible",
+    "unreal_installed": false,
+    "epic_games_launcher_installed": false,
+    "steam_found_in_common_paths": false,
+    "changes_made_by_inventory": false
+  },
+  "external_reference_libraries": [
+    {
+      "id": "winui3-reference",
+      "path": "D:/10451/Users/10451/Downloads/WinUI3-Reference",
+      "guide": "D:/10451/Users/10451/Downloads/WinUI3-Reference/GUIDE.md",
+      "manifest": "D:/10451/Users/10451/Downloads/WinUI3-Reference/SOURCE-MANIFEST.json",
+      "use": "reference_only",
+      "copied_into_project": false
+    },
+    {
+      "id": "nba2k-design-reference",
+      "path": "D:/10451/Users/10451/Downloads/NBA2K-Design-Reference",
+      "guide": "D:/10451/Users/10451/Downloads/NBA2K-Design-Reference/GUIDE.md",
+      "manifest": "D:/10451/Users/10451/Downloads/NBA2K-Design-Reference/SOURCE-MANIFEST.json",
+      "image_count": 30,
+      "use": "internal_research_only",
+      "product_asset_reuse_authorized": false
+    }
+  ],
+  "handoff_exports": [
+    {
+      "id": "qoder-environment-project-handoff",
+      "path": "D:/10451/Users/10451/Downloads/jiaowu2K26-Qoder-Handoff.md",
+      "generated_at": "2026-07-21",
+      "bytes": 24097,
+      "sha256": "D3372DEC268816B8EC7F7D506467A2BCE6573A13D6EB7A776C3277471EC18A5A",
+      "role": "standalone transfer envelope for Qoder or another AI",
+      "canonical_now": false,
+      "use_with": "append the user's current task to the startup command in section 0",
+      "canonical_truth": "the eight project entries remain authoritative"
+    }
+  ],
+  "research_inputs": [
+    {
+      "id": "drobotics-embedded-track-resource-pdf",
+      "path": "D:/10451/Desktop/地瓜/嵌入式竞赛地瓜机器人赛道资料.pdf",
+      "bytes": 3020973,
+      "sha256": "F945FE12C1077BBFFB50DEC870D80506A8695B2FB89F2C7E11151E4A9D1F823A",
+      "status": "source_currently_unavailable_in_new_environment"
+    },
+    {
+      "id": "drobotics-competition-pack-pdf",
+      "path": "D:/10451/Desktop/地瓜/嵌赛资料包.pdf",
+      "bytes": 211974,
+      "sha256": "EE5A926C2DEF2B656709A2004FBC5B0B8BB175FA748C8AB8D233A813701361D0",
+      "status": "source_currently_unavailable_in_new_environment"
+    }
+  ],
+  "resource_candidates": [
+    {"id":"stepfun-platform","name":"阶跃星辰开放平台","relationship":"current_principal_sponsor","position":"primary_model_candidate","sources":["https://adventure-x.org/zh","https://platform.stepfun.com/"]},
+    {"id":"feishu-base","name":"飞书多维表格 / Base","relationship":"current_principal_sponsor","position":"secondary_review_candidate","sources":["https://adventure-x.org/zh","https://open.feishu.cn/"]},
+    {"id":"d-robotics-rdk","name":"地瓜机器人 RDK 生态","relationship":"current_principal_sponsor","position":"hardware_primary_candidate","sources":["https://adventure-x.org/zh","https://developer.d-robotics.cc/rdk_doc_center/","https://developer.d-robotics.cc/tros_doc/tros","https://github.com/D-Robotics/rdk_model_zoo"]},
+    {"id":"tuyaopen","name":"TuyaOpen","relationship":"current_principal_sponsor","position":"hardware_primary_candidate","sources":["https://adventure-x.org/zh","https://www.tuyaopen.ai/zh/docs/about-tuyaopen"]},
+    {"id":"iflytek-speech","name":"科大讯飞语音能力","relationship":"current_principal_sponsor","position":"secondary_candidate","sources":["https://adventure-x.org/zh","https://www.xfyun.cn/"]},
+    {"id":"dify","name":"Dify","relationship":"current_technical_or_device_supporter","position":"optional_orchestration","sources":["https://adventure-x.org/zh","https://docs.dify.ai/zh/home","https://github.com/langgenius/dify"]},
+    {"id":"qoder","name":"Qoder","relationship":"current_exclusive_partner","position":"development_tool_only","sources":["https://adventure-x.org/zh","https://qoder.com/","https://docs.qoder.com/"]},
+    {"id":"aws-cloud","name":"AWS","relationship":"current_principal_sponsor","position":"fallback_or_deployment","sources":["https://adventure-x.org/zh","https://aws.amazon.com/"]},
+    {"id":"baidu-miaoda","name":"百度秒哒","relationship":"current_principal_sponsor","position":"secondary_candidate","sources":["https://adventure-x.org/zh","https://www.miaoda.cn/"]},
+    {"id":"pico-xr","name":"PICO XR","relationship":"current_principal_sponsor","position":"p1_only","sources":["https://adventure-x.org/zh","https://developer.picoxr.com/"]},
+    {"id":"agilex-robotics","name":"松灵机器人 AGILE-X","relationship":"current_principal_sponsor","position":"p1_only","sources":["https://adventure-x.org/zh","https://global.agilex.ai/"]},
+    {"id":"injective","name":"Injective","relationship":"current_exclusive_partner","position":"rejected_for_current_p0","sources":["https://adventure-x.org/zh","https://docs.injective.network"]},
+    {"id":"nothing-glyph","name":"Nothing Glyph Matrix","relationship":"current_hardware_lab_resource","position":"secondary_candidate","sources":["https://faq.adventure-x.org/advx/01-activities","https://github.com/Nothing-Developer-Programme/GlyphMatrix-Developer-Kit"]},
+    {"id":"apple-platforms","name":"Apple Vision / Core ML / visionOS / Foundation Models","relationship":"current_hardware_lab_resource","position":"p1_only","sources":["https://faq.adventure-x.org/advx/01-activities","https://developer.apple.com/cn/videos/"]},
+    {"id":"minimax-platform","name":"MiniMax","relationship":"historical_signal_only","position":"fallback_only","sources":["https://platform.minimaxi.com/","https://www.minimax.io"]},
+    {"id":"camel-ai","name":"CAMEL-AI","relationship":"unverified_for_2026","position":"rejected_for_p0","sources":["https://docs.camel-ai.org/get_started/installation"]},
+    {"id":"modelscope","name":"ModelScope","relationship":"unverified_for_2026","position":"fallback_only","sources":["https://www.modelscope.cn/docs","https://github.com/modelscope/modelscope"]},
+    {"id":"ppio-model-api","name":"PPIO Model API","relationship":"unverified_for_2026","position":"fallback_only","sources":["https://ppio.com/docs/model/get-start"]},
+    {"id":"cloudstudio","name":"CloudStudio","relationship":"unverified_for_2026","position":"development_tool_only","sources":["https://cloudstudio.net/t"]},
+    {"id":"clackyai","name":"ClackyAI","relationship":"unverified_for_2026","position":"development_tool_only","sources":["https://clacky.ai/"]},
+    {"id":"ten-framework-agora","name":"TEN Framework + Agora","relationship":"unverified_for_2026","position":"p1_only","sources":["https://github.com/TEN-framework/ten-framework","https://docs.agora.io/en/video-calling/get-started/get-started-sdk"]},
+    {"id":"xion","name":"XION","relationship":"unverified_for_2026","position":"rejected_for_p0","sources":["https://docs.burnt.com/xion/developers/computation/xion-quick-start"]},
+    {"id":"seeed-lerobot","name":"Seeed LeRobot SO-ARM100/101","relationship":"unverified_for_2026","position":"p1_only","sources":["https://wiki.seeedstudio.com/lerobot_so100m/","https://wiki.seeedstudio.com/lerobot_so100m_isaacsim/"]}
+  ],
+  "gate_policy": {
+    "allowed_states": ["pass", "fail", "unknown", "not_applicable"],
+    "unknown_is_not_pass": true,
+    "common_hard_gates": ["event_compliance", "resource_availability", "minimum_startup_within_6h", "license_and_data_rights", "project_core_fit", "fallback_available"],
+    "hardware_for_p0_maximum": 1,
+    "high_risk_p1_maximum": 1
+  },
+  "open_source_selection_fields": [
+    "upstream_repository",
+    "exact_version_or_commit",
+    "download_or_registry_url",
+    "sha256_where_applicable",
+    "license_spdx_and_notice",
+    "transitive_license_check",
+    "reuse_mode",
+    "local_modifications",
+    "security_check",
+    "event_rule_check",
+    "fallback"
+  ],
+  "path_policy": {
+    "canonical_project_root": "D:/10451/Desktop/黑客松",
+    "approved_junction_root": "D:/10451",
+    "equivalent_aliases_must_not_be_scanned_together": true,
+    "write_outside_approved_D_junctions": false
+  }
+}

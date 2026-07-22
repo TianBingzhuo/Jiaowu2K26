@@ -1,0 +1,190 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-07-21",
+  "archive_root": "D:/10451/Desktop/黑客松/archive/superseded-current-20260721",
+  "preservation": "Files moved here retained their bytes; README.md is the new archive map.",
+  "file_count": 36,
+  "total_bytes": 561311,
+  "items": [
+    {
+      "path": "data/README.md",
+      "bytes": 929,
+      "sha256": "4ED2B5D7CFFB314B0C90328CC3456AF428641893E92F8F2819D1496F80B88CB4"
+    },
+    {
+      "path": "design/README.md",
+      "bytes": 2308,
+      "sha256": "74081C87A465D7227B72F998E9C3B81752E59A15EFDA637183F72013A6B5DA4C"
+    },
+    {
+      "path": "docs/ADVENTUREX-2026-GUIDE.md",
+      "bytes": 8058,
+      "sha256": "0708684F0A4E79EC283FE6D1FDB3A996DB2E94158C835C9BF30631E299F9C559"
+    },
+    {
+      "path": "docs/advx26_team_forming_v3.md",
+      "bytes": 213915,
+      "sha256": "4155BAE6BF7DE14F5D9BC987C7F2B0809F49F0D10DA01BC2C21814B07E5DF28F"
+    },
+    {
+      "path": "docs/BUILD.md",
+      "bytes": 4868,
+      "sha256": "1B7549A63A4695440B0F303D0BBE7B30EF55F102F3B2736847B3016B13A50B52"
+    },
+    {
+      "path": "docs/COMPLIANCE.md",
+      "bytes": 6168,
+      "sha256": "D512AD389C7EE1D209E159A04E74C09CDE3FA3EAC36FC238B0E9787ABA3B716B"
+    },
+    {
+      "path": "docs/DECISIONS.md",
+      "bytes": 7452,
+      "sha256": "64FAF64D2B41570086F07349B228707A904BB9A9A86CA8BF85EA5A97917029DB"
+    },
+    {
+      "path": "docs/features/OPPORTUNITY-MARKET.md",
+      "bytes": 7309,
+      "sha256": "32979D67ED494B3A167A2FF6246DF2840B2214EB9F0029E5C0D7FD4E4FC47A2A"
+    },
+    {
+      "path": "docs/features/SMARTCOURSE.md",
+      "bytes": 5078,
+      "sha256": "2D0567A6FE59981F6CF2D642100D90778283F5C520CBC47A21A35644CB475867"
+    },
+    {
+      "path": "docs/features/TODO.md",
+      "bytes": 8763,
+      "sha256": "AF920F36F8A38E3577E8B47C54F7D333F881FC251E3270042597D99EA53D1592"
+    },
+    {
+      "path": "docs/OVERHAUL.md",
+      "bytes": 3753,
+      "sha256": "5F030B7FB5F0207CBAE65BD0A7022BA4B010E4CCD78A90151617AADA2796A199"
+    },
+    {
+      "path": "docs/PROJECT.md",
+      "bytes": 10580,
+      "sha256": "74625CACB61FBCCCD67129BC8F6BA5315E494BEB2C64B8BEE1603DB49294D028"
+    },
+    {
+      "path": "docs/research/NBA2K-FEATURE-MAP.md",
+      "bytes": 13096,
+      "sha256": "1F01C345BED19668C1BAF1C663F10C21A7E2C54AB2CB00E7C45BB56668B952A5"
+    },
+    {
+      "path": "docs/research/README.md",
+      "bytes": 1405,
+      "sha256": "465F3D0C5991C4B77A5444340BF420C0C07E9F918E7F4A31636909178A07B57F"
+    },
+    {
+      "path": "docs/research/SIS-URP-UARIZONA.md",
+      "bytes": 11758,
+      "sha256": "52051EA0A6DCE3B00F110C01FB714317A82EA52DC7888EAC7E6D47527EE6C6AA"
+    },
+    {
+      "path": "docs/TEAM-RECRUITMENT.md",
+      "bytes": 6797,
+      "sha256": "1E068F2F88143687AB8117496753FF724DB60A1DF179B05C464F96C4EA8423A2"
+    },
+    {
+      "path": "docs/TEAMING-DM-PLAYBOOK.md",
+      "bytes": 59464,
+      "sha256": "98CB2D47CA0326B38A700530C8165BDFE9F042DC6C7BE6D2B1F76C3D534D8C44"
+    },
+    {
+      "path": "docs/TEAMING.md",
+      "bytes": 34532,
+      "sha256": "3E22BBEF7AF928B8E3F52E0E839FB5E2B22CF4D7AD087FCA540CDBF7EF5738E1"
+    },
+    {
+      "path": "docs/TECH-STACK.md",
+      "bytes": 7465,
+      "sha256": "C78DD5909CE6F694F410F50560FCC982A459B8BF4900322FAAC72D2DD8EA49AF"
+    },
+    {
+      "path": "docs/tech-stacks/ADVENTUREX-WINUI3-ASSESSMENT.md",
+      "bytes": 9586,
+      "sha256": "9413D0C76054652CF08769192CB5246C5EA001EB26A36BC92D029E2BB08C71CF"
+    },
+    {
+      "path": "docs/tech-stacks/catalog.json",
+      "bytes": 43161,
+      "sha256": "0A5DBCE37352416B998CE585A1C555B22382C94CEF3AE247B7C41E7E4BC24D28"
+    },
+    {
+      "path": "docs/tech-stacks/COMBINATION-PLAYBOOK.md",
+      "bytes": 8437,
+      "sha256": "394AF3AD758B26F3DFE716294BB1260051130A15A043F2C5F0DDFE8C302AF243"
+    },
+    {
+      "path": "docs/tech-stacks/CORE-ARCHITECTURE.md",
+      "bytes": 9147,
+      "sha256": "4C2D787904318DB546655146EFA12109954E3E340B45246B6614FD2EDE41D81D"
+    },
+    {
+      "path": "docs/tech-stacks/downloads/README.md",
+      "bytes": 2399,
+      "sha256": "70873DFA5702031ED5D50FC187AF527CEF8F5987A7242BA5F921EA3375987E6E"
+    },
+    {
+      "path": "docs/tech-stacks/EVALUATION.md",
+      "bytes": 4063,
+      "sha256": "EB9E348B1930DEE6EFD972068BC26D834011D8B23325ECD7418C1BA12810E4AD"
+    },
+    {
+      "path": "docs/tech-stacks/OPEN-SOURCE-REUSE.md",
+      "bytes": 7143,
+      "sha256": "BECBF909C11A27F19901C43CAA52FBBC1E0373A2636CBEDED2AFAB48C521DB37"
+    },
+    {
+      "path": "docs/tech-stacks/README.md",
+      "bytes": 6179,
+      "sha256": "270895FE4CB4B4CC85FE6CF67DD2D0E556C8A0985E9029579EAEDD3A14141859"
+    },
+    {
+      "path": "docs/tech-stacks/SOURCE-INVENTORY.md",
+      "bytes": 8187,
+      "sha256": "B37D9E169FACE6B58FDF46132772E629D3D114220F599EBE27A7D32DFD4FCE4E"
+    },
+    {
+      "path": "docs/tech-stacks/SPONSOR-INTAKE.md",
+      "bytes": 2440,
+      "sha256": "39645FD76060C72A4AEF2FC0C8BB86F1797D456D0ABE9C33A3EA855650CFD853"
+    },
+    {
+      "path": "docs/tech-stacks/SPONSOR-MATRIX.md",
+      "bytes": 11858,
+      "sha256": "C8DA2F1BE2965FEDD62494F8D1357287FC9191C8A5493BF07A75D6782D791196"
+    },
+    {
+      "path": "docs/tech-stacks/vendors/d-robotics.md",
+      "bytes": 7553,
+      "sha256": "C96C3300EA9A584BDBB48FF28C55447E6CD4ED624151793F4415C6E6DCC9215C"
+    },
+    {
+      "path": "docs/tech-stacks/WEBSITE-AUDIT.md",
+      "bytes": 16801,
+      "sha256": "32E1668E92F058B69B9658E203BD7048AF8521E6219632696042961418C6F6DA"
+    },
+    {
+      "path": "pitch/README.md",
+      "bytes": 2151,
+      "sha256": "511ACED323F53CE58A2B9477A1A63694CF8ED2DD28F19368A24B913526232D51"
+    },
+    {
+      "path": "QUICKSTART.md",
+      "bytes": 3500,
+      "sha256": "E7C4E1E285C2C9CE3050F5105C71B525F3C6606965708D285839CF48263F4844"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2632,
+      "sha256": "3AB9C76E8261E6423A5C37BFBB0C7B76937B69C4314C719B725F7E5FD5B015B9"
+    },
+    {
+      "path": "submission/README.md",
+      "bytes": 2376,
+      "sha256": "CF12FF8EABED743C8344267D18BD568A3D2FB48BFADF2E0D6C4FC21F5E26E37F"
+    }
+  ]
+}

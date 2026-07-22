@@ -1,0 +1,239 @@
+{
+  "schema_version": "2.0",
+  "updated_at": "2026-07-21",
+  "canonical_identity": {
+    "project_name": "jiaowu2K26",
+    "project_type": "university_life_and_learning_experience_layer",
+    "origin_idea": "智课工坊 / SmartCourse Studio",
+    "design_inspiration": "NBA 2K career, roster, season, training, management and replay grammar",
+    "summary_zh": "jiaowu2K26 把大学四到八年的学习、选课、成长与协作重构成 MyCareer 式大学生涯：学期是赛季、课程是阵容、选择有依据、进步能回放。首个 P0 智课工坊要求 AI 亮出来源、教师审核后再发布。",
+    "not_equal_to": [
+      "SmartCourse Studio alone",
+      "a replacement for SIS, URP or LMS",
+      "an NBA 2K visual skin",
+      "a completed pre-event product",
+      "an officially licensed NBA or 2K project"
+    ]
+  },
+  "competition": {
+    "name": "AdventureX 2026",
+    "current_phase": "pre_event_research_and_planning",
+    "functional_build_allowed_now": false,
+    "official_guide": "https://adventurex.feishu.cn/docx/FOhLdr0Y3okbATxWvBQcoFx0nEd",
+    "guide_checked_at": "2026-07-21",
+    "opening": "2026-07-22 19:00-22:30 Asia/Shanghai",
+    "hacking_starts_after_opening": true,
+    "submission_opens": "2026-07-25T12:00:00+08:00",
+    "submission_closes": "2026-07-26T01:00:00+08:00",
+    "team_size_min": 2,
+    "team_size_max": 4,
+    "theme_count": 1,
+    "track_count_min": 1,
+    "track_count_max": 6,
+    "pre_event_boundary": [
+      "research, requirements, architecture candidates, risk gates and team recruitment only",
+      "no product code, runnable prototype, model pipeline, database deployment or engine installation",
+      "old prototypes and vendor samples remain historical or reference material",
+      "start a new repository and blank baseline only after official hacking begins"
+    ]
+  },
+  "canonical_information_architecture": {
+    "current_entry_count": 8,
+    "entries": [
+      {"path": "../README.md", "role": "single human entry and status"},
+      {"path": "PRODUCT.md", "role": "product definition and detailed F-001 through F-009 specifications"},
+      {"path": "ENGINEERING.md", "role": "proposed stack, architecture, engine and DRM decisions"},
+      {"path": "RESEARCH.md", "role": "source-backed event, SIS, NBA 2K, sponsor and design research"},
+      {"path": "PLAYBOOK.md", "role": "compliance, 72-hour execution, testing, pitch and submission"},
+      {"path": "AI-HANDOFF.md", "role": "five-minute continuation guide"},
+      {"path": "PROJECT-MANIFEST.json", "role": "machine-readable project identity and state"},
+      {"path": "CATALOG.json", "role": "machine-readable technology, resource and local-library index"}
+    ],
+    "superseded_exact_archive": "../archive/superseded-current-20260721/",
+    "archive_manifest": "../archive/superseded-current-20260721/MANIFEST.json",
+    "original_historical_archive": "../archive/original-materials/"
+  },
+  "modules": [
+    {
+      "id": "F-001",
+      "name": "智课工坊 / SmartCourse Studio",
+      "priority": "P0",
+      "status": "specified_not_implemented",
+      "spec": "PRODUCT.md#f-001--智课工坊-smartcourse-studio",
+      "mission": "source-linked AI teaching drafts, teacher review, approved publication and learner interaction",
+      "minimum_demo": "source -> draft -> edit/approve/remove -> publish approved only -> learner attempt -> replay"
+    },
+    {
+      "id": "F-002",
+      "name": "MyCareer 赛季中心",
+      "priority": "P0_light_shell_or_P1",
+      "status": "specified_not_implemented",
+      "spec": "PRODUCT.md#f-002--mycareer-赛季中心",
+      "mission": "career, semester, course roster, milestones and navigation context"
+    },
+    {
+      "id": "F-003",
+      "name": "Academic Mirror",
+      "priority": "P1",
+      "status": "specified_not_implemented",
+      "spec": "PRODUCT.md#f-003--academic-mirror",
+      "mission": "authorized, versioned, provenance-rich read-mostly academic data mirror"
+    },
+    {
+      "id": "F-004",
+      "name": "Roster Lab / Semester Environment Resolver",
+      "priority": "P1_personal_or_P2_institution",
+      "status": "specified_not_implemented",
+      "spec": "PRODUCT.md#f-004--roster-lab--semester-environment-resolver",
+      "mission": "explainable, reproducible course-planning and timetabling candidates",
+      "conda_code_reused": false
+    },
+    {
+      "id": "F-005",
+      "name": "World Exam Finals",
+      "priority": "P1_or_P2",
+      "status": "specified_not_implemented",
+      "spec": "PRODUCT.md#f-005--world-exam-finals",
+      "mission": "exam preparation, practice, evidence replay and memorable but anxiety-safe narrative"
+    },
+    {
+      "id": "F-006",
+      "name": "Performance Center",
+      "priority": "P2",
+      "status": "specified_not_implemented",
+      "spec": "PRODUCT.md#f-006--performance-center",
+      "mission": "private, explainable progress, workload, badges and recommendations",
+      "degree_fahrenheit": "experimental_state_language_not_a_grade_or_medical_measure"
+    },
+    {
+      "id": "F-007",
+      "name": "Coach & Scouting",
+      "priority": "P2",
+      "status": "specified_not_implemented",
+      "spec": "PRODUCT.md#f-007--coach--scouting",
+      "mission": "verifiable course structure, expectations, office hours, advising and team formation"
+    },
+    {
+      "id": "F-008",
+      "name": "Campus Life Hub",
+      "priority": "Vision",
+      "status": "specified_roadmap_only",
+      "spec": "PRODUCT.md#f-008--campus-life-hub",
+      "mission": "campus services, activities, communities and collaboration hub",
+      "full_3d_city_in_p0": false
+    },
+    {
+      "id": "F-009",
+      "name": "Opportunity Market",
+      "priority": "P1_or_P2",
+      "status": "specified_not_implemented",
+      "spec": "PRODUCT.md#f-009--opportunity-market",
+      "mission": "transparent opportunity discovery, eligibility, entitlements and consented mutual matching",
+      "forbidden": ["paid eligibility", "random qualification", "auctioning people", "automatic application", "paid ranking"]
+    }
+  ],
+  "scope_policy": {
+    "p0": ["F-001 full vertical slice", "F-002 minimal course and season shell", "shared provenance, audit, accessibility and fallback"],
+    "p1_choose_at_most_one_after_p0": ["F-003 demo mirror", "F-004 personal roster lab", "F-005 replay experience", "F-009 transparent eligibility match"],
+    "p2_or_vision": ["F-006", "F-007", "F-008", "institution-level F-004", "full F-009"],
+    "stop_line": "If the SmartCourse loop is unstable at hour 36, stop all P1, hardware, WinUI and 3D work."
+  },
+  "proposed_architecture": {
+    "approval_status": "awaiting_user_review",
+    "client_primary": "React + TypeScript + Vite Web/PWA",
+    "windows_secondary": "WinUI 3",
+    "unity": "P2 optional shell; version 6000.3.17f1 already installed",
+    "unreal": "UE 5.8 deferred and rejected for P0; not installed",
+    "backend_conditional_primary": "Rust + Axum + Tokio modular monolith",
+    "backend_fallback": "FastAPI or Node/Fastify selected by team familiarity",
+    "data_conditional_primary": "OceanBase MySQL mode + SQLx",
+    "data_fallback": "SQLite or bounded JSONL behind the same repository contract",
+    "document_worker": "Python where PDF/OCR/ASR ecosystem is stronger",
+    "ai": "provider-neutral adapter with one event-confirmed model",
+    "resolver": {
+      "personal": "SAT or MaxSAT candidate",
+      "institution": "OR-Tools CP-SAT candidate",
+      "fallback": "deterministic best-feasible heuristic with explicit violations"
+    },
+    "details": "ENGINEERING.md"
+  },
+  "shared_invariants": [
+    "AI draft requires at least one locatable source before review",
+    "only an approved version may be published",
+    "review, publication and sensitive-data-use events are append-only",
+    "external academic data retains source, version, time and authority level",
+    "simulation and official state remain distinguishable in data and UI",
+    "recommendations and solver results expose reasons, unknowns and alternatives",
+    "fixture, cached and live states use different labels",
+    "the learner controls non-required sharing and export"
+  ],
+  "reference_libraries": [
+    {
+      "id": "winui3-reference",
+      "path": "D:/10451/Users/10451/Downloads/WinUI3-Reference",
+      "use": "reference_only"
+    },
+    {
+      "id": "nba2k-design-reference",
+      "path": "D:/10451/Users/10451/Downloads/NBA2K-Design-Reference",
+      "image_count": 30,
+      "use": "internal_research_only",
+      "product_asset_reuse_authorized": false
+    }
+  ],
+  "open_source_policy": {
+    "policy": "open_source_first_but_auditable",
+    "machine_catalog": "CATALOG.json",
+    "required_after_selection": [
+      "upstream repository",
+      "exact version or commit",
+      "registry or download URL",
+      "hash where applicable",
+      "SPDX license and notices",
+      "transitive license check",
+      "reuse mode and local changes",
+      "security check",
+      "event rule check",
+      "fallback"
+    ]
+  },
+  "external_handoff_provenance": [
+    {
+      "path": "D:/10451/Users/10451/Downloads/jiaowu2K26-Qoder-Handoff.md",
+      "role": "standalone Qoder environment and project transfer envelope",
+      "generated_at": "2026-07-21",
+      "sha256": "D3372DEC268816B8EC7F7D506467A2BCE6573A13D6EB7A776C3277471EC18A5A",
+      "canonical_now": false,
+      "canonical_truth": "the eight project entries remain authoritative",
+      "external_publication_requires_user_action": true
+    },
+    {
+      "path": "D:/10451/Desktop/jiaowu2K26_飞书组队帖_终稿.txt",
+      "role": "current Feishu-ready recruitment copy",
+      "sha256": "1EA8FE68007954E84F010DA660AD2D619D8B3631C5601C9B8375ACEB4B50D1E4",
+      "external_publication_requires_user_action": true
+    },
+    {
+      "path": "D:/10451/Users/10451/.qoderworkcn/workspace/mrrplz38jg9oa1a5/outputs/AI_HANDOFF_jiaowu2K26.md",
+      "role": "historical handoff used during consolidation",
+      "canonical_now": false
+    },
+    {
+      "path": "D:/10451/Users/10451/.qoderworkcn/workspace/mrrplz38jg9oa1a5/outputs/smartcourse_team_recruitment.md",
+      "role": "historical translated recruitment source",
+      "canonical_now": false
+    }
+  ],
+  "path_policy": {
+    "canonical_project_root": "D:/10451/Desktop/黑客松",
+    "approved_junction_root": "D:/10451",
+    "equivalent_aliases_must_not_be_scanned_together": true,
+    "write_outside_approved_D_junctions": false
+  },
+  "next_required_decisions": [
+    "user approves or revises the proposed stack",
+    "official theme, tracks and exact sponsor resources are captured after opening",
+    "team selects one backend fallback and one optional P1",
+    "new event repository is created only after official hacking starts"
+  ]
+}

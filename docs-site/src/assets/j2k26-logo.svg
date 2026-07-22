@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 64" role="img" aria-labelledby="title">
+  <title id="title">JIAOWU2K26</title>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff5b31"/>
+      <stop offset="0.52" stop-color="#ffb547"/>
+      <stop offset="1" stop-color="#55d8ff"/>
+    </linearGradient>
+  </defs>
+  <path fill="none" stroke="url(#g)" stroke-width="3" d="M4 7h232v50H4z"/>
+  <path fill="#ff5b31" d="M4 7h38v6H4z"/>
+  <path fill="#55d8ff" d="M198 51h38v6h-38z"/>
+  <text x="18" y="42" fill="#f7f9ff" font-family="Segoe UI,Arial,sans-serif" font-size="29" font-weight="800" letter-spacing="2">J2K26</text>
+  <text x="130" y="27" fill="#8f9bb3" font-family="Segoe UI,Arial,sans-serif" font-size="9" font-weight="700" letter-spacing="2">UNIVERSITY</text>
+  <text x="130" y="42" fill="#ffb547" font-family="Segoe UI,Arial,sans-serif" font-size="12" font-weight="800" letter-spacing="1.4">CAREER OS</text>
+</svg>
+

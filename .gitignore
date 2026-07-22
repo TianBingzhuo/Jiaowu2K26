@@ -1,0 +1,28 @@
+# Documentation portal dependencies and generated output
+docs-site/node_modules/
+docs-site/dist/
+docs-site/.astro/
+docs-site/.logs/
+docs-site/.runtime/
+docs-site/src/content/docs/
+docs-site/public/project-assets/
+docs-site/public/PROJECT-MANIFEST.json
+
+# Local secrets and operating-system noise
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE-local files
+.idea/
+.qoder/
+*.user
+*.suo
+
+# Local-only historical bundles and third-party recruitment snapshots
+archive/backups/*.zip
+archive/advx26_team_forming_v3_desktop_backup.md
+archive/superseded-current-20260721/docs/advx26_team_forming_v3.md

@@ -1,0 +1,150 @@
+# jiaowu2K26
+
+> jiaowu2K26 不是给旧教务系统换皮，而是把大学四到八年的学习、选课、成长、校园生活与协作重构成 MyCareer 式大学生涯：学期是赛季、课程是阵容、每一次选择都有依据、每一次进步都能回放；教师进入 Coach Studio，学校进入 Front Office，但所有人仍在同一个原创游戏世界中。
+
+## 项目状态
+- 当前阶段：AdventureX 2026 `hacking` · GATE-1 · Active Slice=`P0-00`
+- 首个 P0：智课工坊 / SmartCourse Studio
+- 技术栈状态：正在执行 6 小时验证；Rust / Axum / Tokio 与 OceanBase 仍是条件候选，SQLite 是强制回退
+- 实现状态：Phase 0 协作与技术基线已开工；产品功能仍为 `pending`，不得把基座等同于完成产品
+- 公开主仓：[TianBingzhuo/Jiaowu2K26](https://github.com/TianBingzhuo/Jiaowu2K26)；GitHub Issue / PR 是开仓后的实时工作源
+- 稳定 ID：F-001～F-014 各功能表中已经发布的编号与含义不得重新编号或复用
+- 路线图：F-010～F-014 已纳入产品范围，合并维护于 University OS 扩展包；全部未排期、可裁剪
+- 视觉硬约束：学生 / 教师 / 学校三端共用一套游戏化 Design System，任何模块不得独立换肤
+- 本地案例与游戏机制审计：2026-07-22 已将其他项目、NBA 2K 与 maimai 的可迁移经验归并为 `EXP-CASE-01`～`EXP-CASE-11`；94 条 NBA 2K/系列机制与 45 条 maimai 机制均有产品去向，但实现与真实用户验证仍为 0；不新增顶层 F 编号、不扩张 P0
+- 一句话派单：根目录 [`AGENTS.md`](AGENTS.md) 已接入 `PROJECT-MANIFEST.json.current_work`；当前只派发 GATE-1 / `P0-00` 内的弹性工作包
+- 视觉方向稿：[`jiaowu2k26-career-mode-concept-v1.png`](reference/assets/jiaowu2k26-career-mode-concept-v1.png) 是游戏启动屏式主视觉；[`jiaowu2k26-a4-software-universe-map-v1.png`](reference/assets/jiaowu2k26-a4-software-universe-map-v1.png) 是 A4 软件功能全景第一页；[`jiaowu2k26-a4-explainer-role-map-v1.png`](reference/assets/jiaowu2k26-a4-explainer-role-map-v1.png) 是 A4 岗位速配第二页。三者仅作赛前招募与原创游戏世界方向验证，不是产品截图或本届实现成果
+
+## 一句话获得当前任务
+
+队友或新 AI 在**项目根目录**打开会话后，只需问：
+
+> 我现在能干什么？
+
+AI 必须先按 [`AGENTS.md`](AGENTS.md) 读取 Manifest 的实时阶段与任务队列，只返回一个当前可做任务及输入、输出、Done 和禁止事项。询问本身是只读的；需要认领时再回复：
+
+> 我认领 P0-00-x，角色是 frontend / backend / ai_pipeline / product_integrator / design / human_factors_research
+
+当前采用弹性能力池：队友按特长认领工作包，不把岗位固定为人数；尚未登记的成员仍按匿名角色获得通用任务，不秘密猜测身份。无人认领且 `ai_allowed=true` 的部分由 Codex 起草或受控实现，产品总集成人员逐项审核。
+
+## 弹性团队分工
+| 能力岗 | 36 小时内主责 | 可合并方式 |
+|------|--------------|----------|
+| 产品 / 总集成 | P0 范围、用户测试、停损、跨模块验收与 Claim Ledger | 可兼视觉与宣发 |
+| 前端 / 交互 | 赛季入口、教师审核、学生互动、Replay 与可访问性 | 可兼设计系统落地 |
+| 后端 / 证据链 | API、状态机、来源、发布门禁、审计与数据库适配 | 可兼部署与测试 |
+| AI Pipeline / 评测 | 材料解析、来源约束生成、Schema 校验、模型回退与质量评测 | 可与后端合并 |
+| 人因研究 / 体验安全 | 文化语义、理解、压力、公平、隐私、社群与可访问性研究；逐切片给出证据与停损建议 | Codex 负责可查证研究与材料草案，产品总集成人员审核；真实用户证据不能由 AI 替代 |
+| 视觉 / 宣发 | 统一游戏世界、组件视觉、招募、海报、90 秒 Demo 与路演 | 可与前端或人因兼岗 |
+
+> 这是能力分工，不等于人数表。团队仍按赛事要求组织；一人可以兼岗，任何空缺可由 Codex 补草案或受控实现，但每项交付仍必须有人类责任人理解、实验和批准。
+
+## 弹性协作原则
+
+- 只把 **GitHub** 作为唯一可写主仓；它同时是 AdventureX 提交要求中的仓库入口。Gitee 只可由总集成人员配置为单向备份，GitCode / CNB 不与主仓双写。
+- 全队同时只推进 **一个产品切片**，但可在该切片内并行拆成产品验收、前端、后端、AI/Fixture 四张子任务；本切片通过验收并打 `p0-xx-accepted` Tag 后，下一切片才进入 Ready。
+- `main` 必须始终可演示；短分支必须先完成对应实验，再经 Draft PR、至少一名非作者审核和自动检查后 squash 合并，禁止直接推送、强推和长期 `develop` 分支。
+- “实时验证”由每次 Push 的 PR CI、Reviewer 隔离 Checkout 和每个 Accepted 切片的双机冷启动完成；不把未审核分支持续拉进主线或最终 Demo 目录。
+- 开幕式结束且主办方正式宣布 Hacking 开始前，不创建仓库、不提交参赛代码。详细平台与环境协议见 [TECH-STACK](engineering/TECH-STACK.md#15-版本控制协作平台与统一环境)，切片顺序见 [MODULE-MAP](product/MODULE-MAP.md#四人单功能-wip-协议)，开仓检查见 [GATE-1](gates/GATE-1-技术验证-6h.md#阶段-0-1h规则空白基线与协作底座)。
+
+## 本地文档中心与仓库门面
+
+给同学阅读时，不需要在 50 多份活动文档之间来回翻：运行
+
+```powershell
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\tools\Docs.ps1 -Action Setup
+```
+
+它会安装锁定依赖、生成离线全文搜索、构建本地站点，并在桌面创建 **Jiaowu2K26 文档中心** 快捷方式。以后双击即可在安全条件满足时 `git pull --ff-only`，随后重新构建并打开 `http://127.0.0.1:4321/`；有本地改动、无远端或尚未建仓时会跳过拉取，不覆盖任何内容。
+
+- [五分钟配置与 AI 接手](docs/GETTING-STARTED.md)
+- [项目结构与角色导航](docs/PROJECT-STRUCTURE.md)
+- [贡献协议](CONTRIBUTING.md)
+- [安全与负责任披露](SECURITY.md)
+- [项目级变更记录](CHANGELOG.md)
+
+文档站只是规范源的只读浏览层，不是第二套事实源，也不是 Jiaowu2K26 产品原型。正式产品工作区为 `app/`，当前仍只有阶段边界说明。
+
+## 文档导航
+
+### 八个权威入口
+
+`AGENTS.md` 是**零号任务路由器**，只负责告诉人“现在读什么、能做什么”，不是第九份产品事实源。需要理解全貌时，新队友和新 AI 再按以下顺序阅读八个权威入口；其余文件按需展开：
+
+1. 本 `README.md`
+2. [VISION](product/VISION.md)
+3. [MODULE-MAP](product/MODULE-MAP.md)
+4. [BOUNDARIES](product/BOUNDARIES.md)
+5. [ARCHITECTURE](engineering/ARCHITECTURE.md)
+6. [TECH-STACK](engineering/TECH-STACK.md)
+7. [RESEARCH](reference/RESEARCH.md)
+8. [PROJECT-MANIFEST.json](PROJECT-MANIFEST.json)
+
+### 🧠 brainstorm/ — 头脑风暴
+| 文件 | 内容 |
+|------|------|
+| [00-问题与洞察](brainstorm/00-问题与洞察.md) | 用户画像、痛点故事、核心洞察、市场数据 |
+| [01-核心体验](brainstorm/01-核心体验.md) | 体验承诺、设计原则、2K语法转译（26条完整对标） |
+| [02-竞品与定位](brainstorm/02-竞品与定位.md) | 竞品矩阵、差异化定位、数据飞轮 |
+| [03-游戏机制全量对标](brainstorm/03-2K全功能对标与实现构思.md) | NBA 2K25 + 历代校正 + maimai DX 逐项采用/改造/延后/拒绝矩阵及 F-001～F-014 映射 |
+
+### 📦 product/ — 产品定义
+| 文件 | 内容 |
+|------|------|
+| [VISION](product/VISION.md) | 愿景、MVP范围、成功标准 |
+| [MODULE-MAP](product/MODULE-MAP.md) | 模块总览、依赖图、裁剪指南、分工矩阵 |
+| [HUMAN-FACTORS](product/HUMAN-FACTORS.md) | 人因研究章程、139 条机制覆盖状态、Scouting Room 工作流、Degree Fahrenheit 协议与可认领工作包 |
+| [BOUNDARIES](product/BOUNDARIES.md) | 合规红线、IP边界、不做清单 |
+
+### 🔧 modules/ — 功能模块
+每个模块包含 PROMPT.md（AI协作）、SPEC.md（规格）、STATUS.md（状态）
+
+| 模块 | 优先级 | 使命 |
+|------|--------|------|
+| [00-smartcourse](modules/00-smartcourse/) | P0 | 智课工坊：来源→AI草稿→教师审核→发布→学生互动 |
+| [01-mycareer-shell](modules/01-mycareer-shell/) | P0轻 | 赛季中心：轻量导航上下文 |
+| [04-world-exam](modules/04-world-exam/) | P1首选 | World Exam Finals |
+| [03-roster-lab](modules/03-roster-lab/) | P1候选 | Conda式排课求解 |
+| [05-opportunity-market](modules/05-opportunity-market/) | P1候选 | 透明机会匹配 |
+| [02-academic-mirror](modules/02-academic-mirror/) | P1候选 | 学术数据镜像 |
+| [06-performance-center](modules/06-performance-center/) | P2 | 进度与能力中心 |
+| [07-coach-scouting](modules/07-coach-scouting/) | P2 | 教练与球探 |
+| [08-campus-life](modules/08-campus-life/) | Vision | 校园生活枢纽 |
+| [09-university-os](modules/09-university-os/) | P2 / Vision | F-010～F-014：Campus Pass、General Balance、Dining、Faculty Success、Front Office |
+
+### 🚦 gates/ — 质量门禁
+| 文件 | 内容 |
+|------|------|
+| [GATE-0 赛前准备](gates/GATE-0-赛前准备.md) | 赛前检查清单 |
+| [GATE-1 技术验证](gates/GATE-1-技术验证-6h.md) | 6小时技术门禁 |
+| [GATE-2 P0稳定](gates/GATE-2-P0稳定-36h.md) | 36小时停损线 |
+| [GATE-3 冻结提交](gates/GATE-3-冻结提交-60h.md) | 60小时冻结与提交 |
+| [QUALITY](gates/QUALITY.md) | 通用质检标准 |
+
+### ⚙️ engineering/ — 工程决策
+| 文件 | 内容 |
+|------|------|
+| [ARCHITECTURE](engineering/ARCHITECTURE.md) | 目标架构、模块边界 |
+| [TECH-STACK](engineering/TECH-STACK.md) | 技术选型决策树 |
+| [DESIGN-SYSTEM](engineering/DESIGN-SYSTEM.md) | 视觉设计规范（2K风格色板/字体/组件/动效） |
+| [DEMO-PATH](engineering/DEMO-PATH.md) | Demo脚本与Pitch结构 |
+| [GITHUB-COLLAB](engineering/GITHUB-COLLAB.md) | 面向非技术/设计同学的 Clone、短分支、Commit、Push、PR、同步与冲突处理图形化说明 |
+
+### 📚 reference/ — 参考资料
+| 文件 | 内容 |
+|------|------|
+| [RESEARCH](reference/RESEARCH.md) | 赛事规则、SIS/URP研究 |
+| [SPONSORS](reference/SPONSORS.md) | 赞助资源速查 |
+| [PITCH-COPY](reference/PITCH-COPY.md) | 对外话术与组队文案 |
+| [ENVIRONMENT](reference/ENVIRONMENT.md) | 本机环境、路径规则 |
+| [招募与海报 Brief](reference/PITCH-COPY.md) | 功能点×共创位置速配、报名回复模板、游戏启动屏式 Prompt、黑色招募话术、概念图登记与 IP 红线；“功能点 × 共创位置速配清单”位于文件第 147 行；历史完整美术白名单当前缺失，见 ENVIRONMENT |
+
+## 合规红线
+- 开幕式结束且主办方明确宣布 Hacking 开始前不创建代码仓、不构建原型；不能把 07-22 19:00 的开幕式开始时间误当成开工许可
+- 团队2-4人，每人只能一队
+- AI不能完成全部代码，队员必须能解释自己负责的实现
+- 技术栈是待审核提案，不是既定事实
+- 不复制NBA/2K商标或受保护资产
+
+## AI 交接协议
+新 AI 或新队友先读 `AGENTS.md → PROJECT-MANIFEST.json.current_work`；取得当前任务后只读该任务的 `required_reads`，需要全貌时才读“八个权威入口”。确认模块后按 `PROMPT.md → SPEC.md → STATUS.md` 展开；任何界面工作还必须读 `engineering/DESIGN-SYSTEM.md`，不得自行发明模块风格。成熟结论按“主题文档 → Manifest/模块 STATUS → README 状态”顺序更新；旧结论进入日期归档并记录哈希，不在多个主文件形成竞争事实源。项目根目录统一使用 `D:\10451\Desktop\黑客松`。

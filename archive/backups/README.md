@@ -1,0 +1,5 @@
+# 备份
+
+- `黑客松_backup_before_overhaul_20260717.zip`
+- 用途：2026-07-17 首次材料重构前的完整回滚快照；不是本届参赛成果。
+- SHA-256：`5126E4C5E4AEC5AFC8F52F66A41E003141A6F05E2E8EF3ADD6B3887BC2CE769C`

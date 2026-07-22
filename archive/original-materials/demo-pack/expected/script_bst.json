@@ -1,0 +1,100 @@
+{
+  "lesson_id": "bst-001",
+  "title": "二叉搜索树的查找与插入",
+  "subject": "computer_science",
+  "style": "smartcourse_onion_like",
+  "duration_seconds": 360,
+  "scenes": [
+    {
+      "id": "s1",
+      "start": 0,
+      "duration": 45,
+      "kicker": "规则登场",
+      "narration": "想象你在整理一排带编号的抽屉。二叉搜索树的规则很朴素：比当前节点小的放左边，比当前节点大的放右边。",
+      "visual": {
+        "template": "tree_build",
+        "props": {
+          "nodes": [{"id": "n8", "value": 8, "x": 0, "y": 0}],
+          "highlight": ["n8"],
+          "caption": "根节点 8"
+        }
+      },
+      "quiz_trigger": null
+    },
+    {
+      "id": "s2",
+      "start": 45,
+      "duration": 75,
+      "kicker": "左小右大",
+      "narration": "如果插入 3，3 比 8 小，所以放左边；如果插入 10，10 比 8 大，所以放右边。这就是二叉搜索树最核心的左小右大。",
+      "visual": {
+        "template": "tree_insert",
+        "props": {
+          "nodes": [
+            {"id": "n8", "value": 8, "x": 0, "y": 0},
+            {"id": "n3", "value": 3, "x": -1, "y": 1},
+            {"id": "n10", "value": 10, "x": 1, "y": 1}
+          ],
+          "highlight": ["n3", "n10"],
+          "caption": "3 < 8 < 10"
+        }
+      },
+      "quiz_trigger": {
+        "quiz_id": "q1",
+        "at_second": 95
+      }
+    },
+    {
+      "id": "s3",
+      "start": 120,
+      "duration": 80,
+      "kicker": "查找路径",
+      "narration": "现在找数字 6。从 8 开始，6 比 8 小，往左；到 3，6 比 3 大，往右。每比较一次，搜索范围就少一半左右。",
+      "visual": {
+        "template": "path_highlight",
+        "props": {
+          "target": 6,
+          "path": ["n8", "n3", "n6"],
+          "caption": "8 -> 3 -> 6"
+        }
+      },
+      "quiz_trigger": {
+        "quiz_id": "q2",
+        "at_second": 170
+      }
+    },
+    {
+      "id": "s4",
+      "start": 200,
+      "duration": 80,
+      "kicker": "插入代码",
+      "narration": "插入操作和查找几乎一样。一路比较，直到遇到空位置，就在那里创建新节点。代码只需要抓住三个分支：空、小于、大于。",
+      "visual": {
+        "template": "code_walkthrough",
+        "props": {
+          "language": "python",
+          "focus_lines": [2, 4, 6],
+          "caption": "空位置创建节点；小走左；大走右"
+        }
+      },
+      "quiz_trigger": {
+        "quiz_id": "q_code",
+        "at_second": 245
+      }
+    },
+    {
+      "id": "s5",
+      "start": 280,
+      "duration": 50,
+      "kicker": "一分钟总结",
+      "narration": "今天记住三件事：左小右大，查找和插入走同一条比较路径，树越平衡，效率越接近 O(log n)。",
+      "visual": {
+        "template": "summary_cards",
+        "props": {
+          "cards": ["左小右大", "比较路径", "平衡影响效率"]
+        }
+      },
+      "quiz_trigger": null
+    }
+  ]
+}

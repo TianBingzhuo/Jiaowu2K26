@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>智课工坊 SmartCourse Studio - 用户旅程图</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['class', '[data-theme="dark"]'],
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50: '#EEF2FF', 100: '#E0E7FF', 200: '#C7D2FE', 300: '#A5B4FC', 400: '#818CF8', 500: '#6366F1', 600: '#4F46E5', 700: '#4338CA', 800: '#3730A3', 900: '#312E81' },
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+    :root {
+      --bg-primary: #FAFAF9; --bg-card: #FFFFFF; --bg-card-hover: #F5F5F4;
+      --text-primary: #1C1917; --text-secondary: #57534E; --text-muted: #A8A29E;
+      --border: #E7E5E4; --border-hover: #D6D3D1;
+      --accent: #6366F1; --accent-light: #EEF2FF;
+      --positive: #10B981; --positive-bg: #ECFDF5;
+      --negative: #EF4444; --negative-bg: #FEF2F2;
+      --warning: #F59E0B; --warning-bg: #FFFBEB;
+      --info: #3B82F6; --info-bg: #EFF6FF;
+      --curve-grid: #E5E7EB; --shadow: rgba(0,0,0,0.06);
+    }
+    [data-theme="dark"] {
+      --bg-primary: #0C0A09; --bg-card: #1C1917; --bg-card-hover: #292524;
+      --text-primary: #FAFAF9; --text-secondary: #A8A29E; --text-muted: #78716C;
+      --border: #292524; --border-hover: #44403C;
+      --accent: #818CF8; --accent-light: #1E1B4B;
+      --positive: #34D399; --positive-bg: #064E3B;
+      --negative: #F87171; --negative-bg: #450A0A;
+      --warning: #FBBF24; --warning-bg: #451A03;
+      --info: #60A5FA; --info-bg: #1E3A5F;
+      --curve-grid: #44403C; --shadow: rgba(0,0,0,0.3);
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary); color: var(--text-primary);
+      transition: background 0.3s, color 0.3s;
+    }
+    .card { background: var(--bg-card); border: 1px solid var(--border); transition: all 0.2s; }
+    .card:hover { border-color: var(--border-hover); box-shadow: 0 4px 12px var(--shadow); }
+    .stage-card { cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .stage-card:hover { transform: translateY(-2px); }
+    .stage-card.expanded { border-color: var(--accent); }
+    .stage-detail { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+    .stage-card.expanded .stage-detail { max-height: 800px; }
+    .tab-btn { transition: all 0.2s; }
+    .tab-btn.active { background: var(--accent); color: white; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .emotion-dot { transition: all 0.3s; }
+    .emotion-dot:hover { r: 8; }
+    .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; }
+    .badge-truth { background: var(--info-bg); color: var(--info); }
+    .badge-dropout { background: var(--negative-bg); color: var(--negative); }
+    .badge-delight { background: var(--positive-bg); color: var(--positive); }
+    .badge-recovery { background: var(--warning-bg); color: var(--warning); }
+    .pain-bar { display: flex; gap: 2px; }
+    .pain-seg { width: 20px; height: 5px; border-radius: 2px; background: var(--border); transition: background 0.2s; }
+    .pain-seg.active { background: currentColor; }
+    .opportunity-item { background: var(--positive-bg); color: var(--positive); padding: 6px 10px; border-radius: 6px; font-size: 12px; margin: 4px 0; }
+    .pain-item { background: var(--negative-bg); color: var(--negative); padding: 6px 10px; border-radius: 6px; font-size: 12px; margin: 4px 0; }
+    .touchpoint-item { background: var(--info-bg); color: var(--info); padding: 4px 8px; border-radius: 4px; font-size: 11px; display: inline-block; margin: 2px; }
+    .theme-toggle { position: fixed; top: 16px; right: 16px; z-index: 50; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.4s ease-out; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+    .pulse { animation: pulse 2s infinite; }
+    .hero-gradient {
+      background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 30%, #A78BFA 60%, #C4B5FD 100%);
+    }
+    [data-theme="dark"] .hero-gradient {
+      background: linear-gradient(135deg, #312E81 0%, #3730A3 30%, #4338CA 60%, #4F46E5 100%);
+    }
+    .curve-container { position: relative; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; }
+    @media print {
+      .theme-toggle, .tab-btn { display: none !important; }
+      .tab-content { display: block !important; page-break-before: always; }
+      .stage-detail { max-height: none !important; }
+      body { background: white; color: black; }
+    }
+    @media (max-width: 768px) {
+      .stages-grid { grid-template-columns: 1fr !important; }
+      .curve-svg { height: 200px; }
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+
+<!-- Theme Toggle -->
+<div class="theme-toggle">
+  <button onclick="toggleTheme()" class="p-2.5 rounded-xl card shadow-lg hover:scale-105 transition-transform" title="切换主题">
+    <svg id="sun-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display:none"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+    <svg id="moon-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+  </button>
+</div>
+
+<!-- Hero Header -->
+<header class="hero-gradient text-white py-10 px-6 md:px-12">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex items-center gap-3 mb-3 opacity-80 text-sm font-medium tracking-wide uppercase">
+      <span class="w-2 h-2 bg-white rounded-full pulse"></span>
+      User Journey Map
+    </div>
+    <h1 class="text-3xl md:text-4xl font-bold mb-2">智课工坊 SmartCourse Studio</h1>
+    <p class="text-base md:text-lg opacity-80 max-w-2xl">面向大学及以上的"洋葱学院式"动画网课快速生成平台 — 双角色用户旅程图</p>
+    <div class="flex flex-wrap gap-3 mt-5">
+      <span class="px-3 py-1 rounded-full bg-white/20 text-sm backdrop-blur-sm">核心闭环：上传材料 → AI动画 → 实时出题</span>
+      <span class="px-3 py-1 rounded-full bg-white/20 text-sm backdrop-blur-sm">差异化：AI出题 + Computer Use教学</span>
+    </div>
+  </div>
+</header>
+
+<!-- Tab Navigation -->
+<nav class="sticky top-0 z-40 backdrop-blur-md" style="background: color-mix(in srgb, var(--bg-primary) 85%, transparent);">
+  <div class="max-w-7xl mx-auto px-6 md:px-12 py-3 flex gap-2">
+    <button onclick="switchTab('teacher')" id="tab-teacher" class="tab-btn active px-5 py-2.5 rounded-lg font-semibold text-sm shadow-sm">
+      <span class="mr-1.5">&#128105;&#8205;&#127979;</span> 教师旅程（内容生产者）
+    </button>
+    <button onclick="switchTab('student')" id="tab-student" class="tab-btn px-5 py-2.5 rounded-lg font-semibold text-sm" style="background: var(--bg-card); color: var(--text-secondary);">
+      <span class="mr-1.5">&#128105;&#8205;&#127891;</span> 学生旅程（内容消费者）
+    </button>
+  </div>
+</nav>
+
+<main class="max-w-7xl mx-auto px-6 md:px-12 py-8">
+
+<!-- ===================== TEACHER JOURNEY ===================== -->
+<div id="content-teacher" class="tab-content active fade-in">
+
+  <!-- Persona Card -->
+  <div class="card rounded-xl p-5 mb-6 flex items-center gap-4">
+    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-500 to-purple-500 flex items-center justify-center text-white font-bold text-lg shrink-0">李</div>
+    <div>
+      <h3 class="font-semibold text-base">李老师 / 计算机科学副教授</h3>
+      <p class="text-sm" style="color: var(--text-secondary)">45岁，教授《数据结构与算法》，每学期200+学生。希望提升课堂吸引力，但不愿学复杂工具。</p>
+    </div>
+  </div>
+
+  <!-- JTBD -->
+  <div class="card rounded-xl p-4 mb-8 border-l-4" style="border-left-color: var(--warning); background: var(--warning-bg);">
+    <p class="text-sm font-medium" style="color: var(--warning);">
+      <strong>Jobs To Be Done：</strong>"我希望把现有的课程录音和课件，在不增加额外工作量的前提下，快速转化为5-8分钟的动画互动课程，让学生在短时间内完成一个知识点的深度理解。"
+    </p>
+  </div>
+
+  <!-- Emotion Curve -->
+  <div class="curve-container p-5 mb-8">
+    <h3 class="font-semibold text-base mb-4 flex items-center gap-2">
+      <span>&#128200;</span> 教师情感曲线 Emotion Curve
+    </h3>
+    <svg id="teacher-curve" class="w-full" viewBox="0 0 1000 220" preserveAspectRatio="xMidYMid meet" style="height:220px;">
+      <!-- Grid lines -->
+      <line x1="60" y1="20" x2="960" y2="20" stroke="var(--curve-grid)" stroke-dasharray="4" stroke-width="0.5"/>
+      <line x1="60" y1="60" x2="960" y2="60" stroke="var(--curve-grid)" stroke-dasharray="4" stroke-width="0.5"/>
+      <line x1="60" y1="100" x2="960" y2="100" stroke="var(--curve-grid)" stroke-dasharray="4" stroke-width="0.5"/>
+      <line x1="60" y1="140" x2="960" y2="140" stroke="var(--curve-grid)" stroke-dasharray="4" stroke-width="0.5"/>
+      <line x1="60" y1="180" x2="960" y2="180" stroke="var(--curve-grid)" stroke-dasharray="4" stroke-width="0.5"/>
+      <!-- Y-axis labels -->
+      <text x="50" y="25" text-anchor="end" font-size="11" fill="var(--text-muted)">&#128513; 极佳</text>
+      <text x="50" y="65" text-anchor="end" font-size="11" fill="var(--text-muted)">&#128578; 满意</text>
+      <text x="50" y="105" text-anchor="end" font-size="11" fill="var(--text-muted)">&#128528; 平淡</text>
+      <text x="50" y="145" text-anchor="end" font-size="11" fill="var(--text-muted)">&#128533; 困惑</text>
+      <text x="50" y="185" text-anchor="end" font-size="11" fill="var(--text-muted)">&#128552; 沮丧</text>
+      <!-- Area fill -->
+      <polygon points="160,60 260,60 360,140 460,60 560,140 660,100 760,140 860,60 960,20 960,200 160,200" fill="url(#teacherGrad)" opacity="0.15"/>
+      <!-- Line -->
+      <polyline points="160,60 260,60 360,140 460,60 560,140 660,100 760,140 860,60 960,20" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <!-- Data points -->
+      <circle cx="160" cy="60" r="7" fill="#10B981" stroke="var(--bg-card)" stroke-width="3" class="emotion-dot"/>
+      <circle cx="260" cy="60" r="7" fill="#10B981" stroke="var(--bg-card)" stroke-width="3" class="emotion-dot"/>
+      <circle cx="360" cy="140" r="7" fill="#F59E0B" stroke="var(--bg-card)" stroke-width="3" class="emotion-dot"/>
+      <circle cx="460" cy="60" r="7" fill="#10B981" stroke="var(--bg-card)" stroke-width="3" class="emotion-dot"/>
+      <circle cx="560" cy="140" r="7" fill="#F59E0B" stroke="var(--bg-card)" stroke-width="3" class="emotion-dot"/>
+      <circle cx="660" cy="100" r="7" fill="#F59E0B" stroke="var(--bg-card)" stroke-width="3" class="emotion-dot"/>
+      <circle cx="760" cy="140" r="7" fill="#EF4444" stroke="var(--bg-card)" stroke-width="3" class="emotion-dot"/>
+      <circle cx="860" cy="60" r="7" fill="#10B981" stroke="var(--bg-card)" stroke-width="3" class="emotion-dot"/>
+      <circle cx="960" cy="20" r="7" fill="#10B981" stroke="var(--bg-card)" stroke-width="3" class="emotion-dot"/>
+      <!-- Stage labels -->
+      <text x="160" y="215" text-anchor="middle" font-size="10" fill="var(--text-muted)">发现平台</text>
+      <text x="260" y="215" text-anchor="middle" font-size="10" fill="var(--text-muted)">注册</text>
+      <text x="360" y="215" text-anchor="middle" font-size="10" fill="var(--text-muted)">上传材料</text>
+      <text x="460" y="215" text-anchor="middle" font-size="10" fill="var(--text-muted)">预览脚本</text>
+      <text x="560" y="215" text-anchor="middle" font-size="10" fill="var(--text-muted)">审核修改</text>
+      <text x="660" y="215" text-anchor="middle" font-size="10" fill="var(--text-muted)">生成动画</text>
+      <text x="760" y="215" text-anchor="middle" font-size="10" fill="var(--text-muted)">预览动画</text>
+      <text x="860" y="215" text-anchor="middle" font-size="10" fill="var(--text-muted)">发布课程</text>
+      <text x="960" y="215" text-anchor="middle" font-size="10" fill="var(--text-muted)">查看数据</text>
+      <!-- Key moment markers -->
+      <text x="360" y="163" text-anchor="middle" font-size="9" fill="#F59E0B" font-weight="600">&#9888; Dropout Risk</text>
+      <text x="560" y="163" text-anchor="middle" font-size="9" fill="#3B82F6" font-weight="600">&#128273; Moment of Truth</text>
+      <text x="760" y="163" text-anchor="middle" font-size="9" fill="#EF4444" font-weight="600">&#9888; Dropout Risk</text>
+      <text x="960" y="12" text-anchor="middle" font-size="9" fill="#10B981" font-weight="600">&#9733; Delight</text>
+      <!-- Gradient definition -->
+      <defs>
+        <linearGradient id="teacherGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="var(--accent)"/>
+          <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <!-- Stage Cards -->
+  <div class="stages-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="teacher-stages">
+  </div>
+</div>
+
+<!-- ===================== STUDENT JOURNEY ===================== -->
+<div id="content-student" class="tab-content fade-in">
+
+  <!-- Persona Card -->
+  <div class="card rounded-xl p-5 mb-6 flex items-center gap-4">
+    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center text-white font-bold text-lg shrink-0">王</div>
+    <div>
+      <h3 class="font-semibold text-base">王同学 / 大二计算机科学专业</h3>
+      <p class="text-sm" style="color: var(--text-secondary)">20岁，正在学《数据结构与算法》。习惯用手机碎片化学习，注意力持续时间短，讨厌冗长的录播课。</p>
+    </div>
+  </div>
+
+  <!-- JTBD -->
+  <div class="card rounded-xl p-4 mb-8 border-l-4" style="border-left-color: var(--info); background: var(--info-bg);">
+    <p class="text-sm font-medium" style="color: var(--info);">
+      <strong>Jobs To Be Done：</strong>"我希望用最短的时间理解一个知识点，通过有趣的动画和即时练习来加深记忆，在考试前能高效复习。"
+    </p>
+  </div>
+
+  <!-- Emotion Curve -->
+  <div class="curve-container p-5 mb-8">
+    <h3 class="font-semibold text-base mb-4 flex items-center gap-2">
+      <span>&#128200;</span> 学生情感曲线 Emotion Curve
+    </h3>
+    <svg id="student-curve" class="w-full" viewBox="0 0 1000 220" preserveAspectRatio="xMidYMid meet" style="height:220px;">
+      <!-- Grid lines -->
+      <line x1="60" y1="20" x2="960" y2="20" stroke="var(--curve-grid)" stroke-dasharray="4" stroke-width="0.5"/>
+      <line x1="60" y1="60" x2="960" y2="60" stroke="var(--curve-grid)" stroke-dasharray="4" stroke-width="0.5"/>
+      <line x1="60" y1="100" x2="960" y2="100" stroke="var(--curve-grid)" stroke-dasharray="4" stroke-width="0.5"/>
+      <line x1="60" y1="140" x2="960" y2="140" stroke="var(--curve-grid)" stroke-dasharray="4" stroke-width="0.5"/>
+      <line x1="60" y1="180" x2="960" y2="180" stroke="var(--curve-grid)" stroke-dasharray="4" stroke-width="0.5"/>
+      <!-- Y-axis labels -->
+      <text x="50" y="25" text-anchor="end" font-size="11" fill="var(--text-muted)">&#128513; 极佳</text>
+      <text x="50" y="65" text-anchor="end" font-size="11" fill="var(--text-muted)">&#128578; 满意</text>
+      <text x="50" y="105" text-anchor="end" font-size="11" fill="var(--text-muted)">&#128528; 平淡</text>
+      <text x="50" y="145" text-anchor="end" font-size="11" fill="var(--text-muted)">&#128533; 困惑</text>
+      <text x="50" y="185" text-anchor="end" font-size="11" fill="var(--text-muted)">&#128552; 沮丧</text>
+      <!-- Area fill -->
+      <polygon points="160,100 260,140 360,60 460,100 560,140 660,60 760,20 860,60 960,100 960,200 160,200" fill="url(#studentGrad)" opacity="0.15"/>
+      <!-- Line -->
+      <polyline points="160,100 260,140 360,60 460,100 560,140 660,60 760,20 860,60 960,100" fill="none" stroke="#10B981" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <!-- Data points -->
+      <circle cx="160" cy="100" r="7" fill="#F59E0B" stroke="var(--bg-card)" stroke-width="3" class="emotion-dot"/>
+      <circle cx="260" cy="140" r="7" fill="#F59E0B" stroke="var(--bg-card)" stroke-width="3" class="emotion-dot"/>
+      <circle cx="360" cy="60" r="7" fill="#10B981" stroke="var(--bg-card)" stroke-width="3" class="emotion-dot"/>
+      <circle cx="460" cy="100" r="7" fill="#F59E0B" stroke="var(--bg-card)" stroke-width="3" class="emotion-dot"/>
+      <circle cx="560" cy="140" r="7" fill="#EF4444" stroke="var(--bg-card)" stroke-width="3" class="emotion-dot"/>
+      <circle cx="660" cy="60" r="7" fill="#10B981" stroke="var(--bg-card)" stroke-width="3" class="emotion-dot"/>
+      <circle cx="760" cy="20" r="7" fill="#10B981" stroke="var(--bg-card)" stroke-width="3" class="emotion-dot"/>
+      <circle cx="860" cy="60" r="7" fill="#10B981" stroke="var(--bg-card)" stroke-width="3" class="emotion-dot"/>
+      <circle cx="960" cy="100" r="7" fill="#F59E0B" stroke="var(--bg-card)" stroke-width="3" class="emotion-dot"/>
+      <!-- Stage labels -->
+      <text x="160" y="215" text-anchor="middle" font-size="10" fill="var(--text-muted)">发现课程</text>
+      <text x="260" y="215" text-anchor="middle" font-size="10" fill="var(--text-muted)">浏览列表</text>
+      <text x="360" y="215" text-anchor="middle" font-size="10" fill="var(--text-muted)">观看动画</text>
+      <text x="460" y="215" text-anchor="middle" font-size="10" fill="var(--text-muted)">弹出题目</text>
+      <text x="560" y="215" text-anchor="middle" font-size="10" fill="var(--text-muted)">答题解析</text>
+      <text x="660" y="215" text-anchor="middle" font-size="10" fill="var(--text-muted)">继续观看</text>
+      <text x="760" y="215" text-anchor="middle" font-size="10" fill="var(--text-muted)">完成课程</text>
+      <text x="860" y="215" text-anchor="middle" font-size="10" fill="var(--text-muted)">复习指南</text>
+      <text x="960" y="215" text-anchor="middle" font-size="10" fill="var(--text-muted)">复习备考</text>
+      <!-- Key moment markers -->
+      <text x="260" y="163" text-anchor="middle" font-size="9" fill="#F59E0B" font-weight="600">&#9888; Dropout Risk</text>
+      <text x="360" y="50" text-anchor="middle" font-size="9" fill="#3B82F6" font-weight="600">&#128273; Moment of Truth</text>
+      <text x="560" y="163" text-anchor="middle" font-size="9" fill="#EF4444" font-weight="600">&#9888; Dropout Risk</text>
+      <text x="760" y="12" text-anchor="middle" font-size="9" fill="#10B981" font-weight="600">&#9733; Delight</text>
+      <!-- Gradient definition -->
+      <defs>
+        <linearGradient id="studentGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#10B981"/>
+          <stop offset="100%" stop-color="#10B981" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <!-- Stage Cards -->
+  <div class="stages-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="student-stages">
+  </div>
+</div>
+
+</main>
+
+<!-- Footer -->
+<footer class="text-center py-8 px-6" style="color: var(--text-muted);">
+  <p class="text-xs">智课工坊 SmartCourse Studio &middot; 用户旅程图 v1.0 &middot; 生成于 2026-06-23</p>
+  <p class="text-xs mt-1">基于产品演进路线设计 &middot; 教师 9 阶段 + 学生 9 阶段 &middot; 点击卡片展开详情</p>
+</footer>
+
+<script>
+// ==================== DATA ====================
+const teacherStages = [
+  {
+    id: 1, name: "发现平台", nameEn: "Discovery", emoji: "&#128064;",
+    emotion: "&#128578;", emotionLabel: "满意", painLevel: 2,
+    painColor: "#10B981",
+    goal: "找到一个能将课程录音转化为动画课的工具",
+    actions: ["在搜索引擎/学术社区搜索'课程动画制作'", "看到智课工坊的广告或同行推荐", "访问平台 Landing Page"],
+    touchpoints: ["搜索引擎 / 学术社区", "同行推荐 / 教学研讨会", "平台 Landing Page", "微信公众号推文"],
+    thoughts: ["有没有什么工具可以把我的课录音变成动画？", "洋葱学院那种风格能不能用在大学课程上？", "这个平台看起来挺专业的，靠谱吗？"],
+    painPoints: ["不知道有这类平台存在", "难以相信AI能生成高质量的大学水平动画", "与传统MOOC平台的差异化不清晰"],
+    opportunities: ["与高校教务处合作定向推广", "在 Landing Page 用 Before/After 对比展示效果", "提供免费试用（1门课程免费生成）降低决策门槛"],
+    keyMoment: null,
+    quotes: ["我们系的张老师推荐了一个做动画课的平台，你要不要试试？"]
+  },
+  {
+    id: 2, name: "注册", nameEn: "Sign Up", emoji: "&#9997;&#65039;",
+    emotion: "&#128578;", emotionLabel: "满意", painLevel: 2,
+    painColor: "#10B981",
+    goal: "快速注册并进入课程创建流程",
+    actions: ["填写基本信息（姓名/学校/学科）", "验证教育邮箱或手机号", "完成新手引导（选择学科、课程类型）"],
+    touchpoints: ["注册页面", "邮箱/手机验证码", "新手引导流程 (Onboarding)"],
+    thoughts: ["注册流程简单就好，别让我填一堆表格", "需要验证教育邮箱？还好我有", "选完学科就能开始了吗？"],
+    painPoints: ["注册表单字段过多影响转化", "教育邮箱验证流程可能受阻", "缺少社交账号一键登录"],
+    opportunities: ["支持微信/钉钉 SSO 一键登录", "教育邮箱验证后置，先体验后验证", "3步内完成注册，预填学校信息"],
+    keyMoment: null,
+    quotes: ["还好不用填太多信息，两分钟就注册好了。"]
+  },
+  {
+    id: 3, name: "上传材料", nameEn: "Upload", emoji: "&#128228;",
+    emotion: "&#128533;", emotionLabel: "困惑", painLevel: 4,
+    painColor: "#F97316",
+    goal: "将课程录音、PPT等材料顺利上传到平台",
+    actions: ["选择并上传课程录音（MP3/WAV）", "上传课件PPT", "填写课程基本信息（学科、章节、知识点）"],
+    touchpoints: ["材料上传页面", "文件选择器", "上传进度条", "格式/大小提示"],
+    thoughts: ["我的录音文件格式支持吗？", "上传速度太慢了，PPT有50MB呢", "上传完了然后呢？要等多久才能看到结果？"],
+    painPoints: ["大文件上传耗时长（PPT常超50MB）", "不支持某些录音格式", "上传后无反馈，不知道要等多久", "ASR转写专业术语可能不准确"],
+    opportunities: ["实时进度条 + 预估剩余时间", "支持断点续传和批量上传", "上传完成推送通知（邮件/微信）", "提供学科专业术语词典增强ASR"],
+    keyMoment: "dropout",
+    quotes: ["PPT传了10分钟还没传完，我差点放弃..."]
+  },
+  {
+    id: 4, name: "预览AI脚本", nameEn: "Preview Script", emoji: "&#128196;",
+    emotion: "&#128513;", emotionLabel: "极佳", painLevel: 2,
+    painColor: "#10B981",
+    goal: "查看AI生成的教学脚本，评估质量和可用性",
+    actions: ["点击'生成脚本'等待处理", "阅读AI生成的结构化教学脚本", "对比原始材料与AI脚本的差异"],
+    touchpoints: ["脚本生成等待页", "脚本预览页面", "原始材料 vs AI脚本对比视图"],
+    thoughts: ["哇，AI居然把我的录音拆成了5个知识点！", "这段台词写得不错，比我讲得清楚", "但这个专业术语解释得不对，我得改一下"],
+    painPoints: ["脚本生成需要等待1-3分钟", "AI对专业术语的理解偶有偏差", "缺乏同课程的优秀脚本范例参考"],
+    opportunities: ["脚本生成时展示实时进度（转写→拆分→生成）", "提供同课程优秀脚本范本", "支持逐段对比原始材料和AI改写"],
+    keyMoment: null,
+    quotes: ["知识点拆分很合理，台词也比我自己讲的精炼多了！"]
+  },
+  {
+    id: 5, name: "审核修改", nameEn: "Review & Edit", emoji: "&#128221;",
+    emotion: "&#128533;", emotionLabel: "困惑", painLevel: 4,
+    painColor: "#F97316",
+    goal: "精细编辑脚本内容，确保知识点准确无误",
+    actions: ["逐段修改脚本中的知识点描述", "调整知识点拆分顺序和时长", "添加自定义示例和补充说明"],
+    touchpoints: ["脚本编辑器（类 Notion 富文本）", "实时预览窗", "修改标记/高亮系统"],
+    thoughts: ["这个公式的描述需要更精确", "修改完能实时看到变化吗？", "改太多了，是不是AI脚本质量不行？"],
+    painPoints: ["编辑器功能不够强大（缺公式编辑器）", "修改后无法直观看到动画效果变化", "大量修改耗时，感觉不如自己写"],
+    opportunities: ["集成 LaTeX 公式编辑器", "修改区域实时关联动画预览", "AI 智能建议：标记可能需要修改的段落", "支持模板化：常见修改一键应用"],
+    keyMoment: "truth",
+    quotes: ["编辑器要是能像 Notion 那样好用就好了..."]
+  },
+  {
+    id: 6, name: "确认生成动画", nameEn: "Generate Animation", emoji: "&#127916;",
+    emotion: "&#128528;", emotionLabel: "平淡", painLevel: 3,
+    painColor: "#F59E0B",
+    goal: "确认脚本无误后启动动画渲染流程",
+    actions: ["最终检查脚本内容", "选择动画模板和风格", "点击'生成动画'，等待渲染"],
+    touchpoints: ["确认生成按钮", "动画模板选择器", "渲染进度条 + 预估时间"],
+    thoughts: ["选哪个动画模板好呢？", "渲染要多久？我可以先去做别的事吗？", "希望出来的效果不要太low..."],
+    painPoints: ["渲染耗时3-5分钟，等待焦虑", "模板选择有限（3-5套）", "无法预览渲染中间结果"],
+    opportunities: ["提供渲染时间预估和后台运行", "渲染完成推送通知（微信/邮件）", "支持草稿预览（低分辨率快速版）"],
+    keyMoment: null,
+    quotes: ["等渲染的时候我去泡了杯咖啡，回来看效果还行。"]
+  },
+  {
+    id: 7, name: "预览动画课", nameEn: "Preview Animation", emoji: "&#128065;",
+    emotion: "&#128533;", emotionLabel: "困惑", painLevel: 4,
+    painColor: "#F97316",
+    goal: "观看完整动画，检查画面、配音、节奏是否满意",
+    actions: ["播放完整动画课程", "检查画面质量和配音效果", "标记需要修改的段落"],
+    touchpoints: ["动画预览播放器", "时间轴标注系统", "重新渲染触发按钮"],
+    thoughts: ["配音有点机械，能不能换个自然点的声音？", "这段动画节奏太快了，学生跟不上", "画面还行，但跟洋葱学院比差一些"],
+    painPoints: ["动画质量低于洋葱学院精制水准", "配音自然度不足（TTS机械感）", "发现问题后需要整体重新渲染"],
+    opportunities: ["提供时间轴标注，精确指出问题段落", "支持单独重新渲染某一段（非全部重做）", "多种TTS音色可选（男/女/中/英）"],
+    keyMoment: "dropout",
+    quotes: ["画面还行吧，但配音听着有点像机器人..."]
+  },
+  {
+    id: 8, name: "发布课程", nameEn: "Publish", emoji: "&#128640;",
+    emotion: "&#128578;", emotionLabel: "满意", painLevel: 2,
+    painColor: "#10B981",
+    goal: "将满意的动画课程发布给学生",
+    actions: ["填写课程元信息（标题/描述/标签）", "选择发布范围（班级/全校/公开）", "点击发布，获取分享链接"],
+    touchpoints: ["发布设置页面", "课程信息表单", "发布确认弹窗", "分享链接生成"],
+    thoughts: ["终于做好了！学生们会喜欢吗？", "发布给全班就好，先不公开", "链接发到课程群里，学生就能看了"],
+    painPoints: ["发布表单字段仍然较多", "无法设置定时发布", "缺少发布前最终检查清单"],
+    opportunities: ["一键继承脚本中的标题/描述/标签", "发布前 Checklist 自动检查", "生成学科标签推荐和课程描述"],
+    keyMoment: null,
+    quotes: ["链接往课程群一发，学生马上就能看了，真方便！"]
+  },
+  {
+    id: 9, name: "查看学生数据", nameEn: "Analytics", emoji: "&#128202;",
+    emotion: "&#128513;", emotionLabel: "极佳", painLevel: 1,
+    painColor: "#10B981",
+    goal: "了解学生的学习情况和答题表现",
+    actions: ["打开数据仪表盘", "查看课程完成率、答题正确率", "分析学生薄弱知识点"],
+    touchpoints: ["数据仪表盘", "课程级数据报告", "学生答题热力图"],
+    thoughts: ["原来80%的学生在二叉树这里答错了", "这个知识点是不是我讲得不够清楚？", "下次课程优化的方向有了"],
+    painPoints: ["数据维度有限（初期只有基础指标）", "无法导出报告给院系", "缺少同校/同课程横向对比"],
+    opportunities: ["数据飞轮：答题数据→优化出题引擎", "生成教学改进建议报告", "支持数据导出（PDF/Excel）给院系领导", "标记薄弱知识点→自动推荐补习内容"],
+    keyMoment: "delight",
+    quotes: ["看到学生在二叉树这里正确率只有40%，我得再优化一下这段讲解。"]
+  }
+];
+
+const studentStages = [
+  {
+    id: 1, name: "发现课程", nameEn: "Discovery", emoji: "&#128270;",
+    emotion: "&#128528;", emotionLabel: "平淡", painLevel: 3,
+    painColor: "#F59E0B",
+    goal: "找到老师推荐的动画课程平台",
+    actions: ["通过课程群链接访问平台", "在搜索引擎搜索相关课程", "同学推荐或老师课堂提及"],
+    touchpoints: ["课程群分享链接", "搜索引擎", "同学/老师推荐", "学校教务通知"],
+    thoughts: ["老师发了个链接说以后看这个", "这个平台跟B站教学视频有什么区别？", "又要注册新平台..."],
+    painPoints: ["不知道平台的存在", "不清楚与传统MOOC的区别", "需要额外注册一个新平台"],
+    opportunities: ["与学校教务系统深度集成", "支持微信小程序直接打开（免注册体验）", "突出差异化：5分钟动画 + AI出题 vs 60分钟录播"],
+    keyMoment: null,
+    quotes: ["老师在群里发了个链接，说以后看这个学数据结构。"]
+  },
+  {
+    id: 2, name: "浏览课程列表", nameEn: "Browse Courses", emoji: "&#128218;",
+    emotion: "&#128533;", emotionLabel: "困惑", painLevel: 4,
+    painColor: "#F97316",
+    goal: "找到自己需要的课程并判断是否值得学习",
+    actions: ["按学科/难度/老师筛选课程", "查看课程简介和目录", "试听第一个动画片段"],
+    touchpoints: ["课程列表页", "搜索/筛选功能", "课程卡片", "试听预览"],
+    thoughts: ["哪门课是我的老师发布的？", "课程太少了，就几门可选", "这个难度适合我吗？"],
+    painPoints: ["初期课程数量有限", "搜索和筛选体验不够智能", "无法快速判断课程质量和适配度"],
+    opportunities: ["个性化推荐：基于学校/专业/年级", "30秒试听预览，快速判断内容质量", "难度标签 + 学科导航 + 评分系统"],
+    keyMoment: "dropout",
+    quotes: ["课程列表里就几门课，感觉内容还不太丰富。"]
+  },
+  {
+    id: 3, name: "开始观看动画", nameEn: "Watch Animation", emoji: "&#127916;",
+    emotion: "&#128513;", emotionLabel: "极佳", painLevel: 2,
+    painColor: "#10B981",
+    goal: "通过有趣的动画快速理解知识点",
+    actions: ["点击播放第一个动画课", "观看5-8分钟动画讲解", "在关键处做笔记或标记"],
+    touchpoints: ["动画播放器", "字幕/笔记功能", "倍速控制", "书签功能"],
+    thoughts: ["哇，这个动画做得还挺有意思的！", "节奏刚刚好，不像录播课那么拖沓", "配音如果能更自然就完美了"],
+    painPoints: ["配音机械感影响沉浸感", "无法倍速播放或倍速后配音变调", "缺少书签功能，不方便回看"],
+    opportunities: ["倍速播放(0.5x/1x/1.5x/2x) + 字幕同步", "书签/笔记功能，支持导出", "弹幕式互动：标记'没看懂'反馈给教师"],
+    keyMoment: "truth",
+    quotes: ["比60分钟的录播课有意思多了！5分钟就搞懂了一个知识点。"]
+  },
+  {
+    id: 4, name: "遇到弹出题目", nameEn: "Quiz Pop-up", emoji: "&#10067;",
+    emotion: "&#128528;", emotionLabel: "平淡", painLevel: 3,
+    painColor: "#F59E0B",
+    goal: "理解题目并检验自己对刚学内容的掌握程度",
+    actions: ["动画暂停，弹出AI生成的题目", "阅读题目内容和选项", "思考并选择答案"],
+    touchpoints: ["弹出题目浮层", "题目卡片", "选项按钮", "代码编辑器（编程题）"],
+    thoughts: ["刚学的就考，还挺及时的", "这道题有点难，我再想想", "编程题还能直接在页面写代码，不错"],
+    painPoints: ["题目难度可能不匹配当前水平", "弹出时机可能打断观看节奏", "编程题环境加载可能较慢"],
+    opportunities: ["自适应难度：根据学生水平动态调整", "允许跳过，不打断学习心流", "题目与知识点时间戳关联，方便回看"],
+    keyMoment: null,
+    quotes: ["刚讲完二叉树就出了一道题，还好刚才认真看了。"]
+  },
+  {
+    id: 5, name: "答题+看解析", nameEn: "Answer & Review", emoji: "&#128161;",
+    emotion: "&#128533;", emotionLabel: "困惑", painLevel: 4,
+    painColor: "#F97316",
+    goal: "了解答案是否正确，通过解析理解错误原因",
+    actions: ["提交答案", "查看AI解析和正确答案", "答错时观看针对性讲解片段"],
+    touchpoints: ["答题反馈动画", "AI解析面板", "关联视频片段", "代码运行结果"],
+    thoughts: ["啊，选错了，看看解析", "解析写得还算清楚", "答对了！解析是不是可以跳过？"],
+    painPoints: ["答错后缺乏针对性补救措施", "解析质量不稳定（AI生成）", "答对时强制看完解析浪费时间"],
+    opportunities: ["答错→自动推送相关视频片段重新学习", "答对→跳过解析或显示进阶挑战题", "可视化解析（动画演示解题过程）", "Monaco Editor 代码沙箱实时运行"],
+    keyMoment: "dropout",
+    quotes: ["答错了，解析说'参见视频第3分钟'，但我还是不太懂..."]
+  },
+  {
+    id: 6, name: "继续观看", nameEn: "Continue Watching", emoji: "&#9654;&#65039;",
+    emotion: "&#128578;", emotionLabel: "满意", painLevel: 2,
+    painColor: "#10B981",
+    goal: "完成剩余动画内容，构建完整知识体系",
+    actions: ["关闭题目，继续观看动画", "在关键节点再次遇到弹出题目", "保持注意力到视频结束"],
+    touchpoints: ["动画播放器（恢复）", "进度条", "段落小总结弹窗"],
+    thoughts: ["答题之后继续看，节奏挺好的", "后面还有题目吗？有期待感", "注意力开始有点分散了..."],
+    painPoints: ["注意力随时间递减", "后半段内容可能与前半段难度不一致", "缺少分段标记，不知道还剩多少"],
+    opportunities: ["分段标记 + 段落小总结（回顾前面知识点）", "后半段适当加速或精简", "进度条成就系统（鼓励看到最后）"],
+    keyMoment: "recovery",
+    quotes: ["答完题继续看，5分钟不知不觉就过去了。"]
+  },
+  {
+    id: 7, name: "完成课程", nameEn: "Complete Course", emoji: "&#127942;",
+    emotion: "&#128513;", emotionLabel: "极佳", painLevel: 1,
+    painColor: "#10B981",
+    goal: "获得完课成就感，了解自己的学习成果",
+    actions: ["观看完最后一个动画片段", "查看完课总结和答题统计", "分享完课成就到社交平台"],
+    touchpoints: ["完课庆祝动画", "答题统计卡片", "完课证书/徽章", "社交分享按钮"],
+    thoughts: ["太棒了，5分钟就学完了一个知识点！", "答题对了3道错了1道，还行", "下一个知识点是什么？继续学！"],
+    painPoints: ["缺少完课证书或徽章激励", "不知道下一步应该学什么", "完课后没有知识回顾，容易遗忘"],
+    opportunities: ["完课证书/徽章（可分享到LinkedIn/微信）", "后续课程推荐 + 学习路径规划", "个人学习报告（知识点掌握雷达图）"],
+    keyMoment: "delight",
+    quotes: ["5分钟搞定一个知识点，比看60分钟录播课高效多了！"]
+  },
+  {
+    id: 8, name: "获取复习指南", nameEn: "Study Guide", emoji: "&#128214;",
+    emotion: "&#128578;", emotionLabel: "满意", painLevel: 2,
+    painColor: "#10B981",
+    goal: "获得系统化的复习资料，为考试做准备",
+    actions: ["点击'生成复习指南'", "浏览考情分析表和知识点卡片", "下载复习指南（PDF/Markdown）"],
+    touchpoints: ["复习指南页面", "考情情报表", "知识点卡片（S/A/B级）", "下载/打印功能"],
+    thoughts: ["考情分析表挺实用的，知道哪些是重点", "知识点卡片方便考前快速过一遍", "能下载PDF打印就好了"],
+    painPoints: ["复习指南可能不够完整", "无法下载为PDF打印版", "知识点优先级标记不够直观"],
+    opportunities: ["一键生成PDF/打印版复习指南", "知识点按重要性分级（S/A/B）+ 颜色编码", "错题本：汇总所有观看过程中答错的题目"],
+    keyMoment: null,
+    quotes: ["考情分析表帮我理清了重点，考前看这个就够了。"]
+  },
+  {
+    id: 9, name: "复习备考", nameEn: "Exam Prep", emoji: "&#128218;",
+    emotion: "&#128528;", emotionLabel: "平淡", painLevel: 3,
+    painColor: "#F59E0B",
+    goal: "使用复习指南高效备考，通过考试",
+    actions: ["按知识点卡片逐项复习", "做模拟题检验理解程度", "回顾错题和薄弱知识点"],
+    touchpoints: ["复习模式（知识点卡片轮播）", "模拟题练习", "错题回顾", "倒计时日历"],
+    thoughts: ["知识点卡片过一遍很快", "模拟题能再多几道就好了", "感觉复习时间不太够..."],
+    painPoints: ["模拟题数量有限", "知识点覆盖不够全面", "缺少科学的复习时间规划"],
+    opportunities: ["倒计时复习计划（基于考试日期自动排期）", "弱项强化推送（基于答题数据）", "AI 预测考题（基于课程重点 + 历年数据）", "知识图谱可视化（展示知识点关联）"],
+    keyMoment: null,
+    quotes: ["要是能根据考试日期自动安排复习计划就完美了。"]
+  }
+];
+
+// ==================== RENDER FUNCTIONS ====================
+
+function getEmotionColor(level) {
+  const colors = { 1: '#10B981', 2: '#10B981', 3: '#F59E0B', 4: '#F97316', 5: '#EF4444' };
+  return colors[level] || '#6B7280';
+}
+
+function getKeyMomentBadge(type) {
+  const badges = {
+    'truth': '<span class="badge badge-truth">&#128273; Moment of Truth</span>',
+    'dropout': '<span class="badge badge-dropout">&#9888;&#65039; Dropout Risk</span>',
+    'delight': '<span class="badge badge-delight">&#9733; Delight</span>',
+    'recovery': '<span class="badge badge-recovery">&#8599;&#65039; Recovery</span>'
+  };
+  return badges[type] || '';
+}
+
+function renderPainBar(level, color) {
+  let html = '<div class="pain-bar" style="color:' + color + '">';
+  for (let i = 1; i <= 5; i++) {
+    html += '<div class="pain-seg' + (i <= level ? ' active' : '') + '"></div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderStageCard(stage, index) {
+  const card = document.createElement('div');
+  card.className = 'stage-card card rounded-xl overflow-hidden';
+  card.setAttribute('data-stage', stage.id);
+  card.onclick = function() { this.classList.toggle('expanded'); };
+
+  let touchpointsHtml = '';
+  stage.touchpoints.forEach(t => { touchpointsHtml += '<span class="touchpoint-item">' + t + '</span>'; });
+
+  let painPointsHtml = '';
+  stage.painPoints.forEach(p => { painPointsHtml += '<div class="pain-item">' + p + '</div>'; });
+
+  let opportunitiesHtml = '';
+  stage.opportunities.forEach(o => { opportunitiesHtml += '<div class="opportunity-item">&#128161; ' + o + '</div>'; });
+
+  let actionsHtml = '';
+  stage.actions.forEach(a => { actionsHtml += '<li class="flex items-start gap-2 py-1"><span class="mt-1.5 w-1.5 h-1.5 rounded-full shrink-0" style="background:var(--text-muted)"></span><span>' + a + '</span></li>'; });
+
+  let thoughtsHtml = '';
+  stage.thoughts.forEach(t => { thoughtsHtml += '<li class="py-1 text-sm italic" style="color:var(--text-secondary)">&ldquo;' + t + '&rdquo;</li>'; });
+
+  let quotesHtml = '';
+  if (stage.quotes && stage.quotes.length) {
+    stage.quotes.forEach(q => { quotesHtml += '<div class="mt-3 px-3 py-2 rounded-lg text-xs italic" style="background:var(--bg-card-hover);color:var(--text-secondary);border-left:3px solid var(--border)">&ldquo;' + q + '&rdquo;</div>'; });
+  }
+
+  card.innerHTML = `
+    <div class="p-4">
+      <div class="flex items-start justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">${stage.emoji}</span>
+          <div>
+            <h4 class="font-semibold text-sm">${stage.name}</h4>
+            <span class="text-xs" style="color:var(--text-muted)">${stage.nameEn}</span>
+          </div>
+        </div>
+        <div class="text-right">
+          <div class="text-xl mb-1">${stage.emotion}</div>
+          <div class="text-xs font-medium" style="color:${stage.painColor}">${stage.emotionLabel}</div>
+        </div>
+      </div>
+      ${renderPainBar(stage.painLevel, stage.painColor)}
+      <div class="mt-2">${getKeyMomentBadge(stage.keyMoment)}</div>
+      <p class="mt-3 text-sm font-medium" style="color:var(--text-primary)">&#127919; ${stage.goal}</p>
+      <div class="flex items-center gap-1 mt-3 text-xs" style="color:var(--accent);cursor:pointer">
+        <span class="expand-label">点击展开详情</span>
+        <svg class="w-3 h-3 transition-transform" style="transform:rotate(0deg)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </div>
+    </div>
+    <div class="stage-detail">
+      <div class="px-4 pb-4 border-t" style="border-color:var(--border)">
+        <div class="pt-4">
+          <h5 class="text-xs font-semibold uppercase tracking-wider mb-2" style="color:var(--text-muted)">&#9997;&#65039; 用户行动 Actions</h5>
+          <ul class="text-sm" style="color:var(--text-secondary)">${actionsHtml}</ul>
+        </div>
+        <div class="mt-4">
+          <h5 class="text-xs font-semibold uppercase tracking-wider mb-2" style="color:var(--text-muted)">&#128172; 用户心声 Thoughts</h5>
+          <ul>${thoughtsHtml}</ul>
+        </div>
+        <div class="mt-4">
+          <h5 class="text-xs font-semibold uppercase tracking-wider mb-2" style="color:var(--text-muted)">&#128205; 触点 Touchpoints</h5>
+          <div class="flex flex-wrap">${touchpointsHtml}</div>
+        </div>
+        <div class="mt-4">
+          <h5 class="text-xs font-semibold uppercase tracking-wider mb-2" style="color:var(--negative)">&#128680; 痛点 Pain Points</h5>
+          ${painPointsHtml}
+        </div>
+        <div class="mt-4">
+          <h5 class="text-xs font-semibold uppercase tracking-wider mb-2" style="color:var(--positive)">&#128161; 机会点 Opportunities</h5>
+          ${opportunitiesHtml}
+        </div>
+        ${quotesHtml}
+      </div>
+    </div>
+  `;
+
+  return card;
+}
+
+function renderStages(stages, containerId) {
+  const container = document.getElementById(containerId);
+  stages.forEach((stage, i) => {
+    const card = renderStageCard(stage, i);
+    container.appendChild(card);
+  });
+}
+
+// ==================== TAB SWITCHING ====================
+function switchTab(tab) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => {
+    el.classList.remove('active');
+    el.style.background = 'var(--bg-card)';
+    el.style.color = 'var(--text-secondary)';
+  });
+  document.getElementById('content-' + tab).classList.add('active');
+  const btn = document.getElementById('tab-' + tab);
+  btn.classList.add('active');
+  btn.style.background = '';
+  btn.style.color = '';
+}
+
+// ==================== THEME TOGGLE ====================
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  document.getElementById('sun-icon').style.display = next === 'dark' ? 'block' : 'none';
+  document.getElementById('moon-icon').style.display = next === 'dark' ? 'none' : 'block';
+  localStorage.setItem('theme', next);
+}
+
+// Init theme
+(function() {
+  const saved = localStorage.getItem('theme');
+  if (saved) {
+    document.documentElement.setAttribute('data-theme', saved);
+    document.getElementById('sun-icon').style.display = saved === 'dark' ? 'block' : 'none';
+    document.getElementById('moon-icon').style.display = saved === 'dark' ? 'none' : 'block';
+  }
+})();
+
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded', function() {
+  renderStages(teacherStages, 'teacher-stages');
+  renderStages(studentStages, 'student-stages');
+});
+</script>
+</body>
+</html>

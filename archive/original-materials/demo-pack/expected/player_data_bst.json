@@ -1,0 +1,30 @@
+{
+  "lesson_id": "bst-001",
+  "title": "二叉搜索树的查找与插入",
+  "duration_seconds": 360,
+  "audio_url": "/demo-pack/assets/audio/narration_bst.mp3",
+  "bgm_url": "/demo-pack/assets/audio/bgm_light.mp3",
+  "scenes_url": "/demo-pack/golden/script_bst.json",
+  "quizzes_url": "/demo-pack/golden/quiz_bst.json",
+  "exam_signals_url": "/demo-pack/golden/exam_signal_bst.json",
+  "source_trace_url": "/demo-pack/golden/source_trace_bst.json",
+  "evidence_bundle_url": "/demo-pack/golden/evidence_bundle_bst.json",
+  "progress_markers": [
+    {"second": 0, "label": "规则"},
+    {"second": 45, "label": "插入"},
+    {"second": 120, "label": "查找"},
+    {"second": 200, "label": "代码"},
+    {"second": 280, "label": "总结"}
+  ],
+  "code_playground": {
+    "enabled": true,
+    "language": "python",
+    "trigger_quiz_id": "q_code",
+    "initial_code": "class Node:\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None\n\ndef insert(root, val):\n    # TODO: 补全这里\n    return root",
+    "expected_behavior": "插入后中序遍历结果保持升序",
+    "fallback_result": {
+      "status": "passed",
+      "message": "测试通过：中序遍历为 [3, 8, 10]"
+    }
+  }
+}

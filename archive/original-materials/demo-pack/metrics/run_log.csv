@@ -1,0 +1,2 @@
+run_id,date,input_type,input_minutes,asr_seconds,script_seconds,quiz_seconds,render_seconds,total_seconds,notes
+001,2026-07-22,preloaded_transcript,3.5,0,18,9,12,39,baseline semi-live demo data

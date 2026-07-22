@@ -1,0 +1,70 @@
+{
+  "lesson_id": "bst-001",
+  "trace": [
+    {
+      "scene_id": "s1",
+      "script_span": "script_bst.json#scenes[0]",
+      "evidence": [
+        {
+          "type": "transcript",
+          "ref": "bst_transcript.md#L9",
+          "summary": "二叉搜索树核心规则：左边小，右边大。"
+        },
+        {
+          "type": "slide",
+          "ref": "bst_slide_extract.json#slides[0]",
+          "summary": "什么是二叉搜索树。"
+        }
+      ]
+    },
+    {
+      "scene_id": "s2",
+      "script_span": "script_bst.json#scenes[1]",
+      "evidence": [
+        {
+          "type": "transcript",
+          "ref": "bst_transcript.md#L11",
+          "summary": "用 8、3、10、1 展示插入方向。"
+        },
+        {
+          "type": "exam_signal",
+          "ref": "exam_signal_bst.json#sig-002",
+          "summary": "左小右大为S级重点。"
+        }
+      ]
+    },
+    {
+      "scene_id": "s3",
+      "script_span": "script_bst.json#scenes[2]",
+      "evidence": [
+        {
+          "type": "transcript",
+          "ref": "bst_transcript.md#L13",
+          "summary": "查找 6 的路径：从 8 到 3 再向右。"
+        }
+      ]
+    },
+    {
+      "scene_id": "s4",
+      "script_span": "script_bst.json#scenes[3]",
+      "evidence": [
+        {
+          "type": "transcript",
+          "ref": "bst_transcript.md#L17",
+          "summary": "插入伪代码：空、小于、大于三个分支。"
+        }
+      ]
+    },
+    {
+      "scene_id": "s5",
+      "script_span": "script_bst.json#scenes[4]",
+      "evidence": [
+        {
+          "type": "exam_signal",
+          "ref": "exam_signal_bst.json#sig-001",
+          "summary": "老师明确强调本节最重要的三点。"
+        }
+      ]
+    }
+  ]
+}

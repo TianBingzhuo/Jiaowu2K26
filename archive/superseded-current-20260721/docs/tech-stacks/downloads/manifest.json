@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-07-21",
+  "policy": "No executable, SDK, system image, model, repository or runnable dependency is downloaded before exact resource and event-rule confirmation.",
+  "items": [
+    {
+      "id": "drobotics-embedded-track-resource-pdf",
+      "vendor": "D-Robotics",
+      "type": "user_provided_pdf",
+      "stage": "research_now",
+      "status": "source_currently_unavailable_in_new_environment",
+      "path": "D:/10451/Desktop/地瓜/嵌入式竞赛地瓜机器人赛道资料.pdf",
+      "bytes": 3020973,
+      "sha256": "F945FE12C1077BBFFB50DEC870D80506A8695B2FB89F2C7E11151E4A9D1F823A",
+      "availability_checked_at": "2026-07-21",
+      "needs_reattach_before_local_reverification": true
+    },
+    {
+      "id": "drobotics-competition-pack-pdf",
+      "vendor": "D-Robotics",
+      "type": "user_provided_pdf",
+      "stage": "research_now",
+      "status": "source_currently_unavailable_in_new_environment",
+      "path": "D:/10451/Desktop/地瓜/嵌赛资料包.pdf",
+      "bytes": 211974,
+      "sha256": "EE5A926C2DEF2B656709A2004FBC5B0B8BB175FA748C8AB8D233A813701361D0",
+      "availability_checked_at": "2026-07-21",
+      "needs_reattach_before_local_reverification": true
+    },
+    {
+      "id": "drobotics-resource-center",
+      "vendor": "D-Robotics",
+      "type": "official_web_documentation",
+      "stage": "research_now",
+      "status": "url_only",
+      "url": "https://developer.d-robotics.cc/rdk_doc_center/"
+    },
+    {
+      "id": "drobotics-tros-docs",
+      "vendor": "D-Robotics",
+      "type": "official_web_documentation",
+      "stage": "research_now",
+      "status": "url_only",
+      "url": "https://developer.d-robotics.cc/tros_doc/tros"
+    },
+    {
+      "id": "drobotics-rdk-studio-installer",
+      "vendor": "D-Robotics",
+      "type": "desktop_installer",
+      "stage": "after_exact_hardware_and_rule_confirmation",
+      "status": "not_downloaded",
+      "requirements": [
+        "official download URL",
+        "Windows version and checksum",
+        "event rule approval",
+        "confirmed RDK SKU"
+      ]
+    },
+    {
+      "id": "drobotics-rdk-os-image",
+      "vendor": "D-Robotics",
+      "type": "system_image",
+      "stage": "official_event_start",
+      "status": "not_downloaded",
+      "requirements": [
+        "exact board SKU and storage type",
+        "recommended onsite version",
+        "checksum and flashing method"
+      ]
+    },
+    {
+      "id": "drobotics-model-zoo",
+      "vendor": "D-Robotics",
+      "type": "source_and_model_repository",
+      "stage": "official_event_start",
+      "status": "not_downloaded",
+      "url": "https://github.com/D-Robotics/rdk_model_zoo",
+      "requirements": [
+        "event rule approval",
+        "correct hardware branch",
+        "selected P0 model only"
+      ]
+    },
+    {
+      "id": "drobotics-board-specific-hbm",
+      "vendor": "D-Robotics",
+      "type": "board_specific_model_binary",
+      "stage": "official_event_start",
+      "status": "not_downloaded",
+      "requirements": [
+        "exact board SKU",
+        "matching RDK OS and runtime",
+        "model license",
+        "P0 use case selected"
+      ]
+    }
+  ]
+}

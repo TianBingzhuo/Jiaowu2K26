@@ -1,0 +1,169 @@
+{
+  "lesson_id": "bst-001",
+  "title": "二叉搜索树的查找与插入",
+  "mode": "evidence_mode",
+  "presenter_one_liner": "每个 AI 生成结果都能回看它来自哪一页 PPT、哪一句老师口播，以及为什么会被标为考试重点。",
+  "source_assets": [
+    {
+      "id": "src-transcript-bst",
+      "type": "transcript",
+      "title": "BST 课程转写稿",
+      "path": "demo-pack/source/bst_transcript.md",
+      "trust_level": "teacher_material"
+    },
+    {
+      "id": "src-slide-bst",
+      "type": "slide_extract",
+      "title": "BST PPT 提取结果",
+      "path": "demo-pack/source/bst_slide_extract.json",
+      "trust_level": "teacher_material"
+    }
+  ],
+  "evidence_items": [
+    {
+      "id": "ev-rule-transcript",
+      "source_asset_id": "src-transcript-bst",
+      "source_ref": "bst_transcript.md#L9",
+      "source_type": "transcript",
+      "quote": "对任意一个节点来说，左子树里的值都比它小，右子树里的值都比它大。",
+      "summary": "BST 的左小右大核心规则。",
+      "confidence": 0.96,
+      "teacher_action": "accept"
+    },
+    {
+      "id": "ev-rule-slide",
+      "source_asset_id": "src-slide-bst",
+      "source_ref": "bst_slide_extract.json#slides[1]",
+      "source_type": "slide",
+      "quote": "左子树所有值小于根节点；右子树所有值大于根节点；左右子树本身也必须是BST",
+      "summary": "PPT 第 2 页标题级概念，适合作为动画和题目依据。",
+      "confidence": 0.94,
+      "teacher_action": "accept"
+    },
+    {
+      "id": "ev-path-transcript",
+      "source_asset_id": "src-transcript-bst",
+      "source_ref": "bst_transcript.md#L13",
+      "source_type": "transcript",
+      "quote": "假设我们要找 6，从根节点 8 开始。6 比 8 小，所以进入左子树；到了 3，6 比 3 大，所以进入 3 的右子树。",
+      "summary": "查找路径 8 -> 3 -> 6 的推导来源。",
+      "confidence": 0.93,
+      "teacher_action": "accept"
+    },
+    {
+      "id": "ev-insert-transcript",
+      "source_asset_id": "src-transcript-bst",
+      "source_ref": "bst_transcript.md#L17",
+      "source_type": "transcript",
+      "quote": "如果新值更小，就递归插入左子树；如果新值更大，就递归插入右子树；如果当前位置为空，就创建一个新节点。",
+      "summary": "插入代码的三个分支依据。",
+      "confidence": 0.91,
+      "teacher_action": "accept"
+    },
+    {
+      "id": "ev-complexity-slide",
+      "source_asset_id": "src-slide-bst",
+      "source_ref": "bst_slide_extract.json#slides[4]",
+      "source_type": "slide",
+      "quote": "平均 O(log n)；最坏 O(n)；树是否平衡非常关键",
+      "summary": "复杂度对比，适合进入复习卡和判断题。",
+      "confidence": 0.9,
+      "teacher_action": "accept"
+    },
+    {
+      "id": "ev-teacher-emphasis",
+      "source_asset_id": "src-transcript-bst",
+      "source_ref": "bst_transcript.md#L19",
+      "source_type": "transcript",
+      "quote": "本节最重要的是记住三点：第一，左小右大；第二，查找和插入都依赖同一个比较路径；第三，树是否平衡决定了操作效率。",
+      "summary": "老师明确口头强调，标为 S 级考试信号。",
+      "confidence": 0.98,
+      "teacher_action": "accept"
+    }
+  ],
+  "generated_objects": [
+    {
+      "id": "obj-scene-s2",
+      "type": "script_scene",
+      "title": "场景 s2：左小右大",
+      "generated_text": "如果插入 3，3 比 8 小，所以放左边；如果插入 10，10 比 8 大，所以放右边。这就是二叉搜索树最核心的左小右大。",
+      "evidence_ids": ["ev-rule-transcript", "ev-rule-slide"],
+      "risk_flags": [],
+      "teacher_review_hint": "可直接通过；这是全课核心概念。"
+    },
+    {
+      "id": "obj-quiz-q1",
+      "type": "quiz",
+      "title": "题目 q1：插入方向",
+      "generated_text": "在二叉搜索树中，如果当前节点是 8，插入值是 5，下一步应该往哪里走？",
+      "evidence_ids": ["ev-rule-transcript", "ev-rule-slide"],
+      "risk_flags": [],
+      "teacher_review_hint": "题目贴合刚讲内容，适合做中途互动。"
+    },
+    {
+      "id": "obj-quiz-q2",
+      "type": "quiz",
+      "title": "题目 q2：查找路径",
+      "generated_text": "查找目标值 6 时，路径 8 -> 3 -> 6 的第二步为什么从 3 往右走？",
+      "evidence_ids": ["ev-path-transcript"],
+      "risk_flags": [],
+      "teacher_review_hint": "题目考查路径推理，建议保留。"
+    },
+    {
+      "id": "obj-code-q",
+      "type": "code_exercise",
+      "title": "代码练习：补全 insert 函数",
+      "generated_text": "补全 insert 函数，让插入后的中序遍历仍然有序。",
+      "evidence_ids": ["ev-insert-transcript", "ev-rule-slide"],
+      "risk_flags": ["needs_runtime_sandbox"],
+      "teacher_review_hint": "若现场代码沙箱不稳，可改为展示参考答案和测试通过结果。"
+    },
+    {
+      "id": "obj-review-card",
+      "type": "review_card",
+      "title": "最后 24 小时复习卡",
+      "generated_text": "S级重点：左小右大、查找与插入同一路径、平衡性影响效率。",
+      "evidence_ids": ["ev-teacher-emphasis", "ev-complexity-slide"],
+      "risk_flags": [],
+      "teacher_review_hint": "来自老师明确强调，适合作为路演亮点。"
+    }
+  ],
+  "exam_signal_links": [
+    {
+      "signal_id": "sig-001",
+      "priority": "S",
+      "evidence_ids": ["ev-teacher-emphasis"],
+      "feeds": ["obj-review-card", "obj-quiz-q1", "obj-quiz-q2"]
+    },
+    {
+      "signal_id": "sig-002",
+      "priority": "S",
+      "evidence_ids": ["ev-rule-slide"],
+      "feeds": ["obj-scene-s2", "obj-quiz-q1"]
+    },
+    {
+      "signal_id": "sig-003",
+      "priority": "A",
+      "evidence_ids": ["ev-complexity-slide"],
+      "feeds": ["obj-review-card"]
+    }
+  ],
+  "ui_contract": {
+    "default_view": "teacher_review_side_panel",
+    "primary_cta": "查看证据",
+    "teacher_actions": ["accept", "edit_generated_text", "exclude_from_student_view", "mark_as_exam_focus"],
+    "student_visible_badges": ["老师重点", "来自PPT", "来自口播"],
+    "demo_hotspots": [
+      {
+        "label": "老师口头重点",
+        "object_id": "obj-review-card",
+        "action": "open_evidence_drawer"
+      },
+      {
+        "label": "题目来源",
+        "object_id": "obj-quiz-q1",
+        "action": "highlight_source_quote"
+      }
+    ]
+  }
+}

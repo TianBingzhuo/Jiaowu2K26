@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>智课工坊证据模式原型</title>
+  <style>
+    :root {
+      --bg: #eef4f7;
+      --ink: #162033;
+      --muted: #657083;
+      --panel: #ffffff;
+      --line: #d6e1e8;
+      --navy: #10243f;
+      --blue: #2563eb;
+      --teal: #0f766e;
+      --green: #16a34a;
+      --amber: #d97706;
+      --red: #dc2626;
+      --shadow: 0 18px 42px rgba(16, 36, 63, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", Arial, sans-serif;
+      letter-spacing: 0;
+      min-width: 1280px;
+    }
+
+    .topbar {
+      height: 64px;
+      background: var(--navy);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .brand span {
+      margin-left: 10px;
+      font-size: 13px;
+      color: #99f6e4;
+      font-weight: 700;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: default;
+    }
+
+    .ghost { background: rgba(255,255,255,0.09); color: #e2e8f0; }
+    .primary { background: #2dd4bf; color: #042f2e; }
+
+    .layout {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 24px 18px;
+      display: grid;
+      grid-template-columns: 360px 1fr 360px;
+      gap: 16px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      min-height: 620px;
+    }
+
+    .panel-head {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .title {
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .badge-s { color: var(--red); background: #fee2e2; }
+    .badge-a { color: var(--amber); background: #ffedd5; }
+    .badge-ok { color: var(--green); background: #dcfce7; }
+    .badge-blue { color: var(--blue); background: #dbeafe; }
+    .badge-teal { color: var(--teal); background: #ccfbf1; }
+
+    .stack {
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .source-card,
+    .object-card,
+    .evidence-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfdff;
+    }
+
+    .source-card h3,
+    .object-card h3,
+    .evidence-card h3 {
+      margin: 0 0 8px;
+      font-size: 13px;
+    }
+
+    .source-card p,
+    .object-card p,
+    .evidence-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    mark {
+      background: #fef3c7;
+      color: #78350f;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+
+    .object-card.active {
+      border-color: #93c5fd;
+      background: #eff6ff;
+    }
+
+    .object-meta {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .object-text {
+      border: 1px solid #bfdbfe;
+      background: white;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 8px 0 10px;
+    }
+
+    .mini-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    .mini-actions span {
+      border: 1px solid #bfdbfe;
+      background: white;
+      border-radius: 7px;
+      text-align: center;
+      padding: 8px 6px;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .drawer {
+      border-left: 4px solid #14b8a6;
+    }
+
+    .quote {
+      border-left: 3px solid #f59e0b;
+      padding-left: 10px;
+      color: #3f2a0a;
+      font-size: 13px;
+      line-height: 1.55;
+      margin-top: 8px;
+    }
+
+    .confidence {
+      height: 8px;
+      border-radius: 999px;
+      background: #dbeafe;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .confidence span {
+      display: block;
+      height: 100%;
+      width: 96%;
+      background: linear-gradient(90deg, #2563eb, #14b8a6);
+    }
+
+    .student-preview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .preview-box {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: white;
+      min-height: 116px;
+    }
+
+    .preview-box strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .preview-box p {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .footer-note {
+      padding: 12px 16px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">智课工坊 <span>Evidence Mode</span></div>
+    <div class="top-actions">
+      <button class="ghost">加载预生成结果</button>
+      <button class="primary">发布到学生端</button>
+    </div>
+  </div>
+
+  <main class="layout">
+    <section class="panel">
+      <div class="panel-head">
+        <div class="title">原始材料</div>
+        <span class="badge badge-ok">2 个来源</span>
+      </div>
+      <div class="stack">
+        <article class="source-card">
+          <h3>老师口播转写</h3>
+          <p>本节最重要的是记住三点：第一，<mark>左小右大</mark>；第二，查找和插入都依赖同一个比较路径；第三，树是否平衡决定了操作效率。</p>
+        </article>
+        <article class="source-card">
+          <h3>PPT 第 2 页：核心规则</h3>
+          <p>左子树所有值小于根节点；右子树所有值大于根节点；左右子树本身也必须是 BST。</p>
+        </article>
+        <article class="source-card">
+          <h3>PPT 第 5 页：复杂度</h3>
+          <p>平均 O(log n)；最坏 O(n)；树是否平衡非常关键。</p>
+        </article>
+      </div>
+      <div class="footer-note">左侧只展示老师已有材料，避免 AI 生成内容和原始证据混在一起。</div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div class="title">AI 生成对象</div>
+        <span class="badge badge-blue">5 个可追溯对象</span>
+      </div>
+      <div class="stack">
+        <article class="object-card active">
+          <div class="object-meta">
+            <span class="badge badge-s">S 级重点</span>
+            <span class="badge badge-teal">来自口播</span>
+            <span class="badge badge-blue">来自PPT</span>
+          </div>
+          <h3>场景 s2：左小右大</h3>
+          <div class="object-text">如果插入 3，3 比 8 小，所以放左边；如果插入 10，10 比 8 大，所以放右边。这就是二叉搜索树最核心的左小右大。</div>
+          <div class="mini-actions">
+            <span>查看证据</span>
+            <span>修改文本</span>
+            <span>通过</span>
+          </div>
+        </article>
+
+        <article class="object-card">
+          <div class="object-meta">
+            <span class="badge badge-s">S 级重点</span>
+            <span class="badge badge-blue">题目</span>
+          </div>
+          <h3>题目 q1：插入方向</h3>
+          <div class="object-text">当前节点是 8，插入值是 5，下一步应该往哪里走？</div>
+          <div class="mini-actions">
+            <span>查看证据</span>
+            <span>修改选项</span>
+            <span>通过</span>
+          </div>
+        </article>
+
+        <article class="object-card">
+          <div class="object-meta">
+            <span class="badge badge-a">A 级重点</span>
+            <span class="badge badge-ok">复习卡</span>
+          </div>
+          <h3>最后 24 小时复习卡</h3>
+          <div class="object-text">左小右大、查找与插入同一路径、平衡性影响效率。</div>
+          <div class="mini-actions">
+            <span>查看证据</span>
+            <span>移除</span>
+            <span>通过</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel drawer">
+      <div class="panel-head">
+        <div class="title">证据抽屉</div>
+        <span class="badge badge-ok">可信度 96%</span>
+      </div>
+      <div class="stack">
+        <article class="evidence-card">
+          <h3>证据 1：老师口播</h3>
+          <p>来源：bst_transcript.md#L9</p>
+          <div class="quote">对任意一个节点来说，左子树里的值都比它小，右子树里的值都比它大。</div>
+          <div class="confidence"><span></span></div>
+        </article>
+
+        <article class="evidence-card">
+          <h3>证据 2：PPT 核心页</h3>
+          <p>来源：bst_slide_extract.json#slides[1]</p>
+          <div class="quote">左子树所有值小于根节点；右子树所有值大于根节点；左右子树本身也必须是 BST。</div>
+          <div class="confidence"><span></span></div>
+        </article>
+
+        <article class="evidence-card">
+          <h3>老师审核建议</h3>
+          <p>可直接通过。这是全课核心概念，并且同时被老师口播与 PPT 标题级内容支持。</p>
+        </article>
+
+        <div class="student-preview">
+          <div class="preview-box">
+            <strong>学生端题目 badge</strong>
+            <p><span class="badge badge-s">老师重点</span> 插入 5 应该进入左子树。</p>
+          </div>
+          <div class="preview-box">
+            <strong>复习卡 badge</strong>
+            <p><span class="badge badge-teal">来自口播</span> 左小右大是最后 24 小时必看点。</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-note">路演展示时，点击“查看证据”后停 5 秒，让评委看清 AI 输出和老师材料之间的关系。</div>
+    </section>
+  </main>
+</body>
+</html>

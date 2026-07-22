@@ -1,0 +1,27 @@
+{
+  "name": "jiaowu2k26-docs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local-first documentation portal for jiaowu2K26.",
+  "scripts": {
+    "sync": "node scripts/sync-content.mjs",
+    "check:content": "node scripts/verify-content.mjs",
+    "predev": "npm run sync",
+    "dev": "astro dev --host 127.0.0.1 --port 4321",
+    "prebuild": "npm run sync && npm run check:content",
+    "build": "astro build",
+    "postbuild": "node scripts/verify-build.mjs",
+    "preview": "astro preview --host 127.0.0.1 --port 4321",
+    "verify": "npm run build"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "0.38.0",
+    "astro": "6.0.3",
+    "sharp": "0.34.5"
+  },
+  "engines": {
+    "node": ">=24 <27"
+  },
+  "packageManager": "npm@11.11.0"
+}

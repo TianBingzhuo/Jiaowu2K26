@@ -1,0 +1,1518 @@
+{
+  "schema_version": "1.6",
+  "updated_at": "2026-07-21",
+  "purpose": "jiaowu2K26 对 AdventureX 2026 公开资源、基础技术和开源候选的证据化检索、过滤与现场匹配",
+  "field_semantics": {
+    "smartcourse": "每个技术候选对首个 P0 模块智课工坊的适配记录，不代表总项目名",
+    "relationship": "与 AdventureX 2026 的公开关系及现场权益置信度",
+    "gate_state": "进入现场主路径前的硬门槛状态；unknown 不得当作 pass"
+  },
+  "source_inventory": {
+    "path": "SOURCE-INVENTORY.md",
+    "rtf_path": "D:/10451/Desktop/研究/Adventure X.rtf",
+    "rtf_sha256": "8F4B4E901393F3BB3DFD29D96AD40C517B48D6F280A4FDBDC2DB6E80272E1AFE",
+    "valid_unique_https_urls": 26,
+    "domains": 18,
+    "interpretation": "The RTF is a technology-resource collection, not a formal 2026 sponsor-entitlement list."
+  },
+  "external_reference_libraries": [
+    {
+      "id": "winui3-reference",
+      "display_name": "WinUI 3 本地开发参考库",
+      "relationship": "non_sponsor_foundation_stack",
+      "role": "windows_host_teacher_review_and_demo_console_candidate",
+      "provisional_position": "secondary_candidate",
+      "hard_gate_state": {
+        "event_compliance": "unknown",
+        "resource_availability": "unknown",
+        "minimum_startup_within_6h": "unknown",
+        "license_and_data_rights": "pass",
+        "project_core_fit": "pass",
+        "fallback_available": "unknown"
+      },
+      "hard_gate_notes": {
+        "license_and_data_rights": "Pass currently applies only to the four archived MIT source repositories; future NuGet packages, assets and third-party files require separate review."
+      },
+      "conditional_score_range": "65-73/100",
+      "local_assessment": "ADVENTUREX-WINUI3-ASSESSMENT.md",
+      "external_guide": "D:/10451/Users/10451/Downloads/WinUI3-Reference/GUIDE.md",
+      "external_manifest": "D:/10451/Users/10451/Downloads/WinUI3-Reference/SOURCE-MANIFEST.json",
+      "mirrored_assessment": "D:/10451/Users/10451/Downloads/WinUI3-Reference/ADVENTUREX-WINUI3-ASSESSMENT.md",
+      "mirror_id": "adventurex-winui3-assessment-v1",
+      "mirror_sha256": "9413D0C76054652CF08769192CB5246C5EA001EB26A36BC92D029E2BB08C71CF",
+      "source_code_copied_into_hackathon_project": false,
+      "equivalent_path_aliases_must_not_be_scanned_together": true,
+      "adventurex_status": "candidate_only_not_selected_or_implemented"
+    }
+  ],
+  "architecture_decisions": {
+    "path": "CORE-ARCHITECTURE.md",
+    "status": "pre_event_candidates_not_implemented",
+    "canonical_project": "jiaowu2K26",
+    "p0_module": "智课工坊 / SmartCourse Studio",
+    "product_boundary": "university_experience_layer_not_sis_replacement",
+    "candidates": [
+      {
+        "id": "rust-first-modular-monolith",
+        "display_name": "Rust + Axum + Tokio 模块化单体",
+        "position": "conditional_primary_candidate",
+        "scope": [
+          "core_api",
+          "domain_state_machine",
+          "integration_and_audit"
+        ],
+        "hard_gates": [
+          "team_familiarity",
+          "minimum_vertical_slice_within_6h",
+          "fallback_available"
+        ],
+        "fallback": "team-familiar single API such as FastAPI or Node"
+      },
+      {
+        "id": "oceanbase-data-core",
+        "display_name": "OceanBase MySQL 模式 + SQLx",
+        "position": "conditional_primary_candidate",
+        "requires_real_value": [
+          "transactional_review_publish",
+          "versioned_academic_mirror",
+          "traceable_event_state"
+        ],
+        "required_spike": [
+          "connectivity",
+          "schema_migration",
+          "transaction_commit_and_rollback",
+          "critical_queries",
+          "SQLx protocol compatibility"
+        ],
+        "fallback": "SQLite or JSONL behind the same repository contract",
+        "sponsor_status": "self_selected_not_confirmed_as_adventurex_sponsor"
+      },
+      {
+        "id": "semester-environment-resolver",
+        "display_name": "Conda 式学期环境求解器",
+        "position": "p1_p2_design_direction",
+        "borrowed_patterns": [
+          "specs",
+          "candidate_index_reduction",
+          "pins",
+          "dependencies",
+          "conflicts",
+          "final_state",
+          "diff",
+          "transaction",
+          "lockfile",
+          "unsat_explanation"
+        ],
+        "backend_policy": {
+          "personal_planning": "SAT or MaxSAT candidate",
+          "institution_wide_timetabling": "CP-SAT or general constraint optimization candidate",
+          "fallback": "deterministic best-feasible result with explicit violations"
+        },
+        "direct_conda_or_libsolv_code_reuse": "not_selected"
+      }
+    ]
+  },
+  "open_source_registry": {
+    "path": "OPEN-SOURCE-REUSE.md",
+    "policy": "open_source_first_but_auditable",
+    "checked_at": "2026-07-21",
+    "direct_dependency_candidates": [
+      "react",
+      "vite",
+      "rust",
+      "axum",
+      "tokio",
+      "sqlx",
+      "oceanbase",
+      "or-tools"
+    ],
+    "concept_or_reference_only": [
+      "conda",
+      "libsolv",
+      "winui-gallery",
+      "windows-community-toolkit",
+      "opensis-classic",
+      "frappe-education",
+      "gibbon",
+      "openeducat"
+    ],
+    "selection_record_required": [
+      "upstream_repository",
+      "exact_version_or_commit",
+      "license_and_notice",
+      "hash_where_applicable",
+      "reuse_mode",
+      "local_modifications",
+      "security_check",
+      "event_rule_check",
+      "fallback"
+    ]
+  },
+  "research_references": {
+    "sis_urp_uarizona": "../research/SIS-URP-UARIZONA.md",
+    "nba2k_feature_map": "../research/NBA2K-FEATURE-MAP.md",
+    "opportunity_market": "../features/OPPORTUNITY-MARKET.md",
+    "education_systems_are_reference_only": true
+  },
+  "decision_context": {
+    "event": "AdventureX 2026",
+    "event_dates": "2026-07-22/2026-07-26",
+    "core_build_window_hours": 72,
+    "project": "jiaowu2K26",
+    "p0_module": "智课工坊 / SmartCourse Studio",
+    "project_manifest": "../PROJECT-MANIFEST.json",
+    "decision_log": "../DECISIONS.md",
+    "project_status": "pre_event_research_only",
+    "functional_build_allowed_now": false,
+    "runtime_artifacts_downloaded_by_this_research": 0,
+    "official_ultimate_guide": "https://adventurex.feishu.cn/docx/FOhLdr0Y3okbATxWvBQcoFx0nEd",
+    "ultimate_guide_checked_at": "2026-07-21",
+    "theme_selection_exactly": 1,
+    "track_selection_min": 1,
+    "track_selection_max": 6,
+    "track_details_status": "announced_at_2026-07-22_opening",
+    "official_relationship_source": "https://adventure-x.org/zh",
+    "official_hardware_lab_source": "https://faq.adventure-x.org/advx/01-activities"
+  },
+  "relationship_categories": [
+    "current_exclusive_partner",
+    "current_principal_sponsor",
+    "current_technical_or_device_supporter",
+    "current_hardware_lab_resource",
+    "historical_signal_only",
+    "referenced_technology_unverified_for_2026"
+  ],
+  "allowed_gate_statuses": [
+    "pass",
+    "fail",
+    "unknown",
+    "not_applicable"
+  ],
+  "common_hard_gates": [
+    "event_compliance",
+    "resource_availability",
+    "minimum_startup_within_6h",
+    "license_and_data_rights",
+    "project_core_fit",
+    "fallback_available"
+  ],
+  "score_policy": {
+    "weights_path": "EVALUATION.md",
+    "scores_published": false,
+    "reason": "Exact SKU, credits, quantities, track rules, account requirements and onsite support are not public. Missing evidence remains unknown instead of receiving a guessed score."
+  },
+  "pre_resource_shortlist": {
+    "default_primary_pattern": "One confirmed sponsor model API + one minimal custom web flow + local traceable data contract",
+    "first_model_to_test": [
+      "stepfun-platform"
+    ],
+    "optional_orchestration": [
+      "dify"
+    ],
+    "optional_review_collaboration": [
+      "feishu-base"
+    ],
+    "hardware_choose_at_most_one_for_p0": [
+      "d-robotics-rdk",
+      "tuyaopen"
+    ],
+    "lightweight_demo_enhancement": [
+      "nothing-glyph"
+    ],
+    "high_risk_p1_choose_at_most_one": [
+      "pico-xr",
+      "apple-platforms",
+      "agilex-robotics",
+      "seeed-lerobot",
+      "ten-framework-agora",
+      "injective"
+    ]
+  },
+  "stacks": [
+    {
+      "id": "stepfun-platform",
+      "display_name": "阶跃星辰开放平台",
+      "vendor": "StepFun",
+      "relationship": {
+        "category": "current_principal_sponsor",
+        "relationship_confirmed": true,
+        "listed_tier": "首席赞助商",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "llm",
+        "vlm",
+        "structured_output",
+        "function_calling",
+        "agent_tools",
+        "image_editing",
+        "speech",
+        "tts"
+      ],
+      "delivery_modes": [
+        "cloud_api"
+      ],
+      "startup_dependencies": [
+        "event account or API key",
+        "confirmed model and credit",
+        "network",
+        "data terms"
+      ],
+      "smartcourse": {
+        "fit_tier": "high",
+        "p0_position": "primary_candidate",
+        "roles": [
+          "course material understanding",
+          "traceable structured generation",
+          "tool-assisted processing",
+          "optional speech"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "pass",
+        "resource_availability": "unknown",
+        "event_compliance": "unknown",
+        "minimum_startup_within_6h": "unknown"
+      },
+      "risks": [
+        "exact event models and limits are unknown",
+        "cloud dependency",
+        "output schemas must be validated"
+      ],
+      "source_urls": [
+        "https://adventure-x.org/zh",
+        "https://platform.stepfun.com/"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "feishu-base",
+      "display_name": "飞书多维表格 / Base",
+      "vendor": "Feishu",
+      "relationship": {
+        "category": "current_principal_sponsor",
+        "relationship_confirmed": true,
+        "listed_tier": "首席赞助商",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "structured_records",
+        "views",
+        "workflow",
+        "collaboration",
+        "open_api",
+        "audit_fields"
+      ],
+      "delivery_modes": [
+        "cloud_saas",
+        "rest_api"
+      ],
+      "startup_dependencies": [
+        "Feishu tenant and app",
+        "access token",
+        "document permissions",
+        "network"
+      ],
+      "smartcourse": {
+        "fit_tier": "high",
+        "p0_position": "secondary_candidate",
+        "roles": [
+          "source record table",
+          "teacher review queue",
+          "approval and removal states",
+          "team collaboration"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "pass",
+        "resource_availability": "unknown",
+        "minimum_startup_within_6h": "unknown",
+        "fallback_available": "pass"
+      },
+      "risks": [
+        "permission setup can consume event time",
+        "rate limits",
+        "cloud lock-in"
+      ],
+      "fallback": "Use the same data contract in a local database.",
+      "source_urls": [
+        "https://adventure-x.org/zh",
+        "https://open.feishu.cn/"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "d-robotics-rdk",
+      "display_name": "地瓜机器人 RDK 生态",
+      "vendor": "D-Robotics",
+      "profile_path": "vendors/d-robotics.md",
+      "rtf_source_ids": [
+        16
+      ],
+      "relationship": {
+        "category": "current_principal_sponsor",
+        "relationship_confirmed": true,
+        "listed_tier": "首席赞助商",
+        "exact_entitlement": "unknown"
+      },
+      "hardware_candidates": [
+        "RDK X5",
+        "RDK X5 MagicBox",
+        "RDK S100",
+        "RDK S100P"
+      ],
+      "capabilities": [
+        "edge_vision",
+        "edge_audio",
+        "ros2",
+        "tros",
+        "bpu_inference",
+        "sensors",
+        "physical_feedback"
+      ],
+      "delivery_modes": [
+        "edge_hardware",
+        "local_network"
+      ],
+      "startup_dependencies": [
+        "exact board SKU",
+        "matching RDK OS and runtime",
+        "camera or audio peripherals",
+        "power and cables",
+        "onsite checkout"
+      ],
+      "smartcourse": {
+        "fit_tier": "high",
+        "p0_position": "primary_candidate_for_hardware_layer",
+        "roles": [
+          "traceable source-event creation",
+          "edge perception",
+          "student physical feedback"
+        ],
+        "avoid_for_p0": [
+          "simultaneous mobile base, SLAM, arm and content generation",
+          "board-specific model conversion before exact SKU confirmation"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "pass",
+        "resource_availability": "unknown",
+        "minimum_startup_within_6h": "unknown",
+        "license_and_data_rights": "unknown"
+      },
+      "risks": [
+        "board-specific images and HBM models are not portable",
+        "accessories are unknown",
+        "hardware can distract from the teaching loop"
+      ],
+      "source_urls": [
+        "https://adventure-x.org/zh",
+        "https://developer.d-robotics.cc/rdk_doc_center/",
+        "https://developer.d-robotics.cc/tros_doc/tros",
+        "https://github.com/D-Robotics/rdk_model_zoo"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "tuyaopen",
+      "display_name": "TuyaOpen",
+      "vendor": "Tuya",
+      "rtf_source_ids": [
+        19,
+        26
+      ],
+      "relationship": {
+        "category": "current_principal_sponsor",
+        "relationship_confirmed": true,
+        "listed_tier": "首席赞助商",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "aiot",
+        "embedded_cpp",
+        "audio",
+        "asr",
+        "kws",
+        "tts",
+        "mqtt",
+        "websocket",
+        "remote_control",
+        "ota"
+      ],
+      "delivery_modes": [
+        "embedded_hardware",
+        "cloud_ai"
+      ],
+      "startup_dependencies": [
+        "exact board and peripherals",
+        "cloud and AI authorization",
+        "network",
+        "matching toolchain"
+      ],
+      "smartcourse": {
+        "fit_tier": "high",
+        "p0_position": "primary_candidate_for_hardware_layer",
+        "roles": [
+          "voice classroom endpoint",
+          "button and light interaction",
+          "low-power IoT node"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "pass",
+        "resource_availability": "unknown",
+        "minimum_startup_within_6h": "unknown",
+        "license_and_data_rights": "unknown"
+      },
+      "risks": [
+        "each device may require cloud authorization",
+        "exact event board is unknown",
+        "overlap with D-Robotics must be avoided"
+      ],
+      "source_urls": [
+        "https://adventure-x.org/zh",
+        "https://www.tuyaopen.ai/zh/docs/about-tuyaopen"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "iflytek-speech",
+      "display_name": "科大讯飞语音能力",
+      "vendor": "iFlytek / vigim",
+      "relationship": {
+        "category": "current_principal_sponsor",
+        "relationship_confirmed": true,
+        "listed_tier": "首席赞助商",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "asr",
+        "tts",
+        "realtime_speech",
+        "speech_sdk"
+      ],
+      "delivery_modes": [
+        "cloud_api",
+        "sdk"
+      ],
+      "startup_dependencies": [
+        "AppID",
+        "APIKey",
+        "APISecret",
+        "confirmed quota",
+        "network"
+      ],
+      "smartcourse": {
+        "fit_tier": "high",
+        "p0_position": "secondary_candidate",
+        "roles": [
+          "teacher narration transcription",
+          "student spoken answers",
+          "speech feedback"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "pass",
+        "resource_availability": "unknown",
+        "privacy_license_security": "unknown"
+      },
+      "risks": [
+        "credential and quota dependency",
+        "student voice privacy",
+        "overlap with other speech providers"
+      ],
+      "source_urls": [
+        "https://adventure-x.org/zh",
+        "https://www.xfyun.cn/"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "dify",
+      "display_name": "Dify",
+      "vendor": "Dify",
+      "rtf_source_ids": [
+        12
+      ],
+      "relationship": {
+        "category": "current_technical_or_device_supporter",
+        "relationship_confirmed": true,
+        "listed_tier": "赛事技术 / 设备支持方",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "workflow",
+        "chatflow",
+        "agent",
+        "rag",
+        "knowledge_base",
+        "rest_api",
+        "mcp",
+        "observability"
+      ],
+      "delivery_modes": [
+        "cloud_saas",
+        "self_hosted_docker"
+      ],
+      "startup_dependencies": [
+        "Dify account or Docker",
+        "model provider key",
+        "network for cloud mode"
+      ],
+      "smartcourse": {
+        "fit_tier": "high",
+        "p0_position": "optional_orchestration",
+        "roles": [
+          "material-to-object workflow",
+          "RAG",
+          "API exposure"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "pass",
+        "resource_availability": "unknown",
+        "license_and_data_rights": "unknown",
+        "minimum_startup_within_6h": "unknown"
+      },
+      "risks": [
+        "self-hosting overhead",
+        "main repository license has additional conditions",
+        "unnecessary for a very small deterministic flow"
+      ],
+      "source_urls": [
+        "https://adventure-x.org/zh",
+        "https://docs.dify.ai/zh/home",
+        "https://github.com/langgenius/dify"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "qoder",
+      "display_name": "Qoder",
+      "vendor": "Qoder",
+      "relationship": {
+        "category": "current_exclusive_partner",
+        "relationship_confirmed": true,
+        "listed_tier": "独家 AI 编程伙伴",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "agentic_coding",
+        "code_context",
+        "long_horizon_tasks",
+        "ide",
+        "cli"
+      ],
+      "delivery_modes": [
+        "desktop_tool",
+        "cli"
+      ],
+      "startup_dependencies": [
+        "event account",
+        "confirmed rules",
+        "team workflow"
+      ],
+      "smartcourse": {
+        "fit_tier": "medium",
+        "p0_position": "tool_only",
+        "roles": [
+          "post-start implementation assistance"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "not_applicable",
+        "event_compliance": "unknown",
+        "resource_availability": "unknown"
+      },
+      "risks": [
+        "switching tools mid-event",
+        "must not be presented as product functionality"
+      ],
+      "source_urls": [
+        "https://adventure-x.org/zh",
+        "https://qoder.com/",
+        "https://docs.qoder.com/"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "aws-cloud",
+      "display_name": "亚马逊云科技 / AWS",
+      "vendor": "AWS",
+      "relationship": {
+        "category": "current_principal_sponsor",
+        "relationship_confirmed": true,
+        "listed_tier": "首席赞助商",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "cloud_compute",
+        "object_storage",
+        "database",
+        "deployment",
+        "observability"
+      ],
+      "delivery_modes": [
+        "cloud"
+      ],
+      "startup_dependencies": [
+        "AWS account",
+        "confirmed credit",
+        "region",
+        "IAM",
+        "network"
+      ],
+      "smartcourse": {
+        "fit_tier": "medium",
+        "p0_position": "fallback_or_deployment",
+        "roles": [
+          "deployment",
+          "storage",
+          "logs"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "pass",
+        "resource_availability": "unknown",
+        "minimum_startup_within_6h": "unknown"
+      },
+      "risks": [
+        "IAM and deployment overhead",
+        "cloud dependency",
+        "Amazon Q Developer must not be a new-user prerequisite"
+      ],
+      "special_notice": {
+        "amazon_q_developer": "AWS announced end-of-support transition on 2026-04-30; new signups were scheduled to be blocked after 2026-05-15. Use current sponsor instructions instead of assuming Q Developer availability.",
+        "source": "https://aws.amazon.com/blogs/devops/amazon-q-developer-end-of-support-announcement/"
+      },
+      "source_urls": [
+        "https://adventure-x.org/zh",
+        "https://aws.amazon.com/"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "baidu-miaoda",
+      "display_name": "百度秒哒",
+      "vendor": "Baidu",
+      "relationship": {
+        "category": "current_principal_sponsor",
+        "relationship_confirmed": true,
+        "listed_tier": "首席赞助商",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "conversational_app_generation",
+        "ui_generation",
+        "document_input",
+        "one_click_publish"
+      ],
+      "delivery_modes": [
+        "cloud_saas"
+      ],
+      "startup_dependencies": [
+        "account",
+        "confirmed event access",
+        "network",
+        "export and publishing terms"
+      ],
+      "smartcourse": {
+        "fit_tier": "medium",
+        "p0_position": "secondary_candidate",
+        "roles": [
+          "rapid UI validation"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "pass",
+        "event_compliance": "unknown",
+        "resource_availability": "unknown",
+        "portability_and_lock_in": "unknown"
+      },
+      "risks": [
+        "black-box generation",
+        "originality boundary",
+        "export and lock-in uncertainty"
+      ],
+      "source_urls": [
+        "https://adventure-x.org/zh",
+        "https://www.miaoda.cn/"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "pico-xr",
+      "display_name": "PICO XR",
+      "vendor": "PICO",
+      "relationship": {
+        "category": "current_principal_sponsor",
+        "relationship_confirmed": true,
+        "listed_tier": "首席赞助商",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "openxr",
+        "unity",
+        "unreal",
+        "webxr",
+        "spatial_interaction"
+      ],
+      "delivery_modes": [
+        "xr_hardware"
+      ],
+      "startup_dependencies": [
+        "exact headset",
+        "developer access",
+        "SDK",
+        "Unity or Unreal experience"
+      ],
+      "smartcourse": {
+        "fit_tier": "medium",
+        "p0_position": "p1_only",
+        "roles": [
+          "spatial lesson object",
+          "immersive student interaction"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "pass",
+        "resource_availability": "unknown",
+        "minimum_startup_within_6h": "unknown"
+      },
+      "risks": [
+        "asset and engine overhead",
+        "exact hardware unknown",
+        "must choose either PICO or Vision Pro"
+      ],
+      "source_urls": [
+        "https://adventure-x.org/zh",
+        "https://developer.picoxr.com/"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "agilex-robotics",
+      "display_name": "松灵机器人 AGILE-X",
+      "vendor": "AGILE-X",
+      "relationship": {
+        "category": "current_principal_sponsor",
+        "relationship_confirmed": true,
+        "listed_tier": "首席赞助商",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "mobile_robot",
+        "ros",
+        "ros2",
+        "robot_arm",
+        "embodied_interaction"
+      ],
+      "delivery_modes": [
+        "robot_hardware"
+      ],
+      "startup_dependencies": [
+        "exact robot",
+        "matching Ubuntu and ROS",
+        "preconfigured SDK",
+        "safe demo area",
+        "onsite mentor"
+      ],
+      "smartcourse": {
+        "fit_tier": "low",
+        "p0_position": "p1_only",
+        "roles": [
+          "embodied classroom assistant"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "unknown",
+        "resource_availability": "unknown",
+        "minimum_startup_within_6h": "unknown",
+        "privacy_license_security": "unknown"
+      },
+      "risks": [
+        "hardware and safety complexity",
+        "version mismatch",
+        "weak core need unless embodiment is essential"
+      ],
+      "source_urls": [
+        "https://adventure-x.org/zh",
+        "https://global.agilex.ai/"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "injective",
+      "display_name": "Injective",
+      "vendor": "Injective",
+      "rtf_source_ids": [
+        13,
+        24
+      ],
+      "relationship": {
+        "category": "current_exclusive_partner",
+        "relationship_confirmed": true,
+        "listed_tier": "独家区块链技术伙伴",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "layer1",
+        "cosmwasm",
+        "evm",
+        "onchain_orderbook",
+        "cross_chain",
+        "verifiable_records"
+      ],
+      "delivery_modes": [
+        "blockchain"
+      ],
+      "startup_dependencies": [
+        "track rules",
+        "wallet and testnet",
+        "contract tooling",
+        "privacy design"
+      ],
+      "smartcourse": {
+        "fit_tier": "low",
+        "p0_position": "p1_only",
+        "roles": [
+          "multi-party verifiable credentials",
+          "tamper-evident minimal proofs"
+        ],
+        "avoid_for_p0": [
+          "writing a normal database hash on-chain only to enter a track"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "unknown",
+        "resource_availability": "unknown",
+        "privacy_license_security": "unknown"
+      },
+      "risks": [
+        "forced blockchain narrative",
+        "wallet and contract complexity",
+        "student privacy and revocation"
+      ],
+      "source_urls": [
+        "https://adventure-x.org/zh",
+        "https://docs.injective.network",
+        "https://www.hackquest.io/zh-cn/learning-track/Injective"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "nothing-glyph",
+      "display_name": "Nothing Glyph Matrix Developer Kit",
+      "vendor": "Nothing",
+      "rtf_source_ids": [
+        14
+      ],
+      "relationship": {
+        "category": "current_hardware_lab_resource",
+        "relationship_confirmed": true,
+        "listed_tier": "FAQ-listed hardware lab device category",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "android_aar",
+        "glyph_matrix",
+        "touch_on_supported_models",
+        "physical_status_feedback"
+      ],
+      "delivery_modes": [
+        "android_phone"
+      ],
+      "startup_dependencies": [
+        "exact supported phone",
+        "matching system version",
+        "Android Studio",
+        "AAR and manifest permission"
+      ],
+      "smartcourse": {
+        "fit_tier": "medium",
+        "p0_position": "secondary_candidate",
+        "roles": [
+          "review status",
+          "student answer feedback",
+          "progress indicator"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "pass",
+        "resource_availability": "unknown",
+        "license_and_data_rights": "unknown",
+        "minimum_startup_within_6h": "unknown"
+      },
+      "risks": [
+        "exact phone model unknown",
+        "binary AAR license review",
+        "system version requirements"
+      ],
+      "source_urls": [
+        "https://faq.adventure-x.org/advx/01-activities",
+        "https://github.com/Nothing-Developer-Programme/GlyphMatrix-Developer-Kit"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "apple-platforms",
+      "display_name": "Apple Vision / Core ML / visionOS / Foundation Models",
+      "vendor": "Apple",
+      "rtf_source_ids": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "relationship": {
+        "category": "current_hardware_lab_resource",
+        "relationship_confirmed": true,
+        "listed_tier": "Vision Pro is listed as a hardware-lab device category; Apple is not listed as a current partner",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "body_pose",
+        "hand_pose",
+        "coreml",
+        "on_device_models",
+        "swiftui",
+        "realitykit",
+        "visionos"
+      ],
+      "delivery_modes": [
+        "apple_on_device",
+        "vision_pro"
+      ],
+      "startup_dependencies": [
+        "compatible Mac and Xcode",
+        "exact device and OS",
+        "developer mode",
+        "Swift and RealityKit skills"
+      ],
+      "smartcourse": {
+        "fit_tier": "medium",
+        "p0_position": "p1_only",
+        "roles": [
+          "offline private generation",
+          "gesture interaction",
+          "spatial lesson objects"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "pass",
+        "resource_availability": "unknown",
+        "minimum_startup_within_6h": "unknown"
+      },
+      "risks": [
+        "device and OS uncertainty",
+        "model porting effort",
+        "must choose either Vision Pro or PICO"
+      ],
+      "source_urls": [
+        "https://faq.adventure-x.org/advx/01-activities",
+        "https://developer.apple.com/cn/videos/play/wwdc2020/10653/",
+        "https://developer.apple.com/cn/videos/play/wwdc2024/10159",
+        "https://developer.apple.com/cn/videos/play/wwdc2025/274",
+        "https://developer.apple.com/cn/videos/play/wwdc2025/286",
+        "https://developer.apple.com/cn/videos/play/wwdc2025/303"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "minimax-platform",
+      "display_name": "MiniMax Agent 与开放平台",
+      "vendor": "MiniMax",
+      "rtf_source_ids": [
+        1,
+        17
+      ],
+      "relationship": {
+        "category": "historical_signal_only",
+        "relationship_confirmed": false,
+        "listed_tier": "Historical Sponsor label appears in site stories; not in current partner grid",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "llm",
+        "long_context",
+        "multimodal",
+        "speech",
+        "video",
+        "music",
+        "agent"
+      ],
+      "delivery_modes": [
+        "cloud_api",
+        "cloud_agent"
+      ],
+      "startup_dependencies": [
+        "account",
+        "API key",
+        "credit",
+        "network"
+      ],
+      "smartcourse": {
+        "fit_tier": "high",
+        "p0_position": "fallback_only",
+        "roles": [
+          "course understanding",
+          "multimodal generation",
+          "speech"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "pass",
+        "resource_availability": "unknown",
+        "event_compliance": "unknown"
+      },
+      "risks": [
+        "not confirmed as a current resource",
+        "dynamic model and pricing details"
+      ],
+      "source_urls": [
+        "https://agent.minimax.io/",
+        "https://platform.minimaxi.com/",
+        "https://www.minimax.io"
+      ],
+      "evidence_confidence": "low"
+    },
+    {
+      "id": "camel-ai",
+      "display_name": "CAMEL-AI",
+      "vendor": "CAMEL-AI",
+      "rtf_source_ids": [
+        11
+      ],
+      "relationship": {
+        "category": "referenced_technology_unverified_for_2026",
+        "relationship_confirmed": false,
+        "listed_tier": "not listed",
+        "exact_entitlement": "not_applicable"
+      },
+      "capabilities": [
+        "multi_agent",
+        "role_playing",
+        "workforce",
+        "tools",
+        "rag",
+        "mcp"
+      ],
+      "delivery_modes": [
+        "python_library"
+      ],
+      "startup_dependencies": [
+        "Python 3.10 to 3.14",
+        "model provider key",
+        "selected extras"
+      ],
+      "smartcourse": {
+        "fit_tier": "low",
+        "p0_position": "rejected_for_p0",
+        "roles": [
+          "experimental multi-role review"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "unknown",
+        "resource_availability": "not_applicable",
+        "minimum_startup_within_6h": "unknown"
+      },
+      "risks": [
+        "multi-agent latency and debugging",
+        "unnecessary orchestration complexity"
+      ],
+      "source_urls": [
+        "https://docs.camel-ai.org/cookbooks/multi_agent_society/agents_society",
+        "https://docs.camel-ai.org/get_started/installation"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "modelscope",
+      "display_name": "ModelScope",
+      "vendor": "ModelScope",
+      "rtf_source_ids": [
+        22,
+        23,
+        25
+      ],
+      "relationship": {
+        "category": "referenced_technology_unverified_for_2026",
+        "relationship_confirmed": false,
+        "listed_tier": "not listed",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "model_hub",
+        "dataset_hub",
+        "inference",
+        "training",
+        "evaluation",
+        "studio",
+        "lora"
+      ],
+      "delivery_modes": [
+        "cloud_platform",
+        "python_library",
+        "model_downloads"
+      ],
+      "startup_dependencies": [
+        "selected model and license",
+        "account for hosted features",
+        "compute and storage"
+      ],
+      "smartcourse": {
+        "fit_tier": "medium",
+        "p0_position": "fallback_only",
+        "roles": [
+          "model discovery",
+          "OCR or VLM fallback",
+          "experimental studio"
+        ],
+        "avoid_for_p0": [
+          "LoRA training",
+          "large local model migration"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "pass",
+        "resource_availability": "unknown",
+        "license_and_data_rights": "unknown",
+        "minimum_startup_within_6h": "unknown"
+      },
+      "risks": [
+        "per-model licenses",
+        "GPU and download time",
+        "tutorials are not technical authority"
+      ],
+      "source_urls": [
+        "https://www.modelscope.cn/docs",
+        "https://github.com/modelscope/modelscope",
+        "https://www.modelscope.cn/learn/908?pid=868",
+        "https://www.bilibili.com/video/BV1aANgeJEWD",
+        "https://www.bilibili.com/video/BV1CxNve6EeC"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "ppio-model-api",
+      "display_name": "PPIO Model API",
+      "vendor": "PPIO",
+      "rtf_source_ids": [
+        18
+      ],
+      "relationship": {
+        "category": "referenced_technology_unverified_for_2026",
+        "relationship_confirmed": false,
+        "listed_tier": "not listed",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "llm_api",
+        "vlm",
+        "ocr",
+        "structured_output",
+        "function_calling",
+        "gpu_containers",
+        "agent_sandbox"
+      ],
+      "delivery_modes": [
+        "cloud_api",
+        "gpu_cloud"
+      ],
+      "startup_dependencies": [
+        "registration",
+        "real-name verification",
+        "account balance or event credit",
+        "API key"
+      ],
+      "smartcourse": {
+        "fit_tier": "medium",
+        "p0_position": "fallback_only",
+        "roles": [
+          "replaceable model API"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "pass",
+        "resource_availability": "unknown",
+        "minimum_startup_within_6h": "unknown"
+      },
+      "risks": [
+        "not a confirmed event resource",
+        "identity and billing setup"
+      ],
+      "source_urls": [
+        "https://ppio.com/docs/model/get-start"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "cloudstudio",
+      "display_name": "CloudStudio",
+      "vendor": "Tencent Cloud",
+      "rtf_source_ids": [
+        2
+      ],
+      "relationship": {
+        "category": "referenced_technology_unverified_for_2026",
+        "relationship_confirmed": false,
+        "listed_tier": "not listed",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "cloud_ide",
+        "templates",
+        "terminal",
+        "git",
+        "collaboration",
+        "cpu_gpu_workspace",
+        "custom_dockerfile"
+      ],
+      "delivery_modes": [
+        "cloud_ide"
+      ],
+      "startup_dependencies": [
+        "account",
+        "network",
+        "compute time"
+      ],
+      "smartcourse": {
+        "fit_tier": "low",
+        "p0_position": "tool_only",
+        "roles": [
+          "development environment fallback"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "not_applicable",
+        "resource_availability": "unknown"
+      },
+      "risks": [
+        "network and workspace limits",
+        "environment migration cost"
+      ],
+      "source_urls": [
+        "https://cloudstudio.net/t",
+        "https://cloudstudio.net/docs/guide/quick_start/developer/why-use-cloudstudio/"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "clackyai",
+      "display_name": "ClackyAI",
+      "vendor": "ClackyAI",
+      "rtf_source_ids": [],
+      "relationship": {
+        "category": "referenced_technology_unverified_for_2026",
+        "relationship_confirmed": false,
+        "listed_tier": "RTF text mention without a link; not listed",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "cloud_ide",
+        "agentic_development",
+        "databases",
+        "issue_to_pr",
+        "remote_ide"
+      ],
+      "delivery_modes": [
+        "cloud_ide"
+      ],
+      "startup_dependencies": [
+        "account",
+        "network",
+        "available credits"
+      ],
+      "smartcourse": {
+        "fit_tier": "low",
+        "p0_position": "tool_only",
+        "roles": [
+          "development environment fallback"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "not_applicable",
+        "resource_availability": "unknown"
+      },
+      "risks": [
+        "duplicate development environment",
+        "cloud dependency"
+      ],
+      "source_urls": [
+        "https://clacky.ai/"
+      ],
+      "evidence_confidence": "low"
+    },
+    {
+      "id": "ten-framework-agora",
+      "display_name": "TEN Framework + Agora",
+      "vendor": "TEN Framework / Agora",
+      "rtf_source_ids": [
+        8,
+        15
+      ],
+      "relationship": {
+        "category": "referenced_technology_unverified_for_2026",
+        "relationship_confirmed": false,
+        "listed_tier": "not listed",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "realtime_voice",
+        "multimodal_agent",
+        "rtc",
+        "vad",
+        "turn_detection",
+        "transcription",
+        "video_calling"
+      ],
+      "delivery_modes": [
+        "self_hosted_framework",
+        "cloud_rtc"
+      ],
+      "startup_dependencies": [
+        "Agora App ID and token setup",
+        "model API",
+        "ASR and TTS provider keys",
+        "Docker",
+        "Node.js 18",
+        "network"
+      ],
+      "smartcourse": {
+        "fit_tier": "medium",
+        "p0_position": "p1_only",
+        "roles": [
+          "realtime remote speaking tutor",
+          "live classroom connection"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "unknown",
+        "resource_availability": "unknown",
+        "minimum_startup_within_6h": "unknown",
+        "license_and_data_rights": "unknown"
+      },
+      "risks": [
+        "many external accounts and keys",
+        "audio and network debugging",
+        "overkill for a local expo demo"
+      ],
+      "source_urls": [
+        "https://github.com/TEN-framework/ten-framework",
+        "https://docs.agora.io/en/video-calling/get-started/get-started-sdk",
+        "https://www.agora.io/en/products/video-call/"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "xion",
+      "display_name": "XION",
+      "vendor": "Burnt / XION",
+      "rtf_source_ids": [
+        9,
+        10
+      ],
+      "relationship": {
+        "category": "referenced_technology_unverified_for_2026",
+        "relationship_confirmed": false,
+        "listed_tier": "not listed",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "blockchain",
+        "meta_accounts",
+        "email_social_login",
+        "passkeys",
+        "gasless_transactions",
+        "react_native"
+      ],
+      "delivery_modes": [
+        "blockchain",
+        "mobile_sdk"
+      ],
+      "startup_dependencies": [
+        "account and chain environment",
+        "contract deployment",
+        "React Native or Expo"
+      ],
+      "smartcourse": {
+        "fit_tier": "low",
+        "p0_position": "rejected_for_p0",
+        "roles": [
+          "consumer-friendly on-chain identity"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "unknown",
+        "resource_availability": "unknown"
+      },
+      "risks": [
+        "not a current partner",
+        "duplicate chain stack if Injective is used"
+      ],
+      "source_urls": [
+        "https://docs.burnt.com/xion/developers/computation/xion-quick-start",
+        "https://docs.burnt.com/xion/developers/accounts/mobile-app"
+      ],
+      "evidence_confidence": "medium"
+    },
+    {
+      "id": "seeed-lerobot",
+      "display_name": "Seeed LeRobot SO-ARM100/101",
+      "vendor": "Seeed Studio",
+      "rtf_source_ids": [
+        20,
+        21
+      ],
+      "relationship": {
+        "category": "referenced_technology_unverified_for_2026",
+        "relationship_confirmed": false,
+        "listed_tier": "not listed; generic robot arms are listed in the hardware lab",
+        "exact_entitlement": "unknown"
+      },
+      "capabilities": [
+        "robot_arm",
+        "teleoperation",
+        "imitation_learning",
+        "data_collection",
+        "isaac_sim",
+        "ros2"
+      ],
+      "delivery_modes": [
+        "robot_hardware",
+        "simulation"
+      ],
+      "startup_dependencies": [
+        "exact SO-ARM hardware",
+        "assembly and calibration",
+        "Ubuntu and Python",
+        "Torch and optional CUDA",
+        "Isaac Sim 4.2 for the simulation tutorial"
+      ],
+      "smartcourse": {
+        "fit_tier": "low",
+        "p0_position": "p1_only",
+        "roles": [
+          "embodied manipulation demo"
+        ]
+      },
+      "gate_state": {
+        "project_core_fit": "unknown",
+        "resource_availability": "unknown",
+        "minimum_startup_within_6h": "unknown"
+      },
+      "risks": [
+        "hardware mismatch",
+        "calibration and training time",
+        "stale simulator version"
+      ],
+      "source_urls": [
+        "https://wiki.seeedstudio.com/lerobot_so100m/",
+        "https://wiki.seeedstudio.com/lerobot_so100m_isaacsim/"
+      ],
+      "evidence_confidence": "medium"
+    }
+  ]
+}

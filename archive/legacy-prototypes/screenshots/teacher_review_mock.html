@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>智课工坊教师审核页原型</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --ink: #162033;
+      --muted: #667085;
+      --line: #d9e1ec;
+      --blue: #2563eb;
+      --cyan: #0891b2;
+      --green: #16a34a;
+      --amber: #d97706;
+      --red: #dc2626;
+      --shadow: 0 16px 36px rgba(22, 32, 51, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", Arial, sans-serif;
+      letter-spacing: 0;
+      min-width: 1320px;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: 64px 1fr;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      background: #0f172a;
+      color: #fff;
+    }
+
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    .brand span {
+      color: #67e8f9;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: default;
+      font-size: 14px;
+    }
+
+    .btn-ghost {
+      background: rgba(255,255,255,0.08);
+      color: #e2e8f0;
+    }
+
+    .btn-primary {
+      background: #22c55e;
+      color: #052e16;
+    }
+
+    .workspace {
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 300px 680px 360px;
+      gap: 18px;
+      justify-content: center;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .panel-head {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .panel-title {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .tag-s { background: #fee2e2; color: var(--red); }
+    .tag-a { background: #ffedd5; color: var(--amber); }
+    .tag-ok { background: #dcfce7; color: var(--green); }
+    .tag-ai { background: #dbeafe; color: var(--blue); }
+
+    .source {
+      padding: 14px 16px 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .source-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfdff;
+    }
+
+    .source-card h3 {
+      margin: 0 0 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .source-card p {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    mark {
+      background: #fef3c7;
+      color: #78350f;
+      padding: 1px 3px;
+      border-radius: 4px;
+    }
+
+    .editor {
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .script-list {
+      padding: 16px;
+      overflow: auto;
+      display: grid;
+      gap: 12px;
+    }
+
+    .scene {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .scene-main {
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .scene-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .scene h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .script-text {
+      border: 1px solid #c7d2fe;
+      background: #eef2ff;
+      border-radius: 8px;
+      padding: 12px;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .scene-foot {
+      border-top: 1px solid var(--line);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .preview {
+      padding: 16px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .video {
+      aspect-ratio: 16/9;
+      border-radius: 10px;
+      background:
+        radial-gradient(circle at 28% 32%, rgba(34, 211, 238, 0.26), transparent 26%),
+        linear-gradient(135deg, #111827 0%, #1e3a8a 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #172554;
+    }
+
+    .node {
+      position: absolute;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #67e8f9;
+      color: #083344;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.2);
+    }
+
+    .n8 { left: 50%; top: 20%; transform: translateX(-50%); }
+    .n3 { left: 28%; top: 55%; }
+    .n10 { right: 28%; top: 55%; }
+
+    .caption {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: rgba(15,23,42,0.72);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .insights {
+      display: grid;
+      gap: 10px;
+    }
+
+    .insight {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfdff;
+      display: grid;
+      gap: 8px;
+    }
+
+    .insight strong {
+      font-size: 13px;
+    }
+
+    .insight p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .quiz-box {
+      border: 1px solid #bfdbfe;
+      background: #eff6ff;
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .quiz-box h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .option {
+      border: 1px solid #bfdbfe;
+      background: #fff;
+      border-radius: 7px;
+      padding: 8px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 900px) {
+      .workspace { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">智课工坊 <span>Teacher Review Studio</span></div>
+      <div class="actions">
+        <button class="btn-ghost">加载预生成结果</button>
+        <button class="btn-primary">确认生成动画</button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="panel">
+        <div class="panel-head">
+          <div class="panel-title">原始材料</div>
+          <span class="tag tag-ok">已对齐</span>
+        </div>
+        <div class="source">
+          <div class="source-card">
+            <h3>课程录音转写 03:05-03:25</h3>
+            <p>“本节<mark>最重要</mark>的是记住三点：第一，左小右大；第二，查找和插入都依赖同一个比较路径；第三，树是否平衡决定了操作效率。”</p>
+          </div>
+          <div class="source-card">
+            <h3>PPT 第2页 · 核心规则</h3>
+            <p>左子树所有值小于根节点；右子树所有值大于根节点；左右子树本身也必须是 BST。</p>
+          </div>
+          <div class="source-card">
+            <h3>系统识别</h3>
+            <div class="status-row">
+              <span class="tag tag-s">S级重点</span>
+              <span class="tag tag-ai">口头考试信号</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel editor">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">AI脚本审核</div>
+            <div style="color:var(--muted);font-size:12px;margin-top:4px;">二叉搜索树的查找与插入 · 5个场景 · 3个出题点</div>
+          </div>
+          <span class="tag tag-ai">可编辑</span>
+        </div>
+
+        <div class="script-list">
+          <article class="scene">
+            <div class="scene-main">
+              <div class="scene-meta">
+                <span>Scene 2 · 00:45-02:00</span>
+                <span class="tag tag-s">S级</span>
+              </div>
+              <h2>左小右大</h2>
+              <div class="script-text">如果插入 3，3 比 8 小，所以放左边；如果插入 10，10 比 8 大，所以放右边。这就是二叉搜索树最核心的左小右大。</div>
+            </div>
+            <div class="scene-foot">
+              <span>来源：PPT第2页 + 转写 00:40-01:20</span>
+              <span>题目触发：01:35</span>
+            </div>
+          </article>
+
+          <article class="scene">
+            <div class="scene-main">
+              <div class="scene-meta">
+                <span>Scene 3 · 02:00-03:20</span>
+                <span class="tag tag-a">路径题</span>
+              </div>
+              <h2>查找路径</h2>
+              <div class="script-text">现在找数字 6。从 8 开始，6 比 8 小，往左；到 3，6 比 3 大，往右。每比较一次，搜索范围就少一半左右。</div>
+            </div>
+            <div class="scene-foot">
+              <span>来源：转写 01:20-02:05</span>
+              <span>题目触发：02:50</span>
+            </div>
+          </article>
+
+          <article class="scene">
+            <div class="scene-main">
+              <div class="scene-meta">
+                <span>Scene 5 · 04:40-05:30</span>
+                <span class="tag tag-s">口头重点</span>
+              </div>
+              <h2>一分钟总结</h2>
+              <div class="script-text">今天记住三件事：左小右大，查找和插入走同一条比较路径，树越平衡，效率越接近 O(log n)。</div>
+            </div>
+            <div class="scene-foot">
+              <span>来源：老师明确强调“最重要”</span>
+              <span>自动进入复习卡</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div class="panel-title">动画与题目预览</div>
+          <span class="tag tag-ok">Demo Mode</span>
+        </div>
+        <div class="preview">
+          <div class="video">
+            <div class="node n8">8</div>
+            <div class="node n3">3</div>
+            <div class="node n10">10</div>
+            <div class="caption">3 小于 8，放左边；10 大于 8，放右边。</div>
+          </div>
+
+          <div class="quiz-box">
+            <h3>AI出题预览</h3>
+            <p style="margin:0 0 10px;color:var(--muted);font-size:13px;">如果当前节点是 8，插入值是 5，下一步应该往哪里走？</p>
+            <div class="options">
+              <div class="option">左子树</div>
+              <div class="option">右子树</div>
+              <div class="option">留在根节点</div>
+              <div class="option">无法判断</div>
+            </div>
+          </div>
+
+          <div class="insights">
+            <div class="insight">
+              <strong>可信来源</strong>
+              <p>脚本片段引用 PPT 第2页和转写 00:40-01:20，教师可点击回看原文。</p>
+            </div>
+            <div class="insight">
+              <strong>考试信号</strong>
+              <p>“最重要”被识别为 S 级信号，自动进入复习卡和最后24小时清单。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,11 +1,27 @@
 # jiaowu2K26 · 技术选型
 
-> **状态：** 待用户与团队审核的技术提案；任何候选只有在正式 Hacking 开始后通过 GATE-1，才成为本届 Primary。
+> **状态：** GATE-1 本机实验已产生可复查证据，仍待 GitHub Actions、第二台机器与用户审核；未经批准不称为最终 Primary。
 > **原则：** 团队熟悉度 > 技术看起来新；6h 闸门未通过立即回退。
 > **P0 产品：** 智课工坊 / SmartCourse Studio
-> **更新时间：** 2026-07-22
+> **更新时间：** 2026-07-23
 
 ---
+
+## 0. 当前证据快照
+
+| 层 | 结果 | 当前结论 |
+|---|---|---|
+| Rust 1.97.1 / Axum 0.8.9 / Tokio 1.53.1 | WSL2 编译、`fmt/check/test/clippy` 与实时 API smoke 通过 | **进入 PR 审核**，FastAPI / Node 回退保留 |
+| 领域合同 | 无框架 domain crate；OpenAPI 3.1、4 份 JSON Schema、Golden Fixture | **进入 PR 审核**；未知枚举保留并阻止高风险自动动作 |
+| SQLx 0.9.0 / SQLite | 写入、查询、乐观并发、审核/发布事务与 Replay 通过 | **当前已验证数据路径**，无云账号也能运行 |
+| OceanBase | 尚未做账号、TLS、migration、事务和 join 实验 | **未采用 / 未否定**；只是可选后续 adapter，不阻塞启动 |
+| React / TypeScript / Vite | 本轮尚未建壳 | **待 P0-00-D**，不能声称前端已实现 |
+| AI Provider | 仅使用明确标注 Fixture | **未选择模型**，不得把 Fixture 说成实时 AI |
+| Unity / Unreal / Tauri / WinUI 3 | 未接入 | **不进入当前基座** |
+
+Windows 原生 Rust 失败的对照证据是 Code Integrity 3077/3033：Smart App Control 阻止 `rustc.exe` 加载本地生成的未签名 proc-macro DLL。同一工作树在 Ubuntu WSL2 编译和测试通过；项目没有关闭或修改安全策略，验证脚本会在该状态下自动选择 WSL。
+
+实际版本、上游、许可证元数据、用途与剩余 NOTICE 工作见 [Phase 0 依赖登记](DEPENDENCIES.md)。
 
 ## 1. 后端
 

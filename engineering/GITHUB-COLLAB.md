@@ -4,7 +4,7 @@
 > **当前状态：** 已启用；唯一公开主仓为 [TianBingzhuo/Jiaowu2K26](https://github.com/TianBingzhuo/Jiaowu2K26)，当前只推进 `P0-00`。  
 > **一句话流程：** 拉取仓库 → 从最新 `main` 新建自己的短分支 → 只改任务范围 → Commit → Push/Publish Branch → 创建 PR → 自动检查与同伴审核 → 总集成人员合并。
 
-开始前先在项目根目录问 AI“我现在能干什么？”。AI 必须通过 [`AGENTS.md`](../AGENTS.md) 与 `PROJECT-MANIFEST.json.current_work` 返回唯一可做任务；只有明确回复“我认领 TASK-ID”后才改变 owner。不要从聊天中的旧分工、十四个模块总表或自己感兴趣的功能直接开分支。
+开始前先按根 `README.md` 完成环境自检和 AI 三项入场回执，再问“我现在能干什么？”。AI 必须通过 [`AGENTS.md`](../AGENTS.md) 与 `PROJECT-MANIFEST.json.current_work` 返回唯一可做任务，并请本人确认角色与任务、任务相关技术熟悉度、目标与建议；只有明确回复“我认领 TASK-ID”后才改变 owner。不要从聊天中的旧分工、十四个模块总表或自己感兴趣的功能直接开分支。
 
 ## 1. 先选一种图形化路径
 

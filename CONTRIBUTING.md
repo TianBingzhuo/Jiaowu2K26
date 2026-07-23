@@ -6,8 +6,9 @@
 
 1. 从根目录读取 [`AGENTS.md`](AGENTS.md)。
 2. 查看 [`PROJECT-MANIFEST.json`](PROJECT-MANIFEST.json) 的 `status` 与 `current_work`。
-3. 问“我现在能干什么？”，获得一个带输入、输出、Done 和禁止事项的任务。
-4. 只有明确认领任务后才改变 owner；作者只能提交 `review`，不能自行宣布 `accepted`。
+3. 问“我现在能干什么？”，让 AI 按 README 的入场协议提交角色与任务、技术熟悉度、目标与建议三项回执。
+4. 本人确认或调整三项回执；技术不熟悉时，由队友与总集成人员决定结对、改派或替换该层实现，AI 不得静默换栈。
+5. 只有明确认领任务后才改变 owner；作者只能提交 `review`，不能自行宣布 `accepted`。
 
 赛事阶段门禁高于本文。当前为 `hacking / GATE-1 / P0-00`，只允许处理当前 Issue 中 `allowed_now=true` 的工作包；不得因为看见十四个模块或长期愿景就提前展开下一切片。
 

@@ -2,12 +2,65 @@
 
 > jiaowu2K26 不是给旧教务系统换皮，而是把大学四到八年的学习、选课、成长、校园生活与协作重构成 MyCareer 式大学生涯：学期是赛季、课程是阵容、每一次选择都有依据、每一次进步都能回放；教师进入 Coach Studio，学校进入 Front Office，但所有人仍在同一个原创游戏世界中。
 
+## 我们的核心参赛优势
+
+**赛前成熟，赛中弹性。** 赛前成熟的是问题研究、产品边界、接口合同、任务路由、环境脚本、质量门禁和回退方案，不是冒充本届成果的预制产品；进入 Hacking 后，团队可以按现场人数、能力和设备重新组合，并继续沿同一套合同与验收标准交付。
+
+| 稳定内核 | 弹性部分 |
+|---|---|
+| F-001～F-014 的产品语义、隐私/IP 红线、版本化 API/Schema、统一 Design System、证据与验收规则 | 协作人数、一人多岗方式、任务分包、后端/前端/模型/数据库适配器、云端或本地执行路径、P1 是否裁剪 |
+
+这意味着新队友不必先通读全部资料，也不必被旧分工锁住：通过环境自检和 AI 入场回执确认自己的角色、技术熟悉度与当前目标后，即可认领一个有明确 Done 的工作包。架构允许换实现，但不允许绕过共享合同、真实实验和人类审核。
+
+## 新队友：5 分钟进入同一开发现场
+
+Windows 同学从公开主仓开始：
+
+```powershell
+git clone https://github.com/TianBingzhuo/Jiaowu2K26.git jiaowu2k26
+Set-Location .\jiaowu2k26
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\bootstrap.ps1
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\verify.ps1 -SkipDocs
+```
+
+`bootstrap` 会使用锁定版本准备依赖，`verify` 会检查环境、合同、Rust/SQLite/API 基线；仓库不会替同学关闭 Smart App Control。macOS / Linux 与故障排查见 [五分钟配置与 AI 接手](docs/GETTING-STARTED.md)。
+
+随后在**已经打开该仓库根目录**的 AI 会话中粘贴：
+
+```text
+请执行 jiaowu2K26 入场协议：先完整读取 AGENTS.md，再读取
+PROJECT-MANIFEST.json 的 status、current_work 与 collaboration_contract。
+先只读，不要认领、改文件、建分支、推送或发布。
+
+在你说“已了解项目”之前，必须向我提交三项回执：
+1. 你建议我的协作角色和当前唯一任务，并复述输入、交付物、Done 与禁止事项，请我确认；
+2. 列出该任务实际涉及的技术栈，请我逐项选择“熟悉 / 可在辅助下完成 / 不熟悉”；不熟悉时给出结对、改派或替换该层技术的方案，不得擅自换栈；
+3. 用自己的话复述任务目标、非目标和成功证据，并单列你的建议、风险与待确认问题，请我确认。
+
+请以“理解状态：待本人确认”开头；只有我逐项确认后，才能改为“入场确认完成”。
+```
+
+AI 的回执至少应包含：
+
+```text
+理解状态：待本人确认
+角色与任务：<role> / <task_id> / <为什么现在做>
+交付与验收：<outputs> / <Done> / <不要做>
+任务相关技术栈：<逐项列出，熟悉度等待本人填写>
+目标复述：<目标、非目标、成功证据>
+建议与风险：<可以为空，但不能藏在实施之后>
+请本人确认或调整以上三项；确认不等于认领任务。
+```
+
+本人确认后，再明确回复 `我认领 <task_id>，角色是 <role>`。若有技术不熟悉，由队友与产品总集成人员选择**保留并结对、改派任务、或替换该层实现**；共享合同和已经验收的能力不能由 AI 静默改写。
+
 ## 项目状态
 - 当前阶段：AdventureX 2026 `hacking` · GATE-1 · Active Slice=`P0-00`
 - 首个 P0：智课工坊 / SmartCourse Studio
-- 技术栈状态：正在执行 6 小时验证；Rust / Axum / Tokio 与 OceanBase 仍是条件候选，SQLite 是强制回退
+- 技术栈状态：Rust / Axum / Tokio + SQLite 的 P0-00 本地证据已通过，正在等待 GitHub Actions、第二台机器与用户 PR 审核；OceanBase 仍是未验证的可选适配器
 - 实现状态：Phase 0 协作与技术基线已开工；产品功能仍为 `pending`，不得把基座等同于完成产品
 - 公开主仓：[TianBingzhuo/Jiaowu2K26](https://github.com/TianBingzhuo/Jiaowu2K26)；GitHub Issue / PR 是开仓后的实时工作源
+- 当前代码证据：8 项领域/API/SQLite 测试 + 1 条实时 HTTP smoke path 已通过；这些是“技术切片待审”，不是产品完成声明
 - 稳定 ID：F-001～F-014 各功能表中已经发布的编号与含义不得重新编号或复用
 - 路线图：F-010～F-014 已纳入产品范围，合并维护于 University OS 扩展包；全部未排期、可裁剪
 - 视觉硬约束：学生 / 教师 / 学校三端共用一套游戏化 Design System，任何模块不得独立换肤
@@ -21,7 +74,7 @@
 
 > 我现在能干什么？
 
-AI 必须先按 [`AGENTS.md`](AGENTS.md) 读取 Manifest 的实时阶段与任务队列，只返回一个当前可做任务及输入、输出、Done 和禁止事项。询问本身是只读的；需要认领时再回复：
+AI 必须先按 [`AGENTS.md`](AGENTS.md) 读取 Manifest 的实时阶段与任务队列，只返回一个当前可做任务及输入、输出、Done 和禁止事项，并完成上面的三项入场回执。询问、回执和确认本身都是只读的；需要认领时再回复：
 
 > 我认领 P0-00-x，角色是 frontend / backend / ai_pipeline / product_integrator / design / human_factors_research
 
@@ -63,7 +116,7 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\tools\Docs.ps1 -Action Setup
 - [安全与负责任披露](SECURITY.md)
 - [项目级变更记录](CHANGELOG.md)
 
-文档站只是规范源的只读浏览层，不是第二套事实源，也不是 Jiaowu2K26 产品原型。正式产品工作区为 `app/`，当前仍只有阶段边界说明。
+文档站只是规范源的只读浏览层，不是第二套事实源，也不是 Jiaowu2K26 产品原型。正式产品工作区为 `app/`；当前只有待 PR 验收的 Phase 0 合同、Rust/SQLite/API 技术切片，尚无被接受的产品功能。
 
 ## 文档导航
 

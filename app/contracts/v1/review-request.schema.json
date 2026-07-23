@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TianBingzhuo/Jiaowu2K26/app/contracts/v1/review-request.schema.json",
+  "title": "ReviewRequest v1",
+  "type": "object",
+  "required": ["schema_version", "actor_id", "expected_revision", "action"],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^1\\." },
+    "actor_id": { "type": "string", "minLength": 1 },
+    "expected_revision": { "type": "integer", "minimum": 0 },
+    "action": {
+      "oneOf": [
+        { "$ref": "#/$defs/startReview" },
+        { "$ref": "#/$defs/edit" },
+        { "$ref": "#/$defs/approve" },
+        { "$ref": "#/$defs/remove" },
+        { "$ref": "#/$defs/reject" }
+      ]
+    }
+  },
+  "$defs": {
+    "startReview": {
+      "type": "object",
+      "required": ["type"],
+      "properties": { "type": { "const": "start_review" } },
+      "additionalProperties": true
+    },
+    "edit": {
+      "type": "object",
+      "required": ["type", "body"],
+      "properties": {
+        "type": { "const": "edit" },
+        "body": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    },
+    "approve": {
+      "type": "object",
+      "required": ["type"],
+      "properties": { "type": { "const": "approve" } },
+      "additionalProperties": true
+    },
+    "remove": {
+      "type": "object",
+      "required": ["type", "reason"],
+      "properties": {
+        "type": { "const": "remove" },
+        "reason": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    },
+    "reject": {
+      "type": "object",
+      "required": ["type", "reason"],
+      "properties": {
+        "type": { "const": "reject" },
+        "reason": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

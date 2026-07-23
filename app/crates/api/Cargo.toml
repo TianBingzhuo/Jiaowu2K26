@@ -1,0 +1,26 @@
+[package]
+name = "j2k26-api"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[dependencies]
+axum.workspace = true
+j2k26-adapters-sqlite = { path = "../adapters-sqlite" }
+j2k26-application = { path = "../application" }
+j2k26-domain = { path = "../domain" }
+serde.workspace = true
+tokio.workspace = true
+tower-http.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+
+[dev-dependencies]
+http-body-util.workspace = true
+serde_json.workspace = true
+tower.workspace = true
+
+[lints]
+workspace = true

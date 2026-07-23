@@ -21,7 +21,7 @@ jiaowu2K26/
 ├─ brainstorm/               尚待批准的洞察和机制映射
 ├─ archive/                  只读历史材料；不参与当前派单与搜索
 │
-├─ app/                      正式产品工作区；当前仅有阶段边界说明
+├─ app/                      正式产品工作区；当前为待审 Phase 0 合同/Rust/SQLite/API 切片
 ├─ docs/                     新同学、AI 与本地工具的使用说明
 ├─ docs-site/                Starlight 浏览器文档中心
 └─ tools/                    可审计的本地配置、更新与诊断脚本

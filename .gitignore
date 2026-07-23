@@ -8,6 +8,15 @@ docs-site/src/content/docs/
 docs-site/public/project-assets/
 docs-site/public/PROJECT-MANIFEST.json
 
+# Reproducible local tool/runtime state
+.tools/
+.data/
+target/
+node_modules/
+*.db
+*.db-shm
+*.db-wal
+
 # Local secrets and operating-system noise
 .env
 .env.*

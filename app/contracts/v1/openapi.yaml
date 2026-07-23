@@ -1,0 +1,90 @@
+openapi: 3.1.0
+info:
+  title: jiaowu2K26 Phase 0 API
+  version: 1.0.0-experimental
+  description: >-
+    Fixture-only technical validation for the SmartCourse review, publish, and replay path.
+    It is not a production school-system contract or a completed-product claim.
+servers:
+  - url: http://127.0.0.1:3000/api/v1
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      responses:
+        '200':
+          description: Local component is available.
+  /generated-objects/{object_id}:
+    get:
+      operationId: getGeneratedObject
+      parameters:
+        - $ref: '#/components/parameters/ObjectId'
+      responses:
+        '200':
+          description: Current object snapshot.
+          content:
+            application/json:
+              schema:
+                $ref: './generated-object.schema.json'
+        '404':
+          $ref: '#/components/responses/Error'
+  /generated-objects/{object_id}/reviews:
+    post:
+      operationId: reviewGeneratedObject
+      parameters:
+        - $ref: '#/components/parameters/ObjectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './review-request.schema.json'
+      responses:
+        '200':
+          description: Object and append-only review event.
+        '409':
+          $ref: '#/components/responses/Error'
+        '422':
+          $ref: '#/components/responses/Error'
+  /generated-objects/{object_id}/publish:
+    post:
+      operationId: publishGeneratedObject
+      parameters:
+        - $ref: '#/components/parameters/ObjectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './publish-request.schema.json'
+      responses:
+        '200':
+          description: Object and immutable published version.
+        '409':
+          $ref: '#/components/responses/Error'
+        '422':
+          $ref: '#/components/responses/Error'
+  /generated-objects/{object_id}/replay:
+    get:
+      operationId: getEvidenceReplay
+      parameters:
+        - $ref: '#/components/parameters/ObjectId'
+      responses:
+        '200':
+          description: Current object plus ordered review and publication history.
+components:
+  parameters:
+    ObjectId:
+      name: object_id
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+  responses:
+    Error:
+      description: Machine-readable error.
+      content:
+        application/json:
+          schema:
+            $ref: './error-response.schema.json'

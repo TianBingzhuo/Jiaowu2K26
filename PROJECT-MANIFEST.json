@@ -1,5 +1,5 @@
 {
-  "schema_version": "3.9",
+  "schema_version": "3.10",
   "updated_at": "2026-07-23",
   "project": {
     "id": "jiaowu2K26",
@@ -10,17 +10,17 @@
   },
   "status": {
     "phase": "hacking",
-    "implementation": "phase0_foundation_in_progress",
+    "implementation": "phase0_foundation_in_review",
     "all_modules": "pending_except_phase0_foundation",
     "technology_approval": "gate_1_in_progress; all primary technologies remain conditional until evidence passes",
     "design_approval": "user_approved_unified_game_world; implementation_details_awaiting_team_review",
-    "code_baseline": "authorized_after_hacking_start_verification; public_repository_bootstrap_in_progress",
+    "code_baseline": "authorized_after_hacking_start_verification; public_main_baseline_active; phase0_changes_unmerged_on_draft_pr_branch",
     "completion_claims_allowed": false
   },
   "agent_entrypoint": "AGENTS.md",
   "current_work": {
-    "schema_version": "1.1",
-    "queue_revision": 4,
+    "schema_version": "1.2",
+    "queue_revision": 5,
     "authoritative_for": "current phase, gate, active slice, team identity mapping and immediately claimable work",
     "phase": "hacking",
     "current_gate": "GATE-1",
@@ -28,7 +28,7 @@
     "active_issue": "https://github.com/TianBingzhuo/Jiaowu2K26/issues/1",
     "wip_limit": 1,
     "sync_status": "current",
-    "last_synced_at": "2026-07-23T07:18:05+08:00",
+    "last_synced_at": "2026-07-23T08:42:11+08:00",
     "staleness_rule": "stale immediately if organizer start/freeze/submission state, active slice, task status, owner or GitHub board state changes without updating this snapshot",
     "task_source": {
       "mode": "github_live",
@@ -46,6 +46,7 @@
     "team_members": [],
     "staffing_model": {
       "mode": "elastic_capability_pool",
+      "competition_advantage": "mature pre-event research, contracts, handoff, environment and gates plus elastic in-event staffing, implementation adapters and scope; maturity never means claiming a prebuilt competition product",
       "roles_are_capabilities_not_fixed_seats": true,
       "claim_rule": "any available teammate may claim one allowed work package matching their skills; no role is reserved for a fixed headcount",
       "unclaimed_rule": "when ai_allowed=true and no human claims the package, Codex may research, draft, test or implement within scope; the product integrator remains the human owner and performs final review",
@@ -53,11 +54,32 @@
       "real_user_evidence": "AI-generated personas or simulations may prepare hypotheses but never count as participant evidence",
       "review_authority": "product_integrator"
     },
+    "validation_snapshot": {
+      "status": "local_evidence_ready_ci_and_human_review_pending",
+      "recorded_at": "2026-07-23T08:42:11+08:00",
+      "branch": "agent/phase0-foundation",
+      "environment": {
+        "windows": "Windows 11 25H2 build 26200.8894; Smart App Control enforce",
+        "rust_executor": "Ubuntu WSL2 with Rust 1.97.1; SAC remained enabled",
+        "node": "repository-local Node 24.18.0 and npm 11.16.0",
+        "docker": "not installed and not required"
+      },
+      "evidence": [
+        "doctor reports canonical remote, pinned Node/npm/Rust, SAC state, WSL executor and valid manifest",
+        "cargo fmt/check/test/clippy pass in Ubuntu WSL2 against the same NTFS working tree",
+        "8 Rust tests pass across domain, SQLite adapter and live HTTP router",
+        "live API smoke passes health -> review -> approve -> publish -> replay with fixture plus in-memory SQLite",
+        "4 JSON Schemas, OpenAPI, golden fixture and manifest pass deterministic contract checks",
+        "documentation portal builds 152 routes, verifies 151 generated content pages and 206 local links; npm audit reports 0 vulnerabilities"
+      ],
+      "windows_native_rust_note": "Code Integrity event 3077/3033 shows rustc.exe was blocked while loading an unsigned locally built displaydoc proc-macro DLL; this is a Smart App Control policy interaction, not a Rust source failure. No security setting was changed.",
+      "not_yet_evidence": ["GitHub Actions run for this branch", "second teammate machine", "human PR approval", "React/Web shell", "OceanBase connectivity", "live model output"]
+    },
     "ready_tasks": [
       {
         "id": "P0-00-A",
         "title": "建立公开主仓、环境基线与一键验证入口",
-        "status": "in_progress",
+        "status": "review",
         "priority": 1,
         "priority_reason": "所有队友和 AI 必须先从同一仓库、锁定工具链和可重复命令起跑，之后才允许写领域代码",
         "roles": ["any", "backend", "product_integrator"],
@@ -73,21 +95,22 @@
         "forbidden": ["把本机 token、env 或私钥提交到 Git", "在环境未固定前展开产品功能", "把未验证的 Rust/OceanBase 写成既成技术"],
         "fallback": "OceanBase、特定 Node 或特定 IDE 不可用时保持原生工具链加 SQLite/fixture 回退，不阻塞仓库基线",
         "issue_url": "https://github.com/TianBingzhuo/Jiaowu2K26/issues/1",
-        "branch": "main",
+        "branch": "agent/phase0-foundation",
         "claimed_at": "2026-07-23T07:18:05+08:00",
         "updated_at": "2026-07-23",
-        "execution_support": ["codex"]
+        "execution_support": ["codex"],
+        "evidence": ["public repository and protected main active", "pinned environment plus doctor/bootstrap/verify scripts", "local verification succeeds without disabling Smart App Control", "awaiting CI and product-integrator approval"]
       },
       {
         "id": "P0-00-B",
         "title": "冻结跨平台合同与 Rust 领域骨架",
-        "status": "ready",
+        "status": "review",
         "priority": 2,
         "priority_reason": "稳定领域对象、端口、OpenAPI、JSON Schema 与事件版本是后续多端和数据库替换的兼容性宪章",
         "roles": ["backend", "product_integrator", "any"],
-        "owner": null,
+        "owner": "product_integrator",
         "reviewers": ["product_integrator"],
-        "allowed_now": false,
+        "allowed_now": true,
         "ai_allowed": true,
         "depends_on": ["P0-00-A"],
         "required_reads": ["engineering/ARCHITECTURE.md", "modules/00-smartcourse/SPEC.md", "product/BOUNDARIES.md", "gates/QUALITY.md"],
@@ -97,20 +120,22 @@
         "forbidden": ["微服务拆分", "把 Unreal/Unity 绑定进领域层", "把用户画像或温度评级写入权威学术记录"],
         "fallback": "若 Rust 闸门失败，保留同一公开合同并切团队最熟悉的 FastAPI 或 Node 实现",
         "issue_url": "https://github.com/TianBingzhuo/Jiaowu2K26/issues/1",
-        "branch": null,
-        "claimed_at": null,
-        "updated_at": "2026-07-23"
+        "branch": "agent/phase0-foundation",
+        "claimed_at": "2026-07-23T07:18:05+08:00",
+        "updated_at": "2026-07-23",
+        "execution_support": ["codex"],
+        "evidence": ["platform-independent domain crate", "OpenAPI 3.1 plus four JSON Schemas and one golden fixture", "unknown future review state preserved and automatic action blocked", "fmt/check/test/clippy pass; awaiting CI and human review"]
       },
       {
         "id": "P0-00-C",
         "title": "跑通 SQLite 同合同纵向切片与失败回退",
-        "status": "ready",
+        "status": "review",
         "priority": 3,
         "priority_reason": "先证明写入、查询、审核状态迁移和失败响应可以离线运行，OceanBase 才能作为可替换条件适配器",
         "roles": ["backend", "ai_pipeline", "any"],
-        "owner": null,
+        "owner": "product_integrator",
         "reviewers": ["product_integrator"],
-        "allowed_now": false,
+        "allowed_now": true,
         "ai_allowed": true,
         "depends_on": ["P0-00-B"],
         "required_reads": ["gates/GATE-1-技术验证-6h.md", "engineering/DEMO-PATH.md", "modules/00-smartcourse/SPEC.md"],
@@ -120,9 +145,11 @@
         "forbidden": ["让 OceanBase 成为唯一启动路径", "为展示吞掉错误", "使用真实学生或学校数据"],
         "fallback": "OceanBase spike 失败即记录证据并继续 SQLite，不改领域合同",
         "issue_url": "https://github.com/TianBingzhuo/Jiaowu2K26/issues/1",
-        "branch": null,
-        "claimed_at": null,
-        "updated_at": "2026-07-23"
+        "branch": "agent/phase0-foundation",
+        "claimed_at": "2026-07-23T07:18:05+08:00",
+        "updated_at": "2026-07-23",
+        "execution_support": ["codex"],
+        "evidence": ["SQLx SQLite adapter behind repository port", "optimistic concurrency and append-only review/publication transactions", "live fixture API smoke passes review/approve/publish/replay", "OceanBase remains untested and non-blocking"]
       },
       {
         "id": "P0-00-D",
@@ -198,10 +225,18 @@
       "do_not_infer_from_clock": true
     },
     "answer_contract": {
-      "source": "AGENTS.md#4-固定回答格式",
+      "source": "AGENTS.md#4-入场三项确认与固定回答格式",
       "default_when_role_unknown": "return exactly one highest-priority ready task whose roles include any, then at most two role-specific alternatives",
       "claim_requires_explicit_user_statement": true,
-      "question_alone_is_read_only": true
+      "question_alone_is_read_only": true,
+      "understanding_receipt": {
+        "status_before_human_confirmation": "pending_human_confirmation",
+        "required_confirmations": ["collaboration role and current task", "self-reported familiarity with task-relevant technologies", "task goal, non-goals, success evidence, suggestions and risks"],
+        "ai_must_not_infer_skill_familiarity": true,
+        "unfamiliar_technology_options": ["retain and pair", "reassign the task", "replace the implementation at that layer after current-gate review"],
+        "silent_stack_or_shared_contract_replacement_forbidden": true,
+        "human_confirmation_is_not_task_claim": true
+      }
     }
   },
   "event_deadlines": {
@@ -241,13 +276,14 @@
     "site_root": "docs-site",
     "formal_product_workspace": "app",
     "framework": {
-      "astro": "6.0.3",
-      "starlight": "0.38.0",
-      "pagefind": "1.5.2",
+      "astro": "7.1.3",
+      "starlight": "0.41.4",
+      "sharp": "0.35.3",
+      "pagefind": "bundled by Starlight build",
       "lockfile": "docs-site/package-lock.json"
     },
-    "team_runtime_baseline": "Node.js 24 LTS",
-    "local_validation_runtime": "Node.js 25.8.1; accepted for this local verification only and not the team baseline",
+    "team_runtime_baseline": "repository-local Node.js 24.18.0 plus npm 11.16.0 on Windows; exact matching runtime required on macOS/Linux",
+    "local_validation_runtime": "repository-local Node.js 24.18.0 plus npm 11.16.0",
     "setup_command": "pwsh -NoProfile -ExecutionPolicy Bypass -File .\\tools\\Docs.ps1 -Action Setup",
     "launcher": "tools/Docs.ps1",
     "desktop_shortcut": "D:/10451/Desktop/Jiaowu2K26 文档中心.lnk",
@@ -255,13 +291,13 @@
     "git_update_policy": "git pull --ff-only only when this is a Git clone, the worktree is clean and an upstream exists; otherwise skip without mutation",
     "junction_build_policy": "retain D:/10451/Desktop/黑客松 as the stable human and AI path; on this machine run each Astro/Vite build wholly through the verified equivalent C:/Desktop/黑客松 path to prevent duplicate module identities and missing core CSS",
     "repository_front_door": ["README.md", "AGENTS.md", "CONTRIBUTING.md", "SECURITY.md", "CHANGELOG.md", "docs/PROJECT-STRUCTURE.md", "docs/GETTING-STARTED.md"],
-    "validated_at": "2026-07-23T00:40:00+08:00",
+    "validated_at": "2026-07-23T09:11:44+08:00",
     "validation": {
-      "canonical_markdown_sources": 132,
+      "canonical_markdown_sources": 133,
       "archived_markdown_sources_excluded_from_search": 71,
-      "generated_content_pages": 150,
-      "verified_active_local_links": 203,
-      "built_html_files": 151,
+      "generated_content_pages": 151,
+      "verified_active_local_links": 206,
+      "built_html_files": 152,
       "offline_search_index": "passed; browser query Degree Fahrenheit returned 12 results",
       "visual_smoke_test": "passed; Starlight core CSS loaded, dark sports HUD rendered, Career Control Room visible with three quick-action cards",
       "automated_build_guard": "docs-site/scripts/verify-build.mjs checks core CSS markers, homepage deck, Pagefind and key handoff pages after every build"
@@ -460,9 +496,9 @@
     }
   ],
   "technology_proposal": {
-    "approval_status": "awaiting_user_and_team_review",
-    "backend_candidate": "Rust + Axum + Tokio; FastAPI or Node fallback",
-    "database_candidate": "OceanBase MySQL mode; SQLite mandatory fallback",
+    "approval_status": "gate_1_local_evidence_ready; awaiting_GitHub_Actions_second_machine_and_user_approval",
+    "backend_candidate": "Rust 1.97.1 + Axum 0.8.9 + Tokio 1.53.1 passed local WSL compile/test/clippy and live API smoke; still conditional until user accepts the PR; FastAPI or Node remains fallback",
+    "database_candidate": "SQLite + SQLx 0.9.0 passed the repository/transaction/replay slice and is the current verified local path; OceanBase MySQL mode remains an untested optional adapter, never a startup dependency",
     "frontend_candidate": "React + TypeScript + Vite Web/PWA",
     "experience_candidate": "one React Experience Shell + centralized design tokens/components/assets for all role lenses",
     "api_contract": "all active module specifications use the versioned /api/v1 prefix plus OpenAPI/JSON Schema/Golden Fixtures; no duplicate unversioned routes",
@@ -502,7 +538,7 @@
       "source": "product/MODULE-MAP.md#四人单功能-wip-协议"
     },
     "environment_contract": {
-      "strategy": "native fast path plus pinned toolchains, lockfiles, doctor/bootstrap/verify scripts, SQLite and fixture fallback",
+      "strategy": "pinned toolchains and lockfiles; native Windows fast path when policy permits; Ubuntu WSL2 Rust executor while Smart App Control enforcement remains enabled; doctor/bootstrap/verify scripts plus SQLite and fixture fallback",
       "must_verify_on": ["final demo machine", "at least one second teammate machine"],
       "source": "engineering/TECH-STACK.md#15-版本控制协作平台与统一环境"
     }

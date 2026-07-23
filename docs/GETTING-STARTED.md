@@ -6,7 +6,7 @@
 
 1. 项目稳定逻辑路径是 `D:\10451\Desktop\黑客松`；不要同时用 C 盘等效路径重复扫描或索引。
 2. 根目录 Markdown 与 `PROJECT-MANIFEST.json` 是规范事实源；`docs-site/src/content/docs/` 是每次构建生成的只读浏览副本，禁止直接编辑。
-3. 文档门户是赛前协作工具，不是 Jiaowu2K26 产品原型，也不能被表述为本届已实现功能。
+3. 文档门户是协作工具，不是 Jiaowu2K26 产品原型，也不能被表述为本届已实现功能；`app/` 内待审的 Phase 0 代码也只能按证据称为技术切片。
 
 本机的稳定入口位于 junction 下。启动脚本会继续向人和 AI 展示 `D:\10451\Desktop\黑客松`，但检测到 Astro/Vite 会因 reparse point 混用路径而丢失 CSS 时，会把**同一轮构建**整体切换到等效物理路径 `C:\Desktop\黑客松`。二者是同一批文件，不能分别扫描、同步或当成两份项目。
 
@@ -15,21 +15,26 @@
 ### 必需环境
 
 - Git：用于克隆、分支、提交、PR 和安全更新。
-- Node.js 24 LTS：文档站的统一运行时。不要使用已经结束支持的 Node.js 25。
-- PowerShell 7 推荐；Windows PowerShell 5.1 也可完成启动。
+- PowerShell 7：推荐用于统一执行仓库脚本；Windows PowerShell 5.1 只能作为文档启动的兼容路径。
+- rustup：`bootstrap.ps1` 会用它安装锁定的 Rust 1.97.1、rustfmt 与 Clippy。
+- Node.js 无需预装：Windows 的 `bootstrap.ps1` 会从 Node.js 官方地址下载、校验并使用仓库本地的 24.18.0；不要改用其他版本覆盖锁定运行时。
+- Ubuntu WSL2 仅在 Windows 安全策略阻止本地 Rust proc-macro DLL 时需要；脚本只读检测并自动选择，不会关闭 Smart App Control。
 
-安装后，在 PowerShell 中进入项目根目录并运行：
+安装 Git、PowerShell 7 与 rustup 后，在 PowerShell 中进入项目根目录并运行：
 
 ```powershell
-pwsh -NoProfile -ExecutionPolicy Bypass -File .\tools\Docs.ps1 -Action Setup
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\bootstrap.ps1
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\verify.ps1 -SkipDocs
 ```
 
-该命令只会：
+这两个命令会：
 
+- 准备经过 SHA-256 校验的仓库本地 Node 运行时和锁定的 Rust 工具链；
 - 安装 `docs-site/package-lock.json` 锁定的依赖；
 - 从规范源生成只读浏览内容；
 - 构建离线全文搜索索引；
 - 验证核心 Starlight CSS、Career Control Room、Pagefind 与关键接手页面没有缺失；
+- 验证 Manifest、公开合同、Rust/SQLite/API 技术基线；
 - 在当前用户桌面创建 `Jiaowu2K26 文档中心` 快捷方式。
 
 以后双击桌面快捷方式即可。它会按以下安全顺序运行：
@@ -76,7 +81,7 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\tools\Docs.ps1 -Action Open
 首次获得仓库地址后，在你自己的开发目录运行：
 
 ```powershell
-git clone <仓库 HTTPS 地址> jiaowu2k26
+git clone https://github.com/TianBingzhuo/Jiaowu2K26.git jiaowu2k26
 Set-Location .\jiaowu2k26
 pwsh -NoProfile -ExecutionPolicy Bypass -File .\tools\Docs.ps1 -Action Setup
 ```
@@ -89,6 +94,25 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\tools\Docs.ps1 -Action Update
 
 遇到冲突时停止，不要强推。非技术同学的完整 GitHub 图形化流程见 `engineering/GITHUB-COLLAB.md`。
 
+## 参与代码：统一环境与验证
+
+准备写代码的同学先运行：
+
+```powershell
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\bootstrap.ps1
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\verify.ps1 -SkipDocs
+```
+
+工具链固定为 Node 24.18.0 / npm 11.16.0 / Rust 1.97.1。当前演示机的 Smart App Control 处于 enforcement，Windows 会阻止 Rust 加载本地未签名的 proc-macro DLL；仓库不会替用户修改安全设置。`doctor.ps1` 会只读识别该状态，并在已有 Ubuntu WSL2 时由 `rust-checks.ps1` 自动切换执行器。其他机器若没有此策略冲突则使用原生 Windows Rust。
+
+只想复现实 API 的同学，可在 Linux/WSL 中执行：
+
+```bash
+bash scripts/smoke-api.sh
+```
+
+成功只证明 Fixture + SQLite 的审核/发布/Replay 底座，不证明 AI、OceanBase、前端或正式学校系统已经完成。
+
 ## AI 最小接手协议
 
 新 AI 进入项目后依次执行：
@@ -100,7 +124,8 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\tools\Docs.ps1 -Action Update
 5. 不把 `archive/`、`docs-site/src/content/docs/` 或聊天记录当作并列事实源；
 6. 一次任务只使用 `D:\10451\Desktop\黑客松` 这一条逻辑路径；
 7. 不因看到文档门户、概念图或规格，就声称产品已经实现；
-8. 外部发布、建仓、推送、阶段切换和任务认领仍需明确授权。
+8. 在宣称“已了解项目”前，必须完成角色与任务、任务相关技术熟悉度、目标与建议三项回执，并得到队友本人确认；
+9. 三项确认不等于任务认领；外部发布、建仓、推送、阶段切换和任务认领仍需明确授权。
 
 可以直接交给 AI 的启动指令：
 
@@ -109,8 +134,25 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\tools\Docs.ps1 -Action Update
 PROJECT-MANIFEST.json 的 status、current_work 与 collaboration_contract。
 不要扫描 archive，也不要读取 docs-site/src/content/docs 生成副本。
 统一使用当前克隆根路径，不混用 junction 的物理别名。
-先只回答：当前阶段、唯一事实源、我现在能做的一个任务，以及禁止事项。
-未经我确认不要认领、写文件、建分支、推送或发布。
+先只读，不要认领、写文件、建分支、推送或发布。
+
+在你说“已了解项目”前，以“理解状态：待本人确认”开头并提交三项回执：
+1. 建议我的协作角色与当前唯一任务，复述输入、交付物、Done 和禁止事项；
+2. 列出任务实际涉及的技术栈，让我逐项填写“熟悉 / 可在辅助下完成 / 不熟悉”；
+3. 用自己的话复述目标、非目标和成功证据，并列出建议、风险与待确认问题。
+技术不熟悉时给出“保留并结对 / 改派任务 / 替换该层实现”三个可审方向，
+不得擅自更换共享合同或全局架构。只有我逐项确认后才能写“入场确认完成”；
+确认仍不等于认领任务。
+```
+
+队友可以这样回执：
+
+```text
+角色与任务：确认 / 调整为 ______
+技术熟悉度：Rust ______；React/TypeScript ______；本任务其他技术 ______
+目标与边界：确认 / 调整为 ______
+建议处理：接受 ______；暂不接受 ______
+我是否现在认领任务：否 / 是，我认领 <task_id>，角色是 <role>
 ```
 
 ## 自检与故障排查

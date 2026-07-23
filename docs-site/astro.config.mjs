@@ -41,30 +41,42 @@ export default defineConfig({
         },
         {
           label: 'PRODUCT // 产品定义',
-          autogenerate: { directory: 'product', collapsed: false },
+          items: [{ autogenerate: { directory: 'product', collapsed: false } }],
         },
         {
           label: 'MODULES // 功能模块',
-          autogenerate: { directory: 'modules', collapsed: true },
+          items: [{ autogenerate: { directory: 'modules', collapsed: true } }],
         },
         {
           label: 'ENGINEERING // 架构与设计',
-          autogenerate: { directory: 'engineering', collapsed: false },
+          items: [{ autogenerate: { directory: 'engineering', collapsed: false } }],
         },
         {
           label: 'DELIVERY // 协作与门禁',
           collapsed: true,
           items: [
-            { label: '质量门禁', autogenerate: { directory: 'gates', collapsed: false } },
-            { label: '接手与结构说明', autogenerate: { directory: 'docs', collapsed: false } },
+            {
+              label: '质量门禁',
+              items: [{ autogenerate: { directory: 'gates', collapsed: false } }],
+            },
+            {
+              label: '接手与结构说明',
+              items: [{ autogenerate: { directory: 'docs', collapsed: false } }],
+            },
           ],
         },
         {
           label: 'RESEARCH // 洞察与资料',
           collapsed: true,
           items: [
-            { label: '问题与机制洞察', autogenerate: { directory: 'brainstorm', collapsed: false } },
-            { label: '研究与资源', autogenerate: { directory: 'reference', collapsed: true } },
+            {
+              label: '问题与机制洞察',
+              items: [{ autogenerate: { directory: 'brainstorm', collapsed: false } }],
+            },
+            {
+              label: '研究与资源',
+              items: [{ autogenerate: { directory: 'reference', collapsed: true } }],
+            },
           ],
         },
       ],

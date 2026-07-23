@@ -1,6 +1,6 @@
 # 本机环境
 
-> 环境快照日期：2026-07-21。此文件记录开发机器的硬件、软件和路径约束。
+> 环境快照日期：2026-07-23。此文件记录开发机器的硬件、软件、验证执行器和路径约束。
 
 ---
 
@@ -21,6 +21,10 @@
 | Unity Editor | 6000.3.17f1 | 不代表 P0 采用；Unity Hub 3.13.0 |
 | Visual Studio Community 2026 | 18.7.1 | 含原生游戏工作负载 |
 | PowerShell 7 | — | 优先使用 |
+| Git | 2.53.0.windows.3 | 公开主仓协作 |
+| Node.js / npm | 24.18.0 / 11.16.0 | 仓库内便携运行时，精确锁定 |
+| Rust | 1.97.1 | Windows 与 Ubuntu WSL2 均安装；实际验证由脚本选执行器 |
+| Ubuntu WSL2 | kernel 6.18.33.2 | Smart App Control 保持开启时的 Rust 编译/测试执行器 |
 
 ## 未安装 / 不应擅自安装
 
@@ -51,9 +55,21 @@
 ## 权限与安全
 
 - 非管理员会话
-- 不修改系统配置 / 注册表 / 环境变量
+- 本轮没有修改 Smart App Control、注册表或系统级安全策略
 - 不默认读取 `.env` / 令牌 / Cookie / 密钥
-- 不安装项目依赖、硬件 SDK 或游戏引擎（除非经 Gate 批准）
+- 已按 GATE-1 安装仓库内 Node 24.18.0 与 Ubuntu WSL2 内 Rust 1.97.1；没有安装 Docker、硬件 SDK 或游戏引擎
+
+### Smart App Control 与 Rust 对照实验
+
+| 项目 | 结果 |
+|---|---|
+| 当前 SAC 状态 | `enforce`（注册表只读核验） |
+| Windows 原生 Cargo | `rustc.exe` 加载本地生成的 `displaydoc-*.dll` 时被 Code Integrity 3077/3033 拦截 |
+| D junction 原生构建 | 构建脚本还会因 D 路径别名触发应用控制，不能作为可靠执行路径 |
+| Ubuntu WSL2 | 同一 NTFS 工作树使用 Rust 1.97.1 完成编译、8 项测试、Clippy 与实时 API smoke |
+| 项目策略 | 不自动关闭 SAC；`scripts/rust-checks.ps1` 在 enforcement + Ubuntu 可用时自动选 WSL，否则走原生 Windows |
+
+这不是 Rust 源码错误或 `rustc` 崩溃，而是 SAC 对本地未签名动态代码的执行策略。[微软当前 Smart App Control FAQ](https://support.microsoft.com/zh-CN/Windows/Security/Threat-Malware-Protection/smart-app-control-frequently-asked-questions) 已说明较新的 Windows 可以关闭后重新启用 SAC，但这仍是用户单独作出的安全决定，项目脚本不得替用户切换。
 
 ## 待补充 PDF（地瓜 / D-Robotics）
 
@@ -76,12 +92,12 @@
 
 ## 本地文档中心（非产品工具）
 
-用户已明确批准安装本地文档阅读与协作工具；这不改变产品仍为 `not_started` 的状态，也不授权提前实现 `app/`。
+用户已明确批准本地文档阅读与协作工具；项目现处于 `hacking / P0-00 review`，文档站本身仍不是产品完成证据。
 
 | 项目 | 约定 |
 |---|---|
-| 规范运行时 | Node.js 24 LTS；当前机器的 Node.js 25 可完成本次验证，但不作为团队基线 |
-| 文档框架 | Astro 6 + Starlight 0.38，精确版本由 `docs-site/package-lock.json` 锁定 |
+| 规范运行时 | 仓库内 Node.js 24.18.0 + npm 11.16.0；系统 Node 25 不参与验证 |
+| 文档框架 | Astro 7.1.3 + Starlight 0.41.4 + Sharp 0.35.3，精确版本由 `docs-site/package-lock.json` 锁定；`npm audit` 为 0 |
 | 配置入口 | `pwsh -NoProfile -ExecutionPolicy Bypass -File .\tools\Docs.ps1 -Action Setup` |
 | 本地地址 | `http://127.0.0.1:4321/`，只绑定回环地址，不对局域网或公网暴露 |
 | 桌面入口 | `D:\10451\Desktop\Jiaowu2K26 文档中心.lnk` |

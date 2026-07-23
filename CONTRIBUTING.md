@@ -47,7 +47,7 @@
 1. 从最新 `main` 建一个短分支：`docs/*`、`design/*`、`feat/*` 或 `fix/*`。
 2. 一次 PR 只服务一个任务或验收 ID；相关规格、状态与证据一起更新。
 3. 提交前逐文件查看 diff，不提交秘密、真实学生数据、缓存、构建产物或来源不明资产。
-4. Push 后先创建 Draft PR，跑完任务卡指定的实际实验并附证据；至少一名非作者审核后，由总集成人员 squash 合并。
+4. Push 后先创建 Draft PR，跑完任务卡指定的实际实验并附证据；三项必需 CI 通过后，由 Codex 生成中心化技术审查报告，产品总集成人员决定接受并 squash 合并。队友 Reviewer 是可选增强，不是当前合并硬依赖。
 5. `main` 始终保持可阅读、可验证；Accepted 切片才允许进入下一切片。
 
 不会 Git 的同学按 [`engineering/GITHUB-COLLAB.md`](engineering/GITHUB-COLLAB.md) 的 VS Code 或 GitHub Desktop 图形化路径操作。脚本的自动更新只使用 `git pull --ff-only`；有未提交修改时会安全跳过。

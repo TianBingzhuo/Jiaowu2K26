@@ -20,7 +20,8 @@
 - 面向 Figma / Photoshop / Illustrator / Revit / 3D 空间设计能力的交付边界：P0 先做统一 UI 与原创 Campus Arena 预渲染资产，运行时 3D 另过性能和权利 Gate。
 - `D:/10451/Pictures/bili` 私人图库完成只读联系表审计：仅作私人情绪板，不作为队员能力证据或可复用产品资产。
 - Linux live smoke 将冷编译与服务就绪计时分离，并为进程早退、超时和跨平台可执行文件路径提供明确诊断。
-- GitHub Actions run 29974052323 已通过 Ubuntu Rust/live smoke、Windows Rust 与合同/文档三组门禁；GATE-1 仍等待第二台机器和人工 PR 审核。
+- GitHub Actions run 29974052323 已通过 Ubuntu Rust/live smoke、Windows Rust 与合同/文档三组门禁；GATE-1 仍等待第二台机器和产品总集成人员接受决定。
+- `main` 保护从“唯一作者必须获得非作者批准”的不可满足组合，调整为三项 GitHub Actions 强制门禁 + Codex 中心化技术审查 + 产品总集成人员明确接受；PR、线性历史、对话解决、禁强推/删除保持不变。
 
 ### Changed
 
@@ -34,5 +35,5 @@
 
 ### Project status
 
-- Phase 0 本机技术证据已就绪，当前分支等待 CI、第二台机器和用户 PR 审核；产品功能仍为 `pending`。
+- Phase 0 本机与 CI 技术证据已就绪，当前分支等待第二台机器和产品总集成人员接受决定；产品功能仍为 `pending`。
 - 本批变化建立协作与技术底座，不构成完整产品能力声明。

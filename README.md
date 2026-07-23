@@ -57,7 +57,7 @@ AI 的回执至少应包含：
 ## 项目状态
 - 当前阶段：AdventureX 2026 `hacking` · GATE-1 · Active Slice=`P0-00`
 - 首个 P0：智课工坊 / SmartCourse Studio
-- 技术栈状态：Rust / Axum / Tokio + SQLite 的 P0-00 本地证据及 GitHub Actions Ubuntu/Windows/合同文档门禁已通过，仍等待第二台机器与用户 PR 审核；OceanBase 仍是未验证的可选适配器
+- 技术栈状态：Rust / Axum / Tokio + SQLite 的 P0-00 本地证据及 GitHub Actions Ubuntu/Windows/合同文档门禁已通过，仍等待第二台机器复现与产品总集成人员接受决定；OceanBase 仍是未验证的可选适配器
 - 实现状态：Phase 0 协作与技术基线已开工；产品功能仍为 `pending`，不得把基座等同于完成产品
 - 公开主仓：[TianBingzhuo/Jiaowu2K26](https://github.com/TianBingzhuo/Jiaowu2K26)；GitHub Issue / PR 是开仓后的实时工作源
 - 当前代码证据：8 项领域/API/SQLite 测试 + 1 条实时 HTTP smoke path 已通过；这些是“技术切片待审”，不是产品完成声明
@@ -97,8 +97,8 @@ AI 必须先按 [`AGENTS.md`](AGENTS.md) 读取 Manifest 的实时阶段与任�
 
 - 只把 **GitHub** 作为唯一可写主仓；它同时是 AdventureX 提交要求中的仓库入口。Gitee 只可由总集成人员配置为单向备份，GitCode / CNB 不与主仓双写。
 - 全队同时只推进 **一个产品切片**，但可在该切片内并行拆成产品验收、前端、后端、AI/Fixture 四张子任务；本切片通过验收并打 `p0-xx-accepted` Tag 后，下一切片才进入 Ready。
-- `main` 必须始终可演示；短分支必须先完成对应实验，再经 Draft PR、至少一名非作者审核和自动检查后 squash 合并，禁止直接推送、强推和长期 `develop` 分支。
-- “实时验证”由每次 Push 的 PR CI、Reviewer 隔离 Checkout 和每个 Accepted 切片的双机冷启动完成；不把未审核分支持续拉进主线或最终 Demo 目录。
+- `main` 必须始终可演示；短分支必须先完成对应实验，再经 Draft PR、三项必需自动检查、Codex 中心化技术审查和产品总集成人员接受决定后 squash 合并，禁止直接推送、强推和长期 `develop` 分支。队友到位后可自愿增加 Reviewer，但不再以不存在的非作者审批形成死锁。
+- “实时验证”由每次 Push 的 PR CI、Codex/总集成人员隔离 Checkout 和每个 Accepted 切片的双机冷启动完成；不把未审核分支持续拉进主线或最终 Demo 目录。
 - 开幕式结束且主办方正式宣布 Hacking 开始前，不创建仓库、不提交参赛代码。详细平台与环境协议见 [TECH-STACK](engineering/TECH-STACK.md#15-版本控制协作平台与统一环境)，切片顺序见 [MODULE-MAP](product/MODULE-MAP.md#四人单功能-wip-协议)，开仓检查见 [GATE-1](gates/GATE-1-技术验证-6h.md#阶段-0-1h规则空白基线与协作底座)。
 
 ## 本地文档中心与仓库门面

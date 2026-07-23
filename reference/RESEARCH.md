@@ -1,7 +1,7 @@
 # 研究参考
 
 > 本文件为只读参考资料，不驱动执行决策。需要时查阅即可。
-> 核验日期：2026-07-22（Asia/Shanghai）。终极指南当日仍在修改；动态事实必须在开赛、提交开放和最终提交前重新打开官方页面。
+> 核验日期：2026-07-23（Asia/Shanghai）。终极指南仍可能修改；动态事实必须在提交开放和最终提交前重新打开官方页面。
 
 ---
 
@@ -63,6 +63,22 @@
 6. 二手转述
 
 低层证据不能推导"现场一定有某 SKU/Credit"。未知项保持 `unknown`。
+
+### AdventureX 官方 GitHub 开源资源（2026-07-23）
+
+官方组织 [AdventureX-RGE](https://github.com/AdventureX-RGE) 当前公开 19 个仓库。它们证明主办方确有可复用实现和设计资产，但不是“参赛项目起手模板”，采用前仍须逐仓核对许可证、维护状态和依赖：
+
+| 仓库 | 官方定位 / 许可证 | 对 jiaowu2K26 的用途与边界 |
+|---|---|---|
+| [united-portal](https://github.com/AdventureX-RGE/united-portal) | 黑客松一体化托管平台；TypeScript；MIT | 可研究提交/活动门户的对象、状态和部署方式；不把主办方 Portal 复制成我们的产品首页 |
+| [united-portal-theme-shadcn](https://github.com/AdventureX-RGE/united-portal-theme-shadcn) | United Portal 默认主题；MIT；README 标注 Alpha | 可研究 Token/组件封装；未经依赖和可访问性 Gate 不直接引入 |
+| [intelligence-ui](https://github.com/AdventureX-RGE/intelligence-ui) | 基于 React Aria 的 React/Tailwind 组件库；MIT | 与 React Experience Shell 方向相容，可作为可访问组件候选；先做最小 Spike，不整体复制 |
+| [Playbook](https://github.com/AdventureX-RGE/Playbook) | 公开 Hackathon Playbook；MDX；仓库元数据未声明许可证 | 只作组织方法和文档结构参考；没有明确许可证时不复制正文、图片或代码 |
+| [Orbix](https://github.com/AdventureX-RGE/Orbix) | AdventureX 风格字体；SIL OFL-1.1 | 可在短标签/活动署名中评估；其 README 明确不适合长标题和正文，也不能替代本项目原创品牌字体 |
+| [adventurex-faq-skill](https://github.com/AdventureX-RGE/adventurex-faq-skill) | 官方 FAQ 快照 Agent Skill；仓库元数据未声明许可证 | 可核对活动、提交和 AI 规则；不代替终极指南或现场 Portal 动态事实 |
+| [landing-2024](https://github.com/AdventureX-RGE/landing-2024) | 2024 落地页；Vue；仓库元数据未声明许可证 | 只作历史视觉证据，不复制素材或布局 |
+
+结论：若要吸收官方代码，首选 MIT 的 `intelligence-ui` 做独立组件 Spike；`united-portal` 只研究工作流；`Playbook/FAQ/landing-2024` 因无明确仓库许可证，仅可阅读和引用链接。任何采用必须登记具体 commit、文件、上游许可证与修改范围。
 
 ---
 
@@ -384,7 +400,7 @@ maimai 不承担大学生涯的宏观经营，而用于补齐 F-001/F-005 的微
 
 ## WinUI 3 参考
 
-使用方式：控件、可访问性和工程结构参考，不整包复制。WinUI 只作为 Windows 教师控制台 Secondary。
+使用方式：控件、可访问性、Windows.Gaming.Input 和工程结构参考，不整包复制。WinUI 是 Windows 原生桌面框架且不是跨平台框架，只作为 Windows adapter / Secondary，不承担全平台 Experience Shell。
 本地参考库：`D:\10451\Users\10451\Downloads\WinUI3-Reference\`
 
 ## NBA 2K 购买边界

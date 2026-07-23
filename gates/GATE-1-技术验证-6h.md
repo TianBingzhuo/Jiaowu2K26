@@ -15,7 +15,7 @@
 - [x] 产品总集成人员现场确认 Hacking 已开始后才授权建仓；精确公告瞬间没有独立截图，Manifest 保留该证据局限
 - [x] 全新公开 GitHub 主仓已建立；首个 `d4e0f82` 是公开安全的规格/协作基线，不是伪造的空提交，也不含赛前产品代码
 - [x] 赛前研究、概念图和规格都明确标注为研究/候选/非实现；历史原型在 archive，不能计入本届实现
-- [x] 团队改为弹性能力池，不假定固定四人；`main` 禁止 force push/delete，要求 PR、CODEOWNERS、对话解决、线性历史和 squash merge
+- [x] 团队改为弹性能力池，不假定固定四人；`main` 禁止 force push/delete，要求 PR、三项 Actions 状态检查、对话解决、线性历史和 squash merge；CODEOWNERS 只保留责任映射，不强制不存在的非作者审批
 - [x] 当前只有 [P0-00 Issue](https://github.com/TianBingzhuo/Jiaowu2K26/issues/1) 处于 Active；不为形式额外建立第二任务系统
 - [x] Manifest 已包含每个工作包的验收 ID、owner、输入、输出、不做和回退，并同步 phase=`hacking`、gate=`GATE-1`、active_slice=`P0-00`
 - [ ] 所有实际队员分别用 Task Router 完成一次“询问 → 认领 → PR”走查

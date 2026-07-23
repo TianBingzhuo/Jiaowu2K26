@@ -54,7 +54,7 @@
 2. 在 VS Code GitHub 视图选择 **Create Pull Request**，或在 GitHub Desktop 选择 **Create Pull Request**。
 3. Base 必须是 `main`，Compare 必须是你的 `design/*` / `feat/*` / `fix/*` 分支。
 4. 未完成就创建 **Draft PR**；准备验收后再标记 Ready for review。
-5. 先运行任务卡指定的实际实验并附上证据，再标记 Ready；填完模板并指定至少一名非作者 Reviewer，不要自己合并。
+5. 先运行任务卡指定的实际实验并附上证据，再标记 Ready；Codex 会集中检查 diff、合同、测试、回退与风险，产品总集成人员决定是否接受并合并。队友可自愿 Review，但当前不强制指定非作者 Reviewer。
 
 PR 正文最小模板：
 
@@ -141,7 +141,7 @@ VS Code 官方说明确认：GitHub Pull Requests and Issues 扩展可以登录�
 - [ ] 设计资产有来源/许可证，未复制 2K/maimai 品牌资产
 - [ ] 截图和验证步骤足以让别人复现
 - [ ] 自动检查通过；Schema/迁移变化已由全队评审
-- [ ] 至少一名非作者批准；由总集成人员合并
+- [ ] Codex 中心化技术审查已附证据；由产品总集成人员明确接受并合并
 
 ## 9. 给 AI 助手的一句话命令
 

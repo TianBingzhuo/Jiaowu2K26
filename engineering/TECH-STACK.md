@@ -1,6 +1,6 @@
 # jiaowu2K26 · 技术选型
 
-> **状态：** GATE-1 本机实验已产生可复查证据，仍待 GitHub Actions、第二台机器与用户审核；未经批准不称为最终 Primary。
+> **状态：** GATE-1 本机实验和 GitHub Actions Ubuntu/Windows/合同文档门禁已通过，仍待第二台机器复现与产品总集成人员接受决定；未经批准不称为最终 Primary。
 > **原则：** 团队熟悉度 > 技术看起来新；6h 闸门未通过立即回退。
 > **P0 产品：** 智课工坊 / SmartCourse Studio
 > **更新时间：** 2026-07-23
@@ -11,7 +11,7 @@
 
 | 层 | 结果 | 当前结论 |
 |---|---|---|
-| Rust 1.97.1 / Axum 0.8.9 / Tokio 1.53.1 | WSL2 编译、`fmt/check/test/clippy` 与实时 API smoke 通过 | **进入 PR 审核**，FastAPI / Node 回退保留 |
+| Rust 1.97.1 / Axum 0.8.9 / Tokio 1.53.1 | WSL2 编译、`fmt/check/test/clippy`、实时 API smoke 与 GitHub Actions 双平台门禁通过 | **进入接受评估**，FastAPI / Node 回退保留 |
 | 领域合同 | 无框架 domain crate；OpenAPI 3.1、4 份 JSON Schema、Golden Fixture | **进入 PR 审核**；未知枚举保留并阻止高风险自动动作 |
 | SQLx 0.9.0 / SQLite | 写入、查询、乐观并发、审核/发布事务与 Replay 通过 | **当前已验证数据路径**，无云账号也能运行 |
 | OceanBase | 尚未做账号、TLS、migration、事务和 join 实验 | **未采用 / 未否定**；只是可选后续 adapter，不阻塞启动 |
@@ -99,6 +99,16 @@ OceanBase 云账号已确认，且以下条件全部通过？
 - 输入层使用 `SemanticAction → InputAdapter → UI Focus Graph`：Web/PWA 通过 [W3C Gamepad API](https://www.w3.org/TR/gamepad/) 读取标准布局并保留键盘/触控/读屏等价路径；未来 Windows 原生壳可增加 [Microsoft GameInput](https://learn.microsoft.com/en-us/gaming/gdk/docs/features/common/input/overviews/input-overview) 适配器。组件不得硬编码按钮编号或把手柄逻辑写入领域层。
 
 完整兼容策略、版本窗口和平台矩阵见 [ARCHITECTURE · 01 基座兼容性宪章](ARCHITECTURE.md#01-基座兼容性宪章)。
+
+### 游戏化界面不等于游戏引擎
+
+| 表面 | 适合承担 | 本项目结论 |
+|---|---|---|
+| React / Web/PWA | 高频数据界面、快速模板迭代、跨桌面/平板/手机、可访问性与离线回退 | **Primary 候选**；先完成首页模板 Gate，再搭真实壳 |
+| WinUI 3 | Windows 原生窗口、通知、系统输入、MSIX、特定教师/演示控制台 | **Windows adapter / Secondary**；官方明确它不是跨平台框架，不能成为未来多端共享 UI 或领域层 |
+| Unreal CommonUI / UMG | 高沉浸 3D 场景、复杂分层游戏菜单、手柄输入路由、展会级 Campus Arena | **可选 Companion**；只通过同一 API/语义动作连接，不接管教务表单、数据主权或领域规则 |
+
+因此不是“WinUI 3 或 Unreal 二选一”。默认结构是 `Rust 领域/合同 → React Experience Shell → Windows 可选 WinUI adapter`，只有首页模板和 P0 主路径稳定、且有人承担 Blueprint/资产/性能预算时，才增加 `Unreal Campus Arena Companion`。三者不得各自复制状态机、课程对象和权限规则。
 
 ---
 
@@ -235,11 +245,20 @@ P0 核心差异需要高保真 3D 校园/角色/虚拟制作？
 └── 否 → 不采用游戏引擎
 ```
 
-**待审核建议：** P0 不用游戏引擎。
+**待审核建议：** P0 不用游戏引擎；当前官方发布线仍是 Unreal Engine **5.8**，没有把不存在的“UE6”写入计划。
 - Unity 仅 P2 展会外壳候选（Campus Hub），业务仍走同一 API；
-- Unreal 5.8 P0 拒绝，当前不安装。
+- Unreal 5.8 P0 拒绝，当前不安装；若通过后续 Gate，优先使用 CommonUI/UMG 的跨平台分层菜单、输入路由与手柄焦点，不把世界内 Widget 当数据主界面。
 - 统一游戏化美术依靠 Web Design System、资产管线和交互语法实现，不以安装 Unity/Unreal 为前提。
 - 具备 Revit / 空间渲染能力时，P0 只做原创 Campus Arena 的构图、预渲染和优化 Web 资产；运行时 3D 必须在 UI 主路径稳定后另过性能 Gate。Revit 可按 Epic 官方 [Datasmith 工作流](https://dev.epicgames.com/documentation/en-us/unreal-engine/using-datasmith-with-revit-in-unreal-engine) 导出选定 3D View，或按 Autodesk 官方流程导出 FBX，但这不自动批准 UE 进入 P0。
+
+2026-07-23 本机只读复核：
+
+- Windows 11、i7-13700H（14C/20T）、63.6 GiB RAM、RTX 4070 Laptop 8 GiB、C: 约 1113 GiB 空闲，达到 Epic 对 UE 5.8 的 32 GiB RAM / 8 GiB 显存建议下限；适合受控原型，但 8 GiB 显存不宜把 Nanite/Lumen、高分辨率纹理和完整编辑器场景同时堆满。
+- Unity Hub 3.13.0 与 Unity 6000.3.17f1 已安装；只发现 Epic Launcher prerequisites，没有发现 Unreal Engine 安装目录。
+- Visual Studio Community 2026 18.7.1、.NET SDK 10.0.301 与 Developer Mode 已就绪；WinUI application development workload 和 `dotnet new winui` 模板尚未安装。
+- 结论：现有 Phase 0、Web 模板和 Unity 条件 Spike 空间充足；WinUI/Unreal 都不是“已配置完成”。在用户选定首页方向和客户端边界前，不下载大型可选工作负载。
+
+**官方依据：** [WinUI 3 入门与非跨平台边界](https://learn.microsoft.com/en-us/windows/apps/get-started/winui-get-started-overview) · [WinUI 输入与 Windows.Gaming.Input](https://learn.microsoft.com/en-us/windows/apps/develop/input/) · [Unreal CommonUI 概览](https://dev.epicgames.com/documentation/en-us/unreal-engine/common-ui-plugin-for-advanced-user-interfaces-in-unreal-engine) · [CommonUI 设计边界](https://dev.epicgames.com/documentation/unreal-engine/design-guidelines-for-using-commonui-in-unreal-engine) · [UE 5.8 硬件/软件规格](https://dev.epicgames.com/documentation/unreal-engine/hardware-and-software-specifications-for-unreal-engine)
 
 ---
 
@@ -290,7 +309,7 @@ GATE-1 通过并由团队负责人记录后，才可把对应小节的“待审�
 
 | 平台 | 本项目定位 | 理由与边界 |
 |---|---|---|
-| GitHub | **Canonical / 唯一可写** | 满足赛事提交；使用 Organization/协作者、Issues/Project、PR、CODEOWNERS、Actions 和 `main` 保护 |
+| GitHub | **Canonical / 唯一可写** | 满足赛事提交；使用协作者、Issues、Draft PR、Actions 和 `main` 保护；CODEOWNERS 只作责任映射，不制造单人仓的审批死锁 |
 | Gitee | 可选单向只读备份 | 中国大陆访问备份；只允许 GitHub → Gitee 或由总集成人员在 Accepted Tag 后推送。禁止双向镜像，避免竞态、覆盖和丢提交 |
 | CNB | 暂不采用 | PR、云原生开发和 `.cnb.yml` CI 能力完整，但会引入第二套 CI/任务状态；只有 GitHub 长时间不可用且团队已熟悉时才重新评估 |
 | GitCode | 暂不采用 | 有保护分支、PR 和流水线，但对本届没有超过 GitHub 的必要价值，同样会形成第二事实源 |
@@ -304,9 +323,9 @@ GitHub Free 的公开仓库可用保护分支；免费私有仓的高级保护�
 - 不使用 GitFlow，不维护长期 `develop`；`main` 始终是唯一集成线和当前可演示版本。
 - 全队产品 WIP 上限为 1；分支使用 `feat/p0-xx-short-name`、`fix/p0-xx-short-name`、`design/p0-xx-short-name`、`docs/short-name`，最长存活一个工作时段。
 - Commit 使用 `type(scope): summary`，例如 `feat(p0-03): append teacher review event`；一个 commit 只表达一个可回退意图。
-- PR 必须关联当前唯一主 Issue，附验收 ID、运行证据、测试命令、失败/回退、依赖与许可证变化；至少一名非作者批准。
+- PR 必须关联当前唯一主 Issue，附验收 ID、运行证据、测试命令、失败/回退、依赖与许可证变化；当前由 Codex 集中审查 diff、合同、测试与风险，产品总集成人员作接受/合并决定。队友到位后可自愿 Review，但不是合并硬依赖。
 - 只允许 squash merge；合并后删除分支。每个通过切片打 annotated Tag `p0-xx-accepted`，下一切片才从 Backlog 进入 Ready。
-- 共享合同目录由四人共同审查；领域 Schema、OpenAPI/JSON Schema 和 migration 变更不得靠聊天口头同步。
+- `main` 强制 `Rust (ubuntu-latest)`、`Rust (windows-latest)`、`Contracts and docs` 三项最新 SHA 状态检查；共享合同和 migration 变更不得靠聊天口头同步。
 - 每次 Push 由 PR CI 实时验证；总集成人员在隔离 worktree/临时目录 Checkout Ready PR。不要让所有队员持续把未审核分支拉进自己的工作分支，更不能污染最终 Demo 目录。
 
 ### 15.3 环境一致性合同

@@ -12,26 +12,28 @@
 | CPU | Intel Core i7-13700H，14 核 / 20 线程 |
 | 内存 | 约 64 GB |
 | GPU | NVIDIA GeForce RTX 4070 Laptop（8188 MiB，驱动 610.74 快照）+ Intel Iris Xe |
-| 存储 | C 卷约 3.7 TB 总量，约 1.09 TB 可用 |
+| 存储 | C 卷 3698.0 GiB 总量、1113.1 GiB 可用（30.1%）；NTFS Healthy |
 
 ## 已安装软件
 
 | 软件 | 版本 | 备注 |
 |------|------|------|
 | Unity Editor | 6000.3.17f1 | 不代表 P0 采用；Unity Hub 3.13.0 |
-| Visual Studio Community 2026 | 18.7.1 | 含原生游戏工作负载 |
-| PowerShell 7 | — | 优先使用 |
+| Visual Studio Community 2026 | 18.7.1 | 完整且可启动；WinUI workload 当前未安装 |
+| .NET SDK | 10.0.301 | `dotnet` 可用；WinUI CLI 模板当前未安装 |
+| PowerShell 7 | 7.6.4 | 优先使用 |
 | Git | 2.53.0.windows.3 | 公开主仓协作 |
-| Node.js / npm | 24.18.0 / 11.16.0 | 仓库内便携运行时，精确锁定 |
-| Rust | 1.97.1 | Windows 与 Ubuntu WSL2 均安装；实际验证由脚本选执行器 |
+| Node.js / npm | 主机 25.8.1 / 11.11.0；仓库 24.18.0 / 11.16.0 | 验证只使用仓库内精确锁定运行时 |
+| Rust | 主机 1.97.0；仓库/Ubuntu 1.97.1 | 实际验证由脚本按 `rust-toolchain.toml` 选择执行器 |
 | Ubuntu WSL2 | kernel 6.18.33.2 | Smart App Control 保持开启时的 Rust 编译/测试执行器 |
 
 ## 未安装 / 不应擅自安装
 
 | 软件 | 状态 | 原因 |
 |------|------|------|
-| Unreal Engine | ⬜ 未安装 | P0 拒绝 UE 5.8 |
-| Epic Games Launcher | ⬜ 未安装 | 与 UE 关联 |
+| Unreal Engine | ⬜ 未安装 | P0 拒绝 UE 5.8；只在首页模板与性能 Gate 后评估 Companion |
+| Epic Games Launcher / prerequisites | 未发现 Launcher/Engine 目录；仅注册 Epic Games Launcher Prerequisites | 不把 prerequisites 误报成已安装引擎 |
+| WinUI application development workload / `dotnet new winui` | ⬜ 未安装 | WinUI 仅是 Windows adapter 候选，选定前不安装 |
 | Steam | ⬜ 未安装 | 无需购买 NBA 2K |
 
 ## 路径规则
@@ -42,6 +44,7 @@
 - **不得向 D 盘非 junction 路径写入**
 - 一次操作只能选择一个根（C 或 `D:\10451`），禁止混用
 - 等价别名不可同时扫描
+- 2026-07-23 用 `fsutil file queryfileid` 对 C/D 两条 README 路径抽样，File ID 同为 `0x000000000000000000a3000000013348`，确认是同一底层文件而非副本
 
 ## 外部参考库
 
@@ -58,6 +61,21 @@
 - 本轮没有修改 Smart App Control、注册表或系统级安全策略
 - 不默认读取 `.env` / 令牌 / Cookie / 密钥
 - 已按 GATE-1 安装仓库内 Node 24.18.0 与 Ubuntu WSL2 内 Rust 1.97.1；没有安装 Docker、硬件 SDK 或游戏引擎
+
+### 2026-07-23 只读容量复核
+
+| 项目 | 结果 |
+|---|---|
+| 项目工作树 | 约 0.84 GiB |
+| `.git` | 约 19.9 MiB |
+| 仓库便携工具 `.tools` | 约 100.8 MiB |
+| 文档依赖 `docs-site/node_modules` | 约 195.3 MiB |
+| Rust 构建目录 `app/target` | 约 95.0 MiB |
+| Ubuntu WSL2 VHDX | 约 50.1 GiB；只读计量，没有压缩或终止 |
+| oceanbase-desktop VHDX | 约 7.8 GiB；受保护，未启动、终止、导出、压缩或升级 |
+| 审计排除 | F: 完全排除；未做缓存清理、卸载或系统变更 |
+
+现有空间足以继续 Phase 0、首页 Web 模板和受控 Unity Spike。UE/WinUI 安装空间也足够，但“空间够”不等于技术已选；大型可选依赖必须等视觉与客户端 Gate 后再安装。
 
 ### Smart App Control 与 Rust 对照实验
 

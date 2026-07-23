@@ -1,5 +1,5 @@
 {
-  "schema_version": "3.11",
+  "schema_version": "3.12",
   "updated_at": "2026-07-23",
   "project": {
     "id": "jiaowu2K26",
@@ -13,14 +13,14 @@
     "implementation": "phase0_foundation_in_review",
     "all_modules": "pending_except_phase0_foundation",
     "technology_approval": "gate_1_in_progress; all primary technologies remain conditional until evidence passes",
-    "design_approval": "user_approved_unified_game_world; implementation_details_awaiting_team_review",
+    "design_approval": "user_approved_unified_game_world; homepage_template_gate_awaiting_user_visual_selection",
     "code_baseline": "authorized_after_hacking_start_verification; public_main_baseline_active; phase0_changes_unmerged_on_draft_pr_branch",
     "completion_claims_allowed": false
   },
   "agent_entrypoint": "AGENTS.md",
   "current_work": {
     "schema_version": "1.2",
-    "queue_revision": 5,
+    "queue_revision": 6,
     "authoritative_for": "current phase, gate, active slice, team identity mapping and immediately claimable work",
     "phase": "hacking",
     "current_gate": "GATE-1",
@@ -28,7 +28,7 @@
     "active_issue": "https://github.com/TianBingzhuo/Jiaowu2K26/issues/1",
     "wip_limit": 1,
     "sync_status": "current",
-    "last_synced_at": "2026-07-23T10:22:01+08:00",
+    "last_synced_at": "2026-07-23T11:10:10+08:00",
     "staleness_rule": "stale immediately if organizer start/freeze/submission state, active slice, task status, owner or GitHub board state changes without updating this snapshot",
     "task_source": {
       "mode": "github_live",
@@ -49,14 +49,14 @@
       "competition_advantage": "mature pre-event research, contracts, handoff, environment and gates plus elastic in-event staffing, implementation adapters and scope; maturity never means claiming a prebuilt competition product",
       "roles_are_capabilities_not_fixed_seats": true,
       "claim_rule": "any available teammate may claim one allowed work package matching their skills; no role is reserved for a fixed headcount",
-      "unclaimed_rule": "when ai_allowed=true and no human claims the package, Codex may research, draft, test or implement within scope; the product integrator remains the human owner and performs final review",
+      "unclaimed_rule": "when ai_allowed=true and no human claims the package, Codex may research, draft, test or implement within scope and performs the centralized technical review; the product integrator remains the human owner and makes the explicit accept or merge decision",
       "human_accountability": "every accepted deliverable must have a human who can explain, test and approve it; AI is never the sole accountable author",
       "real_user_evidence": "AI-generated personas or simulations may prepare hypotheses but never count as participant evidence",
-      "review_authority": "product_integrator"
+      "review_authority": "codex_central_technical_review_plus_product_integrator_acceptance"
     },
     "validation_snapshot": {
-      "status": "local_and_ci_evidence_ready_second_machine_and_human_review_pending",
-      "recorded_at": "2026-07-23T10:22:01+08:00",
+      "status": "local_and_ci_evidence_ready_second_machine_and_product_integrator_acceptance_pending",
+      "recorded_at": "2026-07-23T11:10:10+08:00",
       "branch": "agent/phase0-foundation",
       "environment": {
         "windows": "Windows 11 25H2 build 26200.8894; Smart App Control enforce",
@@ -71,10 +71,11 @@
         "live API smoke passes health -> review -> approve -> publish -> replay with fixture plus in-memory SQLite",
         "4 JSON Schemas, OpenAPI, golden fixture and manifest pass deterministic contract checks",
         "documentation portal builds 152 routes, verifies 151 generated content pages and 206 local links; npm audit reports 0 vulnerabilities",
-        "GitHub Actions run 29974052323 passes Rust 1.97.1 on ubuntu-latest and windows-latest plus contracts and docs; the Linux live API smoke path passes after build and readiness timing were separated"
+        "GitHub Actions runs 29974052323 and 29974410422 pass Rust 1.97.1 on ubuntu-latest and windows-latest plus contracts and docs; the Linux live API smoke path passes after build and readiness timing were separated",
+        "main protection requires the three latest-SHA checks Rust (ubuntu-latest), Rust (windows-latest), and Contracts and docs; impossible self-review requirements were removed while PR, conversation resolution, linear history, no force-push and no deletion remain"
       ],
       "windows_native_rust_note": "Code Integrity event 3077/3033 shows rustc.exe was blocked while loading an unsigned locally built displaydoc proc-macro DLL; this is a Smart App Control policy interaction, not a Rust source failure. No security setting was changed.",
-      "not_yet_evidence": ["second teammate machine", "human PR approval", "React/Web shell", "OceanBase connectivity", "live model output"]
+      "not_yet_evidence": ["second teammate machine", "product-integrator acceptance decision", "selected and implemented homepage template", "React/Web shell", "OceanBase connectivity", "live model output"]
     },
     "ready_tasks": [
       {
@@ -100,7 +101,7 @@
         "claimed_at": "2026-07-23T07:18:05+08:00",
         "updated_at": "2026-07-23",
         "execution_support": ["codex"],
-        "evidence": ["public repository and protected main active", "pinned environment plus doctor/bootstrap/verify scripts", "local verification succeeds without disabling Smart App Control", "GitHub Actions run 29974052323 passes Ubuntu, Windows, contracts and docs", "awaiting second-machine reproduction and product-integrator approval"]
+        "evidence": ["public repository and protected main active", "pinned environment plus doctor/bootstrap/verify scripts", "local verification succeeds without disabling Smart App Control", "GitHub Actions run 29974410422 passes Ubuntu, Windows, contracts and docs", "main requires those three status checks without impossible self-review", "awaiting second-machine reproduction and product-integrator acceptance"]
       },
       {
         "id": "P0-00-B",
@@ -220,7 +221,7 @@
       "id": "ACCEPT-P0-00",
       "automatic": false,
       "trigger": "all mandatory GATE-1 checks pass or each failed conditional technology has been explicitly switched to its documented fallback",
-      "required_evidence": ["public baseline commit", "doctor/bootstrap/verify logs", "contract and state-machine tests", "SQLite fallback proof", "human reviewer approval"],
+      "required_evidence": ["public baseline commit", "doctor/bootstrap/verify logs", "contract and state-machine tests", "SQLite fallback proof", "Codex central technical review report", "product-integrator acceptance decision"],
       "atomic_updates": ["mark P0-00 packages accepted or fallback_selected", "tag p0-00-accepted", "activate only P0-01", "keep P0-02 and later queued", "sync GitHub Issue and this offline snapshot"],
       "activation_sources": ["gates/GATE-1-技术验证-6h.md", "product/MODULE-MAP.md#四人单功能-wip-协议", "engineering/GITHUB-COLLAB.md"],
       "do_not_infer_from_clock": true
@@ -406,6 +407,15 @@
     "accessibility_modes": ["immersive", "light", "traditional", "reduced_motion"],
     "equal_information_completeness": true,
     "primary_key_art_direction": "original university sports-career launch screen with student hero, campus arena, season context, one primary objective and readable HUD; not cyber concept art or copied 2K trade dress",
+    "homepage_template_gate": {
+      "id": "P0-00-D0",
+      "status": "ideation_in_progress_awaiting_user_visual_selection",
+      "surface": "1440x1024 Student MyCareer desktop homepage",
+      "workflow": "generate exactly three independent original directions; user selects or combines one before any production UI scaffold",
+      "manual_review": "score 0-2 for ten-second comprehension, original game feel, evidence/status clarity, input/focus, accessibility/degradation, and performance/asset rights; require at least 10/12 with no hard failure",
+      "required_states_after_selection": ["default", "controller focus", "evidence drawer", "loading", "offline", "error", "traditional narrative", "reduced motion"],
+      "source": "engineering/DESIGN-SYSTEM.md#首页模板确认-gatep0-00-d0"
+    },
     "controller_first_contract": {
       "status": "approved_cross_cutting_requirement_not_implemented",
       "scope": "primary demo path and most non-text operations; controller-first never controller-only",
@@ -514,7 +524,7 @@
     }
   ],
   "technology_proposal": {
-    "approval_status": "gate_1_local_and_ci_evidence_ready; awaiting_second_machine_and_user_approval",
+    "approval_status": "gate_1_local_and_ci_evidence_ready; awaiting_second_machine_and_product_integrator_acceptance",
     "backend_candidate": "Rust 1.97.1 + Axum 0.8.9 + Tokio 1.53.1 passed local WSL compile/test/clippy and live API smoke; still conditional until user accepts the PR; FastAPI or Node remains fallback",
     "database_candidate": "SQLite + SQLx 0.9.0 passed the repository/transaction/replay slice and is the current verified local path; OceanBase MySQL mode remains an untested optional adapter, never a startup dependency",
     "frontend_candidate": "React + TypeScript + Vite Web/PWA",
@@ -528,7 +538,7 @@
     "payment_candidate": "typed append-only ledger + deterministic policy engine + provider-neutral PaymentRail adapters; sandbox/fixture only by default",
     "ai_candidate": "provider-neutral adapter with one selected model and fixture fallback",
     "deployment_candidate": "local-first; verified sponsor cloud secondary",
-    "game_engine": "not in P0; installed Unity may be evaluated only after P0",
+    "game_engine": "not in P0; Unity 6000.3.17f1 is installed; Unreal Engine is not installed and UE 5.8 may be evaluated only as a post-template companion",
     "selection_gate": "gates/GATE-1-技术验证-6h.md"
   },
   "collaboration_contract": {
@@ -548,9 +558,10 @@
       "integration_branch": "main",
       "product_wip_limit": 1,
       "merge_method": "squash pull request",
-      "review_rule": "the claimed experiment and acceptance checks must run before approval; then at least one non-author approval is required and the integrator performs merge",
+      "review_rule": "the claimed experiment and acceptance checks must run first; Codex performs centralized diff, contract, test and risk review, then the product integrator makes the explicit accept and squash-merge decision; optional teammate reviews never block a one-integrator repository",
       "unclaimed_work_rule": "Codex may fill ai_allowed gaps under the elastic staffing model, but a human owner must understand, test and approve the result",
-      "realtime_validation": "CI on every push; reviewer or integrator checks out Ready PR in isolation; only accepted PRs enter main and the final demo checkout",
+      "required_status_checks": ["Rust (ubuntu-latest)", "Rust (windows-latest)", "Contracts and docs"],
+      "realtime_validation": "required CI on every latest PR SHA; Codex or the integrator checks out Ready PR in isolation; only explicitly accepted PRs enter main and the final demo checkout",
       "accepted_tag_pattern": "p0-xx-accepted",
       "active_slice_order": ["P0-00", "P0-01", "P0-02", "P0-03", "P0-04", "P0-05", "P0-06", "P0-07"],
       "source": "product/MODULE-MAP.md#四人单功能-wip-协议"
@@ -558,6 +569,16 @@
     "environment_contract": {
       "strategy": "pinned toolchains and lockfiles; native Windows fast path when policy permits; Ubuntu WSL2 Rust executor while Smart App Control enforcement remains enabled; doctor/bootstrap/verify scripts plus SQLite and fixture fallback",
       "must_verify_on": ["final demo machine", "at least one second teammate machine"],
+      "latest_read_only_audit": {
+        "recorded_at": "2026-07-23T10:51:55+08:00",
+        "mutation": false,
+        "storage": "C: NTFS healthy, 3698.0 GiB total and 1113.1 GiB free; project 0.84 GiB; D: is a 0.40 GiB compatibility volume and only approved junctions are used",
+        "path_identity": "C:/Desktop/黑客松 and D:/10451/Desktop/黑客松 resolve to the same NTFS file identity; scans must use only one alias",
+        "hardware": "Intel i7-13700H 14C/20T, 63.6 GiB RAM, RTX 4070 Laptop 8 GiB",
+        "installed": "Visual Studio Community 2026 18.7.1, .NET SDK 10.0.301, Developer Mode, Unity 6000.3.17f1, Rust 1.97.0 host plus repository-pinned Rust 1.97.1, Node 25.8.1 host plus repository-local Node 24.18.0",
+        "optional_missing": "WinUI application development workload and dotnet winui templates are absent; Unreal Engine is absent; neither is required for Phase 0",
+        "excluded_or_protected": "F: excluded; oceanbase-desktop WSL was not started, stopped, modified, exported, compacted or upgraded"
+      },
       "source": "engineering/TECH-STACK.md#15-版本控制协作平台与统一环境"
     }
   },

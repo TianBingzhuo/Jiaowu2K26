@@ -1,4 +1,6 @@
-# Human accountability and final integration
+# Responsibility map only. Branch protection does not require a second reviewer
+# while the repository has one active integrator; Codex performs central technical
+# review and the product integrator retains the explicit accept/merge decision.
 * @TianBingzhuo
 
 # Cross-cutting contracts and live task state require integrator review

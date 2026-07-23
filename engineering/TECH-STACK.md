@@ -96,6 +96,7 @@ OceanBase 云账号已确认，且以下条件全部通过？
 - 第一轮只在 Windows 验证，但领域模型、OpenAPI/JSON Schema、状态机和 Design Token 从第一天保持平台无关；
 - WinUI 3 只可作为 Windows 特有能力壳，不能承载领域规则；Tauri 2 可在 P0 后评估 Windows/macOS/iOS/Android 壳，但不是 HarmonyOS 的默认答案；
 - HarmonyOS 7 使用同一 Web/API 合同，后续单独验证 ArkUI/ArkTS 或 ArkUI Web 适配；任何原生壳都不能复制第二套业务逻辑。
+- 输入层使用 `SemanticAction → InputAdapter → UI Focus Graph`：Web/PWA 通过 [W3C Gamepad API](https://www.w3.org/TR/gamepad/) 读取标准布局并保留键盘/触控/读屏等价路径；未来 Windows 原生壳可增加 [Microsoft GameInput](https://learn.microsoft.com/en-us/gaming/gdk/docs/features/common/input/overviews/input-overview) 适配器。组件不得硬编码按钮编号或把手柄逻辑写入领域层。
 
 完整兼容策略、版本窗口和平台矩阵见 [ARCHITECTURE · 01 基座兼容性宪章](ARCHITECTURE.md#01-基座兼容性宪章)。
 
@@ -238,6 +239,7 @@ P0 核心差异需要高保真 3D 校园/角色/虚拟制作？
 - Unity 仅 P2 展会外壳候选（Campus Hub），业务仍走同一 API；
 - Unreal 5.8 P0 拒绝，当前不安装。
 - 统一游戏化美术依靠 Web Design System、资产管线和交互语法实现，不以安装 Unity/Unreal 为前提。
+- 具备 Revit / 空间渲染能力时，P0 只做原创 Campus Arena 的构图、预渲染和优化 Web 资产；运行时 3D 必须在 UI 主路径稳定后另过性能 Gate。Revit 可按 Epic 官方 [Datasmith 工作流](https://dev.epicgames.com/documentation/en-us/unreal-engine/using-datasmith-with-revit-in-unreal-engine) 导出选定 3D View，或按 Autodesk 官方流程导出 FBX，但这不自动批准 UE 进入 P0。
 
 ---
 

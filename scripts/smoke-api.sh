@@ -6,6 +6,8 @@ PORT="${J2K26_SMOKE_PORT:-31126}"
 BASE="http://127.0.0.1:${PORT}/api/v1"
 LOG_FILE="$(mktemp)"
 export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-${HOME}/.cache/jiaowu2k26/target}"
+READY_ATTEMPTS="${J2K26_SMOKE_READY_ATTEMPTS:-120}"
+READY_INTERVAL_SECONDS="${J2K26_SMOKE_READY_INTERVAL_SECONDS:-0.25}"
 
 cleanup() {
   if [[ -n "${SERVER_PID:-}" ]] && kill -0 "${SERVER_PID}" 2>/dev/null; then
@@ -17,21 +19,45 @@ cleanup() {
 trap cleanup EXIT
 
 cd "${ROOT}"
+
+# Build before starting the readiness clock. A clean GitHub runner can spend
+# longer compiling than the service itself needs to become ready; counting that
+# time as server startup made the smoke test flaky while every Rust test passed.
+cargo build --quiet --locked --manifest-path app/Cargo.toml --bin j2k26-api
+
+API_BIN="${CARGO_TARGET_DIR}/debug/j2k26-api"
+if [[ -x "${API_BIN}.exe" ]]; then
+  API_BIN="${API_BIN}.exe"
+fi
+if [[ ! -x "${API_BIN}" ]]; then
+  echo "Built API binary was not found at ${API_BIN}." >&2
+  exit 1
+fi
+
 J2K26_DATABASE_URL='sqlite::memory:' \
 J2K26_BIND="127.0.0.1:${PORT}" \
-cargo run --quiet --locked --manifest-path app/Cargo.toml --bin j2k26-api >"${LOG_FILE}" 2>&1 &
+"${API_BIN}" >"${LOG_FILE}" 2>&1 &
 SERVER_PID=$!
 
-for _ in $(seq 1 80); do
+READY=false
+for _ in $(seq 1 "${READY_ATTEMPTS}"); do
   if curl --fail --silent "${BASE}/health" >/dev/null; then
+    READY=true
     break
   fi
   if ! kill -0 "${SERVER_PID}" 2>/dev/null; then
+    echo 'API process exited before becoming ready.' >&2
     cat "${LOG_FILE}" >&2
     exit 1
   fi
-  sleep 0.25
+  sleep "${READY_INTERVAL_SECONDS}"
 done
+
+if [[ "${READY}" != true ]]; then
+  echo "API did not become ready after ${READY_ATTEMPTS} attempts at ${READY_INTERVAL_SECONDS}s intervals." >&2
+  cat "${LOG_FILE}" >&2
+  exit 1
+fi
 
 HEALTH="$(curl --fail --silent "${BASE}/health")"
 [[ "${HEALTH}" == *'"status":"ok"'* ]]

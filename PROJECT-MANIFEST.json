@@ -1,5 +1,5 @@
 {
-  "schema_version": "3.10",
+  "schema_version": "3.11",
   "updated_at": "2026-07-23",
   "project": {
     "id": "jiaowu2K26",
@@ -393,7 +393,8 @@
       "design tokens and component geometry",
       "typography, icons, motion and asset pipeline",
       "state vocabulary and evidence presentation",
-      "Briefing -> Choose -> Execute -> Replay -> Next Move loop"
+      "Briefing -> Choose -> Execute -> Replay -> Next Move loop",
+      "controller-first semantic actions, deterministic focus graph and equivalent keyboard, touch and screen-reader paths"
     ],
     "forbidden": [
       "module-specific skins or private palettes",
@@ -403,7 +404,23 @@
     ],
     "accessibility_modes": ["immersive", "light", "traditional", "reduced_motion"],
     "equal_information_completeness": true,
-    "primary_key_art_direction": "original university sports-career launch screen with student hero, campus arena, season context, one primary objective and readable HUD; not cyber concept art or copied 2K trade dress"
+    "primary_key_art_direction": "original university sports-career launch screen with student hero, campus arena, season context, one primary objective and readable HUD; not cyber concept art or copied 2K trade dress",
+    "controller_first_contract": {
+      "status": "approved_cross_cutting_requirement_not_implemented",
+      "scope": "primary demo path and most non-text operations; controller-first never controller-only",
+      "semantic_actions": ["navigate", "confirm", "back", "details", "next_move", "previous_region", "next_region", "page_back", "page_forward", "command_help"],
+      "equivalent_inputs": ["gamepad", "keyboard", "mouse", "touch", "screen_reader"],
+      "exceptions": ["long text entry", "file picker", "browser or operating-system permission", "high-risk final confirmation"],
+      "high_risk_rule": "publish, delete, payment, access control, authorization and formal submission require an explicit confirmation surface and may not execute from one generic confirm press",
+      "adapter_rule": "Web Gamepad API and future native GameInput adapters normalize into the same semantic actions; domain rules never depend on device button indices",
+      "privacy_rule": "do not upload raw device identifiers or input traces; persist remapping only after local user choice"
+    },
+    "spatial_design_contract": {
+      "status": "candidate_capability_package_unassigned",
+      "p0": "one fictional Campus Arena composition plus optimized registered 2D assets; no free-roam campus",
+      "future": "optimized GLB/Web or Revit/FBX/Datasmith/Unreal only after UI, performance, rights and fallback gates",
+      "assignment_rule": "capability labels such as Figma, Photoshop, Illustrator, Revit, 3D modeling and spatial rendering must be confirmed by the teammate before task ownership is recorded"
+    }
   },
   "local_case_audit": {
     "audited_at": "2026-07-22",
@@ -575,6 +592,19 @@
       "manifest_sha256": "8BB484643B7E0104931F534AC989FC4243E95CC2E9D67A600A56F19BA6D3F23F",
       "use": "internal_research_only",
       "product_asset_reuse_authorized": false
+    },
+    {
+      "id": "bili-personal-image-collection",
+      "path": "D:/10451/Pictures/bili",
+      "audited_at": "2026-07-23",
+      "files": 473,
+      "bytes": 1121927217,
+      "sample_method": "complete contact-sheet scan plus original-size inspection of representative recent groups",
+      "observed_content": "predominantly third-party anime illustrations and wallpapers with a small number of QR, product and social screenshots; no Figma, Revit, 3D model or UI handoff evidence identified",
+      "use": "private_moodboard_only",
+      "copied_into_project": false,
+      "product_asset_reuse_authorized": false,
+      "decision": "do not infer a teammate's design capability from this folder and do not import any image unless provenance, author, license and project fit are independently verified"
     }
   ],
   "research_inputs": [

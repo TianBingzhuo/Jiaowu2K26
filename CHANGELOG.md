@@ -16,6 +16,10 @@
 - Career Control Room 首页、原创橙青赛季 HUD 与任务 / 角色 / 功能阵容快速入口。
 - Junction 感知构建与核心 CSS / Pagefind 构建后守卫，防止“构建成功但页面裸奔”。
 - AI 三项入场回执：协作角色与任务、本人自报的任务相关技术熟悉度、任务目标/非目标/成功证据与建议风险。
+- X-16 Controller-first 多输入合同：语义动作、确定性焦点、动态键帽、校准/重映射、断连回退、输入等价与高风险二次确认。
+- 面向 Figma / Photoshop / Illustrator / Revit / 3D 空间设计能力的交付边界：P0 先做统一 UI 与原创 Campus Arena 预渲染资产，运行时 3D 另过性能和权利 Gate。
+- `D:/10451/Pictures/bili` 私人图库完成只读联系表审计：仅作私人情绪板，不作为队员能力证据或可复用产品资产。
+- Linux live smoke 将冷编译与服务就绪计时分离，并为进程早退、超时和跨平台可执行文件路径提供明确诊断。
 
 ### Changed
 

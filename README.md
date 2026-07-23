@@ -64,6 +64,7 @@ AI 的回执至少应包含：
 - 稳定 ID：F-001～F-014 各功能表中已经发布的编号与含义不得重新编号或复用
 - 路线图：F-010～F-014 已纳入产品范围，合并维护于 University OS 扩展包；全部未排期、可裁剪
 - 视觉硬约束：学生 / 教师 / 学校三端共用一套游戏化 Design System，任何模块不得独立换肤
+- 输入硬约束：演示主路径采用 controller-first 多输入合同，绝大多数非文本操作可用手柄完成，但键盘、触控、读屏与高风险确认保持等价且不可被削弱
 - 本地案例与游戏机制审计：2026-07-22 已将其他项目、NBA 2K 与 maimai 的可迁移经验归并为 `EXP-CASE-01`～`EXP-CASE-11`；94 条 NBA 2K/系列机制与 45 条 maimai 机制均有产品去向，但实现与真实用户验证仍为 0；不新增顶层 F 编号、不扩张 P0
 - 一句话派单：根目录 [`AGENTS.md`](AGENTS.md) 已接入 `PROJECT-MANIFEST.json.current_work`；当前只派发 GATE-1 / `P0-00` 内的弹性工作包
 - 视觉方向稿：[`jiaowu2k26-career-mode-concept-v1.png`](reference/assets/jiaowu2k26-career-mode-concept-v1.png) 是游戏启动屏式主视觉；[`jiaowu2k26-a4-software-universe-map-v1.png`](reference/assets/jiaowu2k26-a4-software-universe-map-v1.png) 是 A4 软件功能全景第一页；[`jiaowu2k26-a4-explainer-role-map-v1.png`](reference/assets/jiaowu2k26-a4-explainer-role-map-v1.png) 是 A4 岗位速配第二页。三者仅作赛前招募与原创游戏世界方向验证，不是产品截图或本届实现成果

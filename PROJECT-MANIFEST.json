@@ -28,7 +28,7 @@
     "active_issue": "https://github.com/TianBingzhuo/Jiaowu2K26/issues/1",
     "wip_limit": 1,
     "sync_status": "current",
-    "last_synced_at": "2026-07-23T08:42:11+08:00",
+    "last_synced_at": "2026-07-23T10:22:01+08:00",
     "staleness_rule": "stale immediately if organizer start/freeze/submission state, active slice, task status, owner or GitHub board state changes without updating this snapshot",
     "task_source": {
       "mode": "github_live",
@@ -55,8 +55,8 @@
       "review_authority": "product_integrator"
     },
     "validation_snapshot": {
-      "status": "local_evidence_ready_ci_and_human_review_pending",
-      "recorded_at": "2026-07-23T08:42:11+08:00",
+      "status": "local_and_ci_evidence_ready_second_machine_and_human_review_pending",
+      "recorded_at": "2026-07-23T10:22:01+08:00",
       "branch": "agent/phase0-foundation",
       "environment": {
         "windows": "Windows 11 25H2 build 26200.8894; Smart App Control enforce",
@@ -70,10 +70,11 @@
         "8 Rust tests pass across domain, SQLite adapter and live HTTP router",
         "live API smoke passes health -> review -> approve -> publish -> replay with fixture plus in-memory SQLite",
         "4 JSON Schemas, OpenAPI, golden fixture and manifest pass deterministic contract checks",
-        "documentation portal builds 152 routes, verifies 151 generated content pages and 206 local links; npm audit reports 0 vulnerabilities"
+        "documentation portal builds 152 routes, verifies 151 generated content pages and 206 local links; npm audit reports 0 vulnerabilities",
+        "GitHub Actions run 29974052323 passes Rust 1.97.1 on ubuntu-latest and windows-latest plus contracts and docs; the Linux live API smoke path passes after build and readiness timing were separated"
       ],
       "windows_native_rust_note": "Code Integrity event 3077/3033 shows rustc.exe was blocked while loading an unsigned locally built displaydoc proc-macro DLL; this is a Smart App Control policy interaction, not a Rust source failure. No security setting was changed.",
-      "not_yet_evidence": ["GitHub Actions run for this branch", "second teammate machine", "human PR approval", "React/Web shell", "OceanBase connectivity", "live model output"]
+      "not_yet_evidence": ["second teammate machine", "human PR approval", "React/Web shell", "OceanBase connectivity", "live model output"]
     },
     "ready_tasks": [
       {
@@ -99,7 +100,7 @@
         "claimed_at": "2026-07-23T07:18:05+08:00",
         "updated_at": "2026-07-23",
         "execution_support": ["codex"],
-        "evidence": ["public repository and protected main active", "pinned environment plus doctor/bootstrap/verify scripts", "local verification succeeds without disabling Smart App Control", "awaiting CI and product-integrator approval"]
+        "evidence": ["public repository and protected main active", "pinned environment plus doctor/bootstrap/verify scripts", "local verification succeeds without disabling Smart App Control", "GitHub Actions run 29974052323 passes Ubuntu, Windows, contracts and docs", "awaiting second-machine reproduction and product-integrator approval"]
       },
       {
         "id": "P0-00-B",
@@ -513,7 +514,7 @@
     }
   ],
   "technology_proposal": {
-    "approval_status": "gate_1_local_evidence_ready; awaiting_GitHub_Actions_second_machine_and_user_approval",
+    "approval_status": "gate_1_local_and_ci_evidence_ready; awaiting_second_machine_and_user_approval",
     "backend_candidate": "Rust 1.97.1 + Axum 0.8.9 + Tokio 1.53.1 passed local WSL compile/test/clippy and live API smoke; still conditional until user accepts the PR; FastAPI or Node remains fallback",
     "database_candidate": "SQLite + SQLx 0.9.0 passed the repository/transaction/replay slice and is the current verified local path; OceanBase MySQL mode remains an untested optional adapter, never a startup dependency",
     "frontend_candidate": "React + TypeScript + Vite Web/PWA",

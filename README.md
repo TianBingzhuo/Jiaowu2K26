@@ -57,7 +57,7 @@ AI 的回执至少应包含：
 ## 项目状态
 - 当前阶段：AdventureX 2026 `hacking` · GATE-1 · Active Slice=`P0-00`
 - 首个 P0：智课工坊 / SmartCourse Studio
-- 技术栈状态：Rust / Axum / Tokio + SQLite 的 P0-00 本地证据已通过，正在等待 GitHub Actions、第二台机器与用户 PR 审核；OceanBase 仍是未验证的可选适配器
+- 技术栈状态：Rust / Axum / Tokio + SQLite 的 P0-00 本地证据及 GitHub Actions Ubuntu/Windows/合同文档门禁已通过，仍等待第二台机器与用户 PR 审核；OceanBase 仍是未验证的可选适配器
 - 实现状态：Phase 0 协作与技术基线已开工；产品功能仍为 `pending`，不得把基座等同于完成产品
 - 公开主仓：[TianBingzhuo/Jiaowu2K26](https://github.com/TianBingzhuo/Jiaowu2K26)；GitHub Issue / PR 是开仓后的实时工作源
 - 当前代码证据：8 项领域/API/SQLite 测试 + 1 条实时 HTTP smoke path 已通过；这些是“技术切片待审”，不是产品完成声明

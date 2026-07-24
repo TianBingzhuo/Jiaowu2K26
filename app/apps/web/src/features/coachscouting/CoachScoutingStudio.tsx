@@ -1247,6 +1247,11 @@ export function CoachScoutingStudio({
       </div>
 
       <main id="coach-main" className="coach-main">
+        <h1 className="sr-only">
+          {state.traditional
+            ? "课程信息与咨询"
+            : "Coach & Scouting · 课程证据与协作"}
+        </h1>
         {stageContent}
       </main>
 

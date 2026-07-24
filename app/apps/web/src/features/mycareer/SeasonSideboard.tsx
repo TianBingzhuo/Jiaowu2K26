@@ -18,6 +18,7 @@ import {
   STAGE_LABEL,
 } from "./engine";
 import type { DemoSeason } from "./types";
+import { useI18n } from "../../i18n/I18nProvider";
 import "./mycareer.css";
 
 type SeasonSideboardProps = {
@@ -65,20 +66,20 @@ const loadRosterOrder = (fallback: string[]) => {
   }
 };
 
-const formatDeadline = (value: string) =>
-  new Intl.DateTimeFormat("zh-CN", {
-    month: "numeric",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).format(new Date(value));
-
 export function SeasonSideboard({
   season,
   selectedCourseId,
   onSelectCourse,
 }: SeasonSideboardProps) {
+  const { formatDate } = useI18n();
+  const formatDeadline = (value: string) =>
+    formatDate(value, {
+      month: "numeric",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
   const deadlines = getUpcomingDeadlines(season, season.updatedAt);
   const seasonProgress = getSeasonProgressPct(season);
   const defaultOrder = useMemo(

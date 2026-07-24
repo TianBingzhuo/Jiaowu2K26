@@ -10,6 +10,10 @@
 该回归追加验证了根页面返回保护、跨模块/跨阶段滚动复位、Opportunity Market
 筛选栏、Academic Mirror 快照反馈与时间格式，以及 World Exam `2/2 → Replay`。
 
+中英赛事导览、国际评委梗解释、内驱友善文案与未来俄语闸门见
+[多语言与激励文案合同](LOCALIZATION-AND-TONE.md)，本轮 Chrome 证据见
+[双语、语气与国际化审计](../reference/audit/2026-07-24-chrome-bilingual-audit/AUDIT.md)。
+
 ## 总判断
 
 当前版本已经有明确的 University2K26 视觉身份，但不同页面处在三种成熟度：

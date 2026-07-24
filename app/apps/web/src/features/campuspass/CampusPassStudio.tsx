@@ -52,6 +52,7 @@ import type {
   CampusPassState,
   PassCarrier,
 } from "./types";
+import { useI18n } from "../../i18n/I18nProvider";
 import "./campuspass.css";
 
 type CampusPassStudioProps = {
@@ -128,15 +129,6 @@ const STATE_LABEL: Record<string, string> = {
   draft_blocked_credential: "凭证状态阻塞",
 };
 
-const formatFixtureTime = (value: string) =>
-  new Intl.DateTimeFormat("zh-CN", {
-    month: "numeric",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).format(new Date(value));
-
 const SectionHeading = ({
   eyebrow,
   title,
@@ -157,6 +149,15 @@ export function CampusPassStudio({
   backendLabel,
   onExit,
 }: CampusPassStudioProps) {
+  const { formatDate } = useI18n();
+  const formatFixtureTime = (value: string) =>
+    formatDate(value, {
+      month: "numeric",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
   const [state, setState] = useState<CampusPassState>(() =>
     loadCampusPassState(),
   );

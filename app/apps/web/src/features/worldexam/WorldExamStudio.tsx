@@ -64,6 +64,7 @@ import type {
   PostGameReflection,
   WorldExamState,
 } from "./types";
+import { useI18n } from "../../i18n/I18nProvider";
 import "./worldexam.css";
 
 type WorldExamStudioProps = {
@@ -153,16 +154,6 @@ const OBJECT_LABEL = new Map(
   SMARTCOURSE_FIXTURE.objects.map((object) => [object.id, object]),
 );
 
-const formatDateTime = (value: string) =>
-  new Intl.DateTimeFormat("zh-CN", {
-    month: "numeric",
-    day: "numeric",
-    weekday: "short",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).format(new Date(value));
-
 function eventLabel(mode: NarrativeMode) {
   if (mode === "traditional") return "模拟期末练习";
   if (mode === "light") return "期末准备节点";
@@ -185,6 +176,16 @@ export function WorldExamStudio({
   backendLabel,
   onExit,
 }: WorldExamStudioProps) {
+  const { formatDate } = useI18n();
+  const formatDateTime = (value: string) =>
+    formatDate(value, {
+      month: "numeric",
+      day: "numeric",
+      weekday: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
   const [state, setState] = useState(createWorldExamState);
   const [hydrated, setHydrated] = useState(false);
   const [message, setMessage] = useState(

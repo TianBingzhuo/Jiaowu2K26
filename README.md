@@ -62,7 +62,7 @@ AI 的回执至少应包含：
 - 技术栈状态：Rust / Axum / Tokio + SQLite 的 P0-00 本地证据及 GitHub Actions Ubuntu/Windows/合同文档门禁已通过，仍等待第二台机器复现与产品总集成人员接受决定；OceanBase 仍是未验证的可选适配器
 - 实现状态：已通过的 Option 1 首页美术已晋升为 `app/apps/web` 中的 University2K26 V0.9 正式 Web/PWA 外壳；严格 TypeScript、Vite 6.4.3 构建、统一 Motion Tokens 与显式 Fixture 降级已就绪。首页现提供学生、教师、辅导员 / 学业导师、专业负责人 / 系主任、本科生院 / 教务处五种 Demo Role Lens，共用同一游戏世界、输入合同和责任链。F-001～F-009 的学习、生涯、数据镜像、排课、赛事、能力、球探、校园生活与机会纵向切片，以及 F-010 Campus Pass 的 Wallet→Reader→Access Queue→Safety Desk→Replay 脱敏切片均通过本地技术验证；状态均为 `technical_review`，未获人类接受的模块不得称为完成
 - 公开主仓：[TianBingzhuo/Jiaowu2K26](https://github.com/TianBingzhuo/Jiaowu2K26)；GitHub Issue / PR 是开仓后的实时工作源
-- 当前代码证据：63 项 Rust 工作区测试（含 F-010 的 4 项领域与 3 项 API 边界用例）、28 份 JSON Schema、10 份 Golden Fixture、OpenAPI/Manifest 合同检查通过；F-001～F-010 与五角色 Experience Shell 通过严格 TypeScript、120 项 Vitest 与 Vite Production Build。当前 Edge / Chromium 已实测五角色切换、刷新保持、教师审核深链、当前角色返回、桌面 / 390px 窄屏和方向键空间寻焦；这些仍是“技术切片待审”，不是生产 SSO、服务端授权或产品完成声明
+- 当前代码证据：63 项 Rust 工作区测试（含 F-010 的 4 项领域与 3 项 API 边界用例）、28 份 JSON Schema、10 份 Golden Fixture、OpenAPI/Manifest 合同检查通过；F-001～F-010 与五角色 Experience Shell 通过严格 TypeScript、125 项 Vitest 与 Vite Production Build。当前 Edge / Chromium 已实测五角色切换、刷新保持、教师审核深链、当前角色返回、十入口中英赛事导览、桌面 / 390px 窄屏和方向键空间寻焦；这些仍是“技术切片待审”，不是生产 SSO、服务端授权、全量双语 UI 或产品完成声明
 - Demo 课程：信号与线性系统为首页主赛程，光学、电子电路、高等数学、学术英语、工程训练构成课程阵容；仅使用本地已审核 README/索引中的名称、主题与证据边界，分析路径、身份、进度、等级和建议均明确标记为 Fixture，详见 [Demo 课程来源与脱敏边界](reference/DEMO-COURSE-PROVENANCE.md)
 - 全部学科发现池：桌面“学科”中的 43 个快捷方式已只读映射为 40 个唯一来源目录，10 个已有根 README；它们是待复核候选，不是选课记录或已完成分析，详见 [本地学科发现池快照](reference/COURSE-CATALOG-SNAPSHOT.md)
 - 稳定 ID：F-001～F-014 各功能表中已经发布的编号与含义不得重新编号或复用
@@ -194,6 +194,7 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\tools\Docs.ps1 -Action Setup
 | [DESIGN-SYSTEM](engineering/DESIGN-SYSTEM.md) | 视觉设计规范（2K风格色板/字体/组件/动效） |
 | [GX10 V0.9 部署交接](engineering/GX10-V09-DEPLOYMENT-HANDOFF.md) | 设备 AI 只读盘点、ARM64 构建、产品链路、独立模型 Spike、HTTPS 与回滚 |
 | [MOTION-SYSTEM](engineering/MOTION-SYSTEM.md) | AAA 游戏感的因果反馈、动效状态机、性能/可访问性与手动验收 |
+| [LOCALIZATION-AND-TONE](engineering/LOCALIZATION-AND-TONE.md) | 中英赛事导览、游戏梗转译、内驱友善文案与未来俄语工程闸门 |
 | [LOCAL-AI-SOVEREIGN-NODE](engineering/LOCAL-AI-SOVEREIGN-NODE.md) | GX10 设备边界、大小模型路由、候选对比、主权数据、实机 Spike 与设备 AI receipt 交接 |
 | [DEMO-PATH](engineering/DEMO-PATH.md) | Demo脚本与Pitch结构 |
 | [GITHUB-COLLAB](engineering/GITHUB-COLLAB.md) | 面向非技术/设计同学的 Clone、短分支、Commit、Push、PR、同步与冲突处理图形化说明 |

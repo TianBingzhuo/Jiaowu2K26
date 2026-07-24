@@ -76,7 +76,7 @@
 
 - 五角色入口与权限表达的截图审计：`reference/audit/2026-07-24-role-lens-audit/AUDIT.md`。
 - 严格 TypeScript 通过。
-- 16 个测试文件、120 项 Vitest 全部通过。
+- 17 个测试文件、125 项 Vitest 全部通过。
 - Vite 6.4.3 Production Build 通过。
 - 当前 Edge / Chromium 实测：
   - 五角色均可从首页切换并获得独立导航与任务首页；

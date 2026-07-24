@@ -58,6 +58,7 @@ import type {
   CampusParticipation,
   CampusStage,
 } from "./types";
+import { useI18n } from "../../i18n/I18nProvider";
 import "./campuslife.css";
 
 type CampusLifeStudioProps = {
@@ -109,15 +110,6 @@ const STAGES: Array<{
   },
 ];
 
-const formatTime = (value: string) =>
-  new Intl.DateTimeFormat("zh-CN", {
-    month: "numeric",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).format(new Date(value));
-
 const targetLabel = (state: CampusLifeState, targetId: string) =>
   state.fixture.resources.find((item) => item.id === targetId)?.title ??
   state.fixture.events.find((item) => item.id === targetId)?.title ??
@@ -166,6 +158,15 @@ export function CampusLifeStudio({
   backendLabel,
   onExit,
 }: CampusLifeStudioProps) {
+  const { formatDate } = useI18n();
+  const formatTime = (value: string) =>
+    formatDate(value, {
+      month: "numeric",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
   const [state, setState] = useState(loadCampusLifeState);
   const [toast, setToast] = useState("");
   const [mentorQuestion, setMentorQuestion] = useState(
@@ -1303,6 +1304,13 @@ export function CampusLifeStudio({
         <em>STAGE {stageIndex + 1} / {STAGES.length}</em>
       </div>
       <main id="campus-main" className="campus-main" tabIndex={-1}>
+        {(state.stage === "squad" || state.stage === "replay") && (
+          <h1 className="sr-only">
+            {state.traditional
+              ? "校园活动、协作与支持服务"
+              : "Campus Life Hub · 校园生活中心"}
+          </h1>
+        )}
         {stageContent}
       </main>
       <footer className="campus-footer">

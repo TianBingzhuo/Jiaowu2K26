@@ -69,6 +69,8 @@ import type {
   RoleExperience,
   RoleId,
 } from "./features/roles/types";
+import { BilingualEventHud } from "./i18n/BilingualEventHud";
+import type { ExperienceKey } from "./i18n/catalog";
 
 const SmartCourseStudio = lazy(() =>
   import("./features/smartcourse/SmartCourseStudio").then((module) => ({
@@ -121,7 +123,7 @@ const CampusPassStudio = lazy(() =>
 );
 
 type Panel = "evidence" | "settings" | "courses" | "roles" | null;
-type Experience = "career" | RoleExperience;
+type Experience = ExperienceKey;
 type AppRoute = {
   experience: Experience;
   panel: Panel;
@@ -1032,8 +1034,22 @@ export function App() {
     [],
   );
 
+  const renderWithBilingualHud = (
+    currentExperience: ExperienceKey,
+    content: ReactNode,
+  ) => (
+    <>
+      {content}
+      <BilingualEventHud
+        experience={currentExperience}
+        role={activeRole}
+      />
+    </>
+  );
+
   if (experience === "smartcourse") {
-    return (
+    return renderWithBilingualHud(
+      "smartcourse",
       <Suspense fallback={<FeatureLoading label="SmartCourse Studio" />}>
         <SmartCourseStudio
           backendLabel={backend.label}
@@ -1041,99 +1057,108 @@ export function App() {
           exitLabel={`${activeProfile.formalRole}首页`}
           onExit={returnWithinApp}
         />
-      </Suspense>
+      </Suspense>,
     );
   }
 
   if (experience === "worldexam") {
-    return (
+    return renderWithBilingualHud(
+      "worldexam",
       <Suspense fallback={<FeatureLoading label="World Exam Finals" />}>
         <WorldExamStudio
           backendLabel={backend.label}
           onExit={returnWithinApp}
         />
-      </Suspense>
+      </Suspense>,
     );
   }
 
   if (experience === "rosterlab") {
-    return (
+    return renderWithBilingualHud(
+      "rosterlab",
       <Suspense fallback={<FeatureLoading label="Roster Lab" />}>
         <RosterLabStudio
           backendLabel={backend.label}
           onExit={returnWithinApp}
         />
-      </Suspense>
+      </Suspense>,
     );
   }
 
   if (experience === "academicmirror") {
-    return (
+    return renderWithBilingualHud(
+      "academicmirror",
       <Suspense fallback={<FeatureLoading label="Academic Mirror" />}>
         <AcademicMirrorStudio
           backendLabel={backend.label}
           onExit={returnWithinApp}
         />
-      </Suspense>
+      </Suspense>,
     );
   }
 
   if (experience === "performancecenter") {
-    return (
+    return renderWithBilingualHud(
+      "performancecenter",
       <Suspense fallback={<FeatureLoading label="Performance Center" />}>
         <PerformanceCenterStudio
           backendLabel={backend.label}
           onExit={returnWithinApp}
         />
-      </Suspense>
+      </Suspense>,
     );
   }
 
   if (experience === "opportunitymarket") {
-    return (
+    return renderWithBilingualHud(
+      "opportunitymarket",
       <Suspense fallback={<FeatureLoading label="Opportunity Market" />}>
         <OpportunityMarketStudio
           backendLabel={backend.label}
           onExit={returnWithinApp}
         />
-      </Suspense>
+      </Suspense>,
     );
   }
 
   if (experience === "coachscouting") {
-    return (
+    return renderWithBilingualHud(
+      "coachscouting",
       <Suspense fallback={<FeatureLoading label="Coach & Scouting" />}>
         <CoachScoutingStudio
           backendLabel={backend.label}
           onExit={returnWithinApp}
         />
-      </Suspense>
+      </Suspense>,
     );
   }
 
   if (experience === "campuslife") {
-    return (
+    return renderWithBilingualHud(
+      "campuslife",
       <Suspense fallback={<FeatureLoading label="Campus Life Hub" />}>
         <CampusLifeStudio
           backendLabel={backend.label}
           onExit={returnWithinApp}
         />
-      </Suspense>
+      </Suspense>,
     );
   }
 
   if (experience === "campuspass") {
-    return (
+    return renderWithBilingualHud(
+      "campuspass",
       <Suspense fallback={<FeatureLoading label="Campus Pass" />}>
         <CampusPassStudio
           backendLabel={backend.label}
           onExit={returnWithinApp}
         />
-      </Suspense>
+      </Suspense>,
     );
   }
 
-  return (
+  return renderWithBilingualHud(
+    "career",
     <div
       ref={shellRef}
       className={[
@@ -1922,6 +1947,6 @@ export function App() {
           {toast}
         </div>
       )}
-    </div>
+    </div>,
   );
 }

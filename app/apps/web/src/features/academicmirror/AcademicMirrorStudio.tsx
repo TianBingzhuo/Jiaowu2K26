@@ -52,6 +52,7 @@ import type {
   MirrorValue,
   SourceRegistrationDraft,
 } from "./types";
+import { useI18n } from "../../i18n/I18nProvider";
 import "./academicmirror.css";
 
 type AcademicMirrorStudioProps = {
@@ -127,22 +128,6 @@ function formatValue(value: MirrorValue): string {
   return String(value);
 }
 
-const mirrorTimeFormatter = new Intl.DateTimeFormat("zh-CN", {
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-  hour: "2-digit",
-  minute: "2-digit",
-  hour12: false,
-});
-
-function formatMirrorTime(value: string): string {
-  const timestamp = Date.parse(value);
-  return Number.isNaN(timestamp)
-    ? value
-    : mirrorTimeFormatter.format(new Date(timestamp));
-}
-
 function downloadJson(filename: string, payload: unknown) {
   const blob = new Blob([`${JSON.stringify(payload, null, 2)}\n`], {
     type: "application/json",
@@ -188,6 +173,20 @@ function ConflictCard({
   onReasonChange: (reason: string) => void;
   onResolve: () => void;
 }) {
+  const { formatDate } = useI18n();
+  const formatMirrorTime = (value: string): string => {
+    const timestamp = Date.parse(value);
+    return Number.isNaN(timestamp)
+      ? value
+      : formatDate(timestamp, {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        });
+  };
   const resolved = conflict.status === "resolved";
   return (
     <article
@@ -275,6 +274,20 @@ export function AcademicMirrorStudio({
   backendLabel,
   onExit,
 }: AcademicMirrorStudioProps) {
+  const { formatDate } = useI18n();
+  const formatMirrorTime = (value: string): string => {
+    const timestamp = Date.parse(value);
+    return Number.isNaN(timestamp)
+      ? value
+      : formatDate(timestamp, {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        });
+  };
   const [state, setState] = useState<MirrorState>(() => {
     try {
       return loadMirrorState() ?? createAcademicMirrorState();

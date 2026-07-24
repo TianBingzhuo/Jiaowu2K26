@@ -16,6 +16,7 @@ import {
   getLearningSummary,
 } from "./engine";
 import type { DemoCourse } from "./types";
+import { useI18n } from "../../i18n/I18nProvider";
 import "./mycareer.css";
 
 type CourseDetailProps = {
@@ -25,21 +26,21 @@ type CourseDetailProps = {
   onOpenReplay: () => void;
 };
 
-const formatSessionDate = (value: string) =>
-  new Intl.DateTimeFormat("zh-CN", {
-    month: "numeric",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).format(new Date(value));
-
 export function CourseDetail({
   course,
   onOpenWorldExam,
   onStartLearning,
   onOpenReplay,
 }: CourseDetailProps) {
+  const { formatDate } = useI18n();
+  const formatSessionDate = (value: string) =>
+    formatDate(value, {
+      month: "numeric",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
   const learning = getLearningSummary(course);
   const learningReady = canStartLearning(course);
   const replayReady = canOpenReplay(course);

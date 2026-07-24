@@ -20,13 +20,20 @@ impl SqliteRepository {
             .map_err(unavailable)?
             .create_if_missing(true)
             .foreign_keys(true);
-        let max_connections = if database_url.contains(":memory:") {
-            1
-        } else {
-            5
-        };
-        let pool = SqlitePoolOptions::new()
-            .max_connections(max_connections)
+        let in_memory = database_url.contains(":memory:");
+        let mut pool_options =
+            SqlitePoolOptions::new().max_connections(if in_memory { 1 } else { 5 });
+        if in_memory {
+            // Every `sqlite::memory:` connection owns a separate database. SQLx normally
+            // retires idle connections after 10 minutes and all connections after 30
+            // minutes; replacing the only connection would silently discard the schema
+            // and seeded fixture. Keep that single demo connection alive for the process.
+            pool_options = pool_options
+                .min_connections(1)
+                .idle_timeout(None)
+                .max_lifetime(None);
+        }
+        let pool = pool_options
             .connect_with(options)
             .await
             .map_err(unavailable)?;

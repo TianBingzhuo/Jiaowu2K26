@@ -30,7 +30,9 @@
 - 产品总集成人员 × Codex 双轮共创：可丢弃原型、盲用 Think-aloud、六个固定问题、自由想法、四态决定与目标用户复核。
 - CLI / 外部 AI / BYOK 合同：同一 `/api/v1` 与 Schema、默认只读 allowlist、机器可读输出、动作绑定的人类批准，以及仅留本机的凭据引用。
 - GX10 设备 AI 交接状态机、启动 Prompt、脱敏 receipt、批准点和立即停止条件。
-- `app/apps/web`：University2K26 V0.9 React 19 + strict TypeScript + Vite 6.4.3 Web/PWA 外壳、真实 `/api/v1/health` 握手、显式 Fixture 回退、离线 App Shell 与 125 项前端测试。
+- `app/apps/web`：University2K26 V0.9 React 19 + strict TypeScript + Vite 6.4.3 Web/PWA 外壳、真实 `/api/v1/health` 握手、显式 Fixture 回退、离线 App Shell 与 142 项前端测试。
+- F-001 五端点 TypeScript 合同投影与客户端；SmartCourse Replay 可只读显示经过嵌套运行时守卫验证的 Rust API 回执，同时明确本地 Studio 演练没有暗中写后端。
+- `reference/audit/2026-07-24-qoder-security-integration-review/AUDIT.md`：压缩记录 Qoder 产出评价、独立安全复核、证据限制和本轮修复，不把重复过程稿扩散成第二套项目事实。
 - 十入口、五角色的中英双语赛事导览层：Locale Provider、语言持久化、HTML 语言元数据、Locale-aware 日期、现场梗词典与正式含义/安全边界；`intl-messageformat` 与俄语复数测试为未来多变形语言提供工程底座，但深层 UI 仍未全量翻译。
 - 五种 Demo Role Lens：首页可在学生、教师、辅导员 / 学业导师、专业负责人 / 系主任、本科生院 / 教务处之间切换；每种角色拥有独立导航、优先任务、非人员评分 Box Score、可见 / 禁止数据范围和角色化模块返回，同时明确生产 SSO 与服务端授权尚未实现。
 - `engineering/FUNCTIONAL-COVERAGE-AUDIT-2026-07-24.md`：以 214 个稳定功能切片为全集，区分规格、Fixture 技术候选、Role Lens 预览、真实集成和人类接受，列出当前最短补齐路径。
@@ -70,6 +72,8 @@
 - AI 候选收敛为 GX10 上先验证 `Qwen3.6-35B-A3B-NVFP4`，Step 3.7 Flash 优先走赞助质量通道，所有实时模型继续保留 Fixture/人工回退。
 - 正式展示名由 `jiaowu2K26` 收敛为“大学2K26 / University2K26”；GitHub 仓库、Rust crate、API component 和 `j2k26` 暂作为兼容技术 ID 保留。
 - 用户确认 Option 1 首页美术后，将隔离原型视觉晋升到正式 Web/PWA Experience Shell；原型继续只作为设计与回归证据。
+- 修复 `sqlite::memory:` 连接被 SQLx 默认 idle/max-lifetime 回收后丢失 schema 与 Fixture 的长时运行故障；内存模式现在保持单连接存活，文件数据库策略不变。
+- 英文 `NOW PLAYING` 从覆盖主内容的可点击浮层改为非交互状态提示；独立 `EN Guide` 按钮保留，F-001 答题主 CTA 不再被截获。
 
 ### Project status
 

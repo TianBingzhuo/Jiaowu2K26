@@ -76,7 +76,7 @@
 
 - 五角色入口与权限表达的截图审计：`reference/audit/2026-07-24-role-lens-audit/AUDIT.md`。
 - 严格 TypeScript 通过。
-- 17 个测试文件、125 项 Vitest 全部通过。
+- 18 个测试文件、142 项 Vitest 全部通过。
 - Vite 6.4.3 Production Build 通过。
 - 当前 Edge / Chromium 实测：
   - 五角色均可从首页切换并获得独立导航与任务首页；
@@ -87,6 +87,8 @@
   - 方向键可执行二维空间寻焦；
   - 390×844 窄屏首页与角色选择器可用；
   - 无浏览器 console warning / error。
+  - F-001 完整来源→审核→发布→互动→Replay 达到 7/7；Replay 显示只读 Rust API
+    契约回执，本地可编辑 Fixture 与后端记录边界可见。
 
 尚未形成的运行时证据：
 

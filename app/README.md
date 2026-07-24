@@ -1,12 +1,12 @@
 # 大学2K26 / University2K26 正式程序工作区
 
-本目录是正式程序的边界。项目处于 `hacking / GATE-1`：后端技术切片仍待 PR 接受，首页美术方向已经用户确认，V0.9 Web/PWA 外壳与 F-001～F-009 Fixture 纵向切片处于 `technical_review`；不要把技术候选等同于完整产品或人类已接受成果。
+本目录是正式程序的边界。项目处于 `hacking / GATE-1`：后端技术切片仍待 PR 接受，首页美术方向已经用户确认，V0.9 Web/PWA 外壳与 F-001～F-010 Fixture 纵向切片处于 `technical_review`；不要把技术候选等同于完整产品或人类已接受成果。
 
 ## 当前真实存在
 
 ```text
 contracts/v1/         OpenAPI 3.1 + JSON Schema，跨端事实源
-fixtures/v1/          九份明确标注、脱敏且非权威的 Golden Fixture
+fixtures/v1/          十份明确标注、脱敏且非权威的 Golden Fixture
 apps/web/              University2K26 V0.9 React/TypeScript Web/PWA 外壳
 crates/domain/        不依赖 HTTP、SQL、UI 或操作系统类型的领域状态机
 crates/application/   用例与 repository port
@@ -14,7 +14,7 @@ crates/adapters-sqlite/ SQLx/SQLite 事务适配器与 migration
 crates/api/           Axum `/api/v1` HTTP 适配器
 ```
 
-当前已经本地验证九条可操作链路：
+当前已经本地验证十条可操作链路：
 
 ```text
 fixture → draft → review → approved → published → replay
@@ -26,9 +26,10 @@ private baseline → rhythm/gap → load/support → recommendation → purpose 
 transparent market → four-state eligibility → selective match → mutual intent → disclosure/revoke → fairness replay
 course profile → source ladder → scouting/version → governed feedback → squad/advisor → governance replay
 campus concourse → search/profile → calendar/map → MyCOURT → squad/mentor → support/replay
+pass wallet → reader drill → prerequisite/guest/offline/loss → correction → replay
 ```
 
-后端链路验证来源关联、未知状态停损、乐观并发、追加式审核事件、发布门禁、SQLite 事务、Academic Mirror 数据边界、Roster Lab 规划边界、World Exam 状态机、Performance Center 隐私/STOP 不变量、Opportunity Market 反操纵/最小披露边界、Coach & Scouting 的来源分层、版本、阈值、纠错、公平与治理边界，以及 Campus Life 的来源、画像关闭、日历冲突、非权威服务镜像、最小披露、紧急升级和私有回执边界。`apps/web` 另行验证首页 Experience Shell、API 健康握手、PWA 离线壳、六门脱敏 Demo 课程、多输入路径、F-003 localStorage 回退、F-004 本地 `semester.lock`、F-005 IndexedDB 离线恢复、F-006 私密 Fixture 回退，以及 F-007/F-008/F-009 离线只读降级。F-003～F-009 的 Rust Session 暂为进程内存；这些证据都不代表真实文件导入、材料上传、实时 AI 生成、OceanBase、真实考试、正式选课、有效能力测量、真实机会申请、真实教师评价、校园报名、地图定位、危机服务或学校系统已经完成。
+后端链路验证来源关联、未知状态停损、乐观并发、追加式审核事件、发布门禁、SQLite 事务、Academic Mirror 数据边界、Roster Lab 规划边界、World Exam 状态机、Performance Center 隐私/STOP 不变量、Opportunity Market 反操纵/最小披露边界、Coach & Scouting 的来源分层、版本、阈值、纠错、公平与治理边界，以及 Campus Life 和 Campus Pass 的来源、最小权限、纠错与私有回执边界。`apps/web` 另行验证首页 Experience Shell、API 健康握手、F-001 对象/Replay 只读合同回执、PWA 离线壳、六门脱敏 Demo 课程、多输入路径和十个模块的显式 Fixture 回退。F-001 的 Studio 编辑仍是本地演练；F-003～F-010 的 Rust Session 暂为进程内存。这些证据都不代表真实文件导入、材料上传、实时 AI 生成、OceanBase、真实考试、正式选课、有效能力测量、真实机会申请、真实教师评价、校园报名、地图定位、门禁执行、危机服务或学校系统已经完成。
 
 ## 一键检查
 

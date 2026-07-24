@@ -4,7 +4,9 @@
 
 ## 当前支持状态
 
-当前没有正式产品版本，也没有生产服务。项目已进入 Phase 0 技术基线阶段；可验证范围包括公开文档仓、协作工具、GATE-1 基座和明确标注的 F-001 Fixture 技术候选。F-001 为 `technical_review`，其余产品模块为 `pending`。任何概念图、Fixture 或 Demo 数据都不应被解释为真实校园系统或真实用户数据。
+当前没有正式产品版本，也没有生产服务。项目处于 `hacking / GATE-1`；可验证范围包括公开文档仓、协作工具、Phase 0 基座、F-001～F-010 的脱敏 Fixture 技术候选和五种前端 Role Lens。它们仍为 `technical_review`，F-011～F-014 保持 `pending`。任何概念图、Fixture、前端角色切换或 API 回执都不应被解释为真实校园身份、服务端授权、学校权威数据或生产能力。
+
+默认 API 与 Web 只绑定 `127.0.0.1`。当前请求中的 `actor_id` 是 Fixture 审计标签，不是身份凭证；在完成服务端认证、按角色/组织/用途/时限授权、限流、请求体上限、TLS 与租户隔离前，禁止把 Demo 改为非回环或公网服务。
 
 ## 私下报告问题
 
@@ -26,6 +28,8 @@
 - NBA、2K、maimai 等资料只作机制研究，不复制商标、界面、音频、角色或其他受保护资产。
 
 产品边界见 [`product/BOUNDARIES.md`](product/BOUNDARIES.md)，跨系统安全合同见 [`engineering/ARCHITECTURE.md`](engineering/ARCHITECTURE.md)，通用质量门禁见 [`gates/QUALITY.md`](gates/QUALITY.md)。
+本轮 Qoder 改动与独立安全复核见
+[`reference/audit/2026-07-24-qoder-security-integration-review/AUDIT.md`](reference/audit/2026-07-24-qoder-security-integration-review/AUDIT.md)。
 
 ## 修复与披露流程
 

@@ -42,6 +42,11 @@ import {
   sha256Hex,
   validateMaterialCandidate,
 } from "./intake";
+import {
+  getGeneratedObject,
+  getReplay,
+  summarizeObject,
+} from "../../lib/smartCourseApi";
 import type {
   ReviewStatus,
   SmartCourseState,
@@ -64,6 +69,19 @@ type LocalIntakeState = {
   format?: string;
   sizeLabel?: string;
 };
+
+type ApiEvidenceReceipt =
+  | { state: "checking"; message: string }
+  | {
+      state: "live";
+      revision: number;
+      sourceCount: number;
+      evidenceCount: number;
+      reviewEventCount: number;
+      publicationCount: number;
+      interactionCount: number;
+    }
+  | { state: "fixture"; message: string };
 
 const STEP_META: Array<{
   id: SmartCourseStep;
@@ -152,6 +170,10 @@ export function SmartCourseStudio({
   const [manualLocator, setManualLocator] = useState("手工片段 · §1");
   const [manualQuote, setManualQuote] = useState("");
   const [manualSourceSaved, setManualSourceSaved] = useState(false);
+  const [apiReceipt, setApiReceipt] = useState<ApiEvidenceReceipt>({
+    state: "checking",
+    message: "正在核验 F-001 后端回执；本地演示不会因此被阻塞。",
+  });
   const [message, setMessage] = useState(
     entryPoint === "authoring"
       ? "当前为明确标注的本地 Fixture；所有动作可重置，不写入学校系统。"
@@ -213,6 +235,65 @@ export function SmartCourseStudio({
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [state.step]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    let active = true;
+
+    void Promise.all([
+      getGeneratedObject(undefined, controller.signal),
+      getReplay(undefined, controller.signal),
+    ])
+      .then(([objectResult, replayResult]) => {
+        if (!active) return;
+        if (!objectResult.ok) {
+          setApiReceipt({
+            state: "fixture",
+            message: objectResult.message,
+          });
+          return;
+        }
+        if (!replayResult.ok) {
+          setApiReceipt({
+            state: "fixture",
+            message: replayResult.message,
+          });
+          return;
+        }
+
+        const summary = summarizeObject(objectResult.data);
+        setApiReceipt({
+          state: "live",
+          revision: summary.revision,
+          sourceCount: summary.sourceCount,
+          evidenceCount: summary.evidenceCount,
+          reviewEventCount: replayResult.data.review_events.length,
+          publicationCount: replayResult.data.published_versions.length,
+          interactionCount: replayResult.data.student_interactions.length,
+        });
+      })
+      .catch((error: unknown) => {
+        if (
+          typeof error === "object" &&
+          error !== null &&
+          "name" in error &&
+          error.name === "AbortError"
+        ) {
+          return;
+        }
+        if (active) {
+          setApiReceipt({
+            state: "fixture",
+            message: "后端回执暂时不可用；本地 Fixture 主线仍可完整验收。",
+          });
+        }
+      });
+
+    return () => {
+      active = false;
+      controller.abort();
+    };
+  }, []);
 
   const goToStep = (step: SmartCourseStep) => {
     if (!canOpenStep(state, step)) {
@@ -395,10 +476,23 @@ export function SmartCourseStudio({
           <span>UNIVERSITY<strong>2K26</strong></span>
           <b>SMARTCOURSE STUDIO</b>
         </div>
-        <div className="smartcourse-runtime">
+        <div
+          className={`smartcourse-runtime is-${apiReceipt.state}`}
+          title={
+            apiReceipt.state === "live"
+              ? `F-001 API 回执已核验 · revision ${apiReceipt.revision}`
+              : apiReceipt.message
+          }
+        >
           <DataTrending24Regular aria-hidden="true" />
           <span>{backendLabel}</span>
-          <b>FIXTURE</b>
+          <b>
+            {apiReceipt.state === "live"
+              ? "API PROOF"
+              : apiReceipt.state === "checking"
+                ? "VERIFYING"
+                : "FIXTURE"}
+          </b>
         </div>
       </header>
 
@@ -1136,6 +1230,59 @@ export function SmartCourseStudio({
                 </ol>
               </article>
             </div>
+
+            <article
+              className={`api-evidence-receipt is-${apiReceipt.state}`}
+              aria-live="polite"
+            >
+              <header>
+                <span>LIVE CONTRACT RECEIPT // API 契约回执</span>
+                <b>
+                  {apiReceipt.state === "live"
+                    ? "VERIFIED"
+                    : apiReceipt.state === "checking"
+                      ? "CHECKING"
+                      : "LOCAL FALLBACK"}
+                </b>
+              </header>
+              {apiReceipt.state === "live" ? (
+                <>
+                  <div>
+                    <span>
+                      <small>对象修订</small>
+                      <strong>r{apiReceipt.revision}</strong>
+                    </span>
+                    <span>
+                      <small>来源 / 证据</small>
+                      <strong>
+                        {apiReceipt.sourceCount} / {apiReceipt.evidenceCount}
+                      </strong>
+                    </span>
+                    <span>
+                      <small>审核 / 发布</small>
+                      <strong>
+                        {apiReceipt.reviewEventCount} / {apiReceipt.publicationCount}
+                      </strong>
+                    </span>
+                    <span>
+                      <small>本人互动</small>
+                      <strong>{apiReceipt.interactionCount}</strong>
+                    </span>
+                  </div>
+                  <footer>
+                    已从 Rust API 读取并通过 v1 嵌套契约校验；当前 Studio
+                    的可编辑演练仍留在本地，不会暗中改写后端记录。
+                  </footer>
+                </>
+              ) : (
+                <p>
+                  {apiReceipt.message}
+                  <small>
+                    这是显式降级，不会伪装成在线数据，也不影响完整 Demo。
+                  </small>
+                </p>
+              )}
+            </article>
 
             <div className="replay-actions">
               <button type="button" onClick={() => goToStep("source")}>

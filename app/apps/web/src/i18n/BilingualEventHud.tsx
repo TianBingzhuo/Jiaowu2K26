@@ -152,18 +152,16 @@ export function BilingualEventHud({
       )}
 
       {!open && locale === "en-US" && (
-        <button
+        <div
           className="bilingual-event-hud__now-playing"
-          type="button"
-          aria-label={`Open English play-by-play for ${brief.title}`}
-          onClick={() => setOpen(true)}
-          data-focusable="true"
+          role="status"
+          aria-label={`Now playing ${brief.title}`}
         >
           <span>
             NOW PLAYING · {brief.code} · {brief.title}
           </span>
           <strong>{pickLocalized(brief.tagline, locale)}</strong>
-        </button>
+        </div>
       )}
 
       <div className="bilingual-event-hud__controls">

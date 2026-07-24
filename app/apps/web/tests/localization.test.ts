@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
   APP_LOCALES,
@@ -68,5 +69,26 @@ describe("University2K26 bilingual event mode", () => {
     expect(formatIcuMessage(pattern, "ru-RU", { count: 2 })).toBe("2 курса");
     expect(formatIcuMessage(pattern, "ru-RU", { count: 5 })).toBe("5 курсов");
     expect(formatIcuMessage(pattern, "ru-RU", { count: 21 })).toBe("21 курс");
+  });
+
+  it("keeps the passive English now-playing banner from blocking core controls", () => {
+    const component = readFileSync(
+      new URL("../src/i18n/BilingualEventHud.tsx", import.meta.url),
+      "utf8",
+    );
+    const styles = readFileSync(
+      new URL("../src/i18n/bilingual-event-hud.css", import.meta.url),
+      "utf8",
+    );
+
+    expect(component).toMatch(
+      /<div\s+className="bilingual-event-hud__now-playing"\s+role="status"/,
+    );
+    expect(component).not.toMatch(
+      /<button\s+className="bilingual-event-hud__now-playing"/,
+    );
+    expect(styles).toMatch(
+      /\.bilingual-event-hud__now-playing\s*\{[^}]*pointer-events:\s*none;/s,
+    );
   });
 });

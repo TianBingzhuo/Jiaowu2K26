@@ -74,6 +74,7 @@ import type {
   OpportunityReport,
   OpportunityStage,
 } from "./types";
+import { SourceBoundCoach } from "../ai/SourceBoundCoach";
 import "./opportunitymarket.css";
 
 type OpportunityMarketStudioProps = {
@@ -280,7 +281,8 @@ export function OpportunityMarketStudio({
 }: OpportunityMarketStudioProps) {
   const [state, setState] = useState<OpportunityMarketState>(() => {
     try {
-      return loadOpportunityState() ?? createOpportunityMarketState();
+      const currentFixture = createOpportunityMarketState();
+      return loadOpportunityState(currentFixture) ?? currentFixture;
     } catch {
       return createOpportunityMarketState();
     }
@@ -516,6 +518,36 @@ export function OpportunityMarketStudio({
         <p className="opportunity-detail-panel__summary">
           {selectedOpportunity.summary}
         </p>
+        {selectedOpportunity.rightsGate && (
+          <section
+            className="opportunity-rights-gate"
+            aria-labelledby="opportunity-rights-heading"
+          >
+            <ShieldCheckmark24Regular aria-hidden="true" />
+            <div>
+              <span>RIGHTS GATE · 视觉使用不是参赛资格的自动附赠</span>
+              <h3 id="opportunity-rights-heading">
+                {selectedOpportunity.rightsGate.permissionStatus ===
+                "confirmed_for_project"
+                  ? "视觉许可已记录"
+                  : selectedOpportunity.rightsGate.permissionStatus ===
+                      "not_permitted"
+                    ? "当前不允许复用"
+                    : "等待官方许可证据"}
+              </h3>
+              <p>
+                当前只确认公开 Playbook 可访问，不能据此推断赛事 Logo、商标或视觉资产可复用。
+                在许可证据入库前，产品仅使用自有 University2K26 美术。
+              </p>
+              <ul>
+                {selectedOpportunity.rightsGate.requiredActions.map((action) => (
+                  <li key={action}>{action}</li>
+                ))}
+              </ul>
+              <code>{selectedOpportunity.rightsGate.evidenceUrl}</code>
+            </div>
+          </section>
+        )}
         <div className="opportunity-detail-grid">
           <article>
             <Gift24Regular aria-hidden="true" />
@@ -843,6 +875,28 @@ export function OpportunityMarketStudio({
           </div>
         )}
       </section>
+      <div className="opportunity-match-coach">
+        <SourceBoundCoach
+          task="opportunity_brief"
+          eyebrow="AI SCOUTING REPORT // OPT-IN"
+          title="把匹配结果变成可验证的下一步"
+          subject="Opportunity Market 匹配阵容"
+          question="仅根据当前匹配结果，应该优先核验哪些资格、权利和未知项？"
+          disabled={state.matchResults.length === 0 || state.offline}
+          consentRequired
+          boundary="不会发送原始 Profile 字段，只发送下方已生成的脱敏匹配解释；AI 不替本人报名、不付费、不授予素材权利。"
+          facts={state.matchResults.slice(0, 3).map((result) => {
+            const opportunity = state.opportunities.find(
+              (item) => item.id === result.opportunityId,
+            );
+            return {
+              label: opportunity?.title ?? result.opportunityId,
+              value: `匹配带 ${MATCH_LABEL[result.fitBand]}；理由 ${result.reasons.join("、") || "无"}；冲突 ${result.conflicts.join("、") || "无"}；未知 ${result.unknowns.join("、") || "无"}`,
+              source_id: `opportunity-match:${result.opportunityId}`,
+            };
+          })}
+        />
+      </div>
     </div>
   );
 

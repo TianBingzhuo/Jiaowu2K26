@@ -11,6 +11,7 @@
 | async-trait | 0.1.91 | MIT OR Apache-2.0 | [dtolnay/async-trait](https://github.com/dtolnay/async-trait) | Object-safe async repository port |
 | axum | 0.8.9 | MIT | [tokio-rs/axum](https://github.com/tokio-rs/axum) | `/api/v1` HTTP adapter |
 | http-body-util | 0.1.4 | MIT | [hyperium/http-body](https://github.com/hyperium/http-body) | API test response collection only |
+| reqwest | 0.13.4 | MIT OR Apache-2.0 | [seanmonstar/reqwest](https://github.com/seanmonstar/reqwest) | HTTPS/OpenAI-compatible AI provider adapter with bounded response streaming |
 | serde | 1.0.229 | MIT OR Apache-2.0 | [serde-rs/serde](https://github.com/serde-rs/serde) | Versioned wire serialization |
 | serde_json | 1.0.151 | MIT OR Apache-2.0 | [serde-rs/json](https://github.com/serde-rs/json) | Golden Fixture and persisted JSON snapshots |
 | sqlx | 0.9.0 | MIT OR Apache-2.0 | [launchbadge/sqlx](https://github.com/launchbadge/sqlx) | SQLite adapter, transaction and migration |
@@ -22,7 +23,7 @@
 | tracing-subscriber | 0.3.23 | MIT | [tokio-rs/tracing](https://github.com/tokio-rs/tracing) | Local log filtering/formatting |
 | uuid | 1.24.0 | Apache-2.0 OR MIT | [uuid-rs/uuid](https://github.com/uuid-rs/uuid) | Review/publication event IDs |
 
-Source of truth: `app/Cargo.toml` pins direct versions and `app/Cargo.lock` freezes the full graph. SQLite is compiled through SQLx's bundled feature on this slice; OceanBase is not present in the dependency graph.
+Source of truth: `app/Cargo.toml` pins direct versions and `app/Cargo.lock` freezes the full graph. `reqwest` uses the Rustls path; the resolved graph currently includes `aws-lc-rs/aws-lc-sys`, so ARM64 compilation and transitive notices must be verified on GX10. SQLite is compiled through SQLx's bundled feature on this slice; OceanBase is not present in the dependency graph.
 
 ## University2K26 Web/PWA dependencies
 
@@ -33,6 +34,7 @@ Source of truth: `app/Cargo.toml` pins direct versions and `app/Cargo.lock` free
 | @fontsource-variable/inter | 5.3.0 | OFL-1.1 | [fontsource/fontsource](https://github.com/fontsource/fontsource) | Latin UI typography |
 | @fontsource-variable/noto-sans-sc | 5.3.0 | OFL-1.1 | [fontsource/fontsource](https://github.com/fontsource/fontsource) | Simplified Chinese UI typography |
 | @fontsource/barlow-condensed | 5.3.0 | OFL-1.1 | [fontsource/fontsource](https://github.com/fontsource/fontsource) | Display/HUD typography |
+| intl-messageformat | 11.2.12 | BSD-3-Clause | [formatjs/formatjs](https://github.com/formatjs/formatjs) | ICU plural/select message formatting and future inflection-safe locale contract |
 | vite / @vitejs/plugin-react | 6.4.3 / 5.0.4 | MIT | [vitejs/vite](https://github.com/vitejs/vite) | Local server and production build |
 | typescript | 5.9.3 | Apache-2.0 | [microsoft/TypeScript](https://github.com/microsoft/TypeScript) | Strict compile-time contract checks |
 | vitest | 3.2.7 | MIT | [vitest-dev/vitest](https://github.com/vitest-dev/vitest) | API fallback and fixture boundary tests |
@@ -49,6 +51,17 @@ Source of truth: `app/apps/web/package.json` and `app/apps/web/package-lock.json
 | sharp | 0.35.3 | Apache-2.0 | [lovell/sharp](https://github.com/lovell/sharp) | Local image pipeline required by Astro |
 
 Source of truth: `docs-site/package.json` and `docs-site/package-lock.json`. `npm audit --audit-level=low` reported 0 known vulnerabilities on 2026-07-23.
+
+## GX10 deployment base images
+
+| Image tag | Registry | Purpose | Current evidence |
+|---|---|---|---|
+| `rust:1.97.1-bookworm` | Docker Official Image | ARM64-capable release build stage for the Rust API | Tag existence reviewed 2026-07-24; digest and ARM64 build still require device receipt |
+| `debian:bookworm-slim` | Docker Official Image | Minimal non-root API runtime | Runtime contract written; device image digest unverified |
+| `node:24-bookworm-slim` | Docker Official Image | Locked Web production build stage | Tag existence reviewed 2026-07-24; device image digest unverified |
+| `nginx:1.30.4-alpine3.24` | Docker Official Image | Localhost-only static/PWA server and `/api` reverse proxy | Tag existence reviewed 2026-07-24; device image digest unverified |
+
+Source of truth: `deploy/gx10/Dockerfile.*` and `deploy/gx10/compose.app.yaml`. Tags are not immutable evidence: the GX10 operator must record pulled multi-arch manifest digests in the deployment receipt before the package can move from `device_unverified`.
 
 ## CI actions
 

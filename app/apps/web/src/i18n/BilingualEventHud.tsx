@@ -11,6 +11,7 @@ import type { RoleId } from "../features/roles/types";
 import {
   EXPERIENCE_BRIEFS,
   HUD_COPY,
+  INSTITUTIONAL_WORKSPACE_BRIEFS,
   ROLE_BRIEFS,
   pickLocalized,
   type ExperienceKey,
@@ -32,7 +33,10 @@ export function BilingualEventHud({
   const guideId = useId();
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const copy = HUD_COPY[locale];
-  const brief = EXPERIENCE_BRIEFS[experience];
+  const brief =
+    experience === "career" && role !== "student"
+      ? INSTITUTIONAL_WORKSPACE_BRIEFS[role]
+      : EXPERIENCE_BRIEFS[experience];
   const roleBrief = ROLE_BRIEFS[role];
 
   useEffect(() => {

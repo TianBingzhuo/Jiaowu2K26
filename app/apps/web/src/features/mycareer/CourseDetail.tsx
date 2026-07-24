@@ -17,6 +17,8 @@ import {
 } from "./engine";
 import type { DemoCourse } from "./types";
 import { useI18n } from "../../i18n/I18nProvider";
+import { CourseBlueprint } from "./CourseBlueprint";
+import { SourceBoundCoach } from "../ai/SourceBoundCoach";
 import "./mycareer.css";
 
 type CourseDetailProps = {
@@ -159,24 +161,53 @@ export function CourseDetail({
       </div>
 
       {course.id === "signal-linear-systems" && (
-        <div className="course-content-gate course-content-gate--exam">
-          <Trophy24Regular aria-hidden="true" />
-          <div>
-            <span>WORLD EXAM FINALS</span>
-            <strong>模拟期末已开放赛前简报</strong>
-            <small>
-              从已审核内容进入热身、复习战术板、开放式 AI 赛场与私密复盘；不计正式成绩。
-            </small>
-          </div>
-          <button
-            type="button"
-            onClick={onOpenWorldExam}
-            data-focusable="true"
-          >
+        <>
+          <div className="course-content-gate course-content-gate--exam">
             <Trophy24Regular aria-hidden="true" />
-            进入模拟期末
-          </button>
-        </div>
+            <div>
+              <span>WORLD EXAM FINALS</span>
+              <strong>模拟期末已开放赛前简报</strong>
+              <small>
+                从已审核内容进入热身、复习战术板、开放式 AI 赛场与私密复盘；不计正式成绩。
+              </small>
+            </div>
+            <button
+              type="button"
+              onClick={onOpenWorldExam}
+              data-focusable="true"
+            >
+              <Trophy24Regular aria-hidden="true" />
+              进入模拟期末
+            </button>
+          </div>
+          <SourceBoundCoach
+            task="course_explanation"
+            eyebrow="AI FILM ROOM // SOURCE-BOUND"
+            title="把下一知识点讲明白，再进模拟赛"
+            subject={`${course.code} ${course.title}`}
+            question="请根据课程进度、下一动作和公开课程索引，给出一个可验证的学习回合。"
+            consentRequired={false}
+            boundary="只发送 Demo 课程状态和公开索引引用；AI 不能读取原始私人课件、改成绩或替代教师审核。"
+            facts={[
+              {
+                label: "当前进度",
+                value: `${course.progressPct}%`,
+                source_id: `${course.sourceRef}:progress-fixture`,
+              },
+              {
+                label: "下一动作",
+                value: course.nextAction,
+                source_id: `${course.sourceRef}:next-action`,
+              },
+              {
+                label: "教学蓝图",
+                value: "38 个知识节点；预测—建模—仿真—测量—解释—迁移",
+                source_id: "course-pack:sls-240:v1",
+              },
+            ]}
+          />
+          <CourseBlueprint />
+        </>
       )}
 
       <section className="box-score-card" aria-labelledby="box-score-heading">

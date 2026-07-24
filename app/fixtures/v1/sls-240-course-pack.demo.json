@@ -1,0 +1,160 @@
+{
+  "schema_version": "1.0.0",
+  "data_mode": "public_safe_demo",
+  "course": {
+    "id": "signal-linear-systems",
+    "code": "SLS 240",
+    "title_zh": "信号与线性系统",
+    "title_en": "Signals and Linear Systems",
+    "goal": "从可观察现象出发，贯通信号表示、LTI 模型、时域与频域分析、采样以及仿真—测量证据，最终解释模型为什么成立、在哪里失效。",
+    "source_boundary": "只重组已审计课程索引中的知识主题与技术纠错，不复制原课件、旧答案、签名、身份或第三方受限内容。"
+  },
+  "source_coverage": {
+    "original_files": 6,
+    "structured_files": 6,
+    "visually_reviewed_pages": 65,
+    "reviewed_pages_total": 65,
+    "read_depth": "B+S",
+    "privacy_exclusions": [
+      "旧作答与签名不作为答案库",
+      "真实姓名、学号、教师身份与联系方式不进入 Demo",
+      "原始 Office 文件不随公开仓库分发"
+    ],
+    "audit_ids": [
+      "course-source-coverage-6-files",
+      "course-visual-review-65-of-65",
+      "course-audit-sig-01-19",
+      "course-route-training-1-2-3-capstone"
+    ]
+  },
+  "teaching_loop": [
+    { "id": "anchor", "label": "现象开场", "purpose": "先给可观察波形或真实工程问题，让概念有落点。" },
+    { "id": "predict", "label": "先做预测", "purpose": "学生在公式前先声明方向、形状和边界，暴露直觉模型。" },
+    { "id": "model", "label": "建立模型", "purpose": "明确拓扑、变量、单位、初始条件、线性与时不变假设。" },
+    { "id": "simulate", "label": "仿真对照", "purpose": "用 MATLAB/Python 或电路仿真验证推导并检查数值设置。" },
+    { "id": "measure", "label": "实测取证", "purpose": "记录仪器量程、加载、采样、噪声与元件容差。" },
+    { "id": "explain", "label": "解释差异", "purpose": "把解析、仿真与实测放入同一误差表，不以一致为默认。" },
+    { "id": "transfer", "label": "迁移复盘", "purpose": "换一组条件重新判断模型边界，并用 Replay 说明决策。" }
+  ],
+  "units": [
+    {
+      "id": "unit-01",
+      "title": "信号、系统与可检验假设",
+      "why": "先把对象、变量、单位和系统边界说清，后续的卷积、傅里叶和仿真才不会成为无根公式。",
+      "objectives": ["能从现象定义输入、输出、状态与观测量", "能用反例检验线性、时不变与因果性"],
+      "lessons": [
+        { "id": "lesson-01a", "title": "从波形到信号对象", "duration_minutes": 35, "sequence": ["现象开场", "连续/离散表示", "变换预测", "自动保存检查"] },
+        { "id": "lesson-01b", "title": "系统性质不是标签", "duration_minutes": 45, "sequence": ["反例挑战", "线性与时不变", "因果与稳定边界", "口头 Replay"] }
+      ],
+      "knowledge_nodes": [
+        { "id": "kn-signal-system", "title": "信号、系统、输入与输出", "kind": "concept", "prerequisite_ids": [], "explanation": "信号承载随自变量变化的信息；系统把输入、状态与参数映射为输出。", "misconception": "把任何曲线都当作信号，却没有变量、单位与来源。", "check": "为温度传感器明确输入、输出、采样时刻和单位。", "source_refs": ["training-1-structure"] },
+        { "id": "kn-continuous-discrete", "title": "连续时间与离散时间", "kind": "concept", "prerequisite_ids": ["kn-signal-system"], "explanation": "连续时间模型定义在连续自变量上，离散时间序列只在索引点有值；采样把二者连接。", "misconception": "把画成折线的离散序列误认为连续信号。", "check": "解释示波器显示和实际采样数据之间的区别。", "source_refs": ["training-3-sampling"] },
+        { "id": "kn-transformations", "title": "移位、缩放、反转与叠加", "kind": "procedure", "prerequisite_ids": ["kn-continuous-discrete"], "explanation": "先处理自变量变换，再计算幅值；关键点位置是检查顺序的锚。", "misconception": "同时在脑中改横轴和纵轴，导致先后顺序混乱。", "check": "不用画图软件标出 x(2t-4) 的关键点。", "source_refs": ["training-2-signal-operations"] },
+        { "id": "kn-energy-power", "title": "能量信号与功率信号", "kind": "boundary", "prerequisite_ids": ["kn-signal-system"], "explanation": "用定义和极限判断总能量、平均功率，不能仅凭波形是否衰减下结论。", "misconception": "认为幅值有限就一定是能量信号。", "check": "比较有限时长脉冲与周期正弦的能量和平均功率。", "source_refs": ["training-2-spectrum"] },
+        { "id": "kn-initial-conditions", "title": "初始条件与状态", "kind": "concept", "prerequisite_ids": ["kn-signal-system"], "explanation": "电容电压、电感电流等状态保存过去影响；同一输入在不同初态下输出可不同。", "misconception": "求微分方程时默认所有初始条件为零。", "check": "说明预充电 RC 电路为何不从零开始。", "source_refs": ["training-1-rc-rlc", "training-2-differential-equation"] },
+        { "id": "kn-linearity", "title": "线性与叠加检验", "kind": "procedure", "prerequisite_ids": ["kn-signal-system"], "explanation": "分别检验齐次性与可加性，并明确固定参数与零初态等条件。", "misconception": "看到直线元件模型就跳过系统级叠加检验。", "check": "用一个带常数偏置的系统构造线性反例。", "source_refs": ["training-1-model-boundary"] },
+        { "id": "kn-time-invariance", "title": "时不变、因果与稳定", "kind": "boundary", "prerequisite_ids": ["kn-transformations", "kn-linearity"], "explanation": "分别比较移位前后响应、输出对未来输入的依赖和有界输入下的输出边界。", "misconception": "把三个性质合并成“系统看起来正常”。", "check": "逐项判断 y(t)=t x(t)、移动平均和理想微分器。", "source_refs": ["training-2-system-properties"] }
+      ]
+    },
+    {
+      "id": "unit-02",
+      "title": "LTI 时域主线：微分方程、冲激与卷积",
+      "why": "把电路定律、系统状态和统一的冲激响应连成一条可推导、可仿真、可回放的主线。",
+      "objectives": ["能从 RC/RLC 拓扑建立微分方程并处理初态", "能用卷积和传递函数交叉验证响应"],
+      "lessons": [
+        { "id": "lesson-02a", "title": "RC/RLC 从拓扑到方程", "duration_minutes": 50, "sequence": ["拓扑与参考方向", "状态选择", "微分方程", "解析—仿真对照"] },
+        { "id": "lesson-02b", "title": "冲激响应统一时域", "duration_minutes": 50, "sequence": ["冲激/阶跃关系", "卷积动画", "极点检查", "误差 Replay"] }
+      ],
+      "knowledge_nodes": [
+        { "id": "kn-ode-model", "title": "由物理定律建立微分方程", "kind": "procedure", "prerequisite_ids": ["kn-initial-conditions"], "explanation": "固定拓扑、参考方向、元件关系与单位后，再消元得到输入输出方程。", "misconception": "先套标准方程，再反过来猜每个系数。", "check": "从串联 RLC 明确输入输出并写出量纲一致方程。", "source_refs": ["training-1-rc-rlc", "audit-sig-units"] },
+        { "id": "kn-zero-input-state", "title": "零输入响应与零状态响应", "kind": "concept", "prerequisite_ids": ["kn-ode-model"], "explanation": "总响应可在 LTI 条件下拆为初始储能引起的零输入响应与外部输入引起的零状态响应。", "misconception": "把自然响应和零输入响应无条件等同。", "check": "为带预充电电容和阶跃源的 RC 电路标出两部分。", "source_refs": ["training-2-response-decomposition"] },
+        { "id": "kn-impulse-step", "title": "冲激、阶跃与冲激响应", "kind": "concept", "prerequisite_ids": ["kn-linearity", "kn-time-invariance"], "explanation": "冲激响应完整刻画 LTI 零状态行为；阶跃响应的导数与冲激响应关系需满足分布与初态条件。", "misconception": "把理想冲激当成普通无限高矩形。", "check": "由一阶系统阶跃响应求冲激响应并核对单位。", "source_refs": ["training-2-step-response"] },
+        { "id": "kn-convolution", "title": "卷积积分与卷积和", "kind": "procedure", "prerequisite_ids": ["kn-impulse-step", "kn-transformations"], "explanation": "翻转、移位、相乘、积分/求和四步对应系统对每个延迟输入分量的叠加。", "misconception": "只背公式，无法解释积分区间为何变化。", "check": "对两个有限矩形用重叠长度分段求卷积。", "source_refs": ["training-2-convolution"] },
+        { "id": "kn-transfer-function", "title": "传递函数与零初态边界", "kind": "boundary", "prerequisite_ids": ["kn-ode-model", "kn-zero-input-state"], "explanation": "传递函数是零初态下输入输出变换之比；它不自动包含任意初始状态。", "misconception": "用 H(s) 直接覆盖带初始储能的全部响应。", "check": "指出同一 H(s) 下两个不同初态为何输出不同。", "source_refs": ["training-2-transfer-function"] },
+        { "id": "kn-poles-zeros", "title": "极点、零点与响应形状", "kind": "concept", "prerequisite_ids": ["kn-transfer-function"], "explanation": "极点决定自然模态和稳定趋势，零点改变输入到输出的频率选择与瞬态形状。", "misconception": "把零点理解成输出必为零的固定时刻。", "check": "比较同极点不同零点的一阶/二阶响应。", "source_refs": ["training-2-system-function"] },
+        { "id": "kn-bibo-stability", "title": "BIBO 稳定与极点条件", "kind": "boundary", "prerequisite_ids": ["kn-time-invariance", "kn-poles-zeros"], "explanation": "连续时间有理因果 LTI 系统的 BIBO 稳定可由冲激响应绝对可积或极点位置判断。", "misconception": "认为输出最终回到零就足够证明所有输入下稳定。", "check": "区分临界稳定、渐近稳定与 BIBO 稳定语境。", "source_refs": ["training-2-stability"] },
+        { "id": "kn-rc-rlc-regimes", "title": "RC/RLC 时间常数与阻尼区间", "kind": "evidence", "prerequisite_ids": ["kn-ode-model", "kn-poles-zeros"], "explanation": "RC 时间常数与 RLC 阻尼比连接参数、极点和可观测波形；欠阻尼、临界与过阻尼须从参数判定。", "misconception": "看见振铃就只归因于电感或噪声。", "check": "从参数预测三种阻尼波形，再与仿真对照。", "source_refs": ["training-1-rc-rlc", "training-1-multisim"] }
+      ]
+    },
+    {
+      "id": "unit-03",
+      "title": "频域视角：傅里叶、频率响应与 Bode",
+      "why": "频域不是另一套孤立公式，而是把输入成分、系统选择性与失真条件放在同一张证据图上。",
+      "objectives": ["能从周期信号到傅里叶变换解释幅相谱", "能用 H(jω)、Bode 与无失真条件解释系统作用"],
+      "lessons": [
+        { "id": "lesson-03a", "title": "从周期分解到连续频谱", "duration_minutes": 55, "sequence": ["听觉/波形锚点", "傅里叶级数", "变换与性质", "幅相证据"] },
+        { "id": "lesson-03b", "title": "Bode 图是系统战术板", "duration_minutes": 55, "sequence": ["频率响应", "对数坐标", "截止与带宽", "无失真挑战"] }
+      ],
+      "knowledge_nodes": [
+        { "id": "kn-periodic-fs", "title": "周期信号与傅里叶级数", "kind": "concept", "prerequisite_ids": ["kn-energy-power"], "explanation": "满足条件的周期信号可分解为离散谐波，系数同时包含每个谐波的幅值与相位。", "misconception": "把频率轴上的线谱间距当作采样频率。", "check": "解释方波为何需要奇次谐波以及截断带来的振铃。", "source_refs": ["training-2-fourier-series"] },
+        { "id": "kn-fourier-transform", "title": "傅里叶变换与频谱", "kind": "concept", "prerequisite_ids": ["kn-periodic-fs"], "explanation": "非周期信号用连续频谱描述；变换对必须连同采用的角频率/普通频率约定与归一化。", "misconception": "只写变换结果却不声明 2π 约定。", "check": "比较以 f 和 ω 表示时横轴与系数的变化。", "source_refs": ["training-2-fourier-transform", "audit-sig-normalization"] },
+        { "id": "kn-ft-properties", "title": "时移、调制、尺度与卷积性质", "kind": "procedure", "prerequisite_ids": ["kn-fourier-transform"], "explanation": "用性质把复杂计算化为结构推理，同时核对相位、尺度系数与单位。", "misconception": "只看幅度谱，忽略时移全部进入相位。", "check": "预测 x(t-t0) 与 x(t)cosω0t 的频谱变化。", "source_refs": ["training-2-transform-properties"] },
+        { "id": "kn-spectrum-phase", "title": "幅度谱、相位谱与可重构性", "kind": "evidence", "prerequisite_ids": ["kn-fourier-transform"], "explanation": "幅度描述成分强弱，相位描述相对对齐；两者共同决定波形。", "misconception": "认为幅度谱相同就意味着时域信号相同。", "check": "构造幅度相同但相位不同的两个多谐波信号。", "source_refs": ["training-2-spectrum"] },
+        { "id": "kn-frequency-response", "title": "H(jω) 与正弦稳态响应", "kind": "concept", "prerequisite_ids": ["kn-transfer-function", "kn-fourier-transform"], "explanation": "稳定 LTI 系统对每个复指数特征输入只改变幅值和相位，形成频率响应。", "misconception": "把 H(jω) 当成输入频谱本身。", "check": "由 X(jω) 与 H(jω) 写出 Y(jω) 并解释每项。", "source_refs": ["training-1-frequency-response", "training-2-hjw"] },
+        { "id": "kn-bode", "title": "Bode 幅相图与渐近线", "kind": "procedure", "prerequisite_ids": ["kn-frequency-response", "kn-poles-zeros"], "explanation": "对数频率和分贝把乘积化为叠加；极点零点逐段改变斜率和相位。", "misconception": "把横轴等距误认为频率线性等距。", "check": "从一阶低通表达式手画渐近幅相并标出误差区。", "source_refs": ["training-1-bode", "audit-sig-log-axis"] },
+        { "id": "kn-cutoff-bandwidth", "title": "截止频率、-3 dB 与带宽", "kind": "boundary", "prerequisite_ids": ["kn-bode"], "explanation": "一阶功率半值点对应幅值降为 1/√2；不同系统和指标下截止与带宽定义须声明。", "misconception": "把 -3 dB 当作幅值减少 3%。", "check": "把 -3 dB 换算为幅值比并说明适用场景。", "source_refs": ["training-1-frequency-response", "audit-sig-db"] },
+        { "id": "kn-distortionless", "title": "无失真传输条件", "kind": "boundary", "prerequisite_ids": ["kn-spectrum-phase", "kn-frequency-response"], "explanation": "在信号占用带宽内需满足 H(jω)=K e^{-jωt0}，即幅度仅统一缩放、相位对频率线性。", "misconception": "认为输出看起来平滑就等于无失真。", "check": "用带内幅度起伏与群时延解释两种失真。", "source_refs": ["training-2-distortionless"] }
+      ]
+    },
+    {
+      "id": "unit-04",
+      "title": "采样、DFT/FFT 与数值频谱边界",
+      "why": "把连续理论转成可运行代码时，采样率、记录长度、频率轴、窗和归一化决定结论是否可信。",
+      "objectives": ["能判断混叠并设计可解释采样方案", "能生成单位、频率轴和幅值归一化正确的 FFT 图"],
+      "lessons": [
+        { "id": "lesson-04a", "title": "采样不是截图", "duration_minutes": 45, "sequence": ["混叠听觉挑战", "采样定理", "频谱复制", "重建边界"] },
+        { "id": "lesson-04b", "title": "FFT 证据链", "duration_minutes": 60, "sequence": ["DFT 定义", "频率轴", "窗与泄漏", "代码—图—结论 Replay"] }
+      ],
+      "knowledge_nodes": [
+        { "id": "kn-sampling", "title": "理想采样与频谱复制", "kind": "concept", "prerequisite_ids": ["kn-fourier-transform"], "explanation": "时域乘冲激列在频域产生周期复制；采样频率决定副本间距。", "misconception": "只记 fs≥2fmax，不理解为何频谱副本重叠。", "check": "画出带限频谱在两个采样率下的复制位置。", "source_refs": ["training-3-sampling"] },
+        { "id": "kn-aliasing", "title": "混叠与抗混叠边界", "kind": "boundary", "prerequisite_ids": ["kn-sampling"], "explanation": "副本重叠后不同连续频率映射为相同离散频率，事后无法仅靠数字处理唯一恢复。", "misconception": "认为提高 FFT 点数可以修复已经发生的混叠。", "check": "求一个 900 Hz 信号在 1 kHz 采样下的别名频率。", "source_refs": ["training-3-aliasing", "audit-sig-sampling"] },
+        { "id": "kn-dft", "title": "DFT 的离散频率采样", "kind": "concept", "prerequisite_ids": ["kn-sampling"], "explanation": "N 点 DFT 是有限记录的离散频率样本，隐含时域周期延拓。", "misconception": "把 DFT 结果当作连续傅里叶变换的无误差真值。", "check": "说明记录长度如何改变频率分辨率。", "source_refs": ["training-3-dft"] },
+        { "id": "kn-fft-axis", "title": "FFT 频率轴与单双边谱", "kind": "procedure", "prerequisite_ids": ["kn-dft"], "explanation": "频率 bin 为 k fs/N；单双边展示、fftshift 与实信号共轭对称须和索引一致。", "misconception": "直接用数组索引当 Hz。", "check": "为 fs=1 kHz、N=1000 生成 0–500 Hz 单边轴。", "source_refs": ["training-3-fft", "audit-sig-frequency-axis"] },
+        { "id": "kn-leakage-window", "title": "谱泄漏、相干采样与窗函数", "kind": "evidence", "prerequisite_ids": ["kn-dft"], "explanation": "有限截断相当于乘窗；非整数周期导致能量扩散，窗函数在主瓣宽度和旁瓣间权衡。", "misconception": "把所有邻近谱线都解释为真实新频率。", "check": "比较矩形窗与 Hann 窗下非相干正弦频谱。", "source_refs": ["training-3-spectrum", "audit-sig-leakage"] },
+        { "id": "kn-normalization", "title": "幅值、功率与 PSD 归一化", "kind": "boundary", "prerequisite_ids": ["kn-fft-axis", "kn-leakage-window"], "explanation": "幅值谱、功率谱和功率谱密度单位不同；单双边缩放与窗增益必须声明。", "misconception": "把任意 abs(fft) 曲线标成幅值谱并比较绝对值。", "check": "让 1 V 正弦在单边幅值谱中恢复为约 1 V。", "source_refs": ["training-3-fft", "audit-sig-normalization"] },
+        { "id": "kn-reconstruction", "title": "重建、插值与实际滤波器", "kind": "boundary", "prerequisite_ids": ["kn-aliasing"], "explanation": "理想 sinc 重建建立理论边界；实际 DAC、保持与重建滤波器带来幅相误差。", "misconception": "认为连接采样点的直线就是唯一真实连续信号。", "check": "解释零阶保持的频率响应为何需要补偿。", "source_refs": ["training-3-reconstruction"] }
+      ]
+    },
+    {
+      "id": "unit-05",
+      "title": "从仿真到实测：误差、非线性与可复现 Capstone",
+      "why": "真正的工程结论来自解析、仿真和测量三方互证；差异不是失败，而是定位模型边界的证据。",
+      "objectives": ["能建立解析—仿真—实测误差表并解释来源", "能为传感/控制系统设计可复现实验和时延证据"],
+      "lessons": [
+        { "id": "lesson-05a", "title": "为什么三条波形不一样", "duration_minutes": 60, "sequence": ["参数冻结", "仿真设置", "仪器加载", "误差归因"] },
+        { "id": "lesson-05b", "title": "传感系统复现性决赛", "duration_minutes": 70, "sequence": ["系统边界", "时延/抖动", "模型辨识", "证据包与口头答辩"] }
+      ],
+      "knowledge_nodes": [
+        { "id": "kn-simulation-parity", "title": "解析与仿真条件对齐", "kind": "procedure", "prerequisite_ids": ["kn-rc-rlc-regimes", "kn-bode"], "explanation": "拓扑、参数、单位、初态、求解器步长和输出节点必须逐项冻结后才可比较。", "misconception": "只要元件值相同就认为两边模型完全一致。", "check": "为一次 RC 对照列出最少八项 parity 检查。", "source_refs": ["training-1-multisim", "audit-sig-simulation"] },
+        { "id": "kn-measurement-loading", "title": "仪器加载、带宽与量程", "kind": "evidence", "prerequisite_ids": ["kn-simulation-parity"], "explanation": "探头阻抗、仪器带宽、量程和接地改变被测系统或限制可见细节。", "misconception": "把仪表读数当作不影响系统的绝对真值。", "check": "估算探头电容对高阻 RC 节点截止频率的影响。", "source_refs": ["training-1-measurement", "audit-sig-instrument"] },
+        { "id": "kn-nonlinear-diode", "title": "二极管非线性与小信号边界", "kind": "boundary", "prerequisite_ids": ["kn-linearity", "kn-frequency-response"], "explanation": "工作点附近可线性化，但大信号、截止与导通切换会产生谐波和幅度相关响应。", "misconception": "在含二极管电路中无条件使用 LTI 叠加与频率响应。", "check": "说明何时可用小信号模型，何时必须回到非线性仿真。", "source_refs": ["training-1-diode-boundary", "audit-sig-nonlinearity"] },
+        { "id": "kn-tolerance-noise", "title": "元件容差、噪声与不确定度", "kind": "evidence", "prerequisite_ids": ["kn-measurement-loading"], "explanation": "元件分布、噪声和测量重复性需要用区间、重复试验与误差传播表达。", "misconception": "把一次测量与理论差值全部归为“实验误差”。", "check": "为 5% 电阻和 10% 电容估计时间常数范围。", "source_refs": ["training-1-error-table"] },
+        { "id": "kn-sensor-system", "title": "传感—处理—执行闭环边界", "kind": "concept", "prerequisite_ids": ["kn-signal-system", "kn-sampling"], "explanation": "真实系统需分别标出传感器、采样、算法、通信、执行器与环境反馈。", "misconception": "把软件算法延迟当作整个系统唯一延迟。", "check": "画出 IMU 到执行器的端到端路径并标注时间戳。", "source_refs": ["capstone-sensor-control"] },
+        { "id": "kn-latency-jitter", "title": "时延、抖动与 P50/P95/P99", "kind": "evidence", "prerequisite_ids": ["kn-sensor-system"], "explanation": "平均值无法描述尾部风险；用统一时钟和重复样本报告分位数及丢包。", "misconception": "只给平均时延就宣称实时性能稳定。", "check": "从一组时延样本计算并解释 P50、P95、P99。", "source_refs": ["capstone-latency-jitter"] },
+        { "id": "kn-identification", "title": "模型辨识与验证集", "kind": "procedure", "prerequisite_ids": ["kn-ode-model", "kn-tolerance-noise"], "explanation": "从输入输出估计参数后必须用未参与拟合的数据验证，并检查残差结构。", "misconception": "拟合曲线重合就等于模型可泛化。", "check": "设计训练段、验证段和残差检查。", "source_refs": ["capstone-model-identification"] },
+        { "id": "kn-reproducibility", "title": "可复现实验与证据包", "kind": "procedure", "prerequisite_ids": ["kn-simulation-parity", "kn-latency-jitter", "kn-identification"], "explanation": "冻结版本、参数、数据摘要、随机种子、环境和验收标准，使他人能重跑并得到可解释差异。", "misconception": "只有最终截图也算可复现。", "check": "列出一个公开安全证据包必须包含和必须排除的内容。", "source_refs": ["capstone-reproducibility", "portfolio-fixture-sls240"] }
+      ]
+    }
+  ],
+  "labs": [
+    { "id": "lab-rc-rlc", "title": "RC/RLC 解析—仿真—实测三联赛", "deliverable": "参数冻结表、三条波形、误差归因与模型边界 Replay", "evidence": ["方程与单位", "Multisim/MATLAB/Python 设置", "仪器量程与重复测量"], "safety": "先检查供电、接地、量程和元件额定值；Demo 不直接控制真实设备。" },
+    { "id": "lab-convolution", "title": "卷积滑动与区间口述", "deliverable": "分段卷积结果、重叠区间解释与一个反例", "evidence": ["关键点草图", "数值对照"], "safety": "纯软件练习；答案自动保存，可撤回重做。" },
+    { "id": "lab-bode", "title": "Bode 截止频率挑战", "deliverable": "手算渐近线、数值曲线、-3 dB 换算和带宽定义", "evidence": ["极点零点表", "幅相图来源"], "safety": "不得把 Fixture 曲线当成真实器件规格。" },
+    { "id": "lab-fft", "title": "采样与 FFT 证据法庭", "deliverable": "频率轴、窗、归一化、混叠与泄漏对照 Notebook", "evidence": ["可运行代码", "单位与参数", "错误版本对照"], "safety": "输入数据使用合成 Fixture，不上传私人录音或课程受限数据。" },
+    { "id": "lab-capstone", "title": "传感系统 World Final", "deliverable": "端到端模型、P50/P95/P99、辨识验证与可复现证据包", "evidence": ["时间戳与版本", "原始数据摘要", "回滚与失败记录"], "safety": "任何实体硬件动作都需独立设备安全清单与现场人员批准。" }
+  ],
+  "assessments": [
+    { "id": "assessment-diagnostic", "title": "前置概念诊断", "mode": "diagnostic", "checks": ["单位与初态", "系统性质反例"], "feedback": "逐项说明缺口与可选补给，不生成 OVR 或公开排名。" },
+    { "id": "assessment-time-domain", "title": "时域 Key Match", "mode": "practice", "checks": ["方程—响应一致性", "卷积区间解释"], "feedback": "选择即自动保存；完成所有题后立即开放来源回放。" },
+    { "id": "assessment-frequency", "title": "频域 Film Room", "mode": "oral_replay", "checks": ["幅相与边界", "Bode 与无失真"], "feedback": "重点评价推理链和边界声明，不奖励只报答案。" },
+    { "id": "assessment-lab", "title": "三联证据审查", "mode": "lab", "checks": ["解析—仿真—实测 parity", "误差归因与安全"], "feedback": "先反馈证据缺口，允许修订；不因一次失败给人格化标签。" },
+    { "id": "assessment-capstone", "title": "World Exam Finals · 公开答辩", "mode": "capstone", "checks": ["模型适用性", "可复现性", "未知项与回滚"], "feedback": "公开展示只用经本人和教师确认的材料；私密反思不出现在答辩中。" }
+  ],
+  "invariants": {
+    "original_courseware_copied": false,
+    "private_identity_included": false,
+    "manual_answer_save_required": false,
+    "formal_grade_impact": false,
+    "teacher_review_required": true
+  }
+}

@@ -8,8 +8,28 @@ import {
   getUpcomingDeadlines,
   validateDemoSeason,
 } from "../src/features/mycareer/engine";
+import { SLS_240_COURSE_PACK } from "../src/features/mycareer/coursePack";
 
 describe("University2K26 demo season", () => {
+  it("exposes a complete public-safe SLS 240 course blueprint", () => {
+    const pack = SLS_240_COURSE_PACK;
+    const nodes = pack.units.flatMap((unit) => unit.knowledge_nodes);
+    expect(pack.source_coverage.original_files).toBe(6);
+    expect(pack.source_coverage.visually_reviewed_pages).toBe(65);
+    expect(pack.units).toHaveLength(5);
+    expect(nodes).toHaveLength(38);
+    expect(new Set(nodes.map((node) => node.id)).size).toBe(38);
+    expect(pack.labs).toHaveLength(5);
+    expect(pack.assessments).toHaveLength(5);
+    expect(pack.invariants).toEqual({
+      original_courseware_copied: false,
+      private_identity_included: false,
+      manual_answer_save_required: false,
+      formal_grade_impact: false,
+      teacher_review_required: true,
+    });
+  });
+
   it("keeps exactly one hero inside the sanitized roster", () => {
     expect(DEMO_SEASON.courses).toHaveLength(6);
     expect(HERO_COURSE.id).toBe(DEMO_SEASON.heroCourseId);

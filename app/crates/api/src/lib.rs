@@ -5,6 +5,10 @@ use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
 use axum::routing::{delete, get, post, put};
 use axum::{Json, Router};
+use j2k26_adapters_ai_openai_compatible::OpenAiCompatibleGateway;
+use j2k26_application::ai::{
+    AiAdvice, AiAdviceRequest, AiGateway, AiGatewayError, AiGatewayStatus, rules_fallback_advice,
+};
 use j2k26_application::{RepositoryError, ServiceError, SmartCourseService};
 use j2k26_domain::{
     AcademicMirrorFixture, AcademicMirrorSession, AccessLogCorrection, AccessRequestMirror,
@@ -14,20 +18,21 @@ use j2k26_domain::{
     CampusPassFixture, CampusPassSession, CampusPreferenceProfile, CampusRouteOption,
     CampusSavedItem, CampusSearchQuery, CampusSearchResult, CampusSourceCorrection,
     CampusTeamIntent, CareerCourse, CareerCourseDetail, CareerDashboard, CareerFixture,
-    CareerLinkedContent, CareerRecentActivity, CareerSemester, CoachAdvisorHandoff,
-    CoachAuditEvent, CoachBoxScore, CoachCorrectionCase, CoachCourseProfile, CoachCourseVersion,
-    CoachEvidenceSource, CoachExpectationReminder, CoachFairnessAudit, CoachFeedbackAggregate,
-    CoachFeedbackSubmission, CoachGovernanceCase, CoachOfficeHours, CoachScoutingFixture,
-    CoachScoutingReport, CoachScoutingSession, CoachTeachingStructure, CoachTeamMatch,
-    CoachTeamProfileField, CoachVersionComparison, CoachWorkloadRange, CredentialLossCase,
-    CredentialPresentation, DomainError, EmergencyAccessMode, ExamAnswerRecord, ExamBoxScore,
-    ExamCheckpoint, ExamEvent, GeneratedObject, GuestPassDraft, InteractionCommand,
-    ManualFallbackSelection, MirrorAuditEvent, MirrorAuthorityLevel, MirrorConflictRecord,
-    MirrorConsentRecord, MirrorDataSource, MirrorNormalizedField, MirrorNormalizedRecord,
-    MirrorRawSnapshot, OfflineCredentialCheck, OpportunityApplicationMirror, OpportunityAuditEvent,
-    OpportunityBoxScore, OpportunityCapacityPlan, OpportunityDisclosureGrant,
-    OpportunityEligibilityCheck, OpportunityEligibilityRule, OpportunityFairnessAudit,
-    OpportunityMarketFixture, OpportunityMarketSession, OpportunityMatchResult, OpportunityPathway,
+    CareerLinkedContent, CareerRecentActivity, CareerSemester, CatalogImportValidationReceipt,
+    CatalogImportValidationRequest, CoachAdvisorHandoff, CoachAuditEvent, CoachBoxScore,
+    CoachCorrectionCase, CoachCourseProfile, CoachCourseVersion, CoachEvidenceSource,
+    CoachExpectationReminder, CoachFairnessAudit, CoachFeedbackAggregate, CoachFeedbackSubmission,
+    CoachGovernanceCase, CoachOfficeHours, CoachScoutingFixture, CoachScoutingReport,
+    CoachScoutingSession, CoachTeachingStructure, CoachTeamMatch, CoachTeamProfileField,
+    CoachVersionComparison, CoachWorkloadRange, CredentialLossCase, CredentialPresentation,
+    DomainError, EmergencyAccessMode, ExamAnswerRecord, ExamBoxScore, ExamCheckpoint, ExamEvent,
+    GeneratedObject, GuestPassDraft, InteractionCommand, ManualFallbackSelection, MirrorAuditEvent,
+    MirrorAuthorityLevel, MirrorConflictRecord, MirrorConsentRecord, MirrorDataSource,
+    MirrorNormalizedField, MirrorNormalizedRecord, MirrorRawSnapshot, OfflineCredentialCheck,
+    OpportunityApplicationMirror, OpportunityAuditEvent, OpportunityBoxScore,
+    OpportunityCapacityPlan, OpportunityDisclosureGrant, OpportunityEligibilityCheck,
+    OpportunityEligibilityRule, OpportunityFairnessAudit, OpportunityMarketFixture,
+    OpportunityMarketSession, OpportunityMatchResult, OpportunityPathway,
     OpportunityPortfolioExport, OpportunityProfileField, OpportunityRecord, OpportunityReport,
     OpportunitySavedItem, PassAuditEvent, PassCredential, PerformanceAbilityDimension,
     PerformanceAuditEvent, PerformanceBadge, PerformanceCenterFixture, PerformanceCenterSession,
@@ -35,11 +40,12 @@ use j2k26_domain::{
     PerformanceMetricDefinition, PerformanceObservation, PerformanceRecommendation,
     PerformanceResearchGate, PerformanceShareDraft, PerformanceShareGrant,
     PerformanceSupportAction, PostGameReflection, PreGameBriefing, PublishCommand,
-    PublishedVersion, Replay, ReviewAction, ReviewCommand, ReviewEvent, ReviewPlaybookSection,
-    RosterCourseSpec, RosterFixture, RosterPin, RosterPreferences, RosterPrefix, RosterSession,
-    RosterTransaction, RosterUnsatisfiableExplanation, SCHEMA_VERSION, SelfAccessRecord,
-    SemesterLock, SemesterPlan, StudentInteraction, WarmupAttempt, WarmupQuestion,
-    WorldExamFixture, WorldExamSession, build_exam_box_score, campus_recommendations,
+    PublishedVersion, ROSTER_SOLVER_PROTOCOL, Replay, ReviewAction, ReviewCommand, ReviewEvent,
+    ReviewPlaybookSection, RosterCourseSpec, RosterFixture, RosterPin, RosterPreferences,
+    RosterPrefix, RosterSession, RosterTransaction, RosterUnsatisfiableExplanation, SCHEMA_VERSION,
+    SelfAccessRecord, SemesterLock, SemesterPlan, StudentInteraction, WarmupAttempt,
+    WarmupQuestion, WorldExamFixture, WorldExamSession, build_exam_box_score,
+    campus_recommendations,
 };
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
@@ -83,9 +89,22 @@ struct AppState {
     campus_life_session: Arc<Mutex<CampusLifeSession>>,
     campus_pass_fixture: CampusPassFixture,
     campus_pass_session: Arc<Mutex<CampusPassSession>>,
+    ai_gateway: Arc<dyn AiGateway>,
+    development_profile: DevelopmentProfileResponse,
 }
 
 pub fn build_router(service: SmartCourseService) -> Router {
+    let ai_gateway: Arc<dyn AiGateway> =
+        Arc::new(OpenAiCompatibleGateway::from_env().unwrap_or_else(|_| {
+            OpenAiCompatibleGateway::unconfigured(
+                "AI 配置未通过安全校验；已禁用模型通路并使用规则回退。",
+            )
+        }));
+    build_router_with_ai(service, ai_gateway)
+}
+
+pub fn build_router_with_ai(service: SmartCourseService, ai_gateway: Arc<dyn AiGateway>) -> Router {
+    let development_profile = load_development_profile();
     let career_fixture: CareerFixture =
         serde_json::from_str(CAREER_FIXTURE).expect("embedded career fixture must be valid");
     let world_exam_fixture: WorldExamFixture = serde_json::from_str(WORLD_EXAM_FIXTURE)
@@ -155,6 +174,12 @@ pub fn build_router(service: SmartCourseService) -> Router {
     )));
     Router::new()
         .route("/api/v1/health", get(health))
+        .route("/api/v1/ai/status", get(get_ai_status))
+        .route("/api/v1/ai/advice", post(post_ai_advice))
+        .route(
+            "/api/v1/profile/development-context",
+            get(get_development_profile),
+        )
         .route("/api/v1/career/current-semester", get(get_current_semester))
         .route(
             "/api/v1/career/current-semester/courses",
@@ -213,6 +238,14 @@ pub fn build_router(service: SmartCourseService) -> Router {
             post(post_roster_plan_lock),
         )
         .route("/api/v1/roster/catalog", get(get_roster_catalog))
+        .route(
+            "/api/v1/roster/import-capabilities",
+            get(get_roster_import_capabilities),
+        )
+        .route(
+            "/api/v1/roster/imports/validate",
+            post(post_roster_import_validate),
+        )
         .route("/api/v1/roster/unsat", get(get_roster_unsat))
         .route("/api/v1/demo/roster", get(get_demo_roster))
         .route("/api/v1/demo/roster/reset", post(post_demo_roster_reset))
@@ -549,6 +582,8 @@ pub fn build_router(service: SmartCourseService) -> Router {
             campus_life_session,
             campus_pass_fixture,
             campus_pass_session,
+            ai_gateway,
+            development_profile,
         })
 }
 
@@ -567,6 +602,148 @@ async fn health() -> Json<HealthResponse> {
         component: "j2k26-api",
         data_mode: "fixture",
     })
+}
+
+async fn get_ai_status(State(state): State<AppState>) -> Json<AiGatewayStatus> {
+    Json(state.ai_gateway.status().await)
+}
+
+async fn post_ai_advice(
+    State(state): State<AppState>,
+    Json(request): Json<AiAdviceRequest>,
+) -> Result<Json<AiAdvice>, ApiError> {
+    request.validate().map_err(ai_request_error)?;
+    let advice = match state.ai_gateway.advise(&request).await {
+        Ok(advice) => advice,
+        Err(AiGatewayError::NotConfigured) => {
+            rules_fallback_advice(&request, Some("模型凭据未配置"))
+        }
+        Err(AiGatewayError::ProviderUnavailable(_)) => {
+            rules_fallback_advice(&request, Some("模型服务暂时不可用"))
+        }
+        Err(AiGatewayError::InvalidResponse(_)) => {
+            rules_fallback_advice(&request, Some("模型响应未通过来源合同"))
+        }
+        Err(error @ AiGatewayError::InvalidRequest(_)) => return Err(ai_request_error(error)),
+    };
+    Ok(Json(advice))
+}
+
+fn ai_request_error(error: AiGatewayError) -> ApiError {
+    ApiError::new(
+        StatusCode::UNPROCESSABLE_ENTITY,
+        "invalid_ai_request",
+        error.to_string(),
+        false,
+    )
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct DevelopmentEvidence {
+    label: String,
+    detail: String,
+    source_id: String,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+struct PrivateDevelopmentProfileFile {
+    profile_version: String,
+    display_alias: String,
+    contains_direct_identifiers: bool,
+    verified_experience: Vec<DevelopmentEvidence>,
+    learning_now: Vec<DevelopmentEvidence>,
+    goals: Vec<String>,
+    source_boundary: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct DevelopmentProfileResponse {
+    configured: bool,
+    data_mode: &'static str,
+    profile_version: Option<String>,
+    display_alias: Option<String>,
+    verified_experience: Vec<DevelopmentEvidence>,
+    learning_now: Vec<DevelopmentEvidence>,
+    goals: Vec<String>,
+    source_boundary: String,
+    formal_decision: bool,
+}
+
+fn unavailable_development_profile(detail: &str) -> DevelopmentProfileResponse {
+    DevelopmentProfileResponse {
+        configured: false,
+        data_mode: "local_private_profile",
+        profile_version: None,
+        display_alias: None,
+        verified_experience: Vec::new(),
+        learning_now: Vec::new(),
+        goals: Vec::new(),
+        source_boundary: detail.to_owned(),
+        formal_decision: false,
+    }
+}
+
+fn load_development_profile() -> DevelopmentProfileResponse {
+    let path = std::env::var("J2K26_PRIVATE_PROFILE_PATH")
+        .unwrap_or_else(|_| ".data/university2k26/private-profile.json".to_owned());
+    let content = match std::fs::read_to_string(path) {
+        Ok(content) => content,
+        Err(_) => {
+            return unavailable_development_profile(
+                "未配置本地私有发展档案；公开 Demo 继续使用 NAN Fixture。",
+            );
+        }
+    };
+    let profile: PrivateDevelopmentProfileFile = match serde_json::from_str(&content) {
+        Ok(profile) => profile,
+        Err(_) => {
+            return unavailable_development_profile(
+                "本地私有发展档案未通过 JSON 合同；未载入任何字段。",
+            );
+        }
+    };
+    let evidence_is_bounded = profile.verified_experience.len() <= 24
+        && profile.learning_now.len() <= 16
+        && profile.goals.len() <= 12
+        && profile
+            .verified_experience
+            .iter()
+            .chain(profile.learning_now.iter())
+            .all(|item| {
+                !item.label.trim().is_empty()
+                    && item.label.chars().count() <= 120
+                    && !item.detail.trim().is_empty()
+                    && item.detail.chars().count() <= 600
+                    && !item.source_id.trim().is_empty()
+                    && item.source_id.chars().count() <= 160
+            });
+    if profile.contains_direct_identifiers
+        || profile.display_alias.trim().is_empty()
+        || profile.display_alias.chars().count() > 40
+        || profile.source_boundary.trim().is_empty()
+        || !evidence_is_bounded
+    {
+        return unavailable_development_profile(
+            "本地私有发展档案违反去标识或字段上限；未载入任何字段。",
+        );
+    }
+    DevelopmentProfileResponse {
+        configured: true,
+        data_mode: "local_private_profile",
+        profile_version: Some(profile.profile_version),
+        display_alias: Some(profile.display_alias),
+        verified_experience: profile.verified_experience,
+        learning_now: profile.learning_now,
+        goals: profile.goals,
+        source_boundary: profile.source_boundary,
+        formal_decision: false,
+    }
+}
+
+async fn get_development_profile(
+    State(state): State<AppState>,
+) -> Json<DevelopmentProfileResponse> {
+    Json(state.development_profile)
 }
 
 async fn get_current_semester(State(state): State<AppState>) -> Json<CareerSemester> {
@@ -940,6 +1117,7 @@ struct RosterPinsRequest {
 struct RosterSolveRequest {
     goal_order: Option<Vec<String>>,
     preferences: Option<RosterPreferences>,
+    solver_protocol: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -952,11 +1130,24 @@ struct RosterPlansResponse {
     schema_version: String,
     data_mode: String,
     solver_status: String,
+    solver_protocol: String,
+    protocol_status: String,
+    constraint_model: RosterConstraintModel,
     plans: Vec<SemesterPlan>,
     unsat: Option<RosterUnsatisfiableExplanation>,
     is_simulation: bool,
     is_formal_enrollment: bool,
     source_boundary: String,
+}
+
+#[derive(Debug, Serialize)]
+struct RosterConstraintModel {
+    catalog_channels: Vec<String>,
+    hard_constraints: Vec<String>,
+    soft_preferences: Vec<String>,
+    supports_minimal_unsat_core: bool,
+    supports_deterministic_lock: bool,
+    mutates_formal_enrollment: bool,
 }
 
 #[derive(Debug, Serialize)]
@@ -974,6 +1165,55 @@ struct RosterCatalogResponse {
     catalog_version: String,
     courses: Vec<RosterCourseSpec>,
     source_boundary: String,
+}
+
+#[derive(Debug, Serialize)]
+struct RosterImportSourceCapability {
+    institution: String,
+    allowed_dataset_scopes: Vec<String>,
+    accepted_locator_prefixes: Vec<String>,
+    validation_only: bool,
+    authorization_gate: String,
+    rejected_data_classes: Vec<String>,
+}
+
+#[derive(Debug, Serialize)]
+struct RosterImportCapabilitiesResponse {
+    schema_version: String,
+    data_mode: String,
+    sources: Vec<RosterImportSourceCapability>,
+    solver_protocol: String,
+    current_backend: String,
+    import_state: String,
+    source_boundary: String,
+}
+
+fn roster_constraint_model() -> RosterConstraintModel {
+    RosterConstraintModel {
+        catalog_channels: vec![
+            "fixture::university2k26".to_owned(),
+            "uarizona::public_course_catalog (after validation and human promotion)".to_owned(),
+            "hebut::user_authorized_course_catalog (after validation and human promotion)"
+                .to_owned(),
+        ],
+        hard_constraints: vec![
+            "prerequisite".to_owned(),
+            "corequisite".to_owned(),
+            "time_conflict".to_owned(),
+            "credit_limit".to_owned(),
+            "exclusion".to_owned(),
+            "student_pin".to_owned(),
+        ],
+        soft_preferences: vec![
+            "time_of_day".to_owned(),
+            "compactness".to_owned(),
+            "variety".to_owned(),
+            "stability".to_owned(),
+        ],
+        supports_minimal_unsat_core: true,
+        supports_deterministic_lock: true,
+        mutates_formal_enrollment: false,
+    }
 }
 
 async fn get_roster_prefix(State(state): State<AppState>) -> Result<Json<RosterPrefix>, ApiError> {
@@ -1006,6 +1246,16 @@ async fn post_roster_solve(
     State(state): State<AppState>,
     Json(request): Json<RosterSolveRequest>,
 ) -> Result<Json<RosterPlansResponse>, ApiError> {
+    if request
+        .solver_protocol
+        .as_deref()
+        .is_some_and(|protocol| protocol != ROSTER_SOLVER_PROTOCOL)
+    {
+        return Err(DomainError::InvariantViolation(format!(
+            "unsupported Roster Lab solver protocol; expected {ROSTER_SOLVER_PROTOCOL}"
+        ))
+        .into());
+    }
     let plans = lock_roster_session(&state)?.solve(
         &state.roster_fixture,
         request.goal_order,
@@ -1015,6 +1265,9 @@ async fn post_roster_solve(
         schema_version: SCHEMA_VERSION.to_owned(),
         data_mode: "fixture".to_owned(),
         solver_status: "best_feasible_deterministic_fixture".to_owned(),
+        solver_protocol: ROSTER_SOLVER_PROTOCOL.to_owned(),
+        protocol_status: "reference_contract_fixture".to_owned(),
+        constraint_model: roster_constraint_model(),
         plans,
         unsat: None,
         is_simulation: false,
@@ -1033,6 +1286,9 @@ async fn post_roster_what_if(
         schema_version: SCHEMA_VERSION.to_owned(),
         data_mode: "fixture".to_owned(),
         solver_status: "best_feasible_deterministic_fixture".to_owned(),
+        solver_protocol: ROSTER_SOLVER_PROTOCOL.to_owned(),
+        protocol_status: "reference_contract_fixture".to_owned(),
+        constraint_model: roster_constraint_model(),
         plans,
         unsat: None,
         is_simulation: true,
@@ -1066,6 +1322,66 @@ async fn get_roster_catalog(State(state): State<AppState>) -> Json<RosterCatalog
         courses: state.roster_fixture.catalog,
         source_boundary: state.roster_fixture.source_boundary,
     })
+}
+
+async fn get_roster_import_capabilities() -> Json<RosterImportCapabilitiesResponse> {
+    Json(RosterImportCapabilitiesResponse {
+        schema_version: SCHEMA_VERSION.to_owned(),
+        data_mode: "capability".to_owned(),
+        sources: vec![
+            RosterImportSourceCapability {
+                institution: "uarizona".to_owned(),
+                allowed_dataset_scopes: vec!["public_course_catalog".to_owned()],
+                accepted_locator_prefixes: vec![
+                    "https://catalog.arizona.edu/".to_owned(),
+                    "https://uaccess.schedule.arizona.edu/".to_owned(),
+                ],
+                validation_only: true,
+                authorization_gate:
+                    "Public catalog metadata only; verify current terms and promote the receipt manually."
+                        .to_owned(),
+                rejected_data_classes: vec![
+                    "student_enrollment".to_owned(),
+                    "grades".to_owned(),
+                    "holds".to_owned(),
+                    "financial_data".to_owned(),
+                ],
+            },
+            RosterImportSourceCapability {
+                institution: "hebut".to_owned(),
+                allowed_dataset_scopes: vec![
+                    "public_course_catalog".to_owned(),
+                    "user_authorized_course_catalog".to_owned(),
+                ],
+                accepted_locator_prefixes: vec![
+                    "https://".to_owned(),
+                    "local-authorized://".to_owned(),
+                ],
+                validation_only: true,
+                authorization_gate:
+                    "The user must supply or authorize the catalog export; local paths are never returned."
+                        .to_owned(),
+                rejected_data_classes: vec![
+                    "student_identity".to_owned(),
+                    "grades".to_owned(),
+                    "payments".to_owned(),
+                    "formal_enrollment_actions".to_owned(),
+                ],
+            },
+        ],
+        solver_protocol: ROSTER_SOLVER_PROTOCOL.to_owned(),
+        current_backend: "deterministic_fixture_reference".to_owned(),
+        import_state: "no_real_catalog_promoted".to_owned(),
+        source_boundary:
+            "Validation receipts do not import, persist, enroll, reserve seats or prove transfer equivalency."
+                .to_owned(),
+    })
+}
+
+async fn post_roster_import_validate(
+    Json(request): Json<CatalogImportValidationRequest>,
+) -> Result<Json<CatalogImportValidationReceipt>, ApiError> {
+    Ok(Json(request.validate()?))
 }
 
 async fn get_roster_unsat(State(state): State<AppState>) -> Json<RosterUnsatisfiableExplanation> {
@@ -3246,7 +3562,12 @@ mod tests {
             .seed_fixture(GOLDEN_FIXTURE)
             .await
             .expect("fixture must seed");
-        build_router(service)
+        build_router_with_ai(
+            service,
+            Arc::new(OpenAiCompatibleGateway::unconfigured(
+                "test fixture uses deterministic rules",
+            )),
+        )
     }
 
     async fn json_request(app: Router, method: &str, uri: &str, payload: Value) -> Response {
@@ -3281,6 +3602,43 @@ mod tests {
             .expect("router must respond");
         let status = response.status();
         (status, response_json(response).await)
+    }
+
+    #[tokio::test]
+    async fn ai_status_and_advice_are_secret_free_and_explicitly_fallback() {
+        let app = test_app().await;
+        let (status, payload) = get_json(app.clone(), "/api/v1/ai/status").await;
+        assert_eq!(status, StatusCode::OK);
+        assert_eq!(payload["configured"], false);
+        assert_eq!(payload["credential_source"], "not_configured");
+        let serialized = payload.to_string();
+        assert!(!serialized.contains("sk-"));
+        assert!(!serialized.contains("api_key"));
+
+        let response = json_request(
+            app,
+            "POST",
+            "/api/v1/ai/advice",
+            json!({
+                "task": "student_support_case",
+                "subject": "考试无障碍安排申请",
+                "question": "下一步如何处理？",
+                "locale": "zh-CN",
+                "facts": [
+                    {
+                        "label": "申请状态",
+                        "value": "材料待补充",
+                        "source_id": "case-fixture-001"
+                    }
+                ]
+            }),
+        )
+        .await;
+        assert_eq!(response.status(), StatusCode::OK);
+        let advice = response_json(response).await;
+        assert_eq!(advice["mode"], "rules_fallback");
+        assert_eq!(advice["formal_decision"], false);
+        assert_eq!(advice["source_ids"][0], "case-fixture-001");
     }
 
     #[tokio::test]
@@ -3675,6 +4033,12 @@ mod tests {
             solve_body["solver_status"],
             "best_feasible_deterministic_fixture"
         );
+        assert_eq!(solve_body["solver_protocol"], "conda_style_v1");
+        assert_eq!(solve_body["protocol_status"], "reference_contract_fixture");
+        assert_eq!(
+            solve_body["constraint_model"]["mutates_formal_enrollment"],
+            false
+        );
 
         let (diff_status, diff) =
             get_json(app.clone(), "/api/v1/roster/plans/plan-late-fixture/diff").await;
@@ -3722,6 +4086,82 @@ mod tests {
         )
         .await;
         assert_eq!(rejected_pins.status(), StatusCode::UNPROCESSABLE_ENTITY);
+    }
+
+    #[tokio::test]
+    async fn roster_catalog_import_is_bounded_validation_only() {
+        let app = test_app().await;
+        let (capability_status, capabilities) =
+            get_json(app.clone(), "/api/v1/roster/import-capabilities").await;
+        assert_eq!(capability_status, StatusCode::OK);
+        assert_eq!(capabilities["import_state"], "no_real_catalog_promoted");
+        assert_eq!(capabilities["solver_protocol"], "conda_style_v1");
+        assert_eq!(capabilities["sources"].as_array().map(Vec::len), Some(2));
+
+        let validation = json_request(
+            app.clone(),
+            "POST",
+            "/api/v1/roster/imports/validate",
+            json!({
+                "schema_version": "1.0.0",
+                "institution": "uarizona",
+                "dataset_scope": "public_course_catalog",
+                "source_locator": "https://catalog.arizona.edu/courses",
+                "retrieved_at": "2026-07-24T10:00:00Z",
+                "terms_version": "public-page-observed-2026-07-24",
+                "use_basis": "Public catalog metadata; terms require human review.",
+                "checksum_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "catalog_version": "uarizona-public-candidate-2026-fall",
+                "courses": [{
+                    "course_code": "ECE 320A",
+                    "title": "Signals and Systems",
+                    "credits": 3.0,
+                    "department": "Electrical and Computer Engineering",
+                    "prerequisites": ["MATH 223"],
+                    "corequisites": [],
+                    "exclusions": [],
+                    "offered_terms": ["2026-Fall"]
+                }]
+            }),
+        )
+        .await;
+        assert_eq!(validation.status(), StatusCode::OK);
+        let receipt = response_json(validation).await;
+        assert_eq!(receipt["validation_status"], "validated_only");
+        assert_eq!(receipt["records_validated"], 1);
+        assert_eq!(receipt["imported"], false);
+        assert_eq!(receipt["persisted"], false);
+        assert_eq!(receipt["contains_enrollment_records"], false);
+        assert_eq!(receipt["is_formal_enrollment"], false);
+
+        let restricted = json_request(
+            app,
+            "POST",
+            "/api/v1/roster/imports/validate",
+            json!({
+                "schema_version": "1.0.0",
+                "institution": "uarizona",
+                "dataset_scope": "student_enrollment_records",
+                "source_locator": "https://catalog.arizona.edu/courses",
+                "retrieved_at": "2026-07-24T10:00:00Z",
+                "terms_version": "public-page-observed-2026-07-24",
+                "use_basis": "Not allowed.",
+                "checksum_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "catalog_version": "restricted",
+                "courses": [{
+                    "course_code": "ECE 320A",
+                    "title": "Signals and Systems",
+                    "credits": 3.0,
+                    "department": "ECE",
+                    "prerequisites": [],
+                    "corequisites": [],
+                    "exclusions": [],
+                    "offered_terms": ["2026-Fall"]
+                }]
+            }),
+        )
+        .await;
+        assert_eq!(restricted.status(), StatusCode::UNPROCESSABLE_ENTITY);
     }
 
     #[tokio::test]

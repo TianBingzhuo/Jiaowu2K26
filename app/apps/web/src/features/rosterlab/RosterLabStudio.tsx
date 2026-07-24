@@ -49,6 +49,11 @@ import type {
   SemesterPlan,
   WhatIfChanges,
 } from "./types";
+import {
+  getRosterImportCapabilities,
+  type RosterImportCapabilities,
+} from "../../lib/api";
+import { SourceBoundCoach } from "../ai/SourceBoundCoach";
 import "./rosterlab.css";
 
 type RosterLabStudioProps = {
@@ -215,6 +220,11 @@ export function RosterLabStudio({
   const [message, setMessage] = useState(
     "所有方案都是本地 Fixture 规划，不会提交正式选课。",
   );
+  const [importCapabilities, setImportCapabilities] =
+    useState<RosterImportCapabilities | null>(null);
+  const [importCapabilityState, setImportCapabilityState] = useState<
+    "checking" | "live" | "fallback"
+  >("checking");
   const [cachedLock, setCachedLock] = useState<SemesterLock | null>(() => {
     try {
       return loadSemesterLock();
@@ -246,6 +256,22 @@ export function RosterLabStudio({
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [state.step]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    getRosterImportCapabilities((input, init) =>
+      fetch(input, { ...init, signal: controller.signal }),
+    )
+      .then((capabilities) => {
+        setImportCapabilities(capabilities);
+        setImportCapabilityState("live");
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        setImportCapabilityState("fallback");
+      });
+    return () => controller.abort();
+  }, []);
 
   const commit = (
     action: (current: RosterLabState) => RosterLabState,
@@ -456,6 +482,80 @@ export function RosterLabStudio({
 
         {state.step === "editor" && (
           <div className="roster-editor">
+            <section className="roster-panel roster-import-gate">
+              <header className="roster-panel__header">
+                <div>
+                  <span>CATALOG CHANNELS // SOURCE GATE</span>
+                  <h2>真实目录先过检录，再进入赛场</h2>
+                </div>
+                <span className="roster-version">
+                  {importCapabilityState === "checking" && "CHECKING"}
+                  {importCapabilityState === "live" && "API CONTRACT"}
+                  {importCapabilityState === "fallback" && "FIXTURE DOC"}
+                </span>
+              </header>
+              <div className="roster-import-grid">
+                <article>
+                  <strong>UArizona</strong>
+                  <b>公开课程目录</b>
+                  <p>
+                    只收公开 catalog / class search 元数据；拒绝学生选课、成绩、
+                    hold 与财务记录。
+                  </p>
+                </article>
+                <article>
+                  <strong>HEBUT</strong>
+                  <b>公开或本人授权导出</b>
+                  <p>
+                    本地来源不回传真实路径；拒绝身份、成绩、支付与正式选课动作。
+                  </p>
+                </article>
+                <article>
+                  <strong>Solver Contract</strong>
+                  <b>
+                    {importCapabilities?.solver_protocol ?? "conda_style_v1"}
+                  </b>
+                  <p>
+                    依赖图 + 硬约束 + 软偏好 + 无解核心 + 可重放 lock；
+                    当前仍是确定性 Fixture 参考后端。
+                  </p>
+                </article>
+              </div>
+              <p className="roster-import-boundary">
+                {importCapabilities?.source_boundary ??
+                  "当前没有真实 UArizona / HEBUT 目录被提升；验证回执不等于导入、占座或正式选课。"}
+              </p>
+            </section>
+
+            <div className="roster-import-gate">
+              <SourceBoundCoach
+                task="career_path"
+                eyebrow="AI ROSTER COACH // SOURCE-BOUND"
+                title="让 AI 解释取舍，不让 AI 改写硬约束"
+                subject={`${ROSTER_FIXTURE.semester} 课程阵容`}
+                question="基于当前 Pin、偏好与学分范围，下一步应先验证什么？"
+                consentRequired={false}
+                boundary="仅发送公开 Demo Fixture 摘要；AI 不解锁 Pin、不占座、不提交选课，也不能覆盖无解核心。"
+                facts={[
+                  {
+                    label: "硬约束",
+                    value: `${state.activePinIds.length} 个 Pin 生效；学分范围 ${ROSTER_FIXTURE.creditRange.min}–${ROSTER_FIXTURE.creditRange.max}`,
+                    source_id: "roster-fixture:constraints",
+                  },
+                  {
+                    label: "时段偏好",
+                    value: TIME_PREFERENCE_LABELS[state.preferences.timeOfDay],
+                    source_id: "roster-fixture:preferences",
+                  },
+                  {
+                    label: "求解协议",
+                    value: `${importCapabilities?.solver_protocol ?? "conda_style_v1"} / deterministic fixture reference`,
+                    source_id: "roster-capability:solver",
+                  },
+                ]}
+              />
+            </div>
+
             <section className="roster-panel roster-prefix-panel">
               <header className="roster-panel__header">
                 <div>

@@ -15,6 +15,50 @@ paths:
       responses:
         '200':
           description: Local component is available.
+  /ai/status:
+    get:
+      operationId: getAiGatewayStatus
+      description: >-
+        Reports provider, model and configuration state without returning a
+        credential, token, authorization header or secret value.
+      responses:
+        '200':
+          description: Safe AI gateway status.
+          content:
+            application/json:
+              schema:
+                $ref: './ai-status.schema.json'
+  /ai/advice:
+    post:
+      operationId: createSourceBoundAiAdvice
+      description: >-
+        Produces source-bound, non-authoritative advice. If the configured
+        model is unavailable, the response explicitly uses rules_fallback and
+        never pretends a model ran.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './ai-advice-request.schema.json'
+      responses:
+        '200':
+          description: Model output or an explicitly labelled rules fallback.
+          content:
+            application/json:
+              schema:
+                $ref: './ai-advice.schema.json'
+        '422':
+          $ref: '#/components/responses/Error'
+  /profile/development-context:
+    get:
+      operationId: getLocalDevelopmentContext
+      description: >-
+        Returns a locally configured, de-identified evidence profile. The
+        default file is Git-ignored and never contains direct identifiers.
+      responses:
+        '200':
+          description: Local private context or an explicit unconfigured state.
   /career/current-semester:
     get:
       operationId: getCurrentCareerSemester
@@ -331,6 +375,8 @@ paths:
                     compactness: { type: integer, minimum: 0, maximum: 3 }
                     variety: { type: integer, minimum: 0, maximum: 3 }
                     stability: { type: integer, minimum: 0, maximum: 3 }
+                solver_protocol:
+                  const: conda_style_v1
       responses:
         '200':
           description: Ranked, explainable, non-formal semester plan candidates.
@@ -392,6 +438,36 @@ paths:
       responses:
         '200':
           description: Sanitized, versioned fixture course catalog and source boundary.
+  /roster/import-capabilities:
+    get:
+      operationId: getRosterImportCapabilities
+      description: >-
+        Reports the only accepted UArizona and HEBUT catalog scopes and the
+        validation-only boundary. It does not report a real catalog as imported.
+      responses:
+        '200':
+          description: Catalog gates and the current Conda-style solver protocol.
+  /roster/imports/validate:
+    post:
+      operationId: validateRosterCatalogImport
+      description: >-
+        Validates a bounded course-catalog metadata batch. It never persists
+        records, imports enrollment data, reserves seats, or changes formal enrollment.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './roster-catalog-import-request.schema.json'
+      responses:
+        '200':
+          description: Validation-only receipt requiring explicit human promotion.
+          content:
+            application/json:
+              schema:
+                $ref: './roster-catalog-import-receipt.schema.json'
+        '422':
+          $ref: '#/components/responses/Error'
   /roster/unsat:
     get:
       operationId: getRosterUnsatisfiableExplanation

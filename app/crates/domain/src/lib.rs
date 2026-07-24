@@ -6,11 +6,13 @@ mod campus_life;
 mod campus_pass;
 mod coach_scouting;
 mod opportunity_market;
+mod roster_import;
 
 pub use campus_life::*;
 pub use campus_pass::*;
 pub use coach_scouting::*;
 pub use opportunity_market::*;
+pub use roster_import::*;
 
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, HashSet};

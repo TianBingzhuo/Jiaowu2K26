@@ -1,4 +1,5 @@
 import type {
+  InstitutionalWorkspaceView,
   RoleDestination,
   RoleFixture,
   RoleNavigationItem,
@@ -20,9 +21,9 @@ const module = (
   experience,
   ...(smartCourseEntry ? { smartCourseEntry } : {}),
 });
-const planned = (label: string): RoleDestination => ({
-  type: "planned",
-  label,
+const workspace = (view: InstitutionalWorkspaceView): RoleDestination => ({
+  type: "workspace",
+  view,
 });
 
 const studentNavigation: RoleNavigationItem[] = [
@@ -124,7 +125,7 @@ const teacher: RoleProfile = {
     "今天先处理来源完整的内容审核，再检查一个学习难点。所有建议都只是候选，教师保留发布与课程调整决定权。",
   coachNote: "学生反馈描述的是学习体验，不是教师人格，也不是一张 OVR。",
   primaryActionLabel: "进入内容审核席",
-  primaryDestination: module("smartcourse", "review"),
+  primaryDestination: workspace("course_studio"),
   accent: "blue",
   authority: "demo_fixture",
   requiresProductionSso: true,
@@ -134,7 +135,7 @@ const teacher: RoleProfile = {
       id: "course-studio",
       label: "课程工作坊",
       icon: "course",
-      destination: module("smartcourse", "authoring"),
+      destination: workspace("course_studio"),
     },
     {
       id: "review-queue",
@@ -164,7 +165,7 @@ const teacher: RoleProfile = {
       id: "faculty-portfolio",
       label: "教学档案",
       icon: "policy",
-      destination: planned("F-013 教学档案与晋升证据"),
+      destination: workspace("course_studio"),
     },
   ],
   priorities: [
@@ -176,7 +177,7 @@ const teacher: RoleProfile = {
       status: "12 待审核",
       sourceLabel: "F-001 Fixture",
       icon: "evidence",
-      destination: module("smartcourse", "review"),
+      destination: workspace("course_studio"),
     },
     {
       id: "teacher-bottleneck",
@@ -244,7 +245,7 @@ const advisor: RoleProfile = {
     "每项提醒必须说明触发原因、数据时间和正式责任方。敏感健康、消费与门禁数据不会进入暗中画像。",
   coachNote: "提醒不是判决；先联系本人、核对情况，再决定是否需要支持。",
   primaryActionLabel: "打开学业路径 Case",
-  primaryDestination: module("rosterlab"),
+  primaryDestination: workspace("case_desk"),
   accent: "teal",
   authority: "demo_fixture",
   requiresProductionSso: true,
@@ -254,7 +255,7 @@ const advisor: RoleProfile = {
       id: "advisor-cases",
       label: "Case Desk",
       icon: "people",
-      destination: planned("F-014 Advising / Case Management"),
+      destination: workspace("case_desk"),
     },
     {
       id: "advisor-mirror",
@@ -266,7 +267,7 @@ const advisor: RoleProfile = {
       id: "advisor-roster",
       label: "学业路径",
       icon: "roster",
-      destination: module("rosterlab"),
+      destination: workspace("case_desk"),
     },
     {
       id: "advisor-support",
@@ -364,7 +365,7 @@ const programLead: RoleProfile = {
     "培养方案修改先进入沙盒：展示受影响学生路径、课程容量、跨院依赖和未知项，正式发布仍走学校审批。",
   coachNote: "课程不是孤岛；改一条前置规则，先把四年路径和受影响人群都看清。",
   primaryActionLabel: "进入培养方案 What-if",
-  primaryDestination: module("rosterlab"),
+  primaryDestination: workspace("curriculum_lab"),
   accent: "gold",
   authority: "demo_fixture",
   requiresProductionSso: true,
@@ -374,13 +375,13 @@ const programLead: RoleProfile = {
       id: "program-curriculum",
       label: "培养方案图谱",
       icon: "roster",
-      destination: module("rosterlab"),
+      destination: workspace("curriculum_lab"),
     },
     {
       id: "program-course",
       label: "课程版本",
       icon: "course",
-      destination: module("smartcourse", "review"),
+      destination: workspace("curriculum_lab"),
     },
     {
       id: "program-mirror",
@@ -398,7 +399,7 @@ const programLead: RoleProfile = {
       id: "program-capacity",
       label: "容量与资源",
       icon: "policy",
-      destination: planned("F-014 课程、教室与容量优化"),
+      destination: workspace("curriculum_lab"),
     },
   ],
   priorities: [
@@ -410,7 +411,7 @@ const programLead: RoleProfile = {
       status: "3 个方案",
       sourceLabel: "F-004 Fixture",
       icon: "roster",
-      destination: module("rosterlab"),
+      destination: workspace("curriculum_lab"),
     },
     {
       id: "program-version",
@@ -478,7 +479,7 @@ const undergraduateOffice: RoleProfile = {
     "本界面只汇总带来源的只读镜像和模拟结果。课程、学籍、人事、资助与处分的正式决定仍留在责任部门。",
   coachNote: "学校端看到更多，不代表可以看见一切；权限还要同时满足范围、目的和时限。",
   primaryActionLabel: "打开校级影响审阅",
-  primaryDestination: module("academicmirror"),
+  primaryDestination: workspace("governance_desk"),
   accent: "violet",
   authority: "demo_fixture",
   requiresProductionSso: true,
@@ -488,7 +489,7 @@ const undergraduateOffice: RoleProfile = {
       id: "office-governance",
       label: "课程治理",
       icon: "policy",
-      destination: module("rosterlab"),
+      destination: workspace("governance_desk"),
     },
     {
       id: "office-mirror",
@@ -512,7 +513,7 @@ const undergraduateOffice: RoleProfile = {
       id: "office-policy",
       label: "政策 What-if",
       icon: "action",
-      destination: planned("F-014 政策 What-if 与治理"),
+      destination: workspace("governance_desk"),
     },
     {
       id: "office-audit",
@@ -530,7 +531,7 @@ const undergraduateOffice: RoleProfile = {
       status: "5 个审批节点",
       sourceLabel: "F-014 Vision",
       icon: "policy",
-      destination: module("rosterlab"),
+      destination: workspace("governance_desk"),
     },
     {
       id: "office-source",

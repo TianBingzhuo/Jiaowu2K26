@@ -26,9 +26,16 @@ export type RoleSmartCourseEntry =
   | "student"
   | "replay";
 
+export type InstitutionalWorkspaceView =
+  | "case_desk"
+  | "course_studio"
+  | "curriculum_lab"
+  | "governance_desk";
+
 export type RoleDestination =
   | { type: "home" }
   | { type: "panel"; panel: "courses" | "evidence" }
+  | { type: "workspace"; view: InstitutionalWorkspaceView }
   | {
       type: "module";
       experience: RoleExperience;

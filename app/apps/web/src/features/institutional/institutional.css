@@ -1,0 +1,743 @@
+.institutional-shell {
+  --institutional-accent: #58a6ff;
+  --institutional-accent-soft: rgb(88 166 255 / 16%);
+  min-height: 100dvh;
+  padding-bottom: 78px;
+  color: #edf4fb;
+  background:
+    linear-gradient(115deg, rgb(4 10 18 / 96%), rgb(4 10 18 / 78%)),
+    var(--image-scene-lab) center / cover fixed;
+}
+
+.institutional-accent--teal {
+  --institutional-accent: #48d1c7;
+  --institutional-accent-soft: rgb(72 209 199 / 16%);
+}
+
+.institutional-accent--gold {
+  --institutional-accent: #d4a843;
+  --institutional-accent-soft: rgb(212 168 67 / 16%);
+}
+
+.institutional-accent--violet {
+  --institutional-accent: #a371f7;
+  --institutional-accent-soft: rgb(163 113 247 / 17%);
+}
+
+.institutional-topbar {
+  position: sticky;
+  z-index: 20;
+  top: 0;
+  display: grid;
+  min-height: 82px;
+  align-items: center;
+  padding: 0 28px;
+  background: rgb(2 8 15 / 94%);
+  border-bottom: 1px solid rgb(88 166 255 / 24%);
+  backdrop-filter: blur(18px);
+  grid-template-columns: 1fr auto 1fr;
+}
+
+.institutional-topbar > button,
+.institutional-actions button,
+.institutional-ai > button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 10px 16px;
+  color: #edf4fb;
+  background: rgb(8 21 35 / 90%);
+  border: 1px solid color-mix(in srgb, var(--institutional-accent) 55%, #26364b);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.institutional-topbar > button {
+  justify-self: start;
+}
+
+.institutional-topbar > div {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: "Barlow Condensed", "Noto Sans SC", sans-serif;
+}
+
+.institutional-topbar > div > span {
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+.institutional-topbar > div > span > span {
+  color: var(--institutional-accent);
+}
+
+.institutional-topbar > div > b {
+  padding-left: 18px;
+  border-left: 1px solid #344358;
+  font-size: 20px;
+  letter-spacing: 0.06em;
+}
+
+.institutional-topbar > em {
+  justify-self: end;
+  padding: 7px 10px;
+  color: #8ff0ad;
+  border: 1px solid rgb(61 220 132 / 42%);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.institutional-hero,
+.institutional-workspace,
+.institutional-ai {
+  width: min(1460px, calc(100% - 48px));
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.institutional-hero {
+  display: grid;
+  align-items: center;
+  gap: 22px;
+  padding: 42px 0 28px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  animation: panel-enter var(--motion-scene) var(--easing-enter) both;
+}
+
+.institutional-hero > svg {
+  width: 58px;
+  height: 58px;
+  padding: 13px;
+  color: #06101b;
+  background: var(--institutional-accent);
+}
+
+.institutional-hero small,
+.institutional-workspace header small,
+.institutional-ai header small,
+.institutional-detail article small,
+.institutional-hypothesis small,
+.institutional-rollback small {
+  color: var(--institutional-accent);
+  font-family: "Barlow Condensed", "Noto Sans SC", sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.institutional-hero h1 {
+  margin: 4px 0 5px;
+  font-family: "Barlow Condensed", "Noto Sans SC", sans-serif;
+  font-size: clamp(38px, 4.6vw, 68px);
+  line-height: 0.98;
+}
+
+.institutional-hero p {
+  margin: 0;
+  color: #acbac9;
+}
+
+.institutional-hero aside {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 15px;
+  background: rgb(5 15 27 / 82%);
+  border: 1px solid color-mix(in srgb, var(--institutional-accent) 42%, transparent);
+}
+
+.institutional-hero aside > svg {
+  color: var(--institutional-accent);
+}
+
+.institutional-hero aside > span {
+  display: grid;
+  gap: 2px;
+}
+
+.institutional-hero aside small {
+  color: #9fabb8;
+  letter-spacing: normal;
+}
+
+.institutional-workspace {
+  display: grid;
+  min-width: 0;
+  gap: 14px;
+  grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
+}
+
+.institutional-workspace > section {
+  min-width: 0;
+}
+
+.institutional-workspace--advisor {
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.8fr);
+}
+
+.institutional-roster {
+  grid-column: 1 / -1;
+}
+
+.institutional-roster,
+.institutional-inbox,
+.institutional-detail,
+.institutional-lane-board,
+.institutional-role-specific,
+.institutional-approval-chain,
+.institutional-ai {
+  background: rgb(4 12 21 / 91%);
+  border: 1px solid rgb(88 166 255 / 22%);
+  box-shadow: 0 20px 52px rgb(0 0 0 / 24%);
+}
+
+.institutional-roster,
+.institutional-inbox,
+.institutional-detail,
+.institutional-lane-board,
+.institutional-role-specific,
+.institutional-approval-chain {
+  padding: 20px;
+}
+
+.institutional-workspace > section > header,
+.institutional-ai > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.institutional-workspace header h2,
+.institutional-ai h2 {
+  margin: 2px 0 0;
+  font-size: 22px;
+}
+
+.institutional-workspace header b,
+.institutional-ai header b {
+  padding: 5px 8px;
+  color: var(--institutional-accent);
+  background: var(--institutional-accent-soft);
+  border: 1px solid color-mix(in srgb, var(--institutional-accent) 48%, transparent);
+  font-size: 10px;
+  letter-spacing: 0.07em;
+}
+
+.institutional-student-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.institutional-student-grid button,
+.institutional-case-list button,
+.institutional-work-list button {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  color: #dfe9f4;
+  background: #07111d;
+  border: 1px solid #26364a;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.institutional-student-grid button.is-active,
+.institutional-case-list button.is-active,
+.institutional-work-list button.is-active {
+  background: var(--institutional-accent-soft);
+  border-color: var(--institutional-accent);
+  box-shadow: inset 3px 0 0 var(--institutional-accent);
+}
+
+.institutional-student-grid button > svg {
+  flex: 0 0 auto;
+  color: var(--institutional-accent);
+}
+
+.institutional-student-grid button > span,
+.institutional-case-list button > span {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+  gap: 3px;
+}
+
+.institutional-student-grid button small,
+.institutional-case-list button em,
+.institutional-work-list button small {
+  color: #8f9dab;
+  font-size: 10px;
+  font-style: normal;
+}
+
+.institutional-student-grid button em {
+  overflow: hidden;
+  color: #7ec4ff;
+  font-size: 10px;
+  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.institutional-student-grid button > b {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  color: #06101b;
+  background: var(--institutional-accent);
+}
+
+.institutional-case-list,
+.institutional-work-list {
+  display: grid;
+  gap: 8px;
+}
+
+.institutional-case-list button {
+  justify-content: space-between;
+}
+
+.institutional-case-list button small,
+.institutional-work-list button > span {
+  color: var(--institutional-accent);
+  font-family: "Barlow Condensed", "Noto Sans SC", sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.institutional-work-list button {
+  display: grid;
+  gap: 5px;
+}
+
+.institutional-brief-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.institutional-brief-grid article {
+  padding: 14px;
+  background: #07111d;
+  border: 1px solid #253549;
+}
+
+.institutional-brief-grid article.is-wide {
+  grid-column: 1 / -1;
+}
+
+.institutional-brief-grid p,
+.institutional-ai > p,
+.institutional-card-grid p {
+  margin: 6px 0 0;
+  color: #b5c0cd;
+  line-height: 1.65;
+}
+
+.institutional-boundary-grid {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.institutional-boundary-grid > div {
+  padding: 14px;
+  background: rgb(7 17 29 / 84%);
+  border: 1px solid #26364a;
+}
+
+.institutional-boundary-grid strong {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--institutional-accent);
+}
+
+.institutional-boundary-grid ul,
+.institutional-evidence-list,
+.institutional-caveats {
+  margin: 10px 0 0;
+  padding-left: 19px;
+  color: #b6c1ce;
+  line-height: 1.7;
+}
+
+.institutional-source-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.institutional-source-chips code {
+  padding: 4px 6px;
+  color: #89c9ff;
+  background: #071522;
+  border: 1px solid #23466a;
+  font-size: 9px;
+  overflow-wrap: anywhere;
+}
+
+.institutional-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.institutional-actions button:first-child,
+.institutional-ai > button {
+  color: #06101b;
+  background: var(--institutional-accent);
+  border-color: var(--institutional-accent);
+}
+
+.institutional-actions button:hover,
+.institutional-actions button:focus-visible,
+.institutional-topbar > button:hover,
+.institutional-topbar > button:focus-visible,
+.institutional-ai > button:hover,
+.institutional-ai > button:focus-visible {
+  filter: brightness(1.14);
+  transform: translateY(-1px);
+}
+
+.institutional-hypothesis,
+.institutional-rollback {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 15px;
+  background: var(--institutional-accent-soft);
+  border-left: 3px solid var(--institutional-accent);
+}
+
+.institutional-hypothesis > svg,
+.institutional-rollback > svg {
+  flex: 0 0 auto;
+  color: var(--institutional-accent);
+}
+
+.institutional-hypothesis > span,
+.institutional-rollback > span {
+  display: grid;
+  gap: 4px;
+}
+
+.institutional-evidence-list {
+  padding-left: 0;
+  list-style: none;
+}
+
+.institutional-evidence-list li {
+  display: flex;
+  gap: 8px;
+  margin-top: 7px;
+}
+
+.institutional-evidence-list svg {
+  flex: 0 0 auto;
+  color: var(--institutional-accent);
+}
+
+.institutional-role-specific {
+  grid-column: 1 / -1;
+}
+
+.institutional-card-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.institutional-card-grid article {
+  padding: 16px;
+  background: #07111d;
+  border-top: 3px solid var(--institutional-accent);
+}
+
+.institutional-change-table,
+.institutional-impact-table {
+  display: grid;
+  border: 1px solid #2a3a4d;
+}
+
+.institutional-change-table > div,
+.institutional-impact-table > div {
+  display: grid;
+  min-height: 48px;
+  align-items: center;
+  border-bottom: 1px solid #253447;
+}
+
+.institutional-change-table > div {
+  grid-template-columns: minmax(130px, 0.28fr) 1fr;
+}
+
+.institutional-change-table > div:last-child,
+.institutional-impact-table > div:last-child {
+  border-bottom: 0;
+}
+
+.institutional-change-table strong,
+.institutional-change-table span,
+.institutional-impact-table strong,
+.institutional-impact-table span {
+  height: 100%;
+  padding: 12px;
+}
+
+.institutional-change-table strong {
+  color: var(--institutional-accent);
+  background: rgb(255 255 255 / 3%);
+  border-right: 1px solid #253447;
+}
+
+.institutional-impact-table > div {
+  grid-template-columns: 0.7fr 1fr 1fr;
+}
+
+.institutional-impact-table .is-heading {
+  color: var(--institutional-accent);
+  background: rgb(255 255 255 / 4%);
+}
+
+.institutional-impact-table > div > * {
+  border-right: 1px solid #253447;
+}
+
+.institutional-impact-table > div > *:last-child {
+  border-right: 0;
+}
+
+.institutional-approval-chain ol {
+  display: grid;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.institutional-approval-chain li {
+  display: grid;
+  align-items: center;
+  gap: 10px;
+  padding: 13px;
+  background: #07111d;
+  border-left: 3px solid #667386;
+  grid-template-columns: auto 1fr auto;
+}
+
+.institutional-approval-chain li.is-ready {
+  border-color: #3ddc84;
+}
+
+.institutional-approval-chain li.is-blocked {
+  border-color: #ffb020;
+}
+
+.institutional-approval-chain li > span {
+  display: grid;
+  gap: 2px;
+}
+
+.institutional-approval-chain li small {
+  color: #97a5b4;
+}
+
+.institutional-approval-chain li em {
+  color: var(--institutional-accent);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.institutional-rollback {
+  margin-top: 12px;
+}
+
+.institutional-ai {
+  margin-top: 14px;
+  padding: 22px;
+  border-left: 4px solid var(--institutional-accent);
+}
+
+.institutional-ai header b.is-model {
+  color: #8ff0ad;
+  border-color: rgb(61 220 132 / 46%);
+}
+
+.institutional-ai > button {
+  margin-top: 14px;
+}
+
+.institutional-ai > button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.institutional-ai-result {
+  margin-top: 18px;
+  padding: 18px;
+  background: #07111d;
+  border: 1px solid color-mix(in srgb, var(--institutional-accent) 50%, #26364a);
+}
+
+.institutional-ai-result h3 {
+  margin: 5px 0;
+  font-size: 24px;
+}
+
+.institutional-ai-result > div > small {
+  color: var(--institutional-accent);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.institutional-ai-result > ol {
+  display: grid;
+  gap: 10px;
+  padding-left: 20px;
+}
+
+.institutional-ai-result > ol > li {
+  padding: 12px;
+  background: rgb(255 255 255 / 3%);
+}
+
+.institutional-ai-result > ol span,
+.institutional-ai-result > ol em {
+  display: block;
+  margin-top: 5px;
+  color: #aebac7;
+  font-style: normal;
+  line-height: 1.55;
+}
+
+.institutional-status {
+  position: fixed;
+  z-index: 30;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 24px;
+  background: rgb(2 8 15 / 96%);
+  border-top: 1px solid #26364a;
+  font-size: 11px;
+}
+
+.institutional-status > svg {
+  color: var(--institutional-accent);
+}
+
+.institutional-status > span {
+  flex: 1;
+}
+
+.institutional-status > em {
+  color: #92a0af;
+  font-style: normal;
+}
+
+@media (width <= 980px) {
+  .institutional-workspace,
+  .institutional-workspace--advisor {
+    grid-template-columns: 1fr;
+  }
+
+  .institutional-roster,
+  .institutional-role-specific {
+    grid-column: auto;
+  }
+
+  .institutional-student-grid,
+  .institutional-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .institutional-hero {
+    grid-template-columns: auto 1fr;
+  }
+
+  .institutional-hero aside {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (width <= 640px) {
+  .institutional-topbar {
+    min-height: 66px;
+    padding: 0 12px;
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .institutional-topbar > div > span,
+  .institutional-topbar > div > b {
+    font-size: 15px;
+  }
+
+  .institutional-topbar > button {
+    min-width: 44px;
+    padding: 8px;
+    font-size: 0;
+  }
+
+  .institutional-topbar > em {
+    max-width: 88px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .institutional-hero,
+  .institutional-workspace,
+  .institutional-ai {
+    width: min(100% - 20px, 1460px);
+  }
+
+  .institutional-hero h1 {
+    font-size: 38px;
+  }
+
+  .institutional-brief-grid,
+  .institutional-boundary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .institutional-brief-grid article.is-wide {
+    grid-column: auto;
+  }
+
+  .institutional-impact-table {
+    overflow-x: auto;
+  }
+
+  .institutional-impact-table > div {
+    min-width: 0;
+    grid-template-columns: minmax(78px, 0.85fr) 1fr 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .institutional-hero {
+    animation: none;
+  }
+}

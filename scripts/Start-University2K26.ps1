@@ -41,14 +41,64 @@ if (-not $FixtureOnly -and -not (Test-Url -Url 'http://127.0.0.1:3000/api/v1/hea
     $drive = $driveRoot[0].ToString().ToLowerInvariant()
     $relative = $physicalRoot.Substring($driveRoot.Length).Replace('\', '/')
     $wslRoot = "/mnt/$drive/$relative"
+    # A WSL process can outlive its Windows wsl.exe wrapper after a host sleep
+    # or tool restart. If the Windows health probe failed, stop only the API
+    # whose scoped PID receipt belongs to this project before starting again.
+    & wsl.exe -d Ubuntu -- bash -lc "cd '$wslRoot' && bash scripts/stop-api-dev.sh"
+    if ($LASTEXITCODE -ne 0) {
+        throw 'Unable to clean up the previous University2K26 WSL API process.'
+    }
     $apiStdout = Join-Path $runtimeRoot 'api.stdout.log'
     $apiStderr = Join-Path $runtimeRoot 'api.stderr.log'
-    $apiProcess = Start-Process -FilePath 'wsl.exe' `
-        -ArgumentList @('-d', 'Ubuntu', '--', 'bash', '-lc', "cd '$wslRoot' && bash scripts/run-api-dev.sh") `
-        -RedirectStandardOutput $apiStdout `
-        -RedirectStandardError $apiStderr `
-        -WindowStyle Hidden `
-        -PassThru
+    # WSL does not import arbitrary Windows environment variables unless they
+    # are listed in WSLENV. Pass only the runtime names the API understands;
+    # values (including credentials) stay in the child process environment and
+    # never enter the command line, runtime receipt, or log files.
+    $apiEnvironmentNames = @(
+        'J2K26_AI_PROVIDER',
+        'J2K26_AI_BASE_URL',
+        'J2K26_AI_MODEL',
+        'J2K26_AI_AUTH_MODE',
+        'J2K26_AI_API_KEY',
+        'MOONSHOT_API_KEY',
+        'J2K26_PRIVATE_PROFILE_PATH',
+        'RUST_LOG'
+    )
+    $previousWslEnv = $env:WSLENV
+    $wslEnvEntries = @()
+    if (-not [string]::IsNullOrWhiteSpace($previousWslEnv)) {
+        $wslEnvEntries += $previousWslEnv.Split(':', [StringSplitOptions]::RemoveEmptyEntries)
+    }
+    foreach ($name in $apiEnvironmentNames) {
+        if (Test-Path -LiteralPath "Env:$name") {
+            $alreadyIncluded = $wslEnvEntries | Where-Object {
+                $_.Split('/')[0] -eq $name
+            }
+            if (-not $alreadyIncluded) {
+                $wslEnvEntries += $name
+            }
+        }
+    }
+
+    try {
+        if ($wslEnvEntries.Count -gt 0) {
+            $env:WSLENV = $wslEnvEntries -join ':'
+        }
+        $apiProcess = Start-Process -FilePath 'wsl.exe' `
+            -ArgumentList @('-d', 'Ubuntu', '--', 'bash', '-lc', "cd '$wslRoot' && bash scripts/run-api-dev.sh") `
+            -RedirectStandardOutput $apiStdout `
+            -RedirectStandardError $apiStderr `
+            -WindowStyle Hidden `
+            -PassThru
+    }
+    finally {
+        if ($null -eq $previousWslEnv) {
+            Remove-Item Env:WSLENV -ErrorAction SilentlyContinue
+        }
+        else {
+            $env:WSLENV = $previousWslEnv
+        }
+    }
 
     $apiReady = $false
     for ($attempt = 0; $attempt -lt 120; $attempt++) {

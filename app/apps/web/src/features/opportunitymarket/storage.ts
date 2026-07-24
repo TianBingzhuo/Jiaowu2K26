@@ -2,7 +2,9 @@ import type { OpportunityMarketState } from "./types";
 
 const STORAGE_KEY = "university2k26.opportunity-market.v1";
 
-export function loadOpportunityState(): OpportunityMarketState | null {
+export function loadOpportunityState(
+  currentFixture: OpportunityMarketState,
+): OpportunityMarketState | null {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
@@ -10,7 +12,13 @@ export function loadOpportunityState(): OpportunityMarketState | null {
     if (
       parsed.schemaVersion !== "1.0" ||
       parsed.dataMode !== "demo_fixture" ||
-      parsed.studentId !== "student-nan-fixture"
+      parsed.studentId !== "student-nan-fixture" ||
+      parsed.lastUpdatedAt !== currentFixture.lastUpdatedAt ||
+      parsed.opportunities.length !== currentFixture.opportunities.length ||
+      parsed.opportunities.some(
+        (opportunity, index) =>
+          opportunity.id !== currentFixture.opportunities[index]?.id,
+      )
     ) {
       return null;
     }

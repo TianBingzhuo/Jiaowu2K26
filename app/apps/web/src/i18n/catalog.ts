@@ -290,6 +290,124 @@ export const EXPERIENCE_BRIEFS: Record<ExperienceKey, ExperienceBrief> = {
   },
 };
 
+export const INSTITUTIONAL_WORKSPACE_BRIEFS: Record<
+  Exclude<RoleId, "student">,
+  ExperienceBrief
+> = {
+  teacher: {
+    code: "F-013",
+    title: "COACH STUDIO",
+    formalName: bilingual(
+      "教师课程设计与教学改进工作台",
+      "Teacher course-design and improvement workspace",
+    ),
+    tagline: bilingual(
+      "AI 提案，教师执哨；每次改动都能回放。",
+      "AI proposes. The teacher owns the call. Every change stays replayable.",
+    ),
+    plainMeaning: bilingual(
+      "教师审核 AI 教学草稿、拆分多源课堂证据，并把改进做成有假设、观察窗口和回滚点的小实验。",
+      "Teachers review AI drafts, separate evidence sources and run small teaching experiments with hypotheses, observation windows and rollback points.",
+    ),
+    joke: bilingual(
+      "这是教练席，不是教师天梯：Film Room 复盘教学设计，不生成教师 OVR。",
+      "This is a coach desk, never a teacher leaderboard. The Film Room reviews teaching design without a teacher OVR.",
+    ),
+    nextMove: bilingual(
+      "打开一项教学证据，检查来源与未知项，再由教师决定补证、试验或拒绝建议。",
+      "Open one evidence item, inspect its source and unknowns, then let the teacher request evidence, test a change or reject the suggestion.",
+    ),
+    boundary: bilingual(
+      "AI 不发布课程、不改成绩、不评价教师人格；学生反馈也不会被还原到个人身份。",
+      "AI cannot publish a course, change a grade or judge a teacher’s character. Student feedback is never deanonymized.",
+    ),
+  },
+  advisor: {
+    code: "F-008",
+    title: "PLAYER DEVELOPMENT",
+    formalName: bilingual(
+      "学生申请与支持 Case Desk",
+      "Student application and support case desk",
+    ),
+    tagline: bilingual(
+      "提醒开启一次对话，不替学生写下结论。",
+      "A signal starts a conversation—it never writes the student’s verdict.",
+    ),
+    plainMeaning: bilingual(
+      "辅导员只查看职责范围内的学生申请、材料状态和转介下一步，并可在多位管辖学生之间切换。",
+      "Advisors see only assigned applications, material status and referral next steps, with explicit switching between students in their caseload.",
+    ),
+    joke: bilingual(
+      "Player Development 借用培养球员的说法，但学生不是可交易资产；支持必须本人参与、可纠错、可退出。",
+      "Player Development borrows the sports phrase, but students are never assets. Support remains participatory, correctable and optional.",
+    ),
+    nextMove: bilingual(
+      "选择一位管辖学生和一项本人提交的申请，再按最小披露原则受理、补件或转介。",
+      "Choose one assigned student and one student-submitted request, then review, request material or refer it with minimum disclosure.",
+    ),
+    boundary: bilingual(
+      "不读取无关诊断、消费、门禁轨迹或隐藏风险分，也不替学生发送申请。",
+      "No unrelated diagnoses, payments, access trails or hidden risk scores—and no application is sent on a student’s behalf.",
+    ),
+  },
+  program_lead: {
+    code: "F-013",
+    title: "PROGRAM LAB",
+    formalName: bilingual(
+      "培养方案与课程依赖实验室",
+      "Curriculum and prerequisite laboratory",
+    ),
+    tagline: bilingual(
+      "先在沙盒里看四年影响，再动一条课程规则。",
+      "Model the four-year impact before changing one curriculum rule.",
+    ),
+    plainMeaning: bilingual(
+      "专业负责人比较培养方案版本，检查先修、容量、跨院依赖、受影响路径和回滚条件。",
+      "Program leads compare curriculum versions across prerequisites, capacity, cross-school dependencies, affected paths and rollback conditions.",
+    ),
+    joke: bilingual(
+      "它像阵容经理和依赖求解器的合体，但不能一键交易课程或学生。",
+      "It feels like a roster manager crossed with a dependency solver, but it cannot trade courses—or people—with one click.",
+    ),
+    nextMove: bilingual(
+      "打开一个 What-if 规则变更，比较影响与未知项，再提交给正式人工审批链。",
+      "Open one what-if rule change, compare impact and unknowns, then send it into the accountable human approval chain.",
+    ),
+    boundary: bilingual(
+      "沙盒不会发布培养方案、替代跨院协商或读取学生私密反思。",
+      "The sandbox cannot publish a curriculum, replace cross-school negotiation or read private student reflection.",
+    ),
+  },
+  undergraduate_office: {
+    code: "F-014",
+    title: "LEAGUE OFFICE",
+    formalName: bilingual(
+      "校级课程治理与政策影响台",
+      "University curriculum governance and policy-impact desk",
+    ),
+    tagline: bilingual(
+      "学校端看到的是责任链，不是无限权限。",
+      "The institutional view exposes accountability—not unlimited access.",
+    ),
+    plainMeaning: bilingual(
+      "本科生院审阅规则版本、受影响群体、未知项、审批节点和回滚条件，并保留异议与补证入口。",
+      "The undergraduate office reviews rule versions, affected groups, unknowns, approval nodes and rollback conditions, with challenge and evidence routes intact.",
+    ),
+    joke: bilingual(
+      "League Office 是联盟办公室式治理台：它管规则的可解释性，不给学生或教师排天梯。",
+      "The League Office borrows the sports front-office metaphor. It governs explainable rules, never human leaderboards.",
+    ),
+    nextMove: bilingual(
+      "审阅一个政策影响包；只在来源、责任人、例外和回滚点都清楚后推进下一节点。",
+      "Review one policy-impact package. Advance only when sources, owners, exceptions and rollback points are clear.",
+    ),
+    boundary: bilingual(
+      "聚合可见性不等于个人数据通行证；AI 不能批准政策、学籍、人事或处分决定。",
+      "Aggregate visibility is not a passport to personal data. AI cannot approve policy, records, staffing or disciplinary decisions.",
+    ),
+  },
+};
+
 export const ROLE_BRIEFS: Record<
   RoleId,
   {

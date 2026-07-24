@@ -50,6 +50,7 @@ import {
 import type { SmartCourseEntryPoint } from "./features/smartcourse/engine";
 import { CourseDetail } from "./features/mycareer/CourseDetail";
 import { SeasonSideboard } from "./features/mycareer/SeasonSideboard";
+import { DevelopmentPathCard } from "./features/mycareer/DevelopmentPathCard";
 import {
   COURSE_ROLE_LABEL,
   COURSE_STATUS_LABEL,
@@ -65,10 +66,12 @@ import {
   readStoredRole,
 } from "./features/roles/engine";
 import type {
+  InstitutionalWorkspaceView,
   RoleDestination,
   RoleExperience,
   RoleId,
 } from "./features/roles/types";
+import type { InstitutionalRole } from "./features/institutional/types";
 import { BilingualEventHud } from "./i18n/BilingualEventHud";
 import type { ExperienceKey } from "./i18n/catalog";
 
@@ -121,8 +124,13 @@ const CampusPassStudio = lazy(() =>
     default: module.CampusPassStudio,
   })),
 );
+const InstitutionalStudio = lazy(() =>
+  import("./features/institutional/InstitutionalStudio").then((module) => ({
+    default: module.InstitutionalStudio,
+  })),
+);
 
-type Panel = "evidence" | "settings" | "courses" | "roles" | null;
+type Panel = "evidence" | "settings" | "courses" | "roles" | "workspace" | null;
 type Experience = ExperienceKey;
 type AppRoute = {
   experience: Experience;
@@ -167,6 +175,7 @@ const PANEL_IDS: Exclude<Panel, null>[] = [
   "settings",
   "courses",
   "roles",
+  "workspace",
 ];
 
 const routeToHash = ({ experience, panel }: AppRoute) =>
@@ -356,6 +365,8 @@ export function App() {
   );
   const [smartCourseEntry, setSmartCourseEntry] =
     useState<SmartCourseEntryPoint>("authoring");
+  const [, setInstitutionalView] =
+    useState<InstitutionalWorkspaceView>("case_desk");
   const [panel, setPanel] = useState<Panel>(initialRoute.panel);
   const [selectedCourseId, setSelectedCourseId] = useState(
     DEMO_SEASON.heroCourseId,
@@ -680,6 +691,17 @@ export function App() {
 
     if (destination.type === "planned") {
       showToast(`${destination.label}已进入路线图，本轮保持为诚实的 Vision 入口。`);
+      return;
+    }
+
+    if (destination.type === "workspace") {
+      if (activeRole === "student") {
+        showToast("学生角色没有机构工作台权限。");
+        return;
+      }
+      setInstitutionalView(destination.view);
+      openPanel("workspace");
+      setActionState("ready");
       return;
     }
 
@@ -1046,6 +1068,23 @@ export function App() {
       />
     </>
   );
+
+  if (
+    experience === "career" &&
+    panel === "workspace" &&
+    activeRole !== "student"
+  ) {
+    return renderWithBilingualHud(
+      "career",
+      <Suspense fallback={<FeatureLoading label="Role Workspace" />}>
+        <InstitutionalStudio
+          role={activeRole as InstitutionalRole}
+          backendLabel={backend.label}
+          onExit={returnWithinApp}
+        />
+      </Suspense>,
+    );
+  }
 
   if (experience === "smartcourse") {
     return renderWithBilingualHud(
@@ -1462,6 +1501,7 @@ export function App() {
             </div>
           </div>
         </section>
+        <DevelopmentPathCard />
           </main>
 
           <SeasonSideboard

@@ -176,18 +176,18 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\doctor.ps1 -WebOnly
 bash scripts/smoke-api.sh
 ```
 
-成功只证明 Fixture + SQLite 的审核/发布/Replay 底座，不证明 AI、OceanBase、前端或正式学校系统已经完成。
+成功只证明 Fixture + SQLite 的审核/发布/Replay 底座；AI adapter 需要单独验证，OceanBase、真实学校系统与生产授权仍未完成。
 
 ## 模型配置与 BYOK 当前边界
 
-队友未来可以选择自己熟悉的本地或云模型，但当前 `P0-00` **尚未实现 BYOK 运行时**，不要自行把模型 SDK、key 或供应商类型写进领域层。
+当前 Rust API 已实现 provider-neutral OpenAI-compatible BYOK 运行时，支持 Moonshot/Kimi K3、GX10 loopback 端点和其他经过核验的兼容服务。模型 SDK、key 和供应商类型仍不得进入领域层；没有凭据或模型失败时，`/api/v1/ai/advice` 会明确返回 `rules_fallback`，不会伪装成模型输出。
 
 - 可共享：provider 类型、endpoint、精确 model ID、能力、数据区域、超时和 `key_ref` 的无秘密 profile。
 - 只留本机：API key、token、Cookie、登录凭据；优先放操作系统凭据库或受控进程环境。
 - 禁止：提交 `.env*`、把 key 写进浏览器存储/URL、命令行参数、日志、Issue、PR、聊天或截图。
 - 无论使用哪个模型，都必须通过同一 Result Envelope、Schema、来源、人工审核与 Fixture 回退。
 
-当前只使用 `.env.example` 了解变量名称，不要向它写真实值，也不要假设根 `.env` 会被自动加载。当前真正读取的覆盖项只有：
+只使用 `.env.example` 了解变量名称，不要向它写真实值，也不要假设根 `.env` 会被自动加载。当前真正读取的覆盖项包括：
 
 | 变量 | 默认值 | 读取方 |
 |---|---|---|
@@ -195,6 +195,12 @@ bash scripts/smoke-api.sh
 | `J2K26_DATABASE_URL` | `sqlite://.data/j2k26-phase0.db?mode=rwc` | Rust API |
 | `VITE_API_ORIGIN` | `http://127.0.0.1:3000` | Vite 开发/预览代理 |
 | `RUST_LOG` | `info` | Rust 日志过滤 |
+| `J2K26_AI_PROVIDER` | `moonshot` | AI adapter；只返回无秘密名称 |
+| `J2K26_AI_BASE_URL` | `https://api.moonshot.cn/v1` | 只允许 HTTPS，或显式 loopback HTTP |
+| `J2K26_AI_MODEL` | `kimi-k3` | 精确模型 ID；GX10 必须使用 `/v1/models` 实测值 |
+| `J2K26_AI_AUTH_MODE` | `bearer` | `none` 仅允许 `127.0.0.1`、`localhost`、`::1` |
+| `MOONSHOT_API_KEY` / `J2K26_AI_API_KEY` | 无 | 仅由 Rust 服务端进程读取；前者用于 Moonshot，后者用于通用兼容端点 |
+| `J2K26_PRIVATE_PROFILE_PATH` | `.data/university2k26/private-profile.json` | 可选去标识发展档案；不得提交 |
 
 临时覆盖请放在当前进程环境中。例如 PowerShell：
 
@@ -203,7 +209,39 @@ $env:J2K26_DATABASE_URL = 'sqlite::memory:'
 $env:J2K26_BIND = '127.0.0.1:3000'
 ```
 
-正式 CLI/BYOK 实现必须等待 `P0-00-B/C` 被接受并单独认领；合同见 `engineering/ARCHITECTURE.md#9-cli外部-ai-与-byok-自动化合同`。
+### Moonshot / Kimi K3 本机验证
+
+先停止旧 API，再在当前 PowerShell 进程中遮罩输入密钥：
+
+```powershell
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\Stop-University2K26.ps1
+$env:J2K26_AI_PROVIDER = 'moonshot'
+$env:J2K26_AI_BASE_URL = 'https://api.moonshot.cn/v1'
+$env:J2K26_AI_MODEL = 'kimi-k3'
+$env:MOONSHOT_API_KEY = Read-Host -MaskInput 'Moonshot API key'
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\Start-University2K26.ps1
+Remove-Item Env:MOONSHOT_API_KEY
+```
+
+启动器通过 `WSLENV` 把允许的变量传给 WSL 子进程；密钥不进入命令行、运行回执或日志。先看 `/api/v1/ai/status`，再只用脱敏 Fixture 触发一次建议。`configured=true` 只表示已配置，实际请求返回 `mode=model` 才是本次通路证据。Kimi K3 采用官方当前合同：`reasoning_effort=low`、有界 `max_completion_tokens` 和严格 JSON Schema；不要把一次成功当成质量评测。
+
+官方说明：[Kimi API 快速开始](https://platform.kimi.com/docs/overview)、[Kimi K3 参数与结构化输出](https://platform.kimi.com/docs/guide/kimi-k3-quickstart)、[模型列表](https://platform.kimi.com/docs/models)。
+
+### GX10 loopback 验证
+
+模型服务在同机 `127.0.0.1:8000/v1` 健康后：
+
+```powershell
+$env:J2K26_AI_PROVIDER = 'gx10-local'
+$env:J2K26_AI_BASE_URL = 'http://127.0.0.1:8000/v1'
+$env:J2K26_AI_MODEL = '<实测 /v1/models 返回的模型 ID>'
+$env:J2K26_AI_AUTH_MODE = 'none'
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\Start-University2K26.ps1
+```
+
+远端 HTTP、URL 内凭据、query/fragment 或无界模型响应会被 adapter 拒绝。完整设备批准点、容器和回执见 `engineering/GX10-V09-DEPLOYMENT-HANDOFF.md` 与 `deploy/gx10/README.md`。
+
+`j2k26` CLI 与操作系统凭据库仍须等待独立任务；现有 BYOK 只接受受控服务端进程环境。长期合同见 `engineering/ARCHITECTURE.md#9-cli外部-ai-与-byok-自动化合同`。
 
 ## AI 最小接手协议
 
@@ -272,3 +310,5 @@ npm run verify
 如果页面突然变成白底、蓝色下划线和普通项目符号，那不是设计稿，而是核心 CSS 没有进入构建产物。重新执行 `Setup`；`Doctor` 会显示稳定入口和本轮构建使用的等效物理路径，构建后守卫会在样式仍缺失时直接报错。
 
 如果 `4173` 端口被占用，先运行停止脚本，再用 `Get-NetTCPConnection -LocalPort 4173` 查明占用者；启动器使用 `strictPort`，不会偷偷换端口造成队友打开错误页面。完整栈启动提示缺少 Ubuntu 时，可以先用 `-FixtureOnly` 继续 UI/产品工作，或按上面的 macOS/Linux 命令在原生 Rust 可用的环境中手动启动 API。
+
+完整栈启动器还会在 `.data/university2k26-v09/api.wsl.pid` 保存本仓库 API 的 WSL PID 回执。Windows 休眠、Codex 更新或 WSL 端口转发失效后，如果 `http://127.0.0.1:3000/api/v1/health` 不可达，再次运行启动器会先核对该 PID 的可执行文件确实是 `j2k26-api`，只终止这一项后端再重启；停止脚本也使用同一回执。不要用 `wsl --shutdown`、`killall` 或宽泛进程名清理代替它，以免影响同机其他 WSL 工作。

@@ -1,6 +1,6 @@
 # 大学2K26 / University2K26 · GX10 本地主权 AI 节点
 
-> **状态：** `v0.1 candidate`；架构与型号调研完成，尚未在借用设备上运行任何模型。
+> **状态：** `v0.2 adapter implemented / device unverified`；Provider-neutral OpenAI-compatible adapter、来源约束合同和规则回退已实现，尚未在借用设备上运行任何模型。
 > **目标：** 把 ASUS Ascent GX10 用作本地模型服务与“单校 Sovereign Node”演示节点，同时保持 Provider-neutral、Fixture 回退和学校数据主权。
 > **当前选择：** 今晚的可执行默认是 NVIDIA 已在同类 GB10 / 128GB 设备上给出配方的 `Qwen3.6-35B-A3B-NVFP4`；双模型只在实测后启用，Step 3.7 Flash 先作为赞助平台质量通道与极限本地 Spike，不作为 P0 启动依赖。
 > **更新时间：** 2026-07-23
@@ -299,6 +299,8 @@ next_requested_change: "none | 需要用户批准的单一动作"
 
 ## 9. P0 验收
 
+- [x] Rust API 已实现 `/ai/status` 与 `/ai/advice`，密钥只从服务端进程环境读取，未配置或失败时明确返回 `rules_fallback`。
+- [x] 模型输出只允许引用请求提供的 `source_ids`，并固定 `formal_decision=false`。
 - [ ] GX10 实际规格与系统版本已保存为脱敏环境记录。
 - [ ] 一个本地模型经 OpenAI-compatible adapter 返回符合 Schema 的结果。
 - [ ] 模型断开后 Fixture/规则路径仍能完成同一状态机。

@@ -10,11 +10,24 @@ pub struct OpportunityCost {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct OpportunityRightsGate {
+    pub participant_status: String,
+    pub permission_status: String,
+    pub allowed_scope: Vec<String>,
+    pub required_actions: Vec<String>,
+    pub no_endorsement: bool,
+    pub evidence_url: String,
+    pub last_reviewed_at: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct OpportunityRecord {
     pub id: String,
     pub title: String,
     pub summary: String,
     pub provider: String,
+    #[serde(default)]
+    pub search_aliases: Vec<String>,
     pub category: String,
     pub pack_id: String,
     pub source_url: String,
@@ -37,6 +50,8 @@ pub struct OpportunityRecord {
     pub auction_enabled: bool,
     pub created_at: String,
     pub updated_at: String,
+    #[serde(default)]
+    pub rights_gate: Option<OpportunityRightsGate>,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -283,6 +298,24 @@ impl OpportunityMarketFixture {
                 return Err(DomainError::InvariantViolation(
                     "paid ranking, random qualification and human auction are forbidden".to_owned(),
                 ));
+            }
+            if let Some(rights_gate) = &opportunity.rights_gate {
+                let supported_status = matches!(
+                    rights_gate.permission_status.as_str(),
+                    "pending_official_confirmation" | "confirmed_for_project" | "not_permitted"
+                );
+                if !rights_gate.no_endorsement
+                    || !rights_gate.evidence_url.starts_with("https://")
+                    || rights_gate.required_actions.is_empty()
+                    || !supported_status
+                    || (rights_gate.permission_status == "pending_official_confirmation"
+                        && !rights_gate.allowed_scope.is_empty())
+                {
+                    return Err(DomainError::InvariantViolation(
+                        "Opportunity rights gates require evidence, no-endorsement and no allowed scope while permission is pending"
+                            .to_owned(),
+                    ));
+                }
             }
             for rule_id in &opportunity.eligibility_rule_ids {
                 let rule = self

@@ -67,6 +67,38 @@ describe("F-009 Opportunity Market transparent consent-aware fixture", () => {
     expect(state.notifications[0].kind).toBe("expiry");
   });
 
+  it("finds the AdventureX event and keeps visual use behind a pending Rights Gate", () => {
+    const base = createOpportunityMarketState();
+    const state = {
+      ...base,
+      query: "AdventureX",
+    };
+    const results = visibleOpportunities(state);
+    expect(results).toHaveLength(1);
+    expect(results[0]?.id).toBe("opp-adventurex");
+    expect(results[0]?.rightsGate?.permissionStatus).toBe(
+      "pending_official_confirmation",
+    );
+    expect(results[0]?.rightsGate?.allowedScope).toEqual([]);
+    const rules = base.rules.filter(
+      (rule) => rule.opportunityId === "opp-adventurex",
+    );
+    expect(rules).toHaveLength(3);
+    expect(
+      rules.every(
+        (rule) =>
+          rule.sourceRef ===
+            "https://adventurex.feishu.cn/docx/FOhLdr0Y3okbATxWvBQcoFx0nEd" &&
+          rule.fieldId === "field-adventurex-official-eligibility",
+      ),
+    ).toBe(true);
+    expect(
+      buildEligibilityCheck(base, "opp-adventurex").results.every(
+        (result) => result.status === "unknown",
+      ),
+    ).toBe(true);
+  });
+
   it("produces all four eligibility states with evidence and next steps", () => {
     let state = createOpportunityMarketState();
     state = toggleProfileField(state, "field-availability-hours");

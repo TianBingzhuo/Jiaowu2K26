@@ -59,6 +59,19 @@ export interface OpportunityCost {
   description: string;
 }
 
+export interface OpportunityRightsGate {
+  participantStatus: "demo_participant_fixture" | "confirmed_participant";
+  permissionStatus:
+    | "pending_official_confirmation"
+    | "confirmed_for_project"
+    | "not_permitted";
+  allowedScope: string[];
+  requiredActions: string[];
+  noEndorsement: true;
+  evidenceUrl: string;
+  lastReviewedAt: string;
+}
+
 export interface EligibilityRule {
   id: string;
   opportunityId: string;
@@ -75,6 +88,7 @@ export interface Opportunity {
   title: string;
   summary: string;
   provider: string;
+  searchAliases?: string[];
   category: OpportunityCategory;
   packId: string;
   sourceUrl: string;
@@ -97,6 +111,7 @@ export interface Opportunity {
   auctionEnabled: boolean;
   createdAt: string;
   updatedAt: string;
+  rightsGate?: OpportunityRightsGate;
 }
 
 export interface OpportunityPack {

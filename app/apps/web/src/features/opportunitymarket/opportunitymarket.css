@@ -771,6 +771,59 @@
   line-height: 1.55;
 }
 
+.opportunity-rights-gate {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 14px 0;
+  padding: 14px 16px;
+  color: #dfeaf5;
+  background: rgb(50 31 4 / 72%);
+  border: 1px solid rgb(255 176 32 / 58%);
+  border-left: 4px solid #ffb020;
+}
+
+.opportunity-rights-gate > svg {
+  flex: 0 0 auto;
+  color: #ffb020;
+}
+
+.opportunity-rights-gate > div {
+  display: grid;
+  min-width: 0;
+  gap: 6px;
+}
+
+.opportunity-rights-gate span {
+  color: #ffbd4a;
+  font-family: "Barlow Condensed", "Noto Sans SC", sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.opportunity-rights-gate h3,
+.opportunity-rights-gate p,
+.opportunity-rights-gate ul {
+  margin: 0;
+}
+
+.opportunity-rights-gate p,
+.opportunity-rights-gate ul {
+  color: #c7d1dc;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.opportunity-rights-gate code {
+  max-width: 100%;
+  overflow: hidden;
+  color: #9ecfff;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .opportunity-detail-grid {
   display: grid;
   padding: 14px;
@@ -1015,6 +1068,10 @@
   display: grid;
   grid-template-columns: minmax(330px, 0.72fr) minmax(0, 1.28fr);
   gap: 14px;
+}
+
+.opportunity-match-coach {
+  grid-column: 1 / -1;
 }
 
 .opportunity-profile-fields {

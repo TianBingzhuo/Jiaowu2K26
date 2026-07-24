@@ -108,14 +108,14 @@ function eligibilityResult(
   selectedFieldIds: string[],
 ): EligibilityResult {
   const field = profileFieldForRule(state, rule);
-  if (!field || !selectedFieldIds.includes(rule.fieldId)) {
+  if (!field) {
     return {
       ruleId: rule.id,
       ruleDescription: rule.description,
       status: "unknown",
       evidenceFieldId: null,
-      evidenceLabel: "本次未授权该字段；系统不会暗中读取。",
-      nextStep: `如愿意，可在 Profile 中逐项选择“${field?.label ?? rule.fieldId}”后重查。`,
+      evidenceLabel: "规则所需字段不存在；系统不会补猜。",
+      nextStep: "沿官方渠道核对规则字段，或保持未知。",
     };
   }
 
@@ -127,6 +127,17 @@ function eligibilityResult(
       evidenceFieldId: field.id,
       evidenceLabel: `${field.valueLabel} · ${field.authority}`,
       nextStep: "沿官方渠道补齐信息，或保持未知；未知不会被猜成满足。",
+    };
+  }
+
+  if (!selectedFieldIds.includes(rule.fieldId)) {
+    return {
+      ruleId: rule.id,
+      ruleDescription: rule.description,
+      status: "unknown",
+      evidenceFieldId: null,
+      evidenceLabel: "本次未授权该字段；系统不会暗中读取。",
+      nextStep: `如愿意，可在 Profile 中逐项选择“${field.label}”后重查。`,
     };
   }
 
@@ -172,11 +183,21 @@ export function buildEligibilityCheck(
   selectedFieldIds = state.selectedProfileFieldIds,
 ): EligibilityCheck {
   const opportunity = opportunityOrThrow(state, opportunityId);
-  const results = opportunity.eligibilityRuleIds.map((ruleId) => {
+  const rules = opportunity.eligibilityRuleIds.map((ruleId) => {
     const rule = state.rules.find((item) => item.id === ruleId);
     if (!rule) throw new Error(`资格规则 ${ruleId} 缺失。`);
-    return eligibilityResult(state, rule, selectedFieldIds);
+    return rule;
   });
+  const results = rules.map((rule) =>
+    eligibilityResult(state, rule, selectedFieldIds),
+  );
+  const usedProfileFieldIds = [
+    ...new Set(
+      rules
+        .map((rule) => rule.fieldId)
+        .filter((fieldId) => selectedFieldIds.includes(fieldId)),
+    ),
+  ];
   const counts = results.reduce(
     (accumulator, result) => {
       accumulator[result.status] += 1;
@@ -187,7 +208,7 @@ export function buildEligibilityCheck(
   return {
     opportunityId,
     checkedAt: eventTime(state.audit.length + 1),
-    usedProfileFieldIds: [...selectedFieldIds],
+    usedProfileFieldIds,
     results,
     summary: `已满足 ${counts.met} · 可能满足 ${counts.possibly_met} · 未满足 ${counts.not_met} · 未知 ${counts.unknown}`,
     hasCompositeScore: false,
@@ -244,6 +265,7 @@ export function visibleOpportunities(
         opportunity.provider,
         opportunity.summary,
         opportunity.category,
+        ...(opportunity.searchAliases ?? []),
         ...opportunity.benefits,
       ].some((value) => value.toLowerCase().includes(query));
     })

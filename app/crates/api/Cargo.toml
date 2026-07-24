@@ -8,6 +8,7 @@ publish.workspace = true
 
 [dependencies]
 axum.workspace = true
+j2k26-adapters-ai-openai-compatible = { path = "../adapters-ai-openai-compatible" }
 j2k26-adapters-sqlite = { path = "../adapters-sqlite" }
 j2k26-application = { path = "../application" }
 j2k26-domain = { path = "../domain" }

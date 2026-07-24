@@ -264,6 +264,58 @@
   gap: 14px;
 }
 
+.roster-import-gate {
+  grid-column: 1 / -1;
+}
+
+.roster-import-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.roster-import-grid article {
+  min-height: 154px;
+  padding: 18px;
+  background:
+    linear-gradient(135deg, rgba(99, 215, 255, 0.08), transparent 58%),
+    rgba(4, 12, 22, 0.74);
+  border: 1px solid rgba(99, 215, 255, 0.24);
+}
+
+.roster-import-grid strong,
+.roster-import-grid b {
+  display: block;
+}
+
+.roster-import-grid strong {
+  color: var(--roster-cyan);
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.roster-import-grid b {
+  margin-top: 8px;
+  color: #f4f8fb;
+  font-size: 16px;
+}
+
+.roster-import-grid p,
+.roster-import-boundary {
+  color: #aebbc6;
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.roster-import-boundary {
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  background: rgba(255, 157, 63, 0.08);
+  border-left: 3px solid var(--roster-orange);
+}
+
 .roster-panel,
 .roster-plan-card,
 .roster-command-deck,
@@ -1348,6 +1400,10 @@
   .roster-unsat,
   .roster-transaction,
   .roster-lock-deck {
+    grid-template-columns: 1fr;
+  }
+
+  .roster-import-grid {
     grid-template-columns: 1fr;
   }
 

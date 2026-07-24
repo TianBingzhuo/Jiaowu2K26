@@ -10,6 +10,8 @@ use std::sync::Arc;
 use thiserror::Error;
 use uuid::Uuid;
 
+pub mod ai;
+
 #[derive(Debug, Error)]
 pub enum RepositoryError {
     #[error("object not found: {0}")]

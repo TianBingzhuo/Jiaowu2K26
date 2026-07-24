@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TianBingzhuo/Jiaowu2K26/app/contracts/v1/development-profile.schema.json",
+  "title": "University2K26 local private development profile input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "profile_version",
+    "display_alias",
+    "contains_direct_identifiers",
+    "verified_experience",
+    "learning_now",
+    "goals",
+    "source_boundary"
+  ],
+  "properties": {
+    "profile_version": { "type": "string", "minLength": 1 },
+    "display_alias": { "type": "string", "minLength": 1, "maxLength": 40 },
+    "contains_direct_identifiers": { "const": false },
+    "verified_experience": {
+      "type": "array",
+      "maxItems": 24,
+      "items": { "$ref": "#/$defs/evidence" }
+    },
+    "learning_now": {
+      "type": "array",
+      "maxItems": 16,
+      "items": { "$ref": "#/$defs/evidence" }
+    },
+    "goals": {
+      "type": "array",
+      "maxItems": 12,
+      "items": { "type": "string", "minLength": 1, "maxLength": 300 }
+    },
+    "source_boundary": { "type": "string", "minLength": 1, "maxLength": 1000 }
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "detail", "source_id"],
+      "properties": {
+        "label": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "detail": { "type": "string", "minLength": 1, "maxLength": 600 },
+        "source_id": { "type": "string", "minLength": 1, "maxLength": 160 }
+      }
+    }
+  },
+  "not": {
+    "anyOf": [
+      { "required": ["name"] },
+      { "required": ["email"] },
+      { "required": ["phone"] },
+      { "required": ["address"] },
+      { "required": ["student_id"] }
+    ]
+  }
+}

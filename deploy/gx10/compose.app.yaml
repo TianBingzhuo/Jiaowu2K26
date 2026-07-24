@@ -1,0 +1,45 @@
+name: university2k26-gx10
+
+services:
+  api:
+    build:
+      context: ../..
+      dockerfile: deploy/gx10/Dockerfile.api
+    network_mode: host
+    restart: "no"
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,noexec,nosuid,nodev
+    volumes:
+      - type: bind
+        source: ./runtime
+        target: /var/lib/university2k26
+    environment:
+      J2K26_BIND: 127.0.0.1:3000
+      J2K26_DATABASE_URL: sqlite:///var/lib/university2k26/j2k26.db?mode=rwc
+      J2K26_AI_PROVIDER: ${J2K26_AI_PROVIDER:-gx10-local}
+      J2K26_AI_BASE_URL: ${J2K26_AI_BASE_URL:-http://127.0.0.1:8000/v1}
+      J2K26_AI_MODEL: ${J2K26_AI_MODEL:-unverified-local-model}
+      J2K26_AI_AUTH_MODE: ${J2K26_AI_AUTH_MODE:-none}
+      RUST_LOG: ${RUST_LOG:-info}
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+  web:
+    build:
+      context: ../..
+      dockerfile: deploy/gx10/Dockerfile.web
+    network_mode: host
+    restart: "no"
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,noexec,nosuid,nodev
+      - /var/cache/nginx:size=32m,noexec,nosuid,nodev
+    depends_on:
+      - api
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true

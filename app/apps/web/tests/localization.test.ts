@@ -5,6 +5,7 @@ import {
   EXPERIENCE_BRIEFS,
   EXPERIENCE_KEYS,
   HUD_COPY,
+  INSTITUTIONAL_WORKSPACE_BRIEFS,
   ROLE_BRIEFS,
   pseudoLocalize,
 } from "../src/i18n/catalog";
@@ -39,6 +40,26 @@ describe("University2K26 bilingual event mode", () => {
       for (const locale of APP_LOCALES) {
         expect(ROLE_BRIEFS[role].title[locale].trim()).not.toBe("");
         expect(ROLE_BRIEFS[role].summary[locale].trim()).not.toBe("");
+      }
+    }
+  });
+
+  it("gives every institutional workspace a dedicated bilingual scene brief", () => {
+    const institutionalRoles = ROLE_IDS.filter((role) => role !== "student");
+    expect(Object.keys(INSTITUTIONAL_WORKSPACE_BRIEFS).sort()).toEqual(
+      institutionalRoles.sort(),
+    );
+
+    for (const role of institutionalRoles) {
+      const brief =
+        INSTITUTIONAL_WORKSPACE_BRIEFS[
+          role as keyof typeof INSTITUTIONAL_WORKSPACE_BRIEFS
+        ];
+      expect(brief.code).toMatch(/^F-\d{3}$/);
+      for (const locale of APP_LOCALES) {
+        expect(brief.formalName[locale].trim()).not.toBe("");
+        expect(brief.plainMeaning[locale].trim()).not.toBe("");
+        expect(brief.boundary[locale].trim()).not.toBe("");
       }
     }
   });

@@ -168,6 +168,11 @@
         "title": { "type": "string", "minLength": 1 },
         "summary": { "type": "string", "minLength": 1 },
         "provider": { "type": "string", "minLength": 1 },
+        "search_aliases": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
         "category": {
           "enum": [
             "journal",
@@ -209,7 +214,46 @@
         "random_allocation": { "const": false },
         "auction_enabled": { "const": false },
         "created_at": { "type": "string", "format": "date-time" },
-        "updated_at": { "type": "string", "format": "date-time" }
+        "updated_at": { "type": "string", "format": "date-time" },
+        "rights_gate": { "$ref": "#/$defs/rightsGate" }
+      }
+    },
+    "rightsGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "participant_status",
+        "permission_status",
+        "allowed_scope",
+        "required_actions",
+        "no_endorsement",
+        "evidence_url",
+        "last_reviewed_at"
+      ],
+      "properties": {
+        "participant_status": {
+          "enum": ["demo_participant_fixture", "confirmed_participant"]
+        },
+        "permission_status": {
+          "enum": [
+            "pending_official_confirmation",
+            "confirmed_for_project",
+            "not_permitted"
+          ]
+        },
+        "allowed_scope": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "required_actions": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "no_endorsement": { "const": true },
+        "evidence_url": { "type": "string", "pattern": "^https://" },
+        "last_reviewed_at": { "type": "string", "format": "date-time" }
       }
     },
     "pack": {

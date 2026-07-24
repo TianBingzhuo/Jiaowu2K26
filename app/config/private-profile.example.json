@@ -1,0 +1,23 @@
+{
+  "profile_version": "example-v1",
+  "display_alias": "NAN",
+  "contains_direct_identifiers": false,
+  "verified_experience": [
+    {
+      "label": "跨平台应用",
+      "detail": "用可核验项目证据描述已经完成的语言、框架与交付边界。",
+      "source_id": "private-evidence-example-001"
+    }
+  ],
+  "learning_now": [
+    {
+      "label": "正在学习",
+      "detail": "把学习中的技术与已经掌握的技术分开，不生成夸大熟练度。",
+      "source_id": "private-learning-example-001"
+    }
+  ],
+  "goals": [
+    "用两周可验证实验比较候选方向，而不是一次性宣判职业路径。"
+  ],
+  "source_boundary": "此文件只演示去标识结构。复制到被 Git 忽略的 .data/university2k26/private-profile.json 后再填写；不要加入姓名、联系方式、学号或未经授权的第三方信息。"
+}

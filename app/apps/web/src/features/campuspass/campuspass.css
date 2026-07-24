@@ -1,0 +1,1610 @@
+.pass-shell {
+  --pass-cyan: #63e6ff;
+  --pass-blue: #58a6ff;
+  --pass-orange: #ff9418;
+  --pass-green: #49d17d;
+  --pass-yellow: #e8bd47;
+  --pass-red: #ff665e;
+  --pass-panel: rgb(5 12 21 / 94%);
+  --pass-panel-soft: rgb(10 19 31 / 88%);
+
+  position: relative;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  isolation: isolate;
+  color: var(--color-text-primary);
+  background: #02060b;
+}
+
+.pass-scene {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  background:
+    linear-gradient(
+      90deg,
+      rgb(1 5 10 / 96%) 0%,
+      rgb(2 8 14 / 74%) 48%,
+      rgb(1 6 12 / 90%) 100%
+    ),
+    url("/assets/campus-life-background-v1.png") center 42% / cover no-repeat;
+  filter: saturate(0.82) brightness(0.7) hue-rotate(4deg);
+  transform: scale(1.035);
+  animation: pass-scene-settle 820ms var(--easing-enter) both;
+}
+
+.pass-shell::before {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-image:
+    linear-gradient(rgb(99 230 255 / 3.5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(99 230 255 / 2.5%) 1px, transparent 1px);
+  background-size: 46px 46px;
+  content: "";
+  -webkit-mask-image: linear-gradient(to bottom, transparent 3%, #000 48%);
+  mask-image: linear-gradient(to bottom, transparent 3%, #000 48%);
+  pointer-events: none;
+}
+
+.pass-topbar {
+  position: relative;
+  z-index: 8;
+  display: grid;
+  min-height: 90px;
+  padding: 14px 28px;
+  grid-template-columns: auto minmax(260px, 1fr) auto;
+  align-items: center;
+  gap: 24px;
+  background: rgb(2 7 13 / 96%);
+  border-bottom: 1px solid rgb(99 230 255 / 30%);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  animation: pass-hud-in var(--motion-panel) var(--easing-enter) both;
+}
+
+.pass-topbar button,
+.pass-main button,
+.pass-main a {
+  min-height: 44px;
+  padding: 9px 13px;
+  color: var(--color-text-primary);
+  background: rgb(10 18 29 / 88%);
+  border: 1px solid rgb(88 166 255 / 34%);
+  border-radius: 0;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 800;
+  text-decoration: none;
+  transition:
+    color var(--motion-focus) var(--easing-default),
+    background var(--motion-focus) var(--easing-default),
+    border-color var(--motion-focus) var(--easing-default),
+    transform var(--motion-focus) var(--easing-emphasis);
+}
+
+.pass-topbar button:hover,
+.pass-main button:hover,
+.pass-main a:hover {
+  color: #021017;
+  background: var(--pass-cyan);
+  border-color: var(--pass-cyan);
+  transform: translateY(-2px);
+}
+
+.pass-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.pass-brand {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.pass-brand strong {
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  font-size: 33px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 0.9;
+}
+
+.pass-brand strong span {
+  color: var(--pass-orange);
+}
+
+.pass-brand small {
+  color: var(--pass-cyan);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.pass-topbar__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.pass-topbar__actions > span {
+  display: inline-flex;
+  min-height: 42px;
+  padding: 0 12px;
+  align-items: center;
+  gap: 7px;
+  color: var(--pass-green);
+  background: rgb(7 36 26 / 58%);
+  border: 1px solid rgb(73 209 125 / 46%);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.pass-stepbar {
+  position: relative;
+  z-index: 7;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(130px, 1fr));
+  background: rgb(3 8 15 / 96%);
+  border-bottom: 1px solid rgb(88 166 255 / 24%);
+}
+
+.pass-stepbar button {
+  position: relative;
+  display: grid;
+  min-height: 82px;
+  padding: 11px 18px 12px 52px;
+  grid-template-columns: 26px 1fr;
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: 8px;
+  color: var(--color-text-secondary);
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-right: 1px solid rgb(88 166 255 / 20%);
+  cursor: pointer;
+}
+
+.pass-stepbar button::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: var(--pass-orange);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--motion-panel) var(--easing-emphasis);
+}
+
+.pass-stepbar button > span {
+  position: absolute;
+  top: 13px;
+  left: 16px;
+  color: rgb(99 230 255 / 55%);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.pass-stepbar button > svg {
+  grid-row: 1 / 3;
+  color: var(--pass-cyan);
+}
+
+.pass-stepbar button strong {
+  align-self: end;
+  color: inherit;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.pass-stepbar button small {
+  align-self: start;
+  color: var(--color-text-muted);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+}
+
+.pass-stepbar button:hover,
+.pass-stepbar button.is-active {
+  color: #fff;
+  background: linear-gradient(
+    115deg,
+    rgb(255 148 24 / 17%),
+    rgb(99 230 255 / 8%)
+  );
+}
+
+.pass-stepbar button.is-active::after {
+  transform: scaleX(1);
+}
+
+.pass-boundary-banner {
+  position: relative;
+  z-index: 6;
+  display: flex;
+  min-height: 42px;
+  padding: 8px 28px;
+  align-items: center;
+  gap: 10px;
+  color: #d8f8ff;
+  background: linear-gradient(
+    90deg,
+    rgb(4 38 48 / 96%),
+    rgb(6 20 33 / 94%)
+  );
+  border-bottom: 1px solid rgb(99 230 255 / 38%);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.025em;
+}
+
+.pass-boundary-banner svg {
+  color: var(--pass-cyan);
+}
+
+.pass-boundary-banner em {
+  margin-left: auto;
+  color: var(--pass-orange);
+  font-family: "Barlow Condensed", sans-serif;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.pass-main {
+  width: min(1460px, calc(100% - 48px));
+  min-height: calc(100dvh - 270px);
+  margin: 0 auto;
+  padding: 30px 0 92px;
+  animation: pass-content-in var(--motion-panel) var(--easing-enter) both;
+}
+
+.pass-card {
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+  background: var(--pass-panel);
+  border: 1px solid rgb(88 166 255 / 34%);
+  box-shadow: 0 18px 54px rgb(0 0 0 / 26%);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  animation: pass-card-in var(--motion-panel) var(--easing-enter) both;
+}
+
+.pass-card::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 74px;
+  height: 3px;
+  background: var(--pass-cyan);
+  content: "";
+}
+
+.pass-section-heading {
+  display: grid;
+  gap: 5px;
+}
+
+.pass-section-heading > span {
+  color: var(--pass-blue);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.pass-section-heading h2 {
+  margin: 0;
+  max-width: 900px;
+  font-family: "Barlow Condensed", "Noto Sans SC Variable", sans-serif;
+  font-size: clamp(27px, 3.1vw, 46px);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 0.98;
+}
+
+.pass-section-heading p {
+  max-width: 920px;
+  margin: 3px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.pass-wallet-layout,
+.pass-reader-layout,
+.pass-request-layout,
+.pass-support-layout,
+.pass-replay-layout {
+  display: grid;
+  gap: 16px;
+}
+
+.pass-wallet-layout {
+  grid-template-columns: minmax(0, 1.55fr) minmax(320px, 0.75fr);
+}
+
+.pass-wallet-hero {
+  display: grid;
+  min-height: 390px;
+  padding: 46px;
+  grid-column: 1 / -1;
+  grid-template-columns: 1.3fr 0.7fr;
+  align-items: end;
+  gap: 42px;
+  background:
+    linear-gradient(
+      90deg,
+      rgb(2 8 14 / 94%) 0%,
+      rgb(2 10 17 / 76%) 52%,
+      rgb(2 8 14 / 90%) 100%
+    ),
+    url("/assets/campus-life-background-v1.png") center 42% / cover no-repeat;
+  border-color: rgb(99 230 255 / 48%);
+}
+
+.pass-wallet-hero::before {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 54%,
+    rgb(99 230 255 / 8%) 54% 55%,
+    transparent 55%
+  );
+  content: "";
+  pointer-events: none;
+}
+
+.pass-wallet-hero__copy,
+.pass-wallet-hero__next {
+  position: relative;
+  z-index: 1;
+}
+
+.pass-wallet-hero__copy > span,
+.pass-wallet-hero__next > span {
+  color: var(--pass-cyan);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.pass-wallet-hero__copy h1 {
+  margin: 9px 0 12px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(64px, 8vw, 118px);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.74;
+  text-transform: uppercase;
+}
+
+.pass-wallet-hero__copy h1 em {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--pass-orange);
+  font-style: normal;
+}
+
+.pass-wallet-hero__copy p {
+  margin: 0 0 10px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.pass-wallet-hero__copy > strong {
+  color: var(--color-text-secondary);
+  font-size: 10px;
+}
+
+.pass-wallet-hero__next {
+  display: grid;
+  padding: 25px;
+  gap: 13px;
+  background: rgb(3 11 19 / 88%);
+  border: 1px solid rgb(255 148 24 / 58%);
+}
+
+.pass-wallet-hero__next strong {
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.pass-wallet-hero__next button,
+.pass-primary-action {
+  display: flex;
+  min-height: 58px !important;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff !important;
+  background: rgb(255 148 24 / 17%) !important;
+  border-color: var(--pass-orange) !important;
+  font-size: 13px !important;
+}
+
+.pass-wallet-section {
+  display: grid;
+  grid-column: 1 / -1;
+  gap: 18px;
+}
+
+.pass-credential-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.pass-credential {
+  position: relative;
+  display: grid;
+  min-height: 280px !important;
+  padding: 22px !important;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto auto auto 1fr auto;
+  align-items: start;
+  gap: 9px 12px;
+  overflow: hidden;
+  color: var(--color-text-primary) !important;
+  text-align: left;
+  background:
+    linear-gradient(135deg, rgb(15 28 43 / 98%), rgb(5 11 19 / 98%))
+    !important;
+  border: 1px solid rgb(88 166 255 / 38%) !important;
+}
+
+.pass-credential::before {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(125deg, transparent 58%, rgb(99 230 255 / 8%) 58%),
+    linear-gradient(rgb(88 166 255 / 4%) 1px, transparent 1px);
+  background-size: auto, 100% 34px;
+  content: "";
+  pointer-events: none;
+}
+
+.pass-credential.is-pending {
+  border-color: rgb(232 189 71 / 50%) !important;
+}
+
+.pass-credential.is-expired {
+  opacity: 0.72;
+  border-color: rgb(255 102 94 / 40%) !important;
+}
+
+.pass-credential.is-selected {
+  border-color: var(--pass-orange) !important;
+  box-shadow:
+    inset 5px 0 0 var(--pass-orange),
+    0 0 0 1px rgb(255 148 24 / 35%),
+    0 18px 45px rgb(0 0 0 / 32%);
+  transform: translateY(-4px);
+}
+
+.pass-credential > * {
+  position: relative;
+  z-index: 1;
+}
+
+.pass-credential__index {
+  grid-column: 1 / -1;
+  color: var(--pass-blue);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.pass-credential > svg {
+  width: 30px;
+  height: 30px;
+  color: var(--pass-cyan);
+}
+
+.pass-credential > strong {
+  align-self: center;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.pass-credential > em {
+  padding: 5px 7px;
+  align-self: center;
+  color: var(--pass-green);
+  background: rgb(73 209 125 / 10%);
+  border: 1px solid currentcolor;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.pass-credential.is-pending > em {
+  color: var(--pass-yellow);
+  background: rgb(232 189 71 / 10%);
+}
+
+.pass-credential.is-expired > em {
+  color: var(--pass-red);
+  background: rgb(255 102 94 / 10%);
+}
+
+.pass-credential > small {
+  grid-column: 1 / -1;
+  color: var(--color-text-secondary);
+}
+
+.pass-credential > div {
+  display: flex;
+  grid-column: 1 / -1;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pass-credential > div span {
+  padding: 4px 7px;
+  color: var(--pass-cyan);
+  background: rgb(99 230 255 / 7%);
+  border: 1px solid rgb(99 230 255 / 22%);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.pass-credential > p {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.pass-credential > footer {
+  display: flex;
+  grid-column: 1 / -1;
+  align-self: end;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--color-text-muted);
+  border-top: 1px solid rgb(88 166 255 / 18%);
+  padding-top: 10px;
+}
+
+.pass-credential > footer svg {
+  color: var(--pass-orange);
+}
+
+.pass-scope-board,
+.pass-source-board {
+  display: grid;
+  gap: 18px;
+}
+
+.pass-zone-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.pass-zone-grid article,
+.pass-source-board article,
+.pass-prerequisite-list article,
+.pass-record-list article {
+  display: flex;
+  min-height: 72px;
+  padding: 13px;
+  align-items: center;
+  gap: 11px;
+  background: rgb(10 18 29 / 72%);
+  border: 1px solid rgb(88 166 255 / 25%);
+}
+
+.pass-zone-grid article > svg,
+.pass-source-board article > svg,
+.pass-prerequisite-list article > svg,
+.pass-record-list article > svg {
+  flex: 0 0 auto;
+  color: var(--pass-cyan);
+}
+
+.pass-zone-grid article > div,
+.pass-source-board article > span,
+.pass-prerequisite-list article > span,
+.pass-record-list article > span {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.pass-zone-grid article strong,
+.pass-source-board article strong,
+.pass-prerequisite-list article strong,
+.pass-record-list article strong {
+  font-size: 12px;
+}
+
+.pass-zone-grid article span,
+.pass-zone-grid article small,
+.pass-source-board article small,
+.pass-prerequisite-list article small,
+.pass-record-list article small {
+  color: var(--color-text-secondary);
+  font-size: 9px;
+}
+
+.pass-zone-grid article.is-out-of-scope {
+  opacity: 0.58;
+}
+
+.pass-zone-grid article.is-out-of-scope > svg {
+  color: var(--pass-red);
+}
+
+.pass-source-board > div {
+  display: grid;
+  gap: 9px;
+}
+
+.pass-source-board article em,
+.pass-record-list article em {
+  margin-left: auto;
+  color: var(--pass-green);
+  font-size: 9px;
+  font-style: normal;
+}
+
+.pass-reader-layout {
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+}
+
+.pass-reader-hero {
+  display: grid;
+  min-height: 520px;
+  grid-row: span 2;
+  gap: 24px;
+  align-content: start;
+  border-color: rgb(99 230 255 / 48%);
+}
+
+.pass-reader-terminal {
+  display: grid;
+  min-height: 340px;
+  grid-template-columns: 0.8fr 1.2fr;
+  border: 1px solid rgb(99 230 255 / 32%);
+  background: rgb(2 8 14 / 72%);
+}
+
+.pass-reader-terminal__device {
+  position: relative;
+  display: grid;
+  min-height: 340px;
+  padding: 34px;
+  place-content: center;
+  justify-items: center;
+  gap: 12px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle, rgb(99 230 255 / 19%) 0 16%, transparent 17%),
+    linear-gradient(145deg, rgb(13 30 42 / 96%), rgb(3 10 17 / 96%));
+  border-right: 1px solid rgb(99 230 255 / 30%);
+}
+
+.pass-reader-terminal__device::before,
+.pass-reader-terminal__device::after {
+  position: absolute;
+  width: 190px;
+  height: 190px;
+  border: 1px solid rgb(99 230 255 / 25%);
+  border-radius: 50%;
+  content: "";
+  animation: pass-reader-pulse 2.4s ease-out infinite;
+}
+
+.pass-reader-terminal__device::after {
+  animation-delay: 1.2s;
+}
+
+.pass-reader-terminal__device > svg {
+  z-index: 1;
+  width: 70px;
+  height: 70px;
+  color: var(--pass-cyan);
+}
+
+.pass-reader-terminal__device > span,
+.pass-reader-terminal__device > strong,
+.pass-reader-terminal__device > small {
+  position: relative;
+  z-index: 1;
+}
+
+.pass-reader-terminal__device > span {
+  color: var(--pass-cyan);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.pass-reader-terminal__device > strong {
+  max-width: 220px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 27px;
+  text-align: center;
+}
+
+.pass-reader-terminal__device > small {
+  color: var(--pass-green);
+  font-weight: 800;
+}
+
+.pass-reader-terminal__controls {
+  display: grid;
+  padding: 28px;
+  align-content: center;
+  gap: 15px;
+}
+
+.pass-reader-terminal__controls > span {
+  color: var(--pass-blue);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.pass-carrier-switch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.pass-carrier-switch button {
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.pass-carrier-switch button.is-active {
+  color: #021017;
+  background: var(--pass-cyan);
+  border-color: var(--pass-cyan);
+}
+
+.pass-toggle-row {
+  display: flex !important;
+  min-height: 50px;
+  padding: 10px;
+  align-items: center;
+  gap: 10px;
+  color: var(--pass-yellow);
+  background: rgb(232 189 71 / 8%);
+  border: 1px solid rgb(232 189 71 / 33%);
+}
+
+.pass-toggle-row input {
+  width: 20px;
+  height: 20px;
+}
+
+.pass-reader-result {
+  display: grid;
+  align-content: start;
+  gap: 20px;
+}
+
+.pass-reader-result.is-accepted {
+  border-color: rgb(73 209 125 / 58%);
+  animation: pass-success var(--motion-result) var(--easing-emphasis) both;
+}
+
+.pass-reader-result.is-rejected {
+  border-color: rgb(255 102 94 / 58%);
+  animation: pass-reject var(--motion-result) var(--easing-emphasis) both;
+}
+
+.pass-result-score {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.pass-result-score article,
+.pass-score-grid article {
+  display: grid;
+  min-height: 82px;
+  padding: 13px;
+  align-content: center;
+  gap: 3px;
+  background: rgb(8 16 26 / 86%);
+  border: 1px solid rgb(88 166 255 / 25%);
+}
+
+.pass-result-score strong,
+.pass-score-grid strong {
+  color: var(--pass-cyan);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 28px;
+}
+
+.pass-result-score span,
+.pass-score-grid span {
+  color: var(--color-text-secondary);
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.pass-offline-lab {
+  display: grid;
+  gap: 18px;
+}
+
+.pass-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.pass-form-grid label,
+.pass-fallback-panel > label,
+.pass-correction-form label {
+  display: grid;
+  gap: 6px;
+  color: var(--pass-blue);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.pass-form-grid label.is-wide {
+  grid-column: 1 / -1;
+}
+
+.pass-form-grid input,
+.pass-form-grid select,
+.pass-fallback-panel input,
+.pass-correction-form input,
+.pass-correction-form select,
+.pass-correction-form textarea,
+.pass-request-list select {
+  min-height: 44px;
+  padding: 9px 11px;
+  color: var(--color-text-primary);
+  background: rgb(8 16 26 / 92%);
+  border: 1px solid rgb(88 166 255 / 32%);
+  border-radius: 0;
+  font: inherit;
+  font-size: 11px;
+}
+
+.pass-form-grid button {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pass-inline-result {
+  display: flex;
+  min-height: 70px;
+  padding: 14px;
+  align-items: center;
+  gap: 12px;
+  background: rgb(6 19 25 / 84%);
+  border: 1px solid rgb(73 209 125 / 38%);
+}
+
+.pass-inline-result.is-blocked {
+  background: rgb(35 19 12 / 82%);
+  border-color: rgb(232 189 71 / 42%);
+}
+
+.pass-inline-result > svg {
+  flex: 0 0 auto;
+  color: var(--pass-green);
+}
+
+.pass-inline-result.is-blocked > svg {
+  color: var(--pass-yellow);
+}
+
+.pass-inline-result > span {
+  display: grid;
+  gap: 3px;
+}
+
+.pass-inline-result small {
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.pass-request-layout {
+  grid-template-columns: minmax(0, 1.1fr) minmax(340px, 0.9fr);
+}
+
+.pass-request-hero,
+.pass-queue-panel {
+  display: grid;
+  gap: 20px;
+}
+
+.pass-request-hero {
+  grid-column: 1 / -1;
+  border-color: rgb(255 148 24 / 50%);
+}
+
+.pass-prerequisite-panel,
+.pass-guest-panel {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
+.pass-prerequisite-list {
+  display: grid;
+  gap: 8px;
+}
+
+.pass-prerequisite-list article > em {
+  margin-left: auto;
+  color: var(--pass-blue);
+  font-size: 9px;
+  font-style: normal;
+}
+
+.pass-prerequisite-list article.is-fulfilled > svg {
+  color: var(--pass-green);
+}
+
+.pass-prerequisite-list article.is-missing > svg,
+.pass-prerequisite-list article.is-unknown > svg {
+  color: var(--pass-yellow);
+}
+
+.pass-empty-state {
+  display: flex;
+  min-height: 160px;
+  padding: 24px;
+  place-content: center;
+  align-items: center;
+  gap: 13px;
+  color: var(--color-text-secondary);
+  border: 1px dashed rgb(88 166 255 / 32%);
+}
+
+.pass-empty-state > svg {
+  color: var(--pass-blue);
+}
+
+.pass-empty-state > span {
+  display: grid;
+  gap: 4px;
+}
+
+.pass-request-list {
+  display: grid;
+  max-height: 560px;
+  gap: 9px;
+  overflow: auto;
+}
+
+.pass-request-list > article {
+  display: grid;
+  padding: 15px;
+  gap: 8px;
+  background: rgb(8 16 26 / 84%);
+  border: 1px solid rgb(88 166 255 / 28%);
+}
+
+.pass-request-list header,
+.pass-request-list footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pass-request-list header > span {
+  color: var(--pass-blue);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.pass-request-list header > em {
+  padding: 4px 7px;
+  color: var(--pass-yellow);
+  background: rgb(232 189 71 / 8%);
+  border: 1px solid currentcolor;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.pass-request-list header > em.is-approved,
+.pass-request-list header > em.is-externally_executed {
+  color: var(--pass-green);
+}
+
+.pass-request-list p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+}
+
+.pass-request-list ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--pass-yellow);
+  font-size: 9px;
+}
+
+.pass-request-list footer small {
+  color: var(--color-text-muted);
+  font-size: 8px;
+}
+
+.pass-request-list footer select {
+  min-width: 150px;
+}
+
+.pass-guest-panel .pass-inline-result {
+  margin-top: 4px;
+}
+
+.pass-support-layout {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.pass-support-hero {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr minmax(340px, 0.62fr);
+  align-items: center;
+  gap: 30px;
+  border-color: rgb(232 189 71 / 48%);
+}
+
+.pass-emergency-strip {
+  display: flex;
+  min-height: 84px;
+  padding: 17px;
+  align-items: center;
+  gap: 12px;
+  background: rgb(8 32 25 / 78%);
+  border: 1px solid rgb(73 209 125 / 42%);
+}
+
+.pass-emergency-strip > svg {
+  color: var(--pass-green);
+}
+
+.pass-emergency-strip > span {
+  display: grid;
+  gap: 5px;
+}
+
+.pass-emergency-strip small {
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.pass-loss-panel,
+.pass-fallback-panel,
+.pass-record-panel {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
+.pass-action-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.pass-action-row button {
+  display: flex;
+  min-height: 56px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.pass-fallback-list {
+  display: grid;
+  gap: 10px;
+}
+
+.pass-fallback-list article {
+  display: grid;
+  padding: 15px;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  gap: 9px 12px;
+  background: rgb(8 16 26 / 84%);
+  border: 1px solid rgb(88 166 255 / 28%);
+}
+
+.pass-fallback-list article > svg {
+  color: var(--pass-cyan);
+}
+
+.pass-fallback-list article > span {
+  display: grid;
+  gap: 3px;
+}
+
+.pass-fallback-list article > span small {
+  color: var(--color-text-secondary);
+}
+
+.pass-fallback-list article > ul {
+  grid-column: 2 / -1;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--color-text-secondary);
+  font-size: 9px;
+}
+
+.pass-fallback-list article > button {
+  grid-column: 2 / -1;
+}
+
+.pass-record-panel {
+  grid-column: 1 / -1;
+  grid-template-columns: 1fr 1fr;
+}
+
+.pass-record-panel > .pass-section-heading {
+  grid-column: 1 / -1;
+}
+
+.pass-record-list,
+.pass-correction-form {
+  display: grid;
+  gap: 9px;
+}
+
+.pass-record-list article em {
+  color: var(--color-text-secondary);
+}
+
+.pass-correction-form button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pass-replay-layout {
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+}
+
+.pass-scoreboard,
+.pass-invariant-panel,
+.pass-ledger-panel {
+  display: grid;
+  align-content: start;
+  gap: 20px;
+}
+
+.pass-scoreboard {
+  grid-column: 1 / -1;
+  border-color: rgb(255 148 24 / 50%);
+}
+
+.pass-score-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.pass-score-grid article {
+  min-height: 100px;
+}
+
+.pass-score-grid article.is-zero {
+  border-color: rgb(73 209 125 / 38%);
+}
+
+.pass-score-grid article.is-zero strong {
+  color: var(--pass-green);
+}
+
+.pass-invariant-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.pass-invariant-grid article {
+  display: flex;
+  min-height: 54px;
+  padding: 11px;
+  align-items: center;
+  gap: 9px;
+  background: rgb(7 25 23 / 78%);
+  border: 1px solid rgb(73 209 125 / 28%);
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.pass-invariant-grid svg {
+  color: var(--pass-green);
+}
+
+.pass-ledger-panel ol {
+  display: grid;
+  max-height: 620px;
+  margin: 0;
+  padding: 0;
+  gap: 8px;
+  overflow: auto;
+  list-style: none;
+}
+
+.pass-ledger-panel li {
+  display: grid;
+  padding: 12px;
+  grid-template-columns: 34px 1fr;
+  gap: 11px;
+  background: rgb(8 16 26 / 82%);
+  border: 1px solid rgb(88 166 255 / 24%);
+}
+
+.pass-ledger-panel li > span {
+  color: var(--pass-orange);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.pass-ledger-panel li > div {
+  display: grid;
+  gap: 3px;
+}
+
+.pass-ledger-panel li strong {
+  color: var(--pass-cyan);
+  font-size: 11px;
+}
+
+.pass-ledger-panel li p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.pass-ledger-panel li small {
+  color: var(--color-text-muted);
+  font-size: 8px;
+}
+
+.pass-footer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9;
+  display: grid;
+  min-height: 54px;
+  padding: 0 28px;
+  grid-template-columns: repeat(4, auto);
+  align-items: center;
+  justify-content: end;
+  gap: 26px;
+  color: var(--color-text-secondary);
+  background: rgb(2 7 13 / 96%);
+  border-top: 1px solid rgb(99 230 255 / 28%);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+.pass-footer > div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 9px;
+  font-weight: 750;
+}
+
+.pass-footer svg {
+  color: var(--pass-cyan);
+}
+
+.pass-toast {
+  position: fixed;
+  right: 24px;
+  bottom: 74px;
+  z-index: 20;
+  display: flex;
+  width: min(430px, calc(100% - 48px));
+  min-height: 58px;
+  padding: 14px 16px;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  background: rgb(7 17 27 / 98%);
+  border: 1px solid var(--pass-cyan);
+  box-shadow: 0 18px 60px rgb(0 0 0 / 48%);
+  font-size: 11px;
+  font-weight: 750;
+  animation: pass-toast-in var(--motion-panel) var(--easing-enter) both;
+}
+
+.pass-toast svg {
+  flex: 0 0 auto;
+  color: var(--pass-cyan);
+}
+
+.pass-shell.is-traditional .pass-wallet-hero__copy h1,
+.pass-shell.is-traditional .pass-brand strong,
+.pass-shell.is-traditional .pass-section-heading h2 {
+  letter-spacing: 0;
+}
+
+.pass-shell.is-reduced-motion *,
+.pass-shell.is-reduced-motion *::before,
+.pass-shell.is-reduced-motion *::after {
+  scroll-behavior: auto !important;
+  transition-duration: 1ms !important;
+  animation-duration: 1ms !important;
+  animation-iteration-count: 1 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pass-shell *,
+  .pass-shell *::before,
+  .pass-shell *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+@keyframes pass-scene-settle {
+  from {
+    opacity: 0;
+    transform: scale(1.09);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.035);
+  }
+}
+
+@keyframes pass-hud-in {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pass-content-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pass-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.992);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pass-reader-pulse {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.48);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.25);
+  }
+}
+
+@keyframes pass-success {
+  0% {
+    box-shadow: inset 0 0 0 0 rgb(73 209 125 / 0%);
+  }
+  35% {
+    box-shadow: inset 0 0 70px rgb(73 209 125 / 18%);
+  }
+  100% {
+    box-shadow: inset 0 0 0 0 rgb(73 209 125 / 0%);
+  }
+}
+
+@keyframes pass-reject {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  30% {
+    transform: translateX(-5px);
+  }
+  60% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes pass-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1120px) {
+  .pass-topbar {
+    grid-template-columns: auto 1fr;
+  }
+
+  .pass-topbar__actions {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .pass-stepbar {
+    grid-template-columns: repeat(5, minmax(112px, 1fr));
+    overflow-x: auto;
+  }
+
+  .pass-wallet-layout,
+  .pass-reader-layout,
+  .pass-request-layout,
+  .pass-support-layout,
+  .pass-replay-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .pass-reader-hero,
+  .pass-record-panel,
+  .pass-scoreboard,
+  .pass-support-hero {
+    grid-column: 1;
+  }
+
+  .pass-reader-hero {
+    grid-row: auto;
+  }
+
+  .pass-support-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .pass-record-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .pass-record-panel > .pass-section-heading {
+    grid-column: 1;
+  }
+
+  .pass-score-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .pass-topbar {
+    padding: 12px 14px;
+    gap: 14px;
+  }
+
+  .pass-brand strong {
+    font-size: 27px;
+  }
+
+  .pass-topbar__actions > span {
+    width: 100%;
+  }
+
+  .pass-stepbar {
+    grid-template-columns: repeat(5, 150px);
+  }
+
+  .pass-stepbar button {
+    min-height: 70px;
+  }
+
+  .pass-boundary-banner {
+    padding: 8px 14px;
+  }
+
+  .pass-boundary-banner em {
+    display: none;
+  }
+
+  .pass-main {
+    width: calc(100% - 24px);
+    padding-top: 16px;
+  }
+
+  .pass-card {
+    padding: 18px;
+  }
+
+  .pass-wallet-hero {
+    min-height: 520px;
+    padding: 28px 20px;
+    grid-template-columns: 1fr;
+  }
+
+  .pass-wallet-hero__copy h1 {
+    font-size: 70px;
+  }
+
+  .pass-credential-grid,
+  .pass-zone-grid,
+  .pass-reader-terminal,
+  .pass-form-grid,
+  .pass-action-row,
+  .pass-invariant-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pass-reader-terminal__device {
+    min-height: 240px;
+    border-right: 0;
+    border-bottom: 1px solid rgb(99 230 255 / 30%);
+  }
+
+  .pass-carrier-switch {
+    grid-template-columns: 1fr;
+  }
+
+  .pass-score-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pass-footer {
+    position: static;
+    padding: 14px;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: stretch;
+    gap: 12px;
+  }
+
+  .pass-toast {
+    right: 12px;
+    bottom: 12px;
+    width: calc(100% - 24px);
+  }
+}

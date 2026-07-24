@@ -8,6 +8,17 @@ docs-site/src/content/docs/
 docs-site/public/project-assets/
 docs-site/public/PROJECT-MANIFEST.json
 
+# Product Design prototype dependencies, generated builds and rejected QA captures
+app/prototypes/**/dist/
+app/prototypes/**/qa-home-default-1440x1024*.png
+app/prototypes/**/qa-home-default-cdp*.png
+app/prototypes/**/qa-footer-clip.png
+
+# Application build output and local coverage
+app/apps/**/dist/
+app/apps/**/coverage/
+*.tsbuildinfo
+
 # Reproducible local tool/runtime state
 .tools/
 .data/
@@ -35,3 +46,6 @@ Desktop.ini
 archive/backups/*.zip
 archive/advx26_team_forming_v3_desktop_backup.md
 archive/superseded-current-20260721/docs/advx26_team_forming_v3.md
+
+# Research extraction and disposable local QA workspace
+tmp/

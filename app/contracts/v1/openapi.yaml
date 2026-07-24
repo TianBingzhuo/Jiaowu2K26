@@ -1,9 +1,10 @@
 openapi: 3.1.0
 info:
-  title: jiaowu2K26 Phase 0 API
+  title: University2K26 Phase 0 API
   version: 1.0.0-experimental
   description: >-
-    Fixture-only technical validation for the SmartCourse review, publish, and replay path.
+    Fixture-only technical validation for SmartCourse, MyCareer, Academic
+    Mirror, Roster Lab, World Exam Finals, and the private Performance Center.
     It is not a production school-system contract or a completed-product claim.
 servers:
   - url: http://127.0.0.1:3000/api/v1
@@ -14,6 +15,2085 @@ paths:
       responses:
         '200':
           description: Local component is available.
+  /career/current-semester:
+    get:
+      operationId: getCurrentCareerSemester
+      responses:
+        '200':
+          description: Current fixture semester metadata.
+  /career/current-semester/courses:
+    get:
+      operationId: getCurrentCareerCourses
+      responses:
+        '200':
+          description: Current fixture course roster.
+  /career/dashboard:
+    get:
+      operationId: getCareerDashboard
+      responses:
+        '200':
+          description: Current season, deadlines, and recent activity summary.
+  /career/course/{course_id}:
+    get:
+      operationId: getCareerCourse
+      parameters:
+        - $ref: '#/components/parameters/CourseId'
+      responses:
+        '200':
+          description: Course details and optional F-001 jump target.
+          content:
+            application/json:
+              schema:
+                $ref: './career-course-detail.schema.json'
+        '404':
+          $ref: '#/components/responses/Error'
+  /demo/semester:
+    get:
+      operationId: getDemoSemester
+      responses:
+        '200':
+          description: Full, explicitly labelled F-002 fixture.
+          content:
+            application/json:
+              schema:
+                $ref: './career-fixture.schema.json'
+  /demo/dashboard:
+    get:
+      operationId: getDemoDashboard
+      responses:
+        '200':
+          description: Fixture dashboard for offline and fallback validation.
+  /exams:
+    get:
+      operationId: getExamCalendar
+      responses:
+        '200':
+          description: Private calendar of fixture exam events; formal status is explicit.
+  /exams/{exam_id}:
+    get:
+      operationId: getExamDetail
+      parameters:
+        - $ref: '#/components/parameters/ExamId'
+      responses:
+        '200':
+          description: Fixture event, privacy boundary, and current private session.
+        '404':
+          $ref: '#/components/responses/Error'
+  /exams/{exam_id}/briefing:
+    get:
+      operationId: getExamBriefing
+      parameters:
+        - $ref: '#/components/parameters/ExamId'
+      responses:
+        '200':
+          description: Scope, F-001 source locators, resources, and non-predictive readiness.
+  /exams/{exam_id}/playbook:
+    get:
+      operationId: getExamPlaybook
+      parameters:
+        - $ref: '#/components/parameters/ExamId'
+      responses:
+        '200':
+          description: Review sections containing only declared F-001 generated-object IDs.
+  /exams/{exam_id}/warmup:
+    get:
+      operationId: getExamWarmup
+      parameters:
+        - $ref: '#/components/parameters/ExamId'
+      responses:
+        '200':
+          description: Low-risk warm-up question with source IDs.
+  /exams/{exam_id}/warmup/attempts:
+    post:
+      operationId: recordWarmupAttempt
+      parameters:
+        - $ref: '#/components/parameters/ExamId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [answer]
+              properties:
+                answer: { type: string, minLength: 1 }
+      responses:
+        '200':
+          description: Retryable warm-up result with no formal-grade impact.
+        '422':
+          $ref: '#/components/responses/Error'
+  /exams/{exam_id}/warmup/skip:
+    post:
+      operationId: skipWarmup
+      parameters:
+        - $ref: '#/components/parameters/ExamId'
+      responses:
+        '200':
+          description: Warm-up skipped without restricting review resources.
+  /exams/{exam_id}/checkpoints:
+    post:
+      operationId: saveExamCheckpoint
+      parameters:
+        - $ref: '#/components/parameters/ExamId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [item_id, completed]
+              properties:
+                item_id: { type: string, minLength: 1 }
+                completed: { type: boolean }
+      responses:
+        '200':
+          description: Private, source-linked review checkpoint.
+        '422':
+          $ref: '#/components/responses/Error'
+  /exams/{exam_id}/attempts:
+    post:
+      operationId: submitExamAnswer
+      parameters:
+        - $ref: '#/components/parameters/ExamId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - question_id
+                - response
+                - source_checked
+              properties:
+                question_id: { type: string, minLength: 1 }
+                response: { type: string, minLength: 1 }
+                source_checked: { type: boolean }
+                challenged_claim_ids:
+                  type: array
+                  items: { type: string, minLength: 1 }
+      responses:
+        '200':
+          description: Private answer linked to question sources and challenged AI claims.
+        '422':
+          $ref: '#/components/responses/Error'
+  /exams/{exam_id}/attempts/complete:
+    post:
+      operationId: completeExamAttempt
+      parameters:
+        - $ref: '#/components/parameters/ExamId'
+      responses:
+        '200':
+          description: Completed evidence-aware fixture attempt entering private review.
+        '422':
+          $ref: '#/components/responses/Error'
+  /exams/{exam_id}/replay:
+    get:
+      operationId: getExamReplay
+      parameters:
+        - $ref: '#/components/parameters/ExamId'
+      responses:
+        '200':
+          description: Stable event replay with source-linked answers and actions.
+        '409':
+          $ref: '#/components/responses/Error'
+  /exams/{exam_id}/box-score:
+    get:
+      operationId: getPrivateExamBoxScore
+      parameters:
+        - $ref: '#/components/parameters/ExamId'
+      responses:
+        '200':
+          description: Student-private completion and error signals without ranking or grade prediction.
+  /exams/{exam_id}/reflection:
+    put:
+      operationId: savePrivateExamReflection
+      parameters:
+        - $ref: '#/components/parameters/ExamId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - worked
+                - blocked
+                - next_adjustment
+                - share_with_mentor
+              properties:
+                worked: { type: string, minLength: 1 }
+                blocked: { type: string, minLength: 1 }
+                next_adjustment: { type: string, minLength: 1 }
+                share_with_mentor: { type: boolean }
+                share_expires_at: { type: [string, 'null'], format: date }
+                archive: { type: boolean, default: false }
+      responses:
+        '200':
+          description: Private reflection; mentor sharing requires explicit expiring consent.
+        '422':
+          $ref: '#/components/responses/Error'
+  /demo/world-exam:
+    get:
+      operationId: getDemoWorldExam
+      responses:
+        '200':
+          description: Complete, explicitly non-formal F-005 fixture.
+          content:
+            application/json:
+              schema:
+                $ref: './world-exam-fixture.schema.json'
+  /demo/world-exam/reset:
+    post:
+      operationId: resetDemoWorldExam
+      responses:
+        '200':
+          description: Reset only the in-memory fixture session for repeatable local QA.
+          content:
+            application/json:
+              schema:
+                $ref: './world-exam-session.schema.json'
+  /roster/prefix:
+    get:
+      operationId: getRosterPrefix
+      responses:
+        '200':
+          description: Current fixture degree-progress prefix and planned selections.
+    put:
+      operationId: replaceRosterPrefix
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Full RosterPrefix object obtained from the fixture or previous GET.
+      responses:
+        '200':
+          description: Validated replacement prefix with an incremented version.
+        '422':
+          $ref: '#/components/responses/Error'
+  /roster/pins:
+    put:
+      operationId: replaceRosterPins
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [active_pin_ids]
+              properties:
+                active_pin_ids:
+                  type: array
+                  minItems: 1
+                  uniqueItems: true
+                  items: { type: string, pattern: '^pin-' }
+      responses:
+        '200':
+          description: Active, validated fixture constraints.
+        '422':
+          $ref: '#/components/responses/Error'
+  /roster/solve:
+    post:
+      operationId: solveRosterPlans
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                goal_order:
+                  type: array
+                  minItems: 5
+                  maxItems: 5
+                  uniqueItems: true
+                  items:
+                    enum:
+                      - hard_constraints
+                      - graduation_progress
+                      - minimal_change
+                      - personal_preference
+                      - minimal_gaps
+                preferences:
+                  type: object
+                  additionalProperties: false
+                  required: [time_of_day, compactness, variety, stability]
+                  properties:
+                    time_of_day: { enum: [morning, daytime, late] }
+                    compactness: { type: integer, minimum: 0, maximum: 3 }
+                    variety: { type: integer, minimum: 0, maximum: 3 }
+                    stability: { type: integer, minimum: 0, maximum: 3 }
+      responses:
+        '200':
+          description: Ranked, explainable, non-formal semester plan candidates.
+          content:
+            application/json:
+              schema:
+                $ref: './roster-plans-response.schema.json'
+        '422':
+          $ref: '#/components/responses/Error'
+  /roster/what-if:
+    post:
+      operationId: simulateRosterBranch
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [branch_name]
+              properties:
+                branch_name: { type: string, minLength: 1, maxLength: 80 }
+      responses:
+        '200':
+          description: Named, explicitly simulated candidate branch.
+          content:
+            application/json:
+              schema:
+                $ref: './roster-plans-response.schema.json'
+        '422':
+          $ref: '#/components/responses/Error'
+  /roster/plans/{plan_id}/diff:
+    get:
+      operationId: getRosterPlanTransaction
+      parameters:
+        - $ref: '#/components/parameters/PlanId'
+      responses:
+        '200':
+          description: Add/drop/swap preview and required formal follow-up steps.
+        '404':
+          $ref: '#/components/responses/Error'
+  /roster/plans/{plan_id}/lock:
+    post:
+      operationId: saveRosterSemesterLock
+      parameters:
+        - $ref: '#/components/parameters/PlanId'
+      responses:
+        '200':
+          description: Replayable, explicitly non-formal fixture plan lock.
+          content:
+            application/json:
+              schema:
+                $ref: './semester-lock.schema.json'
+        '404':
+          $ref: '#/components/responses/Error'
+  /roster/catalog:
+    get:
+      operationId: getRosterCatalog
+      responses:
+        '200':
+          description: Sanitized, versioned fixture course catalog and source boundary.
+  /roster/unsat:
+    get:
+      operationId: getRosterUnsatisfiableExplanation
+      responses:
+        '200':
+          description: Minimal conflict set, blocking chain, and safe relaxation candidates.
+  /demo/roster:
+    get:
+      operationId: getDemoRoster
+      responses:
+        '200':
+          description: Complete, explicitly non-formal F-004 fixture.
+          content:
+            application/json:
+              schema:
+                $ref: './roster-fixture.schema.json'
+  /demo/roster/reset:
+    post:
+      operationId: resetDemoRoster
+      responses:
+        '200':
+          description: Reset only the in-memory Roster Lab fixture session for repeatable local QA.
+  /mirror/sources:
+    get:
+      operationId: listMirrorSources
+      responses:
+        '200':
+          description: Purpose-scoped, authorized source registry. No school passwords are accepted.
+    post:
+      operationId: registerMirrorSource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                [name, system_type, responsible_party, field_scope, correction_route]
+              properties:
+                name: { type: string, minLength: 1 }
+                system_type:
+                  enum: [sis, urp, lms, manual_export, demo_fixture]
+                responsible_party: { type: string, minLength: 1 }
+                field_scope:
+                  type: array
+                  minItems: 1
+                  items: { type: string, minLength: 1 }
+                correction_route: { type: string, minLength: 1 }
+      responses:
+        '201':
+          description: Local, authorized source registration; never a credential collection receipt.
+        '422':
+          $ref: '#/components/responses/Error'
+  /mirror/sources/{source_id}/sync:
+    post:
+      operationId: syncMirrorSource
+      parameters:
+        - $ref: '#/components/parameters/SourceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [mode]
+              properties:
+                mode:
+                  enum: [full, incremental]
+      responses:
+        '200':
+          description: New immutable raw snapshot; the prior snapshot remains unchanged.
+        '404':
+          $ref: '#/components/responses/Error'
+        '422':
+          description: P1 rejects incremental mode and declares a full-sync fallback.
+          content:
+            application/json:
+              schema:
+                $ref: './error-response.schema.json'
+  /mirror/snapshots:
+    get:
+      operationId: listMirrorSnapshots
+      responses:
+        '200':
+          description: Immutable raw snapshot receipts with SHA-256 content hashes.
+  /mirror/records:
+    get:
+      operationId: listMirrorRecords
+      responses:
+        '200':
+          description: Read-only normalized records with field-level provenance.
+          content:
+            application/json:
+              schema:
+                $ref: './mirror-records-response.schema.json'
+  /mirror/records/{record_id}/provenance:
+    get:
+      operationId: getMirrorRecordProvenance
+      parameters:
+        - $ref: '#/components/parameters/RecordId'
+      responses:
+        '200':
+          description: Source, external field, version, fetch time, authority, conversion rule, and raw snapshot for every field.
+        '404':
+          $ref: '#/components/responses/Error'
+  /mirror/records/{record_id}:
+    delete:
+      operationId: deleteNonAuthoritativeMirrorCopy
+      parameters:
+        - $ref: '#/components/parameters/RecordId'
+      responses:
+        '200':
+          description: Removes only a user-controlled non-authoritative mirror copy.
+        '404':
+          $ref: '#/components/responses/Error'
+        '422':
+          description: Authoritative and official mirror copies cannot be deleted in the experience layer.
+          content:
+            application/json:
+              schema:
+                $ref: './error-response.schema.json'
+  /mirror/conflicts:
+    get:
+      operationId: listMirrorConflicts
+      responses:
+        '200':
+          description: Human review queue; competing values are never silently overwritten.
+  /mirror/conflicts/{conflict_id}/resolve:
+    put:
+      operationId: resolveMirrorConflict
+      parameters:
+        - $ref: '#/components/parameters/ConflictId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [chosen_option_id, reason]
+              properties:
+                chosen_option_id: { type: string, minLength: 1 }
+                reason: { type: string, minLength: 1 }
+      responses:
+        '200':
+          description: Human resolution receipt; no source-system write-back occurs.
+        '404':
+          $ref: '#/components/responses/Error'
+        '422':
+          $ref: '#/components/responses/Error'
+  /mirror/consents:
+    get:
+      operationId: listMirrorConsents
+      responses:
+        '200':
+          description: Purpose-bound consent records and revocation state.
+    post:
+      operationId: upsertMirrorConsent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './academic-mirror-fixture.schema.json#/$defs/consentRecord'
+      responses:
+        '200':
+          description: Consent grant or revocation is appended to the audit chain.
+        '422':
+          $ref: '#/components/responses/Error'
+  /mirror/corrections:
+    post:
+      operationId: requestMirrorCorrection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [record_id, reason]
+              properties:
+                record_id: { type: string, minLength: 1 }
+                reason: { type: string, minLength: 1 }
+      responses:
+        '202':
+          description: Adds a human review request without changing the formal record.
+        '422':
+          $ref: '#/components/responses/Error'
+  /mirror/exports:
+    post:
+      operationId: exportPersonalMirror
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [archive_type]
+              properties:
+                archive_type:
+                  enum:
+                    [readable_untrusted, trusted_archive_contract_fixture]
+      responses:
+        '200':
+          description: Portable non-authoritative copy or explicitly unsigned trusted-archive contract fixture.
+          content:
+            application/json:
+              schema:
+                $ref: './mirror-archive.schema.json'
+        '422':
+          $ref: '#/components/responses/Error'
+  /mirror/audit:
+    get:
+      operationId: getMirrorAudit
+      responses:
+        '200':
+          description: Append-only sync, map, review, consent, correction, deletion, and export events.
+  /demo/mirror:
+    get:
+      operationId: getDemoMirror
+      responses:
+        '200':
+          description: Complete, explicitly read-only F-003 fixture.
+          content:
+            application/json:
+              schema:
+                $ref: './academic-mirror-fixture.schema.json'
+  /demo/mirror/reset:
+    post:
+      operationId: resetDemoMirror
+      responses:
+        '200':
+          description: Reset only the in-memory Academic Mirror fixture session for repeatable local QA.
+  /performance/dashboard:
+    get:
+      operationId: getPerformanceDashboard
+      responses:
+        '200':
+          description: >-
+            Private self-only metrics, observations, ability dimensions,
+            support routes, evidence, deferred research gate, and mutable
+            fixture session.
+  /performance/metrics:
+    get:
+      operationId: getPerformanceMetrics
+      responses:
+        '200':
+          description: Versioned metric definitions, limits, correction routes, and observations.
+  /performance/evidence/{evidence_id}:
+    get:
+      operationId: getPerformanceEvidence
+      parameters:
+        - $ref: '#/components/parameters/PerformanceEvidenceId'
+      responses:
+        '200':
+          description: One declared evidence record with locator, authority, and freshness.
+          content:
+            application/json:
+              schema:
+                $ref: './performance-center-fixture.schema.json#/$defs/evidence'
+        '404':
+          $ref: '#/components/responses/Error'
+  /performance/recommendations:
+    get:
+      operationId: getPerformanceRecommendations
+      responses:
+        '200':
+          description: Transparent rule-fixture recommendations and current student choices.
+  /performance/recommendations/{recommendation_id}:
+    put:
+      operationId: choosePerformanceRecommendation
+      parameters:
+        - $ref: '#/components/parameters/PerformanceRecommendationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [status]
+              properties:
+                status:
+                  enum: [adopted, later, dismissed]
+      responses:
+        '200':
+          description: Records the student's reversible choice without formal write-back.
+          content:
+            application/json:
+              schema:
+                $ref: './performance-center-fixture.schema.json#/$defs/recommendation'
+        '422':
+          $ref: '#/components/responses/Error'
+  /performance/climate:
+    put:
+      operationId: previewPerformanceClimateVariant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [variant]
+              properties:
+                variant:
+                  enum: [a_numbers, b_words, c_dimensions]
+      responses:
+        '200':
+          description: >-
+            Switches a local A/B/C research preview. The human-evidence gate
+            remains deferred and C is the safe default.
+          content:
+            application/json:
+              schema:
+                $ref: './performance-center-session.schema.json'
+        '422':
+          $ref: '#/components/responses/Error'
+  /performance/shares:
+    post:
+      operationId: createPerformanceShare
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [recipient, purpose, duration_days, dimension_ids]
+              properties:
+                recipient: { type: string, minLength: 1 }
+                purpose: { type: string, minLength: 1 }
+                duration_days:
+                  type: integer
+                  minimum: 1
+                  maximum: 30
+                dimension_ids:
+                  type: array
+                  minItems: 1
+                  uniqueItems: true
+                  items:
+                    enum:
+                      - ability-knowledge
+                      - ability-applied
+                      - ability-collaboration
+                      - ability-habit
+      responses:
+        '201':
+          description: Creates an expiring, purpose-bound fixture grant.
+          content:
+            application/json:
+              schema:
+                $ref: './performance-center-fixture.schema.json#/$defs/shareGrant'
+        '422':
+          $ref: '#/components/responses/Error'
+  /performance/shares/{grant_id}:
+    delete:
+      operationId: revokePerformanceShare
+      parameters:
+        - $ref: '#/components/parameters/PerformanceGrantId'
+      responses:
+        '200':
+          description: Immediately revokes the fixture grant and records a replay receipt.
+          content:
+            application/json:
+              schema:
+                $ref: './performance-center-fixture.schema.json#/$defs/shareGrant'
+        '422':
+          $ref: '#/components/responses/Error'
+  /performance/corrections:
+    post:
+      operationId: requestPerformanceCorrection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [target_id, reason]
+              properties:
+                target_id: { type: string, minLength: 1 }
+                reason: { type: string, minLength: 1 }
+      responses:
+        '202':
+          description: Queues a human correction while preserving the old observation.
+          content:
+            application/json:
+              schema:
+                $ref: './performance-center-fixture.schema.json#/$defs/correction'
+        '422':
+          $ref: '#/components/responses/Error'
+  /performance/harm-signals:
+    post:
+      operationId: reportPerformanceHarm
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [description]
+              properties:
+                description: { type: string, minLength: 1 }
+      responses:
+        '202':
+          description: >-
+            Triggers the STOP gate, withdraws the status label, and returns to
+            the no-metaphor C view.
+          content:
+            application/json:
+              schema:
+                $ref: './performance-center-fixture.schema.json#/$defs/harmSignal'
+        '422':
+          $ref: '#/components/responses/Error'
+  /performance/exports:
+    post:
+      operationId: exportPrivatePerformanceCopy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [archive_type]
+              properties:
+                archive_type:
+                  const: readable_untrusted
+      responses:
+        '200':
+          description: Readable, private, explicitly non-authoritative fixture copy.
+          content:
+            application/json:
+              schema:
+                $ref: './performance-center-export.schema.json'
+        '422':
+          $ref: '#/components/responses/Error'
+  /performance/replay:
+    get:
+      operationId: getPerformanceReplay
+      responses:
+        '200':
+          description: Append-only local receipts for choices, sharing, corrections, STOP, and export.
+  /demo/performance:
+    get:
+      operationId: getDemoPerformance
+      responses:
+        '200':
+          description: Complete, explicitly private and self-only F-006 fixture.
+          content:
+            application/json:
+              schema:
+                $ref: './performance-center-fixture.schema.json'
+  /demo/performance/reset:
+    post:
+      operationId: resetDemoPerformance
+      responses:
+        '200':
+          description: Reset only the in-memory Performance Center fixture session for repeatable QA.
+          content:
+            application/json:
+              schema:
+                $ref: './performance-center-session.schema.json'
+  /opportunities:
+    get:
+      operationId: listTransparentOpportunities
+      responses:
+        '200':
+          description: >-
+            All eight transparent Fixture opportunities, including the
+            explicitly expired replay example. No paid or random ordering.
+          content:
+            application/json:
+              schema:
+                type: array
+                minItems: 5
+                maxItems: 10
+                items:
+                  $ref: './opportunity-market-fixture.schema.json#/$defs/opportunity'
+  /opportunities/{opportunity_id}:
+    get:
+      operationId: getTransparentOpportunity
+      parameters:
+        - $ref: '#/components/parameters/OpportunityId'
+      responses:
+        '200':
+          description: Complete opportunity, declared rules, and Opportunity Box Score.
+        '404':
+          $ref: '#/components/responses/Error'
+  /opportunities/{opportunity_id}/eligibility:
+    post:
+      operationId: explainOpportunityEligibility
+      parameters:
+        - $ref: '#/components/parameters/OpportunityId'
+      responses:
+        '200':
+          description: >-
+            Independent met, possibly_met, not_met, or unknown results. This
+            endpoint never returns a composite score or admission prediction.
+          content:
+            application/json:
+              schema:
+                $ref: './opportunity-market-session.schema.json#/$defs/eligibilityCheck'
+        '422':
+          $ref: '#/components/responses/Error'
+  /opportunity-profile:
+    get:
+      operationId: getPrivateOpportunityProfile
+      responses:
+        '200':
+          description: Private Profile fields, current selection, and forbidden matching inputs.
+    put:
+      operationId: replaceOpportunityProfileSelection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [field_ids]
+              properties:
+                field_ids:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    type: string
+                    pattern: '^field-'
+      responses:
+        '200':
+          description: Replaces only the fields selected for the current local Fixture session.
+        '422':
+          $ref: '#/components/responses/Error'
+  /opportunity-match:
+    post:
+      operationId: runSelectiveOpportunityMatch
+      responses:
+        '200':
+          description: Explainable results ordered by qualification band and deadline, with paid influence fixed to zero.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './opportunity-market-session.schema.json#/$defs/matchResult'
+        '422':
+          $ref: '#/components/responses/Error'
+  /opportunities/{opportunity_id}/save:
+    post:
+      operationId: saveOpportunityPrivately
+      parameters:
+        - $ref: '#/components/parameters/OpportunityId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                note: { type: string }
+      responses:
+        '201':
+          description: Saves privately without expressing interest or sharing Profile fields.
+          content:
+            application/json:
+              schema:
+                $ref: './opportunity-market-session.schema.json#/$defs/savedOpportunity'
+        '422':
+          $ref: '#/components/responses/Error'
+  /opportunities/{opportunity_id}/interest:
+    post:
+      operationId: expressStudentOpportunityInterest
+      parameters:
+        - $ref: '#/components/parameters/OpportunityId'
+      responses:
+        '200':
+          description: Records private student intent; it is not an application or disclosure.
+        '422':
+          $ref: '#/components/responses/Error'
+  /opportunities/{opportunity_id}/provider-ack:
+    post:
+      operationId: acknowledgeFixtureProviderInterest
+      parameters:
+        - $ref: '#/components/parameters/OpportunityId'
+      responses:
+        '200':
+          description: Records the Fixture provider half of double opt-in; disclosure remains blocked.
+        '422':
+          $ref: '#/components/responses/Error'
+  /opportunities/{opportunity_id}/disclosures:
+    post:
+      operationId: createOpportunityDisclosure
+      parameters:
+        - $ref: '#/components/parameters/OpportunityId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [duration_days]
+              properties:
+                duration_days:
+                  type: integer
+                  minimum: 1
+                  maximum: 30
+      responses:
+        '201':
+          description: Creates an expiring, purpose-bound minimum disclosure after double opt-in.
+          content:
+            application/json:
+              schema:
+                $ref: './opportunity-market-session.schema.json#/$defs/disclosureGrant'
+        '422':
+          $ref: '#/components/responses/Error'
+  /opportunity-disclosures/{grant_id}:
+    delete:
+      operationId: revokeOpportunityDisclosure
+      parameters:
+        - $ref: '#/components/parameters/OpportunityDisclosureId'
+      responses:
+        '200':
+          description: Revokes local disclosure immediately; external systems remain untouched.
+          content:
+            application/json:
+              schema:
+                $ref: './opportunity-market-session.schema.json#/$defs/disclosureGrant'
+        '422':
+          $ref: '#/components/responses/Error'
+  /opportunities/{opportunity_id}/external-status:
+    post:
+      operationId: markOpportunityAppliedExternally
+      parameters:
+        - $ref: '#/components/parameters/OpportunityId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [student_confirmed]
+              properties:
+                student_confirmed: { const: true }
+      responses:
+        '200':
+          description: Updates only the non-authoritative mirror after explicit student confirmation.
+        '422':
+          $ref: '#/components/responses/Error'
+  /opportunities/{opportunity_id}/capacity-plans:
+    post:
+      operationId: createOpportunityCapacityWhatIf
+      parameters:
+        - $ref: '#/components/parameters/OpportunityId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [hours_per_week]
+              properties:
+                hours_per_week:
+                  type: number
+                  exclusiveMinimum: 0
+                note: { type: string }
+      responses:
+        '201':
+          description: Saves a non-authoritative time-capacity What-if; payment cannot increase eligibility.
+          content:
+            application/json:
+              schema:
+                $ref: './opportunity-market-session.schema.json#/$defs/capacityPlan'
+        '422':
+          $ref: '#/components/responses/Error'
+  /opportunity-pathways/{pathway_id}:
+    put:
+      operationId: previewOpportunityPathway
+      parameters:
+        - $ref: '#/components/parameters/OpportunityPathwayId'
+      responses:
+        '200':
+          description: Opens a reversible A/B/C scenario with risks, rollback point, and formal approval path.
+          content:
+            application/json:
+              schema:
+                $ref: './opportunity-market-fixture.schema.json#/$defs/pathway'
+        '422':
+          $ref: '#/components/responses/Error'
+  /opportunity-portfolio/exports:
+    post:
+      operationId: exportSelectedOpportunityPortfolio
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [artifact_ids]
+              properties:
+                artifact_ids:
+                  type: array
+                  minItems: 1
+                  uniqueItems: true
+                  items:
+                    type: string
+                    pattern: '^artifact-'
+      responses:
+        '200':
+          description: Selected source references and review states without original course material.
+          content:
+            application/json:
+              schema:
+                $ref: './opportunity-market-export.schema.json'
+        '422':
+          $ref: '#/components/responses/Error'
+  /opportunities/{opportunity_id}/reports:
+    post:
+      operationId: reportOpportunityProblem
+      parameters:
+        - $ref: '#/components/parameters/OpportunityId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [report_type, reason]
+              properties:
+                report_type:
+                  enum: [expired, wrong_info, unfair]
+                reason: { type: string, minLength: 1 }
+      responses:
+        '202':
+          description: Queues human review and removes the affected item from current match results.
+          content:
+            application/json:
+              schema:
+                $ref: './opportunity-market-session.schema.json#/$defs/report'
+        '422':
+          $ref: '#/components/responses/Error'
+  /opportunity-fairness/run:
+    post:
+      operationId: runOpportunityFairnessAudit
+      responses:
+        '200':
+          description: Checks zero paid ranking, random qualification, auction, forbidden fields, and auto-application.
+          content:
+            application/json:
+              schema:
+                $ref: './opportunity-market-session.schema.json#/$defs/fairnessAudit'
+  /opportunity-replay:
+    get:
+      operationId: getOpportunityReplay
+      responses:
+        '200':
+          description: Append-only opportunity, consent, correction, pathway, export, and fairness receipts.
+  /demo/opportunity-market:
+    get:
+      operationId: getDemoOpportunityMarket
+      responses:
+        '200':
+          description: Complete transparent F-009 Fixture with private Profile and anti-manipulation invariants.
+          content:
+            application/json:
+              schema:
+                $ref: './opportunity-market-fixture.schema.json'
+  /demo/opportunity-market/reset:
+    post:
+      operationId: resetDemoOpportunityMarket
+      responses:
+        '200':
+          description: Reset only the in-memory Opportunity Market Fixture session for repeatable QA.
+          content:
+            application/json:
+              schema:
+                $ref: './opportunity-market-session.schema.json'
+  /coach-scouting:
+    get:
+      operationId: getCoachScouting
+      responses:
+        '200':
+          description: Sourced F-007 Fixture, governed local session, and non-authoritative box score.
+  /coach-scouting/profile:
+    get:
+      operationId: getCoachScoutingProfile
+      responses:
+        '200':
+          description: Course, instructor assignment, teaching structure, Office Hours, workload, Scouting quadrants, and reminders.
+  /coach-scouting/sources:
+    get:
+      operationId: getCoachScoutingSources
+      responses:
+        '200':
+          description: Five visibly separated evidence tiers with owner, version, validity, and correction route.
+          content:
+            application/json:
+              schema:
+                type: array
+                minItems: 5
+                maxItems: 5
+                items:
+                  $ref: './coach-scouting-fixture.schema.json#/$defs/source'
+  /coach-scouting/versions:
+    get:
+      operationId: getCoachScoutingVersions
+      responses:
+        '200':
+          description: Registered course and instructor-assignment versions.
+          content:
+            application/json:
+              schema:
+                type: array
+                minItems: 2
+                items:
+                  $ref: './coach-scouting-fixture.schema.json#/$defs/version'
+  /coach-scouting/versions/compare:
+    post:
+      operationId: compareCoachScoutingVersions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [from_version_id, to_version_id]
+              properties:
+                from_version_id:
+                  type: string
+                  pattern: '^version-'
+                to_version_id:
+                  type: string
+                  pattern: '^version-'
+      responses:
+        '200':
+          description: Field-level changes without carrying historical feedback to a new offering or instructor.
+          content:
+            application/json:
+              schema:
+                $ref: './coach-scouting-session.schema.json#/$defs/versionComparison'
+        '422':
+          $ref: '#/components/responses/Error'
+  /coach-scouting/corrections:
+    post:
+      operationId: submitCoachCorrection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - target_id
+                - correction_type
+                - statement
+                - evidence_ids
+              properties:
+                target_id:
+                  type: string
+                  minLength: 1
+                correction_type:
+                  enum: [context, update, dispute]
+                statement:
+                  type: string
+                  minLength: 12
+                evidence_ids:
+                  type: array
+                  minItems: 1
+                  uniqueItems: true
+                  items:
+                    type: string
+                    pattern: '^src-'
+      responses:
+        '201':
+          description: Versioned teacher correction awaiting a human review.
+          content:
+            application/json:
+              schema:
+                $ref: './coach-scouting-session.schema.json#/$defs/correctionCase'
+        '422':
+          $ref: '#/components/responses/Error'
+  /coach-scouting/corrections/{correction_id}:
+    put:
+      operationId: reviewCoachCorrection
+      parameters:
+        - name: correction_id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^correction-'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [status]
+              properties:
+                status:
+                  enum: [in_review, accepted, rejected]
+      responses:
+        '200':
+          description: Correction state transition with prior history retained.
+          content:
+            application/json:
+              schema:
+                $ref: './coach-scouting-session.schema.json#/$defs/correctionCase'
+        '422':
+          $ref: '#/components/responses/Error'
+  /coach-scouting/feedback:
+    post:
+      operationId: submitCoachFeedback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - dimension
+                - concrete_experience
+                - suggested_action
+                - consent_to_aggregate
+              properties:
+                dimension:
+                  enum:
+                    - assignment_clarity
+                    - feedback_timeliness
+                    - workload_support
+                    - group_structure
+                    - accessibility
+                concrete_experience:
+                  type: string
+                  minLength: 12
+                suggested_action:
+                  type: string
+                  minLength: 8
+                consent_to_aggregate:
+                  type: boolean
+      responses:
+        '201':
+          description: Private structured feedback, possibly held for human safety review.
+          content:
+            application/json:
+              schema:
+                $ref: './coach-scouting-session.schema.json#/$defs/feedbackSubmission'
+        '422':
+          $ref: '#/components/responses/Error'
+  /coach-scouting/feedback/aggregates:
+    get:
+      operationId: getCoachFeedbackAggregates
+      responses:
+        '200':
+          description: Aggregates recalculated against sample and governance hiding thresholds.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './coach-scouting-fixture.schema.json#/$defs/feedbackAggregate'
+  /coach-scouting/fairness/run:
+    post:
+      operationId: runCoachFairnessAudit
+      responses:
+        '200':
+          description: Five checks for rating, version, threshold, sensitive-field, and Advisor truth boundaries.
+          content:
+            application/json:
+              schema:
+                $ref: './coach-scouting-session.schema.json#/$defs/fairnessAudit'
+  /coach-scouting/team-profile:
+    put:
+      operationId: selectCoachTeamProfile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [field_ids]
+              properties:
+                field_ids:
+                  type: array
+                  minItems: 1
+                  uniqueItems: true
+                  items:
+                    type: string
+                    pattern: '^team-'
+      responses:
+        '200':
+          description: Private per-match field selection with sensitive fields forbidden.
+        '422':
+          $ref: '#/components/responses/Error'
+  /coach-scouting/team-match:
+    post:
+      operationId: runCoachTeamMatch
+      responses:
+        '200':
+          description: Explainable role-gap matches with reasons, conflicts, unknowns, and zero sensitive attributes.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './coach-scouting-session.schema.json#/$defs/teamMatch'
+        '422':
+          $ref: '#/components/responses/Error'
+  /coach-scouting/advisor-handoffs:
+    post:
+      operationId: createCoachAdvisorHandoff
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - questions
+                - evidence_ids
+                - consent_confirmed
+              properties:
+                questions:
+                  type: array
+                  minItems: 1
+                  uniqueItems: true
+                  items:
+                    type: string
+                    minLength: 1
+                evidence_ids:
+                  type: array
+                  minItems: 1
+                  uniqueItems: true
+                  items:
+                    type: string
+                    pattern: '^src-'
+                scenario_ids:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    type: string
+                    minLength: 1
+                consent_confirmed:
+                  const: true
+      responses:
+        '201':
+          description: Student-confirmed questions and evidence; no Advisor response is fabricated.
+          content:
+            application/json:
+              schema:
+                $ref: './coach-advisor-handoff.schema.json'
+        '422':
+          $ref: '#/components/responses/Error'
+  /coach-scouting/reminders/{reminder_id}/ack:
+    post:
+      operationId: acknowledgeCoachReminder
+      parameters:
+        - name: reminder_id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^reminder-'
+      responses:
+        '200':
+          description: Student acknowledgement receipt; does not grant institutional approval or access.
+        '422':
+          $ref: '#/components/responses/Error'
+  /coach-scouting/reports:
+    post:
+      operationId: reportCoachGovernanceIssue
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [report_type, target_id, evidence, serious]
+              properties:
+                report_type:
+                  enum:
+                    - harassment
+                    - misinformation
+                    - privacy
+                    - discrimination
+                target_id:
+                  type: string
+                  minLength: 1
+                evidence:
+                  type: string
+                  minLength: 8
+                serious:
+                  type: boolean
+      responses:
+        '202':
+          description: Time-bound human review; serious content is hidden first.
+          content:
+            application/json:
+              schema:
+                $ref: './coach-scouting-session.schema.json#/$defs/governanceCase'
+        '422':
+          $ref: '#/components/responses/Error'
+  /coach-scouting/replay:
+    get:
+      operationId: getCoachScoutingReplay
+      responses:
+        '200':
+          description: Append-only source, version, correction, feedback, match, Handoff, reminder, and governance replay.
+  /demo/coach-scouting:
+    get:
+      operationId: getDemoCoachScouting
+      responses:
+        '200':
+          description: Complete sanitized F-007 Fixture with all fourteen feature boundaries.
+          content:
+            application/json:
+              schema:
+                $ref: './coach-scouting-fixture.schema.json'
+  /demo/coach-scouting/reset:
+    post:
+      operationId: resetDemoCoachScouting
+      responses:
+        '200':
+          description: Reset only the in-memory Coach & Scouting Fixture session for repeatable QA.
+          content:
+            application/json:
+              schema:
+                $ref: './coach-scouting-session.schema.json'
+  /campus-life:
+    get:
+      operationId: getCampusLife
+      responses:
+        '200':
+          description: Sourced F-008 Fixture, private local session, recommendations, and non-authoritative box score.
+  /campus-life/search:
+    post:
+      operationId: searchCampusLife
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - text
+                - accessibility_required
+                - include_expired
+              properties:
+                text: { type: string }
+                category: { type: [string, 'null'] }
+                location_id: { type: [string, 'null'] }
+                delivery_mode:
+                  type: [string, 'null']
+                  enum: [online, in_person, hybrid, null]
+                accessibility_required: { type: boolean }
+                include_expired: { type: boolean }
+      responses:
+        '200':
+          description: Intent-oriented service and event matches with visible filters and fallback explanation.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-life/profile:
+    put:
+      operationId: updateCampusLifeProfile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [profiling_enabled, interests]
+              properties:
+                profiling_enabled: { type: boolean }
+                interests:
+                  type: array
+                  uniqueItems: true
+                  items: { type: string }
+      responses:
+        '200':
+          description: Student-controlled temporary preference profile; can be disabled at any time.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-life/saved:
+    post:
+      operationId: saveCampusLifeItem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [target_id, target_type]
+              properties:
+                target_id: { type: string, minLength: 1 }
+                target_type:
+                  enum: [service, event, team, mentor]
+      responses:
+        '201':
+          description: Save one item to private MyCOURT without enrollment, registration, or application.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-life/calendar:
+    post:
+      operationId: saveCampusLifeCalendarEntry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [event_id]
+              properties:
+                event_id: { type: string, minLength: 1 }
+      responses:
+        '201':
+          description: Private calendar mirror with conflict labels; never registers the student.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-life/routes:
+    post:
+      operationId: planCampusLifeRoute
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [from_location_id, to_location_id, accessible_only]
+              properties:
+                from_location_id: { type: string, minLength: 1 }
+                to_location_id: { type: string, minLength: 1 }
+                accessible_only: { type: boolean }
+      responses:
+        '200':
+          description: Static sourced 2D route; no location tracking session is started.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-life/journeys/{resource_id}:
+    put:
+      operationId: updateCampusLifeJourney
+      parameters:
+        - name: resource_id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [status, completed_step_ids, personal_note]
+              properties:
+                status:
+                  enum: [saved, in_progress, waiting_external, closed]
+                completed_step_ids:
+                  type: array
+                  uniqueItems: true
+                  items: { type: string }
+                personal_note: { type: string }
+      responses:
+        '200':
+          description: Non-authoritative personal service-journey mirror.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-life/team-intents/{listing_id}:
+    post:
+      operationId: createCampusTeamIntent
+      parameters:
+        - name: listing_id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '201':
+          description: Student intent receipt with no additional profile disclosure.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-life/team-intents/{listing_id}/counterparty:
+    post:
+      operationId: confirmCampusTeamCounterparty
+      parameters:
+        - name: listing_id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Mutual-intent receipt that releases only the registered minimum fields.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-life/mentor-handoffs:
+    post:
+      operationId: createCampusMentorHandoff
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - mentor_id
+                - questions
+                - evidence_ids
+                - consent_confirmed
+              properties:
+                mentor_id: { type: string }
+                questions:
+                  type: array
+                  minItems: 1
+                  items: { type: string, minLength: 1 }
+                evidence_ids:
+                  type: array
+                  uniqueItems: true
+                  items: { type: string }
+                consent_confirmed: { const: true }
+      responses:
+        '201':
+          description: Student-approved questions and evidence; no mentor response is fabricated.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-life/notifications:
+    put:
+      operationId: updateCampusLifeNotifications
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - enabled_categories
+                - frequency
+                - quiet_hours
+                - marketing_enabled
+              properties:
+                enabled_categories:
+                  type: array
+                  uniqueItems: true
+                  items: { type: string }
+                frequency:
+                  enum: [realtime, daily_digest, weekly]
+                quiet_hours: { type: string, minLength: 1 }
+                marketing_enabled: { type: boolean }
+      responses:
+        '200':
+          description: Emergency alerts stay separate while non-emergency categories remain student controlled.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-life/corrections:
+    post:
+      operationId: reportCampusLifeSource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [target_id, reason]
+              properties:
+                target_id: { type: string, minLength: 1 }
+                reason: { type: string, minLength: 8 }
+      responses:
+        '202':
+          description: Versioned expiry or accuracy report awaiting human review.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-life/receipts:
+    post:
+      operationId: createCampusLifeReceipt
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [target_id, participation, reflection]
+              properties:
+                target_id: { type: string }
+                participation:
+                  enum: [attended, not_attended, unknown]
+                reflection: { type: string }
+      responses:
+        '201':
+          description: Optional private footprint receipt with no participation-value score.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-life/mycourt/export:
+    post:
+      operationId: exportCampusLifeMyCourt
+      responses:
+        '200':
+          description: Readable private and explicitly untrusted MyCOURT archive.
+  /campus-life/escalation-routes:
+    get:
+      operationId: getCampusLifeEscalationRoutes
+      responses:
+        '200':
+          description: Direct sourced official help routes; Fixture URLs never impersonate real emergency contacts.
+  /campus-life/replay:
+    get:
+      operationId: getCampusLifeReplay
+      responses:
+        '200':
+          description: Append-only profile, search, calendar, route, team, mentor, notification, correction, and receipt replay.
+  /demo/campus-life:
+    get:
+      operationId: getDemoCampusLife
+      responses:
+        '200':
+          description: Complete sanitized F-008 Fixture with all fourteen feature boundaries.
+          content:
+            application/json:
+              schema:
+                $ref: './campus-life-fixture.schema.json'
+  /demo/campus-life/reset:
+    post:
+      operationId: resetDemoCampusLife
+      responses:
+        '200':
+          description: Reset only the in-memory Campus Life Fixture session for repeatable QA.
+          content:
+            application/json:
+              schema:
+                $ref: './campus-life-session.schema.json'
+  /campus-pass:
+    get:
+      operationId: getCampusPass
+      responses:
+        '200':
+          description: Complete F-010 Fixture wallet, authority boundaries, session and zero-official-action box score.
+  /campus-pass/credentials/{credential_id}/select:
+    put:
+      operationId: selectCampusPassCredential
+      parameters:
+        - name: credential_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Select a wallet item locally without issuing or modifying a source credential.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-pass/credentials/{credential_id}/present:
+    post:
+      operationId: presentCampusPassCredential
+      parameters:
+        - name: credential_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [carrier, static_capture]
+              properties:
+                carrier:
+                  enum: [physical_card, nfc, dynamic_qr, mobile]
+                static_capture:
+                  type: boolean
+      responses:
+        '201':
+          description: Local Fixture Reader result; official_access_granted always remains false.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-pass/access-requests:
+    post:
+      operationId: createCampusPassAccessRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [credential_id, zone_id, purpose]
+              properties:
+                credential_id:
+                  type: string
+                zone_id:
+                  type: string
+                purpose:
+                  type: string
+                  minLength: 4
+      responses:
+        '201':
+          description: Non-authoritative request mirror with explicit prerequisite blockers.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-pass/access-requests/{request_id}/mirror:
+    put:
+      operationId: updateCampusPassAccessRequestMirror
+      parameters:
+        - name: request_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [status]
+              properties:
+                status:
+                  enum: [submitted, reviewing, approved, externally_executed, denied, expired, fault, appeal]
+      responses:
+        '200':
+          description: Fixture authority-mirror state update that never executes access.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-pass/guest-drafts:
+    post:
+      operationId: createCampusPassGuestDraft
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [zone_id, purpose, sponsor_label, duration_hours]
+              properties:
+                zone_id:
+                  type: string
+                purpose:
+                  type: string
+                  minLength: 4
+                sponsor_label:
+                  type: string
+                  minLength: 2
+                duration_hours:
+                  type: integer
+                  minimum: 1
+      responses:
+        '201':
+          description: Purpose-bound, sponsored and auto-expiring guest draft; no pass is issued.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-pass/loss-cases:
+    post:
+      operationId: createCampusPassLossCase
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [credential_id, requested_action]
+              properties:
+                credential_id:
+                  type: string
+                requested_action:
+                  enum: [freeze, report_lost, restore]
+      responses:
+        '201':
+          description: Official-channel handoff preparation; the experience layer does not freeze, revoke or restore.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-pass/offline-checks:
+    post:
+      operationId: checkCampusPassOfflineCredential
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [credential_id, zone_id, carrier]
+              properties:
+                credential_id:
+                  type: string
+                zone_id:
+                  type: string
+                carrier:
+                  enum: [physical_card, nfc, mobile]
+      responses:
+        '201':
+          description: Bounded freshness/scope Fixture result; no real signature or door validation claim.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-pass/access-log-corrections:
+    post:
+      operationId: correctCampusPassAccessLog
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [record_id, reason]
+              properties:
+                record_id:
+                  type: string
+                reason:
+                  type: string
+                  minLength: 8
+      responses:
+        '201':
+          description: Append-only correction request without rewriting the authority record.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-pass/manual-fallbacks:
+    post:
+      operationId: chooseCampusPassManualFallback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [fallback_id, reason]
+              properties:
+                fallback_id:
+                  type: string
+                reason:
+                  type: string
+                  minLength: 4
+      responses:
+        '201':
+          description: No-phone accessible handoff preparation; access remains external.
+        '422':
+          $ref: '#/components/responses/Error'
+  /campus-pass/emergency-modes:
+    get:
+      operationId: getCampusPassEmergencyModes
+      responses:
+        '200':
+          description: Sourced authority status; emergency execution stays in the official safety system.
+  /campus-pass/access-records:
+    get:
+      operationId: getCampusPassSelfAccessRecords
+      responses:
+        '200':
+          description: Necessary self-only access records with retention and correction metadata.
+  /campus-pass/replay:
+    get:
+      operationId: getCampusPassReplay
+      responses:
+        '200':
+          description: Append-only wallet, credential test, request, loss, offline, correction and fallback replay.
+  /demo/campus-pass:
+    get:
+      operationId: getDemoCampusPass
+      responses:
+        '200':
+          description: Complete sanitized F-010 Fixture with all fourteen feature boundaries.
+          content:
+            application/json:
+              schema:
+                $ref: './campus-pass-fixture.schema.json'
+  /demo/campus-pass/reset:
+    post:
+      operationId: resetDemoCampusPass
+      responses:
+        '200':
+          description: Reset only the in-memory Campus Pass Fixture session for repeatable QA.
+          content:
+            application/json:
+              schema:
+                $ref: './campus-pass-session.schema.json'
   /generated-objects/{object_id}:
     get:
       operationId: getGeneratedObject
@@ -71,7 +2151,25 @@ paths:
         - $ref: '#/components/parameters/ObjectId'
       responses:
         '200':
-          description: Current object plus ordered review and publication history.
+          description: Current object plus ordered review, publication, and student interaction history.
+  /generated-objects/{object_id}/interactions:
+    post:
+      operationId: recordStudentInteraction
+      parameters:
+        - $ref: '#/components/parameters/ObjectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './interaction-request.schema.json'
+      responses:
+        '200':
+          description: Append-only student interaction linked to the current published version.
+        '404':
+          $ref: '#/components/responses/Error'
+        '422':
+          $ref: '#/components/responses/Error'
 components:
   parameters:
     ObjectId:
@@ -81,6 +2179,90 @@ components:
       schema:
         type: string
         minLength: 1
+    CourseId:
+      name: course_id
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    ExamId:
+      name: exam_id
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    PlanId:
+      name: plan_id
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    SourceId:
+      name: source_id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '^ds-'
+    RecordId:
+      name: record_id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '^nr-'
+    ConflictId:
+      name: conflict_id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '^conf-'
+    PerformanceEvidenceId:
+      name: evidence_id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '^ev-'
+    PerformanceRecommendationId:
+      name: recommendation_id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '^rec-'
+    PerformanceGrantId:
+      name: grant_id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '^share-grant-'
+    OpportunityId:
+      name: opportunity_id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '^opp-'
+    OpportunityDisclosureId:
+      name: grant_id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '^disclosure-'
+    OpportunityPathwayId:
+      name: pathway_id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '^path-'
   responses:
     Error:
       description: Machine-readable error.

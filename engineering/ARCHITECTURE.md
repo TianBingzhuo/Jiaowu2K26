@@ -1,6 +1,6 @@
 # 目标架构
 
-> 本文件定义 jiaowu2K26 的目标架构，也是“01 基座”的兼容性宪章。所有技术决策在开赛后 6 小时内通过 GATE-1 验证，未通过则切换到回退方案；赛前只定合同，不提前构建。
+> 本文件定义大学2K26 / University2K26 的目标架构，也是“01 基座”的兼容性宪章。`jiaowu2K26` 与 `j2k26` 只作兼容技术标识。所有技术决策在开赛后 6 小时内通过 GATE-1 验证，未通过则切换到回退方案；赛前只定合同，不提前构建。
 
 ## 架构风格
 
@@ -77,7 +77,7 @@ flowchart TB
     CONTRACT["Versioned Client Contract + Capability API"]
     API["应用后端：Rust + Axum 候选；回退可替换"]
     PY["Python 文档/OCR worker（按需）"]
-    AI["Provider-neutral AI adapter"]
+    AI["Provider-neutral AI adapter + policy router"]
     SIS["授权 SIS/URP/LMS/手工输入"]
     IAM["校园身份 / SSO / 权益系统（Vision）"]
     PAY["校园账务与支付通道（Vision）"]
@@ -435,6 +435,73 @@ supersedes? + correction_or_appeal_route
 - 中央服务和学校节点都暴露版本/能力清单；双方没有共同兼容版本时明确停止写同步，不能猜字段。
 - 学校可退出联邦并导出本校配置、密钥引用、审计和允许迁移的数据；不能被单一云供应商锁死。
 
+### 8. Local AI Sovereign Node / 本地主权 AI 节点
+
+ASUS Ascent GX10 可作为单校 Sovereign Node 的候选推理设备，但设备和具体模型都只是 `providers` 层实现，不能进入领域枚举或成为启动前提。详细设备事实、模型对比、资源预算、安全边界与实机 Spike 见 [LOCAL-AI-SOVEREIGN-NODE](LOCAL-AI-SOVEREIGN-NODE.md)。
+
+固定路由顺序：
+
+```text
+确定性规则 / 检索 / Fixture
+  → 本地 Fast Lane（条件）
+  → 本地 Main Lane
+  → 经批准的质量升级
+  → 明确同意且脱敏的外部 Overflow
+  → Human Review
+```
+
+- 任务路由由数据等级、风险、能力、延迟和质量阈值决定，不由 UI 直接点名供应商。
+- 模型不能直接访问生产数据库；应用层只暴露 allowlist 工具与最小字段。
+- 原始成绩、门禁、消费、健康、人事与未发布材料默认不能发送到外部模型。
+- 大小模型共享 Result Envelope、Schema、Evidence Pack 和审核状态；换模型不能改变正式语义。
+- 单机无法启动、超时或格式失败时回到规则/Fixture/人工路径，不把模型故障传播为权威状态。
+- P0 只需证明一个本地 OpenAI-compatible adapter 与同合同回退；双模型常驻、Step 3.7 极限部署和多校联邦均为独立条件实验。
+
+### 9. CLI、外部 AI 与 BYOK 自动化合同
+
+`j2k26` CLI 是与 Web/PWA、未来原生壳并列的**第一方客户端适配器**，不是第二套后端，更不是任意命令执行入口。它只消费相同的 `/api/v1`、OpenAPI、JSON Schema、Capability、权限、幂等和 Replay 合同；任何只存在于 CLI 的业务规则都视为架构缺陷。
+
+第一阶段命令面保持小而稳定：
+
+```text
+j2k26 doctor
+j2k26 health
+j2k26 capabilities
+j2k26 object show <object-id>
+j2k26 replay show <object-id>
+j2k26 contract validate --file <path>
+j2k26 model profile list
+j2k26 model profile test <profile>
+```
+
+- 自动化默认只读；`--output json` 输出版本化机器可读信封，普通输出面向人类，错误使用稳定 exit code 和结构化 `code/retryable`。
+- 所有支持写入的未来命令必须先有同合同 HTTP 用例，并支持 `--dry-run`、幂等键、显式资源 ID、预期 revision 和可回放结果。
+- `publish`、支付、门禁、身份授权、正式提交、成绩/学籍写回等高风险动作不能靠通用 `--yes` 或 AI 自行确认。它们需要绑定 `actor + action + resource + expiry + nonce` 的一次性人类批准，或转入受控 UI/权威系统完成。
+- 访问令牌、模型密钥和密码不得出现在命令行参数、Shell history、进程列表、stdout/stderr、Replay 或遥测；CLI 只接收凭据引用或通过遮罩提示/受控 stdin 写入操作系统凭据库。
+- 外部 AI 先调用 `capabilities` 获取允许操作和 Schema，再使用 allowlist 命令；未知字段、未知状态或权限不足必须停损，不能让模型猜参数或降级绕过。
+- 若未来增加 MCP/Agent adapter，它只包装这套受限应用端口；默认只读、短时 scope、可撤销、可审计，不开放 Shell、文件系统、数据库或 Provider SDK 直通。
+
+BYOK（Bring Your Own Key）是**每位队友可选择模型通道**，不是把供应商密钥集中交给项目：
+
+```text
+ProviderProfile（可同步、无秘密）
+  id, kind, base_url, model_id, capabilities,
+  data_region, privacy_class, timeout, budget_policy, key_ref
+
+Credential（仅本机）
+  OS credential store / approved secret manager
+```
+
+- 仓库只保存无秘密的 profile schema 和示例；`key_ref` 指向本机凭据，不包含 key 本身。
+- 浏览器不得把密钥写入 `localStorage`、`IndexedDB`、Service Worker cache、URL、分析事件或错误上报；Web 端若需要 BYOK，优先通过本机 companion/系统凭据代理，不能把秘密发到项目中央服务器。
+- 开发期允许由当前进程环境注入临时 key，但 `.env*` 始终被 Git 忽略，日志只显示 provider/profile/model 的非秘密标识。
+- 自定义 OpenAI-compatible endpoint 必须验证 scheme、主机、重定向和解析后的 IP；默认拒绝云元数据、link-local、loopback 之外的私网探测和未批准明文 HTTP，防止把可配置 URL 变成 SSRF 通道。
+- 模型选择不改变证据、审核和权限：无论 GX10、本机 Provider、赛事赞助 API 或个人 BYOK，输出都进入同一个 Result Envelope；UI/CLI 明示实际 provider、model、是否外发、fallback 和数据范围。
+
+P0-00 只冻结上述合同与测试面；在 `P0-00-B/C` 被产品总集成人员接受之前，不新增 CLI crate、密钥库依赖或外部 AI 写入能力。实现时先交付 `doctor/health/capabilities/contract validate` 四个只读命令，再单独过安全与人因 Gate。
+
+实现复核起点：[Microsoft Credential Locker](https://learn.microsoft.com/en-us/windows/apps/develop/security/credential-locker) 说明 Windows 应用的受控凭据存储；[OWASP Secrets Management](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html) 用于密钥生命周期与审计；[OWASP SSRF Prevention](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html) 用于自定义 endpoint、重定向和云元数据防护。最终跨平台凭据库仍须在实现任务中评估维护状态、许可证和各平台行为，不能只凭文档指定某个 crate。
+
 ## 数据合同
 
 ### 内容与审核
@@ -528,6 +595,7 @@ supersedes? + correction_or_appeal_route
 | 全面故障 | 截图 + PPT 讲解 | 预先录制的 90 秒视频 |
 | 单校生产候选 | 校方批准区域的 Sovereign Node + 可选共享控制平面 | 校内独立运行 + 延迟同步 |
 | 多校联邦候选 | 每校独立数据平面 + 版本化/签名事件互联 | 停止写同步、保留本校服务并人工对账 |
+| GX10 本地 AI 候选 | ARM64 容器 + OpenAI-compatible 本地模型服务 + 策略路由 | 规则/Fixture；经同意的赞助 API |
 
 ### 部署原则
 
@@ -537,3 +605,4 @@ supersedes? + correction_or_appeal_route
 - 密钥只放受控环境变量，不回显、不提交
 - Windows-first 只描述首个验证环境；任何正式发布平台都必须通过同一合同、Golden Fixture、离线和可访问性验收
 - 生产联邦、可信归档算法套件和真实学校数据接入必须在黑客松后另做安全、隐私、合规、密钥与灾备评审
+- GX10 的 128GB 统一内存和“最高参数”宣传不替代实测；模型权重、KV cache、OS、容器和其他服务必须共同计入资源预算

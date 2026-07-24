@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
-    [switch]$SkipDocs
+    [switch]$SkipDocs,
+    [switch]$WebOnly
 )
 
 $ErrorActionPreference = "Stop"
@@ -46,13 +47,15 @@ if (-not (Test-Path -LiteralPath $nodeExe)) {
     Remove-Item -LiteralPath $archivePath -Force
 }
 
-if (-not (Get-Command rustup -ErrorAction SilentlyContinue)) {
-    throw "rustup is required. Install it from https://rustup.rs/ and rerun bootstrap."
-}
+if (-not $WebOnly) {
+    if (-not (Get-Command rustup -ErrorAction SilentlyContinue)) {
+        throw "rustup is required for the full stack. Install it from https://rustup.rs/ or rerun with -WebOnly."
+    }
 
-& rustup toolchain install $rustVersion --profile minimal --component rustfmt --component clippy
-if ($LASTEXITCODE -ne 0) {
-    throw "Failed to install Rust $rustVersion."
+    & rustup toolchain install $rustVersion --profile minimal --component rustfmt --component clippy
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to install Rust $rustVersion."
+    }
 }
 
 if (-not $SkipDocs) {
@@ -72,11 +75,11 @@ if (Test-Path -LiteralPath $webPackage) {
 }
 
 $cargoManifest = Join-Path $repoRoot "app\Cargo.toml"
-if (Test-Path -LiteralPath $cargoManifest) {
+if (-not $WebOnly -and (Test-Path -LiteralPath $cargoManifest)) {
     & (Join-Path $PSScriptRoot 'rust-checks.ps1') -Action Fetch
     if ($LASTEXITCODE -ne 0) {
         throw "Failed to fetch Rust dependencies."
     }
 }
 
-& (Join-Path $PSScriptRoot "doctor.ps1")
+& (Join-Path $PSScriptRoot "doctor.ps1") -WebOnly:$WebOnly

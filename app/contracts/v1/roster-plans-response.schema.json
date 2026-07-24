@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://university2k26.local/contracts/v1/roster-plans-response.schema.json",
+  "title": "University2K26 F-004 Roster solve response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "data_mode",
+    "solver_status",
+    "plans",
+    "unsat",
+    "is_simulation",
+    "is_formal_enrollment",
+    "source_boundary"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^1\\." },
+    "data_mode": { "const": "fixture" },
+    "solver_status": {
+      "enum": [
+        "best_feasible_deterministic_fixture",
+        "partial",
+        "unsatisfiable"
+      ]
+    },
+    "plans": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "course_selections",
+          "hard_constraints_met",
+          "tradeoffs",
+          "solver_backend",
+          "is_simulation",
+          "input_fingerprint",
+          "is_formal_enrollment"
+        ],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "course_selections": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["course_id", "offering_id"],
+              "properties": {
+                "course_id": { "type": "string", "minLength": 1 },
+                "offering_id": { "type": "string", "minLength": 1 }
+              }
+            }
+          },
+          "hard_constraints_met": { "type": "boolean" },
+          "tradeoffs": { "type": "array", "minItems": 1 },
+          "solver_backend": { "const": "deterministic_heuristic_fixture" },
+          "is_simulation": { "type": "boolean" },
+          "input_fingerprint": { "type": "string", "minLength": 1 },
+          "is_formal_enrollment": { "const": false }
+        }
+      }
+    },
+    "unsat": {
+      "type": ["object", "null"]
+    },
+    "is_simulation": { "type": "boolean" },
+    "is_formal_enrollment": { "const": false },
+    "source_boundary": { "type": "string", "minLength": 40 }
+  }
+}

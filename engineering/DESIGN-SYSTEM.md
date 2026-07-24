@@ -1,4 +1,4 @@
-# jiaowu2K26 · 视觉设计规范 / Design System
+# 大学2K26 / University2K26 · 视觉设计规范 / Design System
 
 > **状态：** 用户已确认“全模块统一游戏化”方向；具体实现仍待团队审核，开赛后只有通过 GATE-1/GATE-2 的部分才进入实现。
 > **核心原则：** 让学生愿意打开，同时让来源、状态与下一步比装饰更清楚。
@@ -28,11 +28,11 @@
 
 1. **来源比装饰更醒目** — 证据链、审核状态、来源 Badge 的视觉优先级 > 背景图/动效
 2. **状态不靠颜色 alone** — 每个状态同时有文字标签 + 图标/形状 + 颜色
-3. **动效服务理解，不服务炫技** — 3-8 秒、可跳过、`prefers-reduced-motion` 时静态
+3. **动效服务理解，不服务炫技** — 输入先被即时确认，状态转场短而可中断，长于 1 秒的非必要动效可跳过，`prefers-reduced-motion` 时信息等价
 
 ### “一个游戏世界”硬约束
 
-整个 jiaowu2K26 只能有一套视觉世界。学生 MyCareer、教师 Coach Studio、学校 Front Office 不是三个主题，也不是普通教务页外面套一个游戏首页；它们必须共享：
+整个大学2K26 / University2K26 只能有一套视觉世界。学生 MyCareer、教师 Coach Studio、学校 Front Office 不是三个主题，也不是普通教务页外面套一个游戏首页；它们必须共享：
 
 - 同一全局 Shell、导航位置、页面网格和信息层级
 - 同一色板、字体、间距、圆角、边框、光效和响应式规则
@@ -82,7 +82,7 @@ A4 岗位速配第二页：[jiaowu2k26-a4-explainer-role-map-v1.png](../referenc
 
 ### 首页模板确认 Gate（P0-00-D0）
 
-当前仓库**没有可称为产品首页的 GUI**；Starlight 文档站只用于阅读规范，历史 HTML 只在 `archive/` 中作证据。正式前端不得从“文档能打开”推导为“美术已验证”。
+当前已有隔离的 `app/prototypes/p0-00-d0-homepage/` 交互模板：用户选择了 Option 1，React/Vite 构建、静态画面对照、Evidence Drawer、键盘语义动作、加载/离线/错误、传统与减少动效状态已有证据。它仍是**待用户接受的可丢弃模板**，不是生产首页；最新窄窗截图和两类实体手柄验证尚未完成，运行时逐帧动效也未过独立 Gate。Starlight 文档站仍只用于阅读规范，不能被当作产品 GUI。
 
 产品实现前先走一次独立的首页模板 Gate：
 
@@ -312,37 +312,24 @@ A4 岗位速配第二页：[jiaowu2k26-a4-explainer-role-map-v1.png](../referenc
 
 ## 6. 动效规范
 
-### 原则
-
-- **短而有力**：转场 200-400ms，庆祝动效 ≤ 3s
-- **可跳过**：任何 > 1s 的动效有"跳过"按钮
-- **可关闭**：`prefers-reduced-motion: reduce` 时全部静态
-- **服务理解**：动效表达状态变化（审核通过→发布），不纯装饰
-
-### 具体参数
+本文件只保留视觉 Token 的入口；状态机、六层反馈、中断/回退、声音、触觉、性能预算和验收脚本以 [MOTION-SYSTEM](MOTION-SYSTEM.md) 为唯一详细规范，模块不得复制另一套参数。
 
 ```css
---motion-fast: 150ms;    /* hover、focus */
---motion-normal: 250ms;  /* 面板展开、Tab 切换 */
---motion-slow: 400ms;    /* 页面转场、抽屉滑入 */
---motion-celebration: 2000ms; /* 里程碑解锁、赛季颁奖 */
+--motion-ack: 50ms;          /* 输入已经被系统接收 */
+--motion-focus: 140ms;       /* 焦点与提示迁移 */
+--motion-micro: 200ms;       /* Badge / 图标 / 小状态 */
+--motion-panel: 280ms;       /* Drawer / 同层面板 */
+--motion-scene: 420ms;       /* 玩家发起的场景重构 */
+--motion-result: 650ms;      /* 结果与 Box Score 落位 */
+--motion-celebration: 1200ms;/* 稀有里程碑，必须可跳过 */
 
---easing-default: cubic-bezier(0.4, 0, 0.2, 1);  /* 标准 */
---easing-enter: cubic-bezier(0, 0, 0.2, 1);      /* 进入 */
---easing-exit: cubic-bezier(0.4, 0, 1, 1);       /* 退出 */
---easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* 弹性（Badge 解锁） */
+--ease-standard: cubic-bezier(.2, 0, 0, 1);
+--ease-enter: cubic-bezier(0, 0, .2, 1);
+--ease-exit: cubic-bezier(.4, 0, 1, 1);
+--ease-emphasis: cubic-bezier(.2, .8, .2, 1);
 ```
 
-### 关键动效清单
-
-| 场景 | 动效 | 时长 | 可跳过 |
-|---|---|---|---|
-| 审核通过 | Badge 从 ○ 变 ✓ + 微弹 | 300ms | 否（太短） |
-| 发布成功 | 卡片边框闪光 + "已发布" toast | 500ms | 否 |
-| 赛季进度推进 | 进度条填充 + 里程碑点亮 | 800ms | 是 |
-| 功能解锁 | 全屏 "NEW UNLOCKED" + 卡片飞入 | 2000ms | **是** |
-| Key Match 倒计时 | 数字跳动（最后 10s） | 持续 | 可关闭 |
-| 心流模式进入 | 界面元素渐隐，只留当前题 | 600ms | 可退出 |
+每个可操作对象统一遵循 `idle → focused → armed → committed → resolving → success|recoverable_error|blocked → replay → next_move`。动画只表现已经发生的状态，不得提前播放成功；每个转场必须声明反向、跳到终点、取消恢复或不可中断理由。Reduced Motion 使用文字、边界、显隐和状态替代位移、缩放与视差，信息完整度保持 100%。
 
 ---
 
@@ -376,33 +363,39 @@ A4 岗位速配第二页：[jiaowu2k26-a4-explainer-role-map-v1.png](../referenc
 | Mobile | < 768px | 单列，底部导航，证据全屏 |
 | 投屏/演示 | 1920px | 大字号模式，隐藏次要信息 |
 
-### Controller-first 多输入合同
+### Multi-input native / 手柄突出但不设输入特权
 
-**目标是 controller-first，不是 controller-only。** 演示主路径和绝大多数非文本操作应可只用手柄完成；键盘、鼠标、触控和读屏必须保持信息与操作等价。长文本录入、文件选择、浏览器/系统权限以及支付、门禁、正式发布等高风险确认不得为了“全手柄”而降低安全性。
+**产品必须从第一天就是 multi-input native；controller-first 只描述演示记忆点，不描述优先级。** 演示主路径和绝大多数非文本操作应可只用手柄完成，同时键盘、鼠标、触控和辅助技术必须获得同一信息、同一状态和同等短的合法路径。任何设备切换都不能把另一类用户变成“兼容模式”。长文本录入、文件选择、浏览器/系统权限以及支付、门禁、正式发布等高风险确认不得为了“全手柄”而降低安全性。
 
 UI 组件不得直接监听某个按钮编号。所有输入先归一化为语义动作，再由当前平台适配器映射：
 
-| 语义动作 | 标准手柄默认 | 键盘等价 | 体验要求 |
-|---|---|---|---|
-| `navigate` | D-pad / 左摇杆 | 方向键 / Tab | 确定性空间焦点；死区与连发延迟可配置 |
-| `confirm` | 右侧按键簇下方键（South） | Enter / Space | 只执行当前可见主动作 |
-| `back` | 右侧按键簇右方键（East） | Esc | 先关闭当前层，不误触浏览器退出 |
-| `details` | 右侧按键簇左方键（West） | E | 打开来源、证据或详情抽屉 |
-| `next_move` | 右侧按键簇上方键（North） | N | 显示下一步或上下文动作，不代替确认 |
-| `previous_region` / `next_region` | LB / RB | Ctrl+PageUp / Ctrl+PageDown | 切换同层区域、标签或 Role Lens |
-| `page_back` / `page_forward` | LT / RT | PageUp / PageDown | 翻页或滚动，不用于不可逆动作 |
-| `command_help` | Menu / Start | `?` | 打开控制说明、重映射和可访问设置 |
+| 语义动作 | 标准手柄默认 | 键盘默认 | 鼠标 / 触屏等价 | 体验要求 |
+|---|---|---|---|---|
+| `navigate` | D-pad / 左摇杆 | 方向键 / Tab | 指向、单击、滚动 / 直接触达、滚动 | 确定性焦点图；死区与连发延迟可配置 |
+| `confirm` | 右侧按键簇下方键（South） | Enter / Space | 单击 / 单击 | 只执行当前可见主动作 |
+| `back` | 右侧按键簇右方键（East） | Esc | 可见返回或关闭 / 可见返回或关闭 | 先关闭当前层，不误触浏览器退出 |
+| `details` | 右侧按键簇左方键（West） | E | 详情按钮 / 详情按钮 | 打开来源、证据或详情抽屉 |
+| `next_move` | 右侧按键簇上方键（North） | N | 下一步按钮 / 下一步按钮 | 显示下一步或上下文动作，不代替确认 |
+| `previous_region` / `next_region` | LB / RB | Ctrl+PageUp / Ctrl+PageDown | 标签或区域按钮 / 标签或区域按钮 | 切换同层区域、标签或 Role Lens |
+| `page_back` / `page_forward` | LT / RT | PageUp / PageDown | 滚轮、滚动条 / 直接滚动 | 翻页或滚动，不用于不可逆动作 |
+| `command_help` | Menu / Start | `?` | 可见帮助按钮 / 可见帮助按钮 | 打开控制说明、重映射和可访问设置 |
 
 - **物理位置优先：** 内部使用 `South/East/West/North`，界面根据已确认设备显示 Xbox、PlayStation、Nintendo 或通用图标；未知设备先进入短校准，不凭设备名称武断显示键帽。
 - **焦点图必须可审：** 每个 Figma Frame 和实现页面都要标出初始焦点、四向邻接、分组边界、滚动行为、Modal 焦点陷阱和返回位置；禁止用右摇杆模拟低精度鼠标作为主交互。
+- **键盘不是手柄模拟器：** 保留浏览器/系统原生 Tab 顺序、Enter/Space 激活和文本编辑习惯；空间方向键是增强路径，不能制造键盘陷阱。焦点环始终可见，快捷键不得覆盖正在输入的文本。
+- **鼠标不是精度考试：** 主动作和关闭动作有稳定可见点击区；Hover 只能补充反馈，不能承载唯一信息或唯一入口；右键、拖拽和双击均须有普通单击替代。
+- **触屏不是缩小鼠标：** 主要目标至少 `44 × 44 CSS px`，相邻高风险目标留安全间距；不使用 Hover-only、Swipe-only 或必须多指的主路径；处理安全区、软键盘遮挡、横竖屏和 `pointer: coarse`。
+- **辅助技术获得同一状态：** 控件使用真实语义、可理解名称与程序化状态；加载、错误、离线、输入确认和焦点换层通过合适的 live region/焦点管理表达。手柄字形、颜色、声音和触觉都不能成为唯一提示。
 - **输入热切换：** 最近一次有效输入决定提示图标；切换设备不能丢失当前焦点、表单状态或审核上下文。
 - **连接与降级：** 支持连接、断开、休眠恢复、无标准映射和多手柄冲突；手柄不可用时不遮挡键鼠/触控路径。
 - **高风险双门：** 发布、删除、支付、门禁、授权和正式提交必须进入独立确认页；不能由单次 `confirm` 直接完成，可要求长按、二次确认或改用受控输入。
 - **触觉是增强项：** 只有设备和浏览器明确报告支持时才使用短促反馈，并提供总开关、强度设置和减少触觉模式；没有震动不能损失任何信息。
 - **隐私最小化：** 不上传原始设备标识或输入轨迹；只在本地保存用户主动设置的动作映射。
-- **验收设备：** 至少用两类标准布局手柄完成连接、导航、错误、断开与恢复测试；通用手柄失败时必须能完成校准或安全回退。
+- **验收矩阵：** 至少覆盖两类标准布局手柄、仅键盘、鼠标、真实触屏或设备模拟后的实机复核、200% 缩放、读屏基础路径和减少动效。通用手柄失败时必须能完成校准或安全回退；模拟 Touch 只能发现布局问题，不能替代真实触摸证据。
 
 Web/PWA 使用 W3C Gamepad API 的标准布局、连接事件和轮询能力；可选触觉只按运行时能力检测。未来 Windows 原生壳可增加 Microsoft GameInput 适配器，但不得改变上述语义动作和焦点合同。
+
+`44 × 44 CSS px` 是本项目对主要触控动作采用的较高内部目标，对应 WCAG 2.2 的 [Target Size (Enhanced) 2.5.5](https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced)；WCAG 2.2 AA 的 [Target Size (Minimum) 2.5.8](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum) 为 24 × 24 CSS px 并包含例外。不能仅因采用 44px 就声称整页通过 WCAG。
 
 ---
 
@@ -488,6 +481,7 @@ Web/PWA 使用 W3C Gamepad API 的标准布局、连接事件和轮询能力；�
 - **历史美术资产白名单**（原路径 `D:\10451\Desktop\jiaowu2K26_美术资产白名单与缺口表.md`，当前缺失）：只有重新定位并核验哈希后才能恢复为依据
 - **当前招募视觉 Brief**（`reference/PITCH-COPY.md`）：无字底图 Prompt、精确文字层和 IP 红线
 - **人因研究章程**（`product/HUMAN-FACTORS.md`）：文化语义、压力、公平、隐私、社群、可访问性和 Degree Fahrenheit 采用闸门
+- **游戏动效与反馈系统**（`engineering/MOTION-SYSTEM.md`）：状态机、因果反馈、时间/中断 Token、声音触觉、性能与验收
 - **本文件**：设计决策和 Token 定义（前端读这个）
 - **modules/ 各模块 PROMPT.md**：具体页面的 UI 要求（前端也读这个）
 - **gates/QUALITY.md**：UX 质检标准（验收时读这个）

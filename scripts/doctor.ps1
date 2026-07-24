@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
-    [switch]$Json
+    [switch]$Json,
+    [switch]$WebOnly
 )
 
 $ErrorActionPreference = "Stop"
@@ -52,7 +53,10 @@ if (Test-Path -LiteralPath $localNode) {
 }
 
 $rustup = Get-Command rustup -ErrorAction SilentlyContinue
-if ($rustup) {
+if ($WebOnly) {
+    Add-Check "rust" $true "skipped (web-only)" "optional" "Run scripts/bootstrap.ps1 without -WebOnly before backend work."
+}
+elseif ($rustup) {
     $actualRust = (& rustup run $rustVersion rustc --version 2>$null | Select-Object -First 1)
     Add-Check "rust" ($actualRust -match "rustc $([regex]::Escape($rustVersion))") ([string]$actualRust) "rustc $rustVersion" "Run scripts/bootstrap.ps1."
 } else {
@@ -63,8 +67,9 @@ $sacState = Get-J2K26SmartAppControlState
 Add-Check "smart_app_control" $true $sacState "informational" "Keep protection enabled; the verifier selects WSL when enforcement blocks Rust proc-macro DLLs."
 $hasUbuntu = Test-J2K26UbuntuWsl
 $rustExecutor = if ($sacState -eq 'enforce' -and $hasUbuntu) { 'Ubuntu WSL2' } else { 'native Windows' }
-$executorOk = $sacState -ne 'enforce' -or $hasUbuntu
-Add-Check "rust_executor" $executorOk $rustExecutor "usable executor" "Install Ubuntu WSL2 or make a separate reviewed Smart App Control decision."
+$executorOk = $WebOnly -or $sacState -ne 'enforce' -or $hasUbuntu
+$executorActual = if ($WebOnly) { 'skipped (web-only)' } else { $rustExecutor }
+Add-Check "rust_executor" $executorOk $executorActual ($(if ($WebOnly) { "optional" } else { "usable executor" })) "Install Ubuntu WSL2 or make a separate reviewed Smart App Control decision."
 
 try {
     Get-Content -Raw (Join-Path $repoRoot "PROJECT-MANIFEST.json") | ConvertFrom-Json -Depth 100 | Out-Null

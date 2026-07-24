@@ -6,7 +6,10 @@ param(
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
 
+. (Join-Path $PSScriptRoot 'lib\ProjectPaths.ps1')
+
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
+$physicalRoot = Get-J2K26PhysicalRoot -LogicalRoot $repoRoot
 $nodeVersion = (Get-Content -Raw (Join-Path $repoRoot ".node-version")).Trim()
 $rustVersion = ((Get-Content -Raw (Join-Path $repoRoot "rust-toolchain.toml")) | Select-String 'channel\s*=\s*"([^"]+)"').Matches.Groups[1].Value
 $nodeRoot = Join-Path $repoRoot ".tools\node-v$nodeVersion-win-x64"
@@ -29,7 +32,7 @@ if (Test-Path -LiteralPath $cargoManifest) {
     if ($LASTEXITCODE -ne 0) { throw "Rust verification failed." }
 }
 
-$webPackage = Join-Path $repoRoot "app\apps\web\package.json"
+$webPackage = Join-Path $physicalRoot "app\apps\web\package.json"
 if (Test-Path -LiteralPath $webPackage) {
     & $npmCmd run verify --prefix (Split-Path $webPackage -Parent)
     if ($LASTEXITCODE -ne 0) { throw "Web verification failed." }

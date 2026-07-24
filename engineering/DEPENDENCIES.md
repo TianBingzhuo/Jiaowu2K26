@@ -1,6 +1,6 @@
 # Dependency register · Phase 0
 
-> **Scope:** direct dependencies used by the P0-00 branch, recorded 2026-07-23. Versions come from committed lockfiles/local package metadata. This is an engineering register, not legal advice.
+> **Scope:** direct dependencies used by the P0-00 branch, updated 2026-07-24. Versions come from lockfiles and registry package metadata. This is an engineering register, not legal advice.
 >
 > **Project license:** undecided. A public repository does not by itself grant reuse rights; all local Rust crates use `publish = false` until the rights holder selects and adds a project license.
 
@@ -23,6 +23,22 @@
 | uuid | 1.24.0 | Apache-2.0 OR MIT | [uuid-rs/uuid](https://github.com/uuid-rs/uuid) | Review/publication event IDs |
 
 Source of truth: `app/Cargo.toml` pins direct versions and `app/Cargo.lock` freezes the full graph. SQLite is compiled through SQLx's bundled feature on this slice; OceanBase is not present in the dependency graph.
+
+## University2K26 Web/PWA dependencies
+
+| Package | Exact version | License metadata | Upstream | Purpose |
+|---|---:|---|---|---|
+| react / react-dom | 19.2.0 | MIT | [facebook/react](https://github.com/facebook/react) | Formal Experience Shell runtime |
+| @fluentui/react-icons | 2.0.333 | MIT | [microsoft/fluentui-system-icons](https://github.com/microsoft/fluentui-system-icons) | Registered interface icons |
+| @fontsource-variable/inter | 5.3.0 | OFL-1.1 | [fontsource/fontsource](https://github.com/fontsource/fontsource) | Latin UI typography |
+| @fontsource-variable/noto-sans-sc | 5.3.0 | OFL-1.1 | [fontsource/fontsource](https://github.com/fontsource/fontsource) | Simplified Chinese UI typography |
+| @fontsource/barlow-condensed | 5.3.0 | OFL-1.1 | [fontsource/fontsource](https://github.com/fontsource/fontsource) | Display/HUD typography |
+| vite / @vitejs/plugin-react | 6.4.3 / 5.0.4 | MIT | [vitejs/vite](https://github.com/vitejs/vite) | Local server and production build |
+| typescript | 5.9.3 | Apache-2.0 | [microsoft/TypeScript](https://github.com/microsoft/TypeScript) | Strict compile-time contract checks |
+| vitest | 3.2.7 | MIT | [vitest-dev/vitest](https://github.com/vitest-dev/vitest) | API fallback and fixture boundary tests |
+| @types/node / react / react-dom | 24.10.1 / 19.2.2 / 19.2.2 | MIT | [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped) | Build and runtime type declarations |
+
+Source of truth: `app/apps/web/package.json` and `app/apps/web/package-lock.json`. Both the formal Web/PWA and the retained P0-00-D0 prototype report 0 known npm vulnerabilities at `--audit-level=low` on 2026-07-24. Vite is pinned to 6.4.3 and Vitest to 3.2.7 to include the reviewed advisory fixes.
 
 ## Documentation dependencies
 

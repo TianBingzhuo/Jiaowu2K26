@@ -1,0 +1,990 @@
+.season-sideboard {
+  position: fixed;
+  top: calc(var(--topbar-height) + var(--status-banner-height) + 22px);
+  right: 24px;
+  bottom: calc(var(--footer-height) + 18px);
+  z-index: 8;
+  width: min(392px, calc(100vw - 1016px));
+  min-width: 360px;
+  overflow-y: auto;
+  padding: 20px;
+  background:
+    linear-gradient(145deg, rgba(88, 166, 255, 0.1), transparent 38%),
+    rgba(4, 10, 18, 0.91);
+  border: 1px solid rgba(88, 166, 255, 0.28);
+  box-shadow: 0 22px 56px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(14px);
+  scrollbar-color: rgba(88, 166, 255, 0.5) transparent;
+  animation: season-board-enter var(--motion-scene) var(--easing-enter) 180ms
+    both;
+}
+
+.season-sideboard__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.season-sideboard__header h2 {
+  margin: 3px 0 0;
+  font-family: "Barlow Condensed", "Noto Sans SC Variable", sans-serif;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.season-sideboard__header p {
+  margin: 7px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.season-path {
+  display: grid;
+  gap: 8px;
+  padding: 14px 0 16px;
+}
+
+.season-path > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.season-path strong {
+  color: var(--color-text-primary);
+  font-size: 16px;
+}
+
+.season-path__meter,
+.course-progress__meter,
+.roster-tile__progress {
+  position: relative;
+  display: block;
+  height: 5px;
+  overflow: hidden;
+  background: #233041;
+}
+
+.season-path__meter > span,
+.course-progress__meter > span,
+.roster-tile__progress > i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent-secondary),
+    var(--color-accent-primary)
+  );
+  transform-origin: left center;
+  animation: roster-meter-fill var(--motion-result) var(--easing-emphasis) both;
+}
+
+.deadline-board,
+.roster-board {
+  display: grid;
+  gap: 10px;
+  padding: 14px 0;
+  border-top: 1px solid rgba(48, 54, 61, 0.7);
+}
+
+.season-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.season-section-heading > svg {
+  color: var(--color-accent-secondary);
+}
+
+.season-section-heading div {
+  display: grid;
+  gap: 1px;
+}
+
+.season-section-heading span {
+  color: var(--color-accent-secondary);
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.season-section-heading h3 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.deadline-board ol {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.deadline-board li {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  padding: 8px 9px;
+  background: rgba(13, 20, 30, 0.78);
+  border-left: 2px solid var(--color-status-pending);
+}
+
+.deadline-board time {
+  color: #ffd080;
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.deadline-board li > span {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.deadline-board strong {
+  overflow: hidden;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deadline-board small {
+  color: var(--color-text-muted);
+  font-size: 10px;
+}
+
+.season-empty {
+  margin: 0;
+  padding: 12px;
+  color: var(--color-text-secondary);
+  background: rgba(13, 20, 30, 0.78);
+  font-size: 12px;
+}
+
+.roster-board__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.roster-layout-tools {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 7px;
+  padding: 7px;
+  background: rgb(9 18 29 / 84%);
+  border: 1px solid rgb(88 166 255 / 22%);
+}
+
+.roster-layout-tools > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--color-text-secondary);
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.roster-layout-tools > span svg {
+  width: 15px;
+  height: 15px;
+  color: var(--color-accent-secondary);
+}
+
+.roster-layout-tools > div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.roster-layout-tools button,
+.roster-order-actions button {
+  min-height: 44px;
+  color: var(--color-text-secondary);
+  background: #0d1723;
+  border: 1px solid #2a394a;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.roster-layout-tools button.is-active {
+  color: #fff;
+  background: #12365a;
+  border-color: var(--color-accent-secondary);
+}
+
+.roster-layout-tools .roster-layout-reset {
+  padding: 0 8px;
+}
+
+.roster-layout-help {
+  margin: -3px 0 0;
+  color: var(--color-text-muted);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.roster-slot {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  grid-template-rows: minmax(0, 1fr) auto;
+  transition: opacity var(--motion-focus) var(--easing-default);
+}
+
+.roster-slot.is-dragging {
+  opacity: 0.48;
+}
+
+.roster-drag-handle {
+  position: absolute;
+  top: 39px;
+  right: 5px;
+  z-index: 2;
+  display: grid;
+  width: 36px;
+  height: 44px;
+  place-items: center;
+  color: var(--color-text-muted);
+  background: rgb(4 9 16 / 76%);
+  border: 1px solid rgb(88 166 255 / 18%);
+  cursor: grab;
+}
+
+.roster-drag-handle:active {
+  cursor: grabbing;
+}
+
+.roster-order-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.roster-order-actions button {
+  display: grid;
+  min-height: 44px;
+  place-items: center;
+  border-top: 0;
+}
+
+.roster-order-actions button:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
+.roster-order-actions svg {
+  width: 18px;
+  height: 18px;
+}
+
+.roster-tile {
+  position: relative;
+  display: grid;
+  width: 100%;
+  min-height: 132px;
+  height: 100%;
+  align-content: start;
+  gap: 5px;
+  padding: 11px 31px 11px 12px;
+  overflow: hidden;
+  color: var(--color-text-primary);
+  background: rgba(13, 20, 30, 0.9);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    transform var(--motion-fast) var(--easing-default),
+    border-color var(--motion-fast) var(--easing-default),
+    background var(--motion-fast) var(--easing-default);
+}
+
+.roster-board__grid.layout-compact .roster-tile {
+  min-height: 102px;
+}
+
+.roster-board__grid.layout-compact .roster-tile > small,
+.roster-board__grid.layout-compact .roster-tile__action {
+  display: none;
+}
+
+.roster-board__grid.layout-expanded {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.roster-board__grid.layout-expanded .roster-tile {
+  min-height: 148px;
+}
+
+.roster-tile > :not(.roster-tile__coach-art) {
+  position: relative;
+  z-index: 1;
+}
+
+.roster-tile__coach-art,
+.roster-tile__coach-chip {
+  display: none;
+}
+
+.roster-board__grid.layout-expanded .roster-tile.has-coach-art {
+  padding-right: 42%;
+  background:
+    linear-gradient(
+      90deg,
+      rgb(13 20 30 / 99%) 0%,
+      rgb(13 20 30 / 95%) 46%,
+      rgb(13 20 30 / 44%) 74%,
+      rgb(13 20 30 / 22%) 100%
+    ),
+    #0d141e;
+}
+
+.roster-board__grid.layout-expanded .roster-tile__coach-art {
+  position: absolute;
+  inset: 0 0 0 auto;
+  z-index: 0;
+  display: block;
+  width: 48%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 58% 18%;
+  filter: saturate(0.8) contrast(1.04);
+}
+
+.roster-board__grid.layout-expanded .roster-tile__coach-chip {
+  display: inline-flex;
+  width: fit-content;
+  padding: 3px 5px;
+  color: #d8eaff;
+  background: rgb(8 31 55 / 86%);
+  border: 1px solid rgb(88 166 255 / 48%);
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.roster-tile::before,
+.course-status::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--course-status-color, var(--color-accent-secondary));
+  content: "";
+}
+
+.roster-tile:hover,
+.roster-tile:focus-visible,
+.roster-tile.is-selected {
+  background: #16202c;
+  border-color: var(--course-status-color, var(--color-accent-secondary));
+  transform: translateY(-2px);
+}
+
+.roster-tile.is-selected {
+  box-shadow: inset 0 0 24px color-mix(in srgb, var(--course-status-color) 12%, transparent);
+}
+
+.roster-tile__top {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.roster-tile__top b {
+  color: var(--color-accent-secondary);
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+}
+
+.roster-tile__top em {
+  overflow: hidden;
+  color: var(--course-status-color, var(--color-text-secondary));
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.roster-tile > strong {
+  overflow: hidden;
+  font-size: 13px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.roster-tile > small {
+  color: var(--color-text-secondary);
+  font-size: 10px;
+}
+
+.roster-tile__action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  margin-top: auto;
+  color: #e6edf5;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.roster-tile__action svg {
+  width: 14px;
+  height: 14px;
+}
+
+.status-active {
+  --course-status-color: #58a6ff;
+}
+
+.status-completed {
+  --course-status-color: #3fb950;
+}
+
+.status-dropped {
+  --course-status-color: #7d8793;
+}
+
+.status-attention {
+  --course-status-color: #f0b429;
+}
+
+.status-critical {
+  --course-status-color: #f85149;
+}
+
+.opportunity-card {
+  display: grid;
+  padding: 12px;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 9px;
+  background:
+    linear-gradient(120deg, rgba(163, 113, 247, 0.13), transparent),
+    rgba(20, 14, 32, 0.88);
+  border: 1px solid rgba(163, 113, 247, 0.55);
+}
+
+.opportunity-card > svg {
+  color: var(--color-status-fixture);
+}
+
+.opportunity-card div {
+  display: grid;
+  gap: 3px;
+}
+
+.opportunity-card span {
+  color: #d8c4ff;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+}
+
+.opportunity-card strong {
+  font-size: 12px;
+}
+
+.opportunity-card p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.course-detail {
+  display: grid;
+  gap: 14px;
+  padding: 19px;
+  background:
+    linear-gradient(145deg, rgba(247, 140, 26, 0.11), transparent 42%),
+    #0b121b;
+  border: 1px solid rgba(247, 140, 26, 0.55);
+  box-shadow: inset 4px 0 0 var(--color-accent-primary);
+  animation: course-analysis-enter var(--motion-panel) var(--easing-emphasis)
+    both;
+}
+
+.course-detail__hero {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.course-detail__identity,
+.course-detail__hero > .course-status {
+  position: relative;
+  z-index: 2;
+}
+
+.course-detail__hero--with-coach {
+  min-height: 208px;
+  align-items: stretch;
+  padding: 18px 18px 16px;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(4, 10, 18, 0.98) 0%,
+      rgba(4, 10, 18, 0.93) 48%,
+      rgba(4, 10, 18, 0.34) 78%,
+      rgba(4, 10, 18, 0.18) 100%
+    ),
+    linear-gradient(180deg, rgba(88, 166, 255, 0.12), transparent 60%);
+  border: 1px solid rgba(88, 166, 255, 0.34);
+}
+
+.course-detail__hero--with-coach::after {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+  height: 54px;
+  background: linear-gradient(180deg, transparent, rgba(4, 10, 18, 0.92));
+  content: "";
+}
+
+.course-detail__hero--with-coach .course-detail__identity {
+  display: flex;
+  width: min(61%, 430px);
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.course-detail__hero--with-coach > .course-status {
+  align-self: flex-start;
+  margin-left: auto;
+}
+
+.course-coach-portrait {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 47%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 61% 16%;
+  filter: saturate(0.88) contrast(1.04);
+}
+
+.course-coach-boundary {
+  display: grid;
+  gap: 3px;
+  margin-top: auto;
+  padding: 9px 11px;
+  background: rgba(4, 10, 18, 0.8);
+  border-left: 3px solid var(--color-accent-secondary);
+  backdrop-filter: blur(8px);
+}
+
+.course-coach-boundary span {
+  color: var(--color-accent-secondary);
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.course-coach-boundary strong {
+  font-size: 12px;
+}
+
+.course-coach-boundary small {
+  max-width: 330px;
+  color: var(--color-text-secondary);
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.course-detail__hero p {
+  margin: 4px 0 0;
+  color: var(--color-accent-primary);
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.course-detail__hero h3 {
+  margin: 1px 0 0;
+  font-family: "Barlow Condensed", "Noto Sans SC Variable", sans-serif;
+  font-size: 32px;
+  line-height: 1;
+}
+
+.course-status {
+  position: relative;
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  padding: 0 10px 0 13px;
+  overflow: hidden;
+  color: var(--course-status-color, var(--color-text-primary));
+  background: rgba(6, 11, 18, 0.84);
+  border: 1px solid var(--course-status-color, var(--color-border));
+  font-size: 11px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.course-facts {
+  display: grid;
+  margin: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--color-border);
+}
+
+.course-facts > div {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+  padding: 11px 12px;
+}
+
+.course-facts > div + div {
+  border-left: 1px solid var(--color-border);
+}
+
+.course-facts dt {
+  color: var(--color-accent-secondary);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.course-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.course-progress {
+  display: grid;
+  gap: 8px;
+}
+
+.course-progress > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.course-progress strong {
+  color: var(--color-text-primary);
+  font-size: 16px;
+}
+
+.course-next-move {
+  display: grid;
+  padding: 12px 14px;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 9px;
+  background: rgba(72, 40, 7, 0.62);
+  border: 1px solid rgba(247, 140, 26, 0.52);
+}
+
+.course-next-move > svg {
+  color: var(--color-accent-primary);
+}
+
+.course-next-move div {
+  display: grid;
+  gap: 3px;
+}
+
+.course-next-move span,
+.course-content-gate span,
+.box-score-card__heading span {
+  color: var(--color-accent-primary);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+}
+
+.course-next-move strong {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.course-content-gate {
+  display: grid;
+  padding: 14px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  background: #0b2b4d;
+  border: 1px solid #275f96;
+}
+
+.course-content-gate > svg {
+  color: var(--color-accent-secondary);
+}
+
+.course-content-gate > div {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.course-content-gate span {
+  color: var(--color-accent-secondary);
+}
+
+.course-content-gate strong {
+  font-size: 13px;
+}
+
+.course-content-gate small {
+  color: #a9c4e2;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.course-content-gate button,
+.box-score-replay {
+  display: inline-flex;
+  min-height: 43px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 13px;
+  color: #fff;
+  background: #0c4d9c;
+  border: 1px solid #207bd9;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.course-content-gate button:disabled,
+.box-score-replay:disabled {
+  cursor: not-allowed;
+  opacity: 0.56;
+}
+
+.course-content-gate--exam {
+  background:
+    linear-gradient(102deg, rgba(91, 42, 135, 0.92), rgba(18, 32, 58, 0.96));
+  border-color: #c971ff;
+  box-shadow: inset 3px 0 0 #ffb13b;
+}
+
+.course-content-gate--exam > svg,
+.course-content-gate--exam span {
+  color: #ffd37a;
+}
+
+.course-content-gate--exam button {
+  background: #803ab8;
+  border-color: #d69aff;
+}
+
+.box-score-card {
+  display: grid;
+  gap: 12px;
+  padding: 15px;
+  background: rgba(5, 12, 21, 0.86);
+  border: 1px solid rgba(88, 166, 255, 0.32);
+}
+
+.box-score-card__heading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+}
+
+.box-score-card__heading > svg {
+  color: var(--color-accent-secondary);
+}
+
+.box-score-card__heading > div {
+  display: grid;
+  gap: 1px;
+}
+
+.box-score-card__heading span {
+  color: var(--color-accent-secondary);
+}
+
+.box-score-card__heading h4 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.box-score-stats {
+  display: grid;
+  margin: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.box-score-stats > div {
+  display: grid;
+  gap: 3px;
+  padding: 10px;
+  text-align: center;
+}
+
+.box-score-stats > div + div {
+  border-left: 1px solid var(--color-border);
+}
+
+.box-score-stats dt {
+  color: var(--color-text-secondary);
+  font-size: 10px;
+}
+
+.box-score-stats dd {
+  margin: 0;
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.box-score-card__time {
+  color: var(--color-text-muted);
+  font-size: 10px;
+}
+
+.box-score-replay {
+  width: 100%;
+  background: #182d48;
+}
+
+.box-score-empty {
+  display: grid;
+  padding: 13px;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  color: var(--color-text-secondary);
+  background: #090e14;
+  border: 1px dashed #394451;
+}
+
+.box-score-empty > svg {
+  color: var(--color-text-muted);
+}
+
+.box-score-empty div {
+  display: grid;
+  gap: 3px;
+}
+
+.box-score-empty strong {
+  color: var(--color-text-primary);
+  font-size: 13px;
+}
+
+.box-score-empty span {
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+@keyframes season-board-enter {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes roster-meter-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (max-width: 1260px) {
+  .season-sideboard {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    width: min(100%, 820px);
+    min-width: 0;
+    margin-top: 12px;
+  }
+}
+
+@media (max-width: 720px) {
+  .season-sideboard {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .season-sideboard__header,
+  .course-detail__hero {
+    flex-direction: column;
+  }
+
+  .course-detail__hero--with-coach {
+    min-height: 260px;
+  }
+
+  .course-detail__hero--with-coach .course-detail__identity {
+    width: min(76%, 430px);
+    min-height: 226px;
+  }
+
+  .course-coach-portrait {
+    width: 64%;
+    opacity: 0.72;
+  }
+
+  .roster-board__grid,
+  .course-facts,
+  .box-score-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .course-facts > div + div,
+  .box-score-stats > div + div {
+    border-top: 1px solid var(--color-border);
+    border-left: 0;
+  }
+
+  .course-content-gate {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .course-content-gate button {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .season-path__meter > span,
+  .course-progress__meter > span,
+  .roster-tile__progress > i {
+    animation: none;
+  }
+}

@@ -1,8 +1,12 @@
 {
-  "schema_version": "3.12",
-  "updated_at": "2026-07-23",
+  "schema_version": "3.25",
+  "updated_at": "2026-07-24",
   "project": {
-    "id": "jiaowu2K26",
+    "id": "university2k26",
+    "legacy_id": "jiaowu2K26",
+    "display_name_zh": "大学2K26",
+    "display_name_en": "University2K26",
+    "technical_slug": "j2k26",
     "canonical_root": "D:/10451/Desktop/黑客松",
     "identity": "SIS/URP/LMS、校园身份、财务、科研与人事等权威系统之上的大学生涯决策与体验层",
     "p0": "F-001 智课工坊 + F-002 MyCareer 轻量入口",
@@ -10,25 +14,29 @@
   },
   "status": {
     "phase": "hacking",
-    "implementation": "phase0_foundation_in_review",
-    "all_modules": "pending_except_phase0_foundation",
+    "implementation": "phase0_foundation_v0_9_f001_through_f010_fixture_vertical_slices_in_technical_review",
+    "all_modules": "f001_technical_review; f002_technical_review; f003_technical_review; f004_technical_review; f005_technical_review; f006_technical_review; f007_technical_review; f008_technical_review; f009_technical_review; f010_technical_review; f011_through_f014_pending",
     "technology_approval": "gate_1_in_progress; all primary technologies remain conditional until evidence passes",
-    "design_approval": "user_approved_unified_game_world; homepage_template_gate_awaiting_user_visual_selection",
+    "design_approval": "user_approved_unified_game_world_and_homepage_art; option_1_is_the_v0_9_visual_baseline",
     "code_baseline": "authorized_after_hacking_start_verification; public_main_baseline_active; phase0_changes_unmerged_on_draft_pr_branch",
     "completion_claims_allowed": false
   },
   "agent_entrypoint": "AGENTS.md",
   "current_work": {
     "schema_version": "1.2",
-    "queue_revision": 6,
+    "queue_revision": 15,
     "authoritative_for": "current phase, gate, active slice, team identity mapping and immediately claimable work",
     "phase": "hacking",
     "current_gate": "GATE-1",
     "active_slice": "P0-00",
     "active_issue": "https://github.com/TianBingzhuo/Jiaowu2K26/issues/1",
     "wip_limit": 1,
-    "sync_status": "current",
+    "sync_status": "local_ahead_pending_product_review_and_github_update",
     "last_synced_at": "2026-07-23T11:10:10+08:00",
+    "local_updated_at": "2026-07-24T12:17:51+08:00",
+    "active_module_candidate": "F-010",
+    "active_module_gate": "engineering/F-MODULE-DELIVERY-GATE.md",
+    "module_execution_authority": "product integrator authorized local sequential implementation through technical_review; accepted, merge, tag, publish and completion claims remain human decisions",
     "staleness_rule": "stale immediately if organizer start/freeze/submission state, active slice, task status, owner or GitHub board state changes without updating this snapshot",
     "task_source": {
       "mode": "github_live",
@@ -56,7 +64,7 @@
     },
     "validation_snapshot": {
       "status": "local_and_ci_evidence_ready_second_machine_and_product_integrator_acceptance_pending",
-      "recorded_at": "2026-07-23T11:10:10+08:00",
+      "recorded_at": "2026-07-24T10:57:12+08:00",
       "branch": "agent/phase0-foundation",
       "environment": {
         "windows": "Windows 11 25H2 build 26200.8894; Smart App Control enforce",
@@ -67,15 +75,16 @@
       "evidence": [
         "doctor reports canonical remote, pinned Node/npm/Rust, SAC state, WSL executor and valid manifest",
         "cargo fmt/check/test/clippy pass in Ubuntu WSL2 against the same NTFS working tree",
-        "8 Rust tests pass across domain, SQLite adapter and live HTTP router",
-        "live API smoke passes health -> review -> approve -> publish -> replay with fixture plus in-memory SQLite",
-        "4 JSON Schemas, OpenAPI, golden fixture and manifest pass deterministic contract checks",
-        "documentation portal builds 152 routes, verifies 151 generated content pages and 206 local links; npm audit reports 0 vulnerabilities",
+        "63 Rust workspace tests pass across domain, SQLite adapter and live HTTP router, including F-002 Career, F-003 Academic Mirror, F-004 Roster Lab, F-005 World Exam, F-006 Performance Center, F-007 Coach & Scouting, F-008 Campus Life, F-009 Opportunity Market and F-010 Campus Pass endpoints; F-010 adds four domain and three API boundary cases",
+        "live API smoke passes health -> review -> approve -> publish -> student interaction -> replay with fixture plus in-memory SQLite; F-003 reset/source/snapshot/provenance/conflict/consent/archive/audit path passes 18 checks; F-005 reset/read passes; F-006 recommendation/climate/share/revoke/correction/STOP/export/replay/reset rejects A/B re-enable after STOP with 422; F-007 source/version/correction/feedback/fairness/team/advisor/reminder/governance/replay paths pass targeted API tests; F-008 search/profile/calendar/route/MyCOURT/journey/team/mentor/notification/correction/receipt/export/replay/reset paths pass targeted API tests; F-009 eligibility/match/intent/disclosure/revoke/external-mirror/capacity/pathway/export/report/fairness/replay/reset paths pass targeted API tests",
+        "28 JSON Schemas, OpenAPI, ten golden fixtures and manifest pass deterministic contract checks",
+        "documentation portal local validation is regenerated from canonical Markdown after each material change; exact current counts are recorded in documentation_portal.validation",
+        "formal University2K26 Web/PWA shell plus F-001 through F-010 Fixture vertical slices pass strict TypeScript, 115 Vitest tests and a Vite 6.4.3 production build; Browser QA covers live API, fallback/error states, Reduced Motion, desktop/mobile, History API back navigation, spatial keyboard/gamepad focus code path, season roster presets/reorder, fictional Coach Fixture, Course Film Room, subject catalog, source intake, teacher override, release gate, NAN interaction, Academic Mirror Source Dock/offline fallback/Truth Lens/conflict/consent/archive flow, Roster Lab Prefix/Pins/three-plan/What-if/Conflict/Transaction/Lock flow, World Exam seven-step public unlock, selection autosave, exact-source challenge, offline pending sync and private reflection, Performance Center baseline/trend/gap/load/recommendation/Privacy Playbook/STOP/replay, F-007 sourced profile/version/correction/feedback/fairness/team/advisor/governance six-stage flow, F-008 Concourse/search/profile/calendar/map/MyCOURT/team/mentor/support/notification/correction/private-receipt/replay six-stage flow, F-009 four-state eligibility/selective matching/mutual intent/disclosure/revoke/capacity/pathway/export/fairness/replay, and F-010 Pass Wallet/static-QR rejection/access-prerequisite/guest/offline/loss/manual-fallback/correction/Replay five-stage flow",
         "GitHub Actions runs 29974052323 and 29974410422 pass Rust 1.97.1 on ubuntu-latest and windows-latest plus contracts and docs; the Linux live API smoke path passes after build and readiness timing were separated",
         "main protection requires the three latest-SHA checks Rust (ubuntu-latest), Rust (windows-latest), and Contracts and docs; impossible self-review requirements were removed while PR, conversation resolution, linear history, no force-push and no deletion remain"
       ],
       "windows_native_rust_note": "Code Integrity event 3077/3033 shows rustc.exe was blocked while loading an unsigned locally built displaydoc proc-macro DLL; this is a Smart App Control policy interaction, not a Rust source failure. No security setting was changed.",
-      "not_yet_evidence": ["second teammate machine", "product-integrator acceptance decision", "selected and implemented homepage template", "React/Web shell", "OceanBase connectivity", "live model output"]
+      "not_yet_evidence": ["second teammate machine", "product-integrator acceptance decision for the V0.9 and F-module technical candidates", "physical gamepad D-pad/stick after spatial-navigation change, real touch hardware and screen-reader validation", "Firefox and macOS/iOS Safari runtime validation", "runtime frame-time profile", "F-003, F-005, F-006, F-007, F-008 and F-009 durable backend persistence", "F-003 live SIS/URP/LMS adapters, file parser and cryptographically trusted archive", "F-006 real participant metric validity and Degree Fahrenheit human-factors validation", "F-007 real course/teacher/feedback/governance data and representative fairness validation", "F-008 live campus service/activity/map/calendar/mentor/emergency-channel adapters, accessibility audit and institutional governance validation", "F-009 live opportunity/provider adapters, institutional consent gateway and representative fairness audit", "OceanBase connectivity", "GX10 ARM64 model-serving proof", "live model output"]
     },
     "ready_tasks": [
       {
@@ -99,7 +108,7 @@
         "issue_url": "https://github.com/TianBingzhuo/Jiaowu2K26/issues/1",
         "branch": "agent/phase0-foundation",
         "claimed_at": "2026-07-23T07:18:05+08:00",
-        "updated_at": "2026-07-23",
+        "updated_at": "2026-07-24",
         "execution_support": ["codex"],
         "evidence": ["public repository and protected main active", "pinned environment plus doctor/bootstrap/verify scripts", "local verification succeeds without disabling Smart App Control", "GitHub Actions run 29974410422 passes Ubuntu, Windows, contracts and docs", "main requires those three status checks without impossible self-review", "awaiting second-machine reproduction and product-integrator acceptance"]
       },
@@ -126,7 +135,7 @@
         "claimed_at": "2026-07-23T07:18:05+08:00",
         "updated_at": "2026-07-23",
         "execution_support": ["codex"],
-        "evidence": ["platform-independent domain crate", "OpenAPI 3.1 plus four JSON Schemas and one golden fixture", "unknown future review state preserved and automatic action blocked", "fmt/check/test/clippy pass; awaiting CI and human review"]
+        "evidence": ["platform-independent domain crate", "OpenAPI 3.1 plus twenty-eight JSON Schemas and ten golden fixtures", "unknown future review state preserved and automatic action blocked", "F-002 Career contracts preserve optional F-001 jump targets and explicit fixture authority", "F-003 Academic Mirror contracts preserve source, immutable snapshot, field provenance, purpose consent, conflict, archive and audit boundaries", "F-004 Roster contracts preserve Prefix, Pins, multiple explainable plans, simulation and non-formal transaction/lock boundaries", "F-005 World Exam contracts preserve F-001 source identity, private reflection consent and no-rank invariants", "F-006 Performance Center contracts preserve self-only/private metrics, evidence gaps, purpose-limited sharing, append-only correction/export audit and STOP lockout", "F-007 Coach & Scouting contracts separate course, offering and instructor assignment while preserving source tiers, version boundaries, thresholds, correction, selective team matching, advisor truth and severe-content governance", "F-008 Campus Life contracts preserve profile opt-out, non-authoritative calendar/journey state, static accessible routes, mutual intent, mentor truth, emergency separation and private receipts", "F-009 Opportunity Market contracts preserve transparent sources, four-state eligibility, selective private Profile, mutual intent, minimum disclosure/revoke, no-auto-apply and fairness Replay boundaries", "F-010 Campus Pass contracts preserve authority mirrors, minimum privilege, static-capture rejection, no secret/password storage, no precise mobility profile, external emergency execution and no-phone fallback", "fmt/check/test/clippy pass; awaiting CI and human review"]
       },
       {
         "id": "P0-00-C",
@@ -151,18 +160,18 @@
         "claimed_at": "2026-07-23T07:18:05+08:00",
         "updated_at": "2026-07-23",
         "execution_support": ["codex"],
-        "evidence": ["SQLx SQLite adapter behind repository port", "optimistic concurrency and append-only review/publication transactions", "live fixture API smoke passes review/approve/publish/replay", "OceanBase remains untested and non-blocking"]
+        "evidence": ["SQLx SQLite adapter behind repository port", "optimistic concurrency and append-only review/publication transactions", "live fixture API smoke passes review/approve/publish/student-interaction/replay", "OceanBase remains untested and non-blocking"]
       },
       {
         "id": "P0-00-D",
         "title": "建立 Web/PWA 最小体验壳与真实健康调用",
-        "status": "ready",
+        "status": "review",
         "priority": 4,
         "priority_reason": "验证 React/Vite 统一体验壳能消费公开合同并保留未来 Tauri/HarmonyOS 适配边界，不提前堆完整 UI",
         "roles": ["frontend", "design", "any"],
-        "owner": null,
+        "owner": "product_integrator",
         "reviewers": ["product_integrator"],
-        "allowed_now": false,
+        "allowed_now": true,
         "ai_allowed": true,
         "depends_on": ["P0-00-B", "P0-00-C"],
         "required_reads": ["engineering/DESIGN-SYSTEM.md", "engineering/ARCHITECTURE.md", "gates/QUALITY.md"],
@@ -172,14 +181,16 @@
         "forbidden": ["此阶段接入 Unreal 或 Unity", "用静态截图冒充真实调用", "在不同角色端另起一套美术体系"],
         "fallback": "前端框架闸门失败时保留标准 Web 合同和最小 HTML client，不阻塞后端证据",
         "issue_url": "https://github.com/TianBingzhuo/Jiaowu2K26/issues/1",
-        "branch": null,
-        "claimed_at": null,
-        "updated_at": "2026-07-23"
+        "branch": "agent/phase0-foundation",
+        "claimed_at": "2026-07-24T03:20:00+08:00",
+        "updated_at": "2026-07-24",
+        "execution_support": ["codex"],
+        "evidence": ["selected homepage art explicitly accepted by product integrator", "formal app/apps/web React 19 + TypeScript + Vite 6.4.3 shell", "real /api/v1/health handshake with visible fixture fallback", "six-course Course Film Room with explicitly labeled fixture analysis and source summaries", "43 shortcut labels normalized to 40 unique local subject sources; 10 source roots expose README indexes", "shared motion tokens, finite entry choreography and Reduced Motion degradation", "F-001 source/review/release/student/Replay Fixture vertical slice with local intake and source-failure test courts", "F-002第4/8赛季、六门阵容、七日截止日、课程详情、空内容态、Box Score及F-001 Student/Replay跳转已接通", "F-004 Prefix、Pins、三方案、What-if、Conflict、Transaction与semester.lock已接通", "F-005赛事日历、三档叙事、Warm-up、Playbook、Key Match、来源挑战、Replay、私密复盘与离线恢复已接通", "F-006本人基线、趋势缺口、四维能力、负荷支持、建议、分享、纠错、STOP与Replay已接通", "PWA manifest, offline shell, strict TypeScript, 62 web tests and Vite production build pass", "Browser QA passes live API, desktop, mobile, loading/offline/error, course analysis, catalog, F-001 7/7 workflow, F-002 normal/empty/cross-module paths, F-004 mobile complete flow, F-005 seven-step/offline/privacy paths and F-006 five-step/privacy/STOP paths; physical-input evidence remains pending"]
       },
       {
         "id": "P0-00-HF",
         "title": "建立逐切片人因审计与 Degree Fahrenheit 研究包",
-        "status": "ready",
+        "status": "review",
         "priority": 5,
         "priority_reason": "游戏机制必须在进入 UI 前检查理解、压力、公平、隐私和可访问性；原人因岗位空缺由 Codex 起草、用户审核",
         "roles": ["human_factors_research", "design", "product_integrator", "any"],
@@ -197,14 +208,15 @@
         "issue_url": "https://github.com/TianBingzhuo/Jiaowu2K26/issues/1",
         "branch": "agent/phase0-human-factors",
         "claimed_at": "2026-07-23T07:18:05+08:00",
-        "updated_at": "2026-07-23",
-        "execution_support": ["codex"]
+        "updated_at": "2026-07-24",
+        "execution_support": ["codex"],
+        "evidence": ["modules/06-performance-center/HF-02-DEGREE-FAHRENHEIT.md contains consent, recruitment boundary, blind A/B/C stimuli, six fixed questions, anonymous session template and KEEP/REVISE/DEFER/STOP gates", "technical STOP behavior returns to C and locks A/B until a new controlled session", "current research decision remains DEFER with zero participants; C is the only default and no human-effectiveness claim is allowed"]
       }
     ],
     "blocked_by_phase": [
       {
         "id": "P0-01..P0-07",
-        "title": "F-001 产品切片序列",
+        "title": "后续产品切片序列",
         "status": "queued",
         "activate_when": "previous slice is accepted and tagged",
         "source": "product/MODULE-MAP.md#p0-实现顺序"
@@ -273,7 +285,7 @@
   ],
   "documentation_portal": {
     "status": "implemented_and_locally_verified_as_non_product_collaboration_tooling",
-    "product_implementation_status_unchanged": true,
+    "product_implementation_status_unchanged": false,
     "canonical_source_policy": "root Markdown, topic directories and PROJECT-MANIFEST.json remain authoritative; docs-site/src/content/docs is an ignored read-only projection",
     "site_root": "docs-site",
     "formal_product_workspace": "app",
@@ -288,19 +300,19 @@
     "local_validation_runtime": "repository-local Node.js 24.18.0 plus npm 11.16.0",
     "setup_command": "pwsh -NoProfile -ExecutionPolicy Bypass -File .\\tools\\Docs.ps1 -Action Setup",
     "launcher": "tools/Docs.ps1",
-    "desktop_shortcut": "D:/10451/Desktop/Jiaowu2K26 文档中心.lnk",
+    "desktop_shortcut": "D:/10451/Desktop/大学2K26 文档中心.lnk",
     "local_url": "http://127.0.0.1:4321/",
     "git_update_policy": "git pull --ff-only only when this is a Git clone, the worktree is clean and an upstream exists; otherwise skip without mutation",
     "junction_build_policy": "retain D:/10451/Desktop/黑客松 as the stable human and AI path; on this machine run each Astro/Vite build wholly through the verified equivalent C:/Desktop/黑客松 path to prevent duplicate module identities and missing core CSS",
     "repository_front_door": ["README.md", "AGENTS.md", "CONTRIBUTING.md", "SECURITY.md", "CHANGELOG.md", "docs/PROJECT-STRUCTURE.md", "docs/GETTING-STARTED.md"],
-    "validated_at": "2026-07-23T09:11:44+08:00",
+  "validated_at": "2026-07-24T11:04:32+08:00",
     "validation": {
-      "canonical_markdown_sources": 133,
+      "canonical_markdown_sources": 142,
       "archived_markdown_sources_excluded_from_search": 71,
-      "generated_content_pages": 151,
-      "verified_active_local_links": 206,
-      "built_html_files": 152,
-      "offline_search_index": "passed; browser query Degree Fahrenheit returned 12 results",
+      "generated_content_pages": 160,
+      "verified_active_local_links": 247,
+      "built_html_files": 161,
+      "offline_search_index": "passed; Pagefind indexed 161 built HTML files",
       "visual_smoke_test": "passed; Starlight core CSS loaded, dark sports HUD rendered, Career Control Room visible with three quick-action cards",
       "automated_build_guard": "docs-site/scripts/verify-build.mjs checks core CSS markers, homepage deck, Pagefind and key handoff pages after every build"
     },
@@ -357,16 +369,16 @@
     "experimental_slice_policy": "acceptance and research ids only; they do not increase the 214 stable feature count or bypass P0/P1 scope gates"
   },
   "modules": [
-    {"id":"F-001","directory":"modules/00-smartcourse","priority":"P0","prompt":"modules/00-smartcourse/PROMPT.md","spec":"modules/00-smartcourse/SPEC.md","status_file":"modules/00-smartcourse/STATUS.md","implementation":"pending"},
-    {"id":"F-002","directory":"modules/01-mycareer-shell","priority":"P0-light","prompt":"modules/01-mycareer-shell/PROMPT.md","spec":"modules/01-mycareer-shell/SPEC.md","status_file":"modules/01-mycareer-shell/STATUS.md","implementation":"pending"},
-    {"id":"F-003","directory":"modules/02-academic-mirror","priority":"P1-candidate","prompt":"modules/02-academic-mirror/PROMPT.md","spec":"modules/02-academic-mirror/SPEC.md","status_file":"modules/02-academic-mirror/STATUS.md","implementation":"pending"},
-    {"id":"F-004","directory":"modules/03-roster-lab","priority":"P1-candidate","prompt":"modules/03-roster-lab/PROMPT.md","spec":"modules/03-roster-lab/SPEC.md","status_file":"modules/03-roster-lab/STATUS.md","implementation":"pending"},
-    {"id":"F-005","directory":"modules/04-world-exam","priority":"P1-preferred","prompt":"modules/04-world-exam/PROMPT.md","spec":"modules/04-world-exam/SPEC.md","status_file":"modules/04-world-exam/STATUS.md","implementation":"pending"},
-    {"id":"F-009","directory":"modules/05-opportunity-market","priority":"P1-candidate","prompt":"modules/05-opportunity-market/PROMPT.md","spec":"modules/05-opportunity-market/SPEC.md","status_file":"modules/05-opportunity-market/STATUS.md","implementation":"pending"},
-    {"id":"F-006","directory":"modules/06-performance-center","priority":"P2","prompt":"modules/06-performance-center/PROMPT.md","spec":"modules/06-performance-center/SPEC.md","status_file":"modules/06-performance-center/STATUS.md","implementation":"pending"},
-    {"id":"F-007","directory":"modules/07-coach-scouting","priority":"P2","prompt":"modules/07-coach-scouting/PROMPT.md","spec":"modules/07-coach-scouting/SPEC.md","status_file":"modules/07-coach-scouting/STATUS.md","implementation":"pending"},
-    {"id":"F-008","directory":"modules/08-campus-life","priority":"Vision","prompt":"modules/08-campus-life/PROMPT.md","spec":"modules/08-campus-life/SPEC.md","status_file":"modules/08-campus-life/STATUS.md","implementation":"pending"},
-    {"id":"F-010","directory":"modules/09-university-os","priority":"P2-Vision","prompt":"modules/09-university-os/PROMPT.md","spec":"modules/09-university-os/SPEC.md","status_file":"modules/09-university-os/STATUS.md","documentation_mode":"consolidated_future_pack","scope_status":"user_approved_vision","implementation":"pending"},
+    {"id":"F-001","directory":"modules/00-smartcourse","priority":"P0","prompt":"modules/00-smartcourse/PROMPT.md","spec":"modules/00-smartcourse/SPEC.md","status_file":"modules/00-smartcourse/STATUS.md","implementation":"technical_review_fixture_and_local_fallback_candidate"},
+    {"id":"F-002","directory":"modules/01-mycareer-shell","priority":"P0-light","prompt":"modules/01-mycareer-shell/PROMPT.md","spec":"modules/01-mycareer-shell/SPEC.md","status_file":"modules/01-mycareer-shell/STATUS.md","implementation":"technical_review_fixture_vertical_slice"},
+    {"id":"F-003","directory":"modules/02-academic-mirror","priority":"P1-candidate","prompt":"modules/02-academic-mirror/PROMPT.md","spec":"modules/02-academic-mirror/SPEC.md","status_file":"modules/02-academic-mirror/STATUS.md","implementation":"technical_review_fixture_vertical_slice"},
+    {"id":"F-004","directory":"modules/03-roster-lab","priority":"P1-candidate","prompt":"modules/03-roster-lab/PROMPT.md","spec":"modules/03-roster-lab/SPEC.md","status_file":"modules/03-roster-lab/STATUS.md","implementation":"technical_review_fixture_vertical_slice"},
+    {"id":"F-005","directory":"modules/04-world-exam","priority":"P1-preferred","prompt":"modules/04-world-exam/PROMPT.md","spec":"modules/04-world-exam/SPEC.md","status_file":"modules/04-world-exam/STATUS.md","implementation":"technical_review_fixture_vertical_slice"},
+    {"id":"F-009","directory":"modules/05-opportunity-market","priority":"P1-candidate","prompt":"modules/05-opportunity-market/PROMPT.md","spec":"modules/05-opportunity-market/SPEC.md","status_file":"modules/05-opportunity-market/STATUS.md","implementation":"technical_review_fixture_vertical_slice"},
+    {"id":"F-006","directory":"modules/06-performance-center","priority":"P2","prompt":"modules/06-performance-center/PROMPT.md","spec":"modules/06-performance-center/SPEC.md","status_file":"modules/06-performance-center/STATUS.md","implementation":"technical_review_fixture_vertical_slice"},
+    {"id":"F-007","directory":"modules/07-coach-scouting","priority":"P2","prompt":"modules/07-coach-scouting/PROMPT.md","spec":"modules/07-coach-scouting/SPEC.md","status_file":"modules/07-coach-scouting/STATUS.md","implementation":"technical_review_fixture_vertical_slice"},
+    {"id":"F-008","directory":"modules/08-campus-life","priority":"Vision","prompt":"modules/08-campus-life/PROMPT.md","spec":"modules/08-campus-life/SPEC.md","status_file":"modules/08-campus-life/STATUS.md","implementation":"technical_review_fixture_vertical_slice"},
+    {"id":"F-010","directory":"modules/09-university-os","priority":"P2-Vision","prompt":"modules/09-university-os/PROMPT.md","spec":"modules/09-university-os/SPEC.md","status_file":"modules/09-university-os/STATUS.md","documentation_mode":"consolidated_future_pack","scope_status":"user_approved_vision","implementation":"technical_review_fixture_vertical_slice"},
     {"id":"F-011","directory":"modules/09-university-os","priority":"P2-Vision","prompt":"modules/09-university-os/PROMPT.md","spec":"modules/09-university-os/SPEC.md","status_file":"modules/09-university-os/STATUS.md","documentation_mode":"consolidated_future_pack","scope_status":"user_approved_vision","implementation":"pending"},
     {"id":"F-012","directory":"modules/09-university-os","priority":"P2-Vision","prompt":"modules/09-university-os/PROMPT.md","spec":"modules/09-university-os/SPEC.md","status_file":"modules/09-university-os/STATUS.md","documentation_mode":"consolidated_future_pack","scope_status":"user_approved_vision","implementation":"pending"},
     {"id":"F-013","directory":"modules/09-university-os","priority":"P2-Vision","prompt":"modules/09-university-os/PROMPT.md","spec":"modules/09-university-os/SPEC.md","status_file":"modules/09-university-os/STATUS.md","documentation_mode":"consolidated_future_pack","scope_status":"user_approved_vision","implementation":"pending"},
@@ -390,13 +402,14 @@
     "status": "user_approved_direction",
     "principle": "one original game world across Student MyCareer, Faculty Coach Studio and Institutional Front Office",
     "required_source": "engineering/DESIGN-SYSTEM.md",
+    "required_motion_source": "engineering/MOTION-SYSTEM.md",
     "shared": [
       "experience shell and navigation",
       "design tokens and component geometry",
       "typography, icons, motion and asset pipeline",
       "state vocabulary and evidence presentation",
       "Briefing -> Choose -> Execute -> Replay -> Next Move loop",
-      "controller-first semantic actions, deterministic focus graph and equivalent keyboard, touch and screen-reader paths"
+      "multi-input-native semantic actions, deterministic focus graph and equivalent gamepad, keyboard, mouse, touch and screen-reader paths"
     ],
     "forbidden": [
       "module-specific skins or private palettes",
@@ -409,22 +422,77 @@
     "primary_key_art_direction": "original university sports-career launch screen with student hero, campus arena, season context, one primary objective and readable HUD; not cyber concept art or copied 2K trade dress",
     "homepage_template_gate": {
       "id": "P0-00-D0",
-      "status": "ideation_in_progress_awaiting_user_visual_selection",
+      "status": "user_accepted_visual_baseline_promoted_to_v0_9_formal_shell_local_qa_passed",
       "surface": "1440x1024 Student MyCareer desktop homepage",
       "workflow": "generate exactly three independent original directions; user selects or combines one before any production UI scaffold",
       "manual_review": "score 0-2 for ten-second comprehension, original game feel, evidence/status clarity, input/focus, accessibility/degradation, and performance/asset rights; require at least 10/12 with no hard failure",
       "required_states_after_selection": ["default", "controller focus", "evidence drawer", "loading", "offline", "error", "traditional narrative", "reduced motion"],
+      "selection": {
+        "selected_at": "2026-07-23",
+        "selected_by": "product_integrator",
+        "displayed_option": 1,
+        "design_name": "Arena Broadcast Control Room",
+        "source_result_id": "call_hh4ZJjLdNykUTL9BF7t1ESH2",
+        "source_path": "reference/assets/jiaowu2k26-homepage-option-1-selected.png",
+        "source_dimensions": {"width":1487,"height":1058},
+        "target_viewport": {"width":1440,"height":1024},
+        "sha256": "1EC8C9C43A9488888E3CB5C9CA63DB7DDBB5CED0D478A83A2942AC4B8BB2CFFD",
+        "prompt_record": "Normalized repository brief: original university sports-career broadcast control room; dark HUD, fictional student hero and Campus Arena; Student/MyCareer, 2026 spring season, fixture/data authority/update time/Evidence visible; one focused Continue action and controller hints; no NBA, 2K or ESPN protected assets.",
+        "decision": "Selected first to validate the strongest conventional career-mode hierarchy, controller focus, evidence drawer, motion grammar and React/Vite toolchain before production feature development.",
+        "other_directions": "Options 2 and 3 are not rejected; they remain candidates for Roster Lab and the later season-entry surface."
+      },
+      "prototype": {
+        "path": "app/prototypes/p0-00-d0-homepage",
+        "scope": "isolated disposable React/Vite template; no real SIS/LMS/backend integration and no accepted production component",
+        "implemented_states": ["default","keyboard focus","mouse/touch adaptive command hints","standard Gamepad API adapter path","evidence drawer","loading","success","offline","recoverable error","traditional narrative","reduced motion"],
+        "verified": ["Vite production build","Sites package tests 4/4","repository Phase 0 verification","1440x1024 layout metrics","1920x1080 layout metrics","1152x819 Windows 125-percent equivalent","900px narrow desktop","600px mobile narrow window"],
+        "qa_report": "app/prototypes/p0-00-d0-homepage/design-qa.md",
+        "qa_status": "historical_template_evidence_retained; formal_shell_owns_new_qa",
+        "user_acceptance": "accepted_homepage_art_and_overall_visual_direction_2026-07-24"
+      },
+      "formal_shell": {
+        "path": "app/apps/web",
+        "release": "v0.9.0",
+        "status": "local_technical_review",
+        "promoted_from": "app/prototypes/p0-00-d0-homepage",
+        "implemented": ["University2K26 display brand with legacy technical identifiers retained","React 19 + strict TypeScript + Vite Web/PWA","real /api/v1/health handshake and explicit fixture fallback","PWA manifest and service worker app shell","six-course Course Film Room with explicit fixture/source boundaries","43-label subject discovery catalog normalized to 40 unique sources with README readiness","shared motion tokens, finite cinematic entry, result/count-up feedback, course transitions and Reduced Motion degradation","keyboard, mouse, touch and Gamepad API interaction paths with two-dimensional spatial focus","History API module and drawer routes","three bounded roster-card presets plus drag and accessible reorder controls","daily reviewed Coach Note Fixture and optional fictional Coach Fixture portrait","F-001 SmartCourse Fixture path from authorized source through teacher override, release gate, NAN interaction and Replay","F-002 season, roster, course detail, deadline and personal Box Score path","F-003 Academic Mirror Source Dock, immutable snapshots, field provenance, freshness, conflicts, purpose consent, archive boundary and audit path","F-004 Prefix, Pins, three-plan Draft Board, What-if, Conflict Review, Transaction and semester.lock path","F-005 World Exam calendar, briefing, Warm-up, Playbook, Key Match autosave, source challenge, Replay, private reflection and IndexedDB recovery path","F-006 private baseline, trend gaps, four ability dimensions, load/support, explainable recommendations, four-play Privacy Playbook, STOP lockout and Replay path","F-007 sourced course profile, five-tier evidence, Scouting Report, Version Film, correction, thresholded feedback, fairness, selective squad matching, Advisor Handoff, expectations, governance and Replay path","F-008 Campus Concourse, explainable search/profile opt-out, calendar conflicts, static accessible map, private MyCOURT, non-authoritative journey mirror, mutual squad intent, mentor handoff, emergency-first support, notification governance, source correction, private receipt and Replay path","F-009 transparent opportunity cards/packs, four-state eligibility, selective private Profile, deterministic matching, mutual intent, minimum disclosure/revoke, external application mirror, entitlements, capacity, pathways, portfolio export, fairness audit and Replay path","local file metadata/rights/hash test court plus invalid-source publication failure drill"],
+        "verified": ["TypeScript check","Vitest 108/108","Vite 6.4.3 production build","production preview endpoints and API proxy","live Rust API browser handshake","1440x1024 existing shell plus 390x844 F-003/F-004, 377px F-006 and narrow F-009 mobile Browser visual audits","current Edge/Chromium History Back, roster presets/reorder, World Exam autosave/unlock, Privacy Playbook, fictional Coach Fixture and F-008 six-stage visual audit","loading, offline, recoverable error and Reduced Motion states","Course Film Room switch and expanded subject catalog","F-001 7/7 happy path, local intake failure, review filters and invalid-source release block","F-002 normal, empty and cross-module paths","F-003 Source Dock/offline fallback/full sync/Truth Lens/Review Queue/Access Draft/Replay Ledger path","F-004 Prefix/Pins/three-plan/What-if/Conflict/Transaction/Lock/replay path","F-005 seven-step public Demo unlock, selection autosave, exact-source, unsupported-claim, offline-pending-sync, private-sharing and archive paths","F-006 five-step baseline/trend/load/recommendation/four-play privacy path, A/B/C research preview, share/revoke, correction, STOP lockout, export and Replay","F-007 six-stage profile/scouting/version/feedback/squad/governance path including serious-content hide-first and reset","F-008 Concourse/search/profile/calendar/map/MyCOURT/team/mentor/support/notification/correction/private-receipt/replay/reset path","F-009 market/eligibility/match/intent/disclosure/revoke/capacity/pathway/export/report/fairness/replay/offline/reset path"],
+        "remaining": ["product-integrator acceptance of the F-001 through F-009 technical candidates","Computer Use playback in a non-Codex browser window","physical gamepad D-pad/stick retest, real touch and screen-reader evidence","Firefox and macOS/iOS Safari runtime validation","runtime frame-time profile","F-003, F-005, F-006, F-007, F-008 and F-009 durable backend persistence","F-003 live adapters, file parser and signed encrypted archive","F-006 real participant metric validity and Degree Fahrenheit research","F-007 real course/teacher/feedback/governance sources and representative fairness audit","F-008 live campus service/activity/map/calendar/mentor/emergency-channel adapters, accessibility and institutional governance audit","F-009 live sources/providers, institutional consent and representative fairness audit","second-machine reproduction","live model adapters"]
+      },
       "source": "engineering/DESIGN-SYSTEM.md#首页模板确认-gatep0-00-d0"
     },
     "controller_first_contract": {
-      "status": "approved_cross_cutting_requirement_not_implemented",
-      "scope": "primary demo path and most non-text operations; controller-first never controller-only",
+      "status": "implemented_code_path_physical_validation_pending",
+      "scope": "multi-input native across the product; controller is a memorable demo path, never an input privilege",
       "semantic_actions": ["navigate", "confirm", "back", "details", "next_move", "previous_region", "next_region", "page_back", "page_forward", "command_help"],
       "equivalent_inputs": ["gamepad", "keyboard", "mouse", "touch", "screen_reader"],
       "exceptions": ["long text entry", "file picker", "browser or operating-system permission", "high-risk final confirmation"],
       "high_risk_rule": "publish, delete, payment, access control, authorization and formal submission require an explicit confirmation surface and may not execute from one generic confirm press",
       "adapter_rule": "Web Gamepad API and future native GameInput adapters normalize into the same semantic actions; domain rules never depend on device button indices",
+      "pointer_touch_rule": "hover, drag, double-click, swipe and multitouch cannot be the sole route; use visible targets, at least 44x44 CSS px for primary touch actions, coarse-pointer/safe-area handling and soft-keyboard-safe layouts",
+      "assistive_rule": "native semantics, visible focus, programmatic state, live status and device-switch focus preservation are mandatory; glyph, color, sound and haptics are never the only cue",
+      "validation_matrix": ["two physical standard-layout controllers", "keyboard-only", "mouse", "real touch after emulator/layout checks", "screen-reader basic path", "200-percent zoom", "reduced motion"],
       "privacy_rule": "do not upload raw device identifiers or input traces; persist remapping only after local user choice"
+    },
+    "motion_contract": {
+      "status": "v0_1_review_not_fully_implemented",
+      "source": "engineering/MOTION-SYSTEM.md",
+      "causal_loop": "intent -> acknowledgement -> commitment -> resolving -> result -> replay -> next_move",
+      "state_machine": ["idle","focused","armed","committed","resolving","success_or_recoverable_error_or_blocked","replay","next_move"],
+      "hard_rules": [
+        "animation never owns or predicts business state",
+        "every transition declares interrupt, reverse, snap or restore behavior",
+        "errors never play success feedback",
+        "reduced motion, muted audio and no haptics preserve complete task information",
+        "physical controller and runtime frame profile are required before claiming game-feel validation"
+      ]
+    },
+    "experimental_input_contract": {
+      "status": "non_p0_idea_pool",
+      "source": "product/HUMAN-FACTORS.md#715-实验外设池--peripheral-lab全部非-p0",
+      "candidates": ["classroom_gamepad_response","realsense_embodied_learning","nfc_or_smartcard_portable_archive","56k_reverse_8bit_intro"],
+      "safety_rule": "no real campus, payment or access cards; no face, emotion, attention or attendance inference; no unknown telephone line or unidentified modular cable connection",
+      "selection_rule": "only one optional peripheral may enter after the 90-second software loop is stable and its setup, fallback, privacy and teardown gates pass"
     },
     "spatial_design_contract": {
       "status": "candidate_capability_package_unassigned",
@@ -474,9 +542,13 @@
     "workflow_states": ["INBOX", "AI_PRE_AUDIT", "BLIND_FIRST_READ", "FIELD_MISSION", "DECISION_REVIEW", "BUILD_READY", "IN_PRODUCT_RETEST", "CLOSED"],
     "decision_states": ["KEEP", "REVISE", "DEFER", "STOP"],
     "anti_anchoring_rule": "human blind first read precedes disclosure of AI hypotheses or recommendations; AI must separate sourced facts, falsifiable hypotheses and questions requiring real participants",
+    "product_owner_formative_loop": "Codex prepares a disposable prototype and non-leading task -> product integrator blind think-aloud -> six fixed questions -> free-form ideas -> AI separates observation/hypothesis/recommendation -> product integrator decides -> real target-user evidence for material claims",
+    "product_owner_evidence_boundary": "the product integrator is a real user and final scope owner but not a representative student sample; Computer Use, automated tests and AI personas never count as participant evidence",
     "wip_rule": "at most one high-risk card in FIELD_MISSION; a daily 20-minute clinic may triage at most three cards",
     "scope": ["cultural_semantics", "comprehension", "actionability", "pressure_and_identity", "fairness_and_power", "privacy_and_consent", "social_dynamics", "accessibility_and_inclusion"],
     "first_recommended_task": "HF-02 Degree Fahrenheit A/B/C cognitive interviews, then expand HF-01 mechanism register",
+    "banter_relay": "phenomenon_or_prompt -> student response -> acknowledgement -> challenge_or_counterexample -> canonical concept plus evidence -> user-controlled memory anchor -> replay",
+    "peripheral_lab": "all gamepad classroom response, RealSense, NFC/smartcard and 56K modem ideas are non-P0 experiments requiring equivalent input, data minimization and safety stop conditions",
     "privacy_rule": "do not store a teammate's academic major or other personal background in the registry; store only a self-confirmed collaboration role and necessary capacity",
     "implementation_gate": "a module mapping is not human validation; high-risk findings keep the slice in review until revised, rejected or explicitly accepted with rationale"
   },
@@ -521,6 +593,113 @@
       "style_reference": "reference/assets/jiaowu2k26-career-mode-concept-v1.png",
       "allowed_use": ["internal design review","pre-event recruiting and printing when explicitly labeled concept visual"],
       "forbidden_use": ["claim as product screenshot","claim as AdventureX implementation output","imply NBA or 2K endorsement"]
+    },
+    {
+      "id": "homepage-option-1-selected",
+      "path": "reference/assets/jiaowu2k26-homepage-option-1-selected.png",
+      "role": "selected visual target for the P0-00-D0 interactive homepage template gate",
+      "status": "selected_design_reference_not_product_screenshot",
+      "generated_by": "OpenAI built-in ImageGen through Product Design ideation",
+      "dimensions": {"width":1487,"height":1058},
+      "target_viewport": {"width":1440,"height":1024},
+      "bytes": 1910381,
+      "sha256": "1EC8C9C43A9488888E3CB5C9CA63DB7DDBB5CED0D478A83A2942AC4B8BB2CFFD",
+      "source_result_id": "call_hh4ZJjLdNykUTL9BF7t1ESH2",
+      "prompt_source": "PROJECT-MANIFEST.json#experience_contract.homepage_template_gate.selection.prompt_record",
+      "allowed_use": ["internal design review","P0-00-D0 interactive template fidelity target"],
+      "forbidden_use": ["claim as product screenshot","claim as accepted AdventureX implementation output","imply NBA or 2K endorsement"]
+    },
+    {
+      "id": "campus-arena-background-v1",
+      "path": "reference/assets/jiaowu2k26-campus-arena-background-v1.png",
+      "role": "clean full-bleed raster background for the P0-00-D0 Arena Broadcast Control Room template",
+      "status": "generated_runtime_asset_pending_template_acceptance",
+      "generated_by": "OpenAI built-in ImageGen from the selected homepage visual target",
+      "dimensions": {"width":1487,"height":1058},
+      "bytes": 1937169,
+      "sha256": "47D1BD8A9C67CDEF2E1BD11E4AAE7E2917E243CBFB521B1C80B47941C23AC216",
+      "source_result_id": "call_YWwdIg1mv6Njt6N6WyfkE69H",
+      "prompt_record": "Campus Arena only: fictional university hall plus innovation lab and academic broadcast space; dark left-side negative space, fictional student on far right, blue information light and restrained orange practical light; no UI, text, logo, sport or protected trade dress.",
+      "style_reference": "reference/assets/jiaowu2k26-homepage-option-1-selected.png",
+      "allowed_use": ["P0-00-D0 interactive template","future accepted University2K26 surfaces after asset review"],
+      "forbidden_use": ["claim as real campus or student","imply NBA or 2K endorsement","reuse outside the registered University2K26 visual system without review"]
+    },
+    {
+      "id": "university2k26-app-icon-v1",
+      "path": "reference/assets/university2k26-app-icon-source-v1.png",
+      "runtime_paths": ["app/apps/web/public/icons/university2k26-192.png","app/apps/web/public/icons/university2k26-512.png"],
+      "role": "original University2K26 PWA application icon",
+      "status": "generated_runtime_asset_in_v0_9_qa",
+      "generated_by": "OpenAI built-in ImageGen",
+      "dimensions": {"width":1254,"height":1254},
+      "bytes": 1044725,
+      "sha256": "0EC87C44CD63DE8C4AB5E0BD829B1C7D8980BAA5097B79F1D98294EE2C295E62",
+      "runtime_sha256": {
+        "192": "A3A52581A9F55129C35A2E60BD3EB56358ACF05DD5022402ED2AFE79E6845F4E",
+        "512": "1F87DB30C4A831E8A5853F6A9900AEC2C26367C5ABDFDB5A0E4D3DF8525AE143"
+      },
+      "prompt_record": "Original square PWA icon merging an open book, a university arena gateway and one forward-moving season ring; dark navy, signal orange, cool blue and warm off-white; no text, school seal, basketball, trophy or protected sports-game trade dress.",
+      "allowed_use": ["University2K26 product shell","project documentation and event demo"],
+      "forbidden_use": ["claim as a real university seal","imply NBA, 2K, ESPN or university endorsement"]
+    },
+    {
+      "id": "opportunity-exchange-background-v1",
+      "path": "reference/assets/university2k26-opportunity-exchange-background-v1.png",
+      "runtime_paths": ["app/apps/web/public/assets/opportunity-exchange-background-v1.png"],
+      "role": "original F-009 Opportunity Exchange concourse background",
+      "status": "generated_runtime_asset_in_f009_technical_review",
+      "generated_by": "OpenAI built-in ImageGen",
+      "dimensions": {"width":1672,"height":941},
+      "bytes": 2286248,
+      "sha256": "6C7E7C1351B2B8F03690BD814EA9F3734682B5D1AAB90ADAA1A60783C99C503E",
+      "source_result_id": "call_7SuTc12WVKeBJcX7BaTWidwx",
+      "prompt_record": "Original cinematic university opportunity exchange concourse with transparent information kiosks, project and research booths, layered campus circulation, dark navy architecture, restrained signal orange and cool blue light, generous readable negative space; no UI text, logos, school seals, sports imagery, loot boxes, auction symbols or protected game trade dress.",
+      "allowed_use": ["F-009 Opportunity Market technical candidate","future accepted University2K26 surfaces after asset review"],
+      "forbidden_use": ["claim as a real campus or event","imply NBA, 2K, ESPN, employer or university endorsement","reuse outside the registered University2K26 visual system without review"]
+    },
+    {
+      "id": "coach-scouting-background-v1",
+      "path": "reference/assets/university2k26-coach-scouting-background-v1.png",
+      "runtime_paths": ["app/apps/web/public/assets/coach-scouting-background-v1.png"],
+      "role": "original F-007 evidence film room and course scouting background",
+      "status": "generated_runtime_asset_in_f007_technical_review",
+      "generated_by": "OpenAI built-in ImageGen",
+      "dimensions": {"width":1672,"height":941},
+      "bytes": 1660236,
+      "sha256": "00A6D897F6FC3EE68ED93C97CB7E93087059179AFADA297FAEE56F9018048B66",
+      "prompt_record": "Original cinematic university evidence film room with layered course boards, source ribbons, version comparison surfaces and team-planning space; dark navy architecture with restrained signal orange and cool blue light; no UI text, real people, school seal, sports branding, star rating or protected game trade dress.",
+      "allowed_use": ["F-007 Coach & Scouting technical candidate","future accepted University2K26 surfaces after asset review"],
+      "forbidden_use": ["claim as a real campus, teacher or course","imply NBA, 2K, ESPN or university endorsement","reuse outside the registered University2K26 visual system without review"]
+    },
+    {
+      "id": "fictional-course-coach-v1",
+      "path": "reference/assets/university2k26-fictional-course-coach-v1.png",
+      "runtime_paths": ["app/apps/web/public/assets/fictional-course-coach-v1.png"],
+      "role": "fictional SLS course-coach portrait for the public Demo course detail hero",
+      "status": "generated_runtime_asset_in_v0_9_qa",
+      "generated_by": "OpenAI built-in ImageGen",
+      "dimensions": {"width":1122,"height":1402},
+      "bytes": 1862885,
+      "sha256": "9D32D1AA4F702175DA9BB499B5AD027E886AF586E6D91F470A96CEDD0EAAE9DE",
+      "source_result_id": "call_h1MCb8xbkesGufkvd68T4VmF",
+      "prompt_record": "Original fictional East Asian university course coach in a blue-and-orange engineering lab, composed for a right-side 4:5 hero crop with no text or logo; not based on a real teacher and never used to infer teaching style.",
+      "allowed_use": ["SLS public Demo course-detail hero","internal University2K26 design review"],
+      "forbidden_use": ["claim as a real teacher or university representative","infer personality, grading, popularity or teaching quality from appearance","reuse as an official faculty portrait","imply NBA, 2K, ESPN or university endorsement"]
+    },
+    {
+      "id": "campus-life-background-v1",
+      "path": "reference/assets/university2k26-campus-life-background-v1.png",
+      "runtime_paths": ["app/apps/web/public/assets/campus-life-background-v1.png"],
+      "role": "original F-008 Campus Concourse and static campus-map background",
+      "status": "generated_runtime_asset_in_f008_technical_review",
+      "generated_by": "OpenAI built-in ImageGen",
+      "dimensions": {"width":1672,"height":941},
+      "bytes": 2534869,
+      "sha256": "FEFD6796DBB1FA8767178A6523B89285608FF75D675667AF314D428E594D13BB",
+      "source_result_id": "call_UQ9cYzGIAqFOHjOnCQsUXcKx",
+      "prompt_record": "Original premium console sports-career university campus hub at night, elevated wide view with a central academic concourse, library, innovation lab, residential and wellbeing zones, restrained cyan and signal-orange lighting, readable navigation landmarks and generous negative space; no UI text, logos, school seals, real campus identity or protected game trade dress.",
+      "allowed_use": ["F-008 Campus Life technical candidate","future accepted University2K26 surfaces after asset review"],
+      "forbidden_use": ["claim as a real campus, route or service location","imply NBA, 2K, ESPN or university endorsement","reuse outside the registered University2K26 visual system without review"]
     }
   ],
   "technology_proposal": {
@@ -531,12 +710,17 @@
     "experience_candidate": "one React Experience Shell + centralized design tokens/components/assets for all role lenses",
     "api_contract": "all active module specifications use the versioned /api/v1 prefix plus OpenAPI/JSON Schema/Golden Fixtures; no duplicate unversioned routes",
     "platform_contract": "Windows-first validation, cross-platform by versioned OpenAPI/JSON Schema/capability adapters; future macOS, iOS, iPadOS, Android and HarmonyOS clients may not own domain rules",
+    "input_contract": "multi-input native; gamepad, keyboard, mouse, touch and assistive technologies map to one semantic action/focus/state contract, with controller highlighted only as a demo path",
+    "cli_contract": "planned first-party j2k26 adapter over the same /api/v1, OpenAPI, JSON Schema, capability, permission, idempotency and Replay contracts; first implementation is read-only doctor/health/capabilities/contract-validate after P0-00-B/C acceptance",
+    "external_ai_contract": "external AI is read-only and allowlisted by default with structured JSON, stable errors, short-lived scopes and audit; high-risk writes require action-bound human approval and never accept a generic --yes bypass",
+    "byok_contract": "share provider profile metadata but keep credentials only in an OS credential store, approved secret manager or controlled process environment; no repository, browser storage, CLI argument, URL, log or Replay secrets",
     "native_shell_candidates": "Tauri 2 after P0 for supported desktop/mobile platforms; WinUI 3 only for Windows-specific adapters; HarmonyOS 7 requires a separately verified ArkUI/ArkTS or Web adapter",
     "personal_archive_contract": "human-readable non-authoritative export plus issuer-signed portable trusted archive with optional authenticated encryption and quarantined reconciliation on import",
     "institution_federation_contract": "school sovereign data plane plus shared minimal control plane; authorized central grade copies remain replica/cache unless the institution designates authority",
     "identity_and_entitlement_candidate": "demo RBAC for event; OIDC/SAML/SCIM and physical credential adapters only after institutional approval",
     "payment_candidate": "typed append-only ledger + deterministic policy engine + provider-neutral PaymentRail adapters; sandbox/fixture only by default",
-    "ai_candidate": "provider-neutral adapter with one selected model and fixture fallback",
+    "ai_candidate": "provider-neutral router; first GX10 spike uses nvidia/Qwen3.6-35B-A3B-NVFP4 as the single local Main model, optional Qwen3-8B Fast lane only after measured benefit, Step 3.7 Flash as sponsor quality lane, and explicit fixture/human fallback; no live-model evidence yet",
+    "local_ai_sovereign_node": "engineering/LOCAL-AI-SOVEREIGN-NODE.md plus engineering/GX10-V09-DEPLOYMENT-HANDOFF.md; ASUS Ascent GX10 user-reported 128GB/1TB unit remains unverified by project scripts and is never a startup dependency; another AI must stop after a read-only inventory receipt until the product integrator approves device changes",
     "deployment_candidate": "local-first; verified sponsor cloud secondary",
     "game_engine": "not in P0; Unity 6000.3.17f1 is installed; Unreal Engine is not installed and UE 5.8 may be evaluated only as a post-template companion",
     "selection_gate": "gates/GATE-1-技术验证-6h.md"
@@ -661,6 +845,8 @@
   ],
   "resource_candidates": [
     {"id":"stepfun-platform","name":"阶跃星辰开放平台","relationship":"current_principal_sponsor_recorded_2026-07-21","position":"primary_model_candidate","sources":["https://adventure-x.org/zh","https://platform.stepfun.com/"]},
+    {"id":"asus-ascent-gx10","name":"ASUS Ascent GX10","relationship":"current_hardware_lab_resource_user_reported_2026-07-23","position":"conditional_local_ai_sovereign_node","sources":["https://www.asus.com/us/networking-iot-servers/desktop-ai-supercomputer/ultra-small-ai-supercomputers/asus-ascent-gx10/techspec/","https://docs.nvidia.com/dgx/dgx-spark/hardware.html","engineering/LOCAL-AI-SOVEREIGN-NODE.md"]},
+    {"id":"experimental-peripheral-lab","name":"Gamepad / RealSense / NFC-smartcard / 56K modem","relationship":"user_proposed_optional_hardware_2026-07-23","position":"p2_only_one_after_software_loop","sources":["product/HUMAN-FACTORS.md#715-实验外设池--peripheral-lab全部非-p0","https://github.com/realsenseai/librealsense","https://learn.microsoft.com/en-us/windows/apps/develop/security/smart-cards"]},
     {"id":"feishu-base","name":"飞书多维表格 / Base","relationship":"current_principal_sponsor_recorded_2026-07-21","position":"secondary_review_candidate","sources":["https://adventure-x.org/zh","https://open.feishu.cn/"]},
     {"id":"d-robotics-rdk","name":"地瓜机器人 RDK 生态","relationship":"current_principal_sponsor_recorded_2026-07-21","position":"hardware_primary_candidate","sources":["https://adventure-x.org/zh","https://developer.d-robotics.cc/rdk_doc_center/","https://developer.d-robotics.cc/tros_doc/tros","https://github.com/D-Robotics/rdk_model_zoo"]},
     {"id":"tuyaopen","name":"TuyaOpen","relationship":"current_principal_sponsor_recorded_2026-07-21","position":"hardware_primary_candidate","sources":["https://adventure-x.org/zh","https://www.tuyaopen.ai/zh/docs/about-tuyaopen"]},

@@ -2,7 +2,9 @@
 
 use async_trait::async_trait;
 use j2k26_application::{GeneratedObjectRepository, RepositoryError};
-use j2k26_domain::{GeneratedObject, PublishedVersion, Replay, ReviewEvent, SCHEMA_VERSION};
+use j2k26_domain::{
+    GeneratedObject, PublishedVersion, Replay, ReviewEvent, SCHEMA_VERSION, StudentInteraction,
+};
 use sqlx::sqlite::{SqliteConnectOptions, SqlitePoolOptions};
 use sqlx::{Row, SqlitePool};
 use std::str::FromStr;
@@ -170,6 +172,14 @@ impl GeneratedObjectRepository for SqliteRepository {
         .fetch_all(&self.pool)
         .await
         .map_err(unavailable)?;
+        let interaction_rows = sqlx::query(
+            "SELECT document_json FROM student_interactions \
+             WHERE object_id = ? ORDER BY occurred_at_unix_ms ASC, id ASC",
+        )
+        .bind(object_id)
+        .fetch_all(&self.pool)
+        .await
+        .map_err(unavailable)?;
 
         let review_events = event_rows
             .into_iter()
@@ -187,14 +197,48 @@ impl GeneratedObjectRepository for SqliteRepository {
                     .and_then(decode)
             })
             .collect::<Result<Vec<PublishedVersion>, RepositoryError>>()?;
+        let student_interactions = interaction_rows
+            .into_iter()
+            .map(|row| {
+                row.try_get::<String, _>("document_json")
+                    .map_err(unavailable)
+                    .and_then(decode)
+            })
+            .collect::<Result<Vec<StudentInteraction>, RepositoryError>>()?;
 
         Ok(Replay {
             schema_version: SCHEMA_VERSION.to_owned(),
             object,
             review_events,
             published_versions,
-            student_interactions: Vec::new(),
+            student_interactions,
         })
+    }
+
+    async fn commit_interaction(
+        &self,
+        object_id: &str,
+        interaction: &StudentInteraction,
+    ) -> Result<(), RepositoryError> {
+        if interaction.object_id != object_id {
+            return Err(RepositoryError::InvalidData(
+                "interaction object_id does not match repository key".to_owned(),
+            ));
+        }
+        sqlx::query(
+            "INSERT INTO student_interactions \
+             (id, object_id, published_version_id, occurred_at_unix_ms, document_json) \
+             VALUES (?, ?, ?, ?, ?)",
+        )
+        .bind(&interaction.id)
+        .bind(object_id)
+        .bind(&interaction.published_version_id)
+        .bind(to_i64(interaction.occurred_at_unix_ms)?)
+        .bind(encode(interaction)?)
+        .execute(&self.pool)
+        .await
+        .map_err(unavailable)?;
+        Ok(())
     }
 }
 

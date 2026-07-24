@@ -2,8 +2,9 @@
 
 use async_trait::async_trait;
 use j2k26_domain::{
-    DomainError, GeneratedObject, PublishCommand, PublishedVersion, Replay, ReviewCommand,
-    ReviewEvent, apply_review_command, publish_object,
+    DomainError, GeneratedObject, InteractionCommand, PublishCommand, PublishedVersion, Replay,
+    ReviewCommand, ReviewEvent, StudentInteraction, apply_review_command,
+    create_student_interaction, publish_object,
 };
 use std::sync::Arc;
 use thiserror::Error;
@@ -40,6 +41,12 @@ pub trait GeneratedObjectRepository: Send + Sync {
         object: &GeneratedObject,
         event: &ReviewEvent,
         version: &PublishedVersion,
+    ) -> Result<(), RepositoryError>;
+
+    async fn commit_interaction(
+        &self,
+        object_id: &str,
+        interaction: &StudentInteraction,
     ) -> Result<(), RepositoryError>;
 
     async fn replay(&self, object_id: &str) -> Result<Replay, RepositoryError>;
@@ -123,5 +130,31 @@ impl SmartCourseService {
 
     pub async fn replay(&self, object_id: &str) -> Result<Replay, ServiceError> {
         Ok(self.repository.replay(object_id).await?)
+    }
+
+    pub async fn interact(
+        &self,
+        object_id: &str,
+        command: InteractionCommand,
+    ) -> Result<StudentInteraction, ServiceError> {
+        let replay = self.repository.replay(object_id).await?;
+        let published_version =
+            replay
+                .published_versions
+                .last()
+                .ok_or_else(|| DomainError::InvalidTransition {
+                    from: replay.object.review_state.to_string(),
+                    action: "interact".to_owned(),
+                })?;
+        let interaction = create_student_interaction(
+            &replay.object,
+            published_version,
+            format!("student-interaction-{}", Uuid::new_v4()),
+            command,
+        )?;
+        self.repository
+            .commit_interaction(object_id, &interaction)
+            .await?;
+        Ok(interaction)
     }
 }

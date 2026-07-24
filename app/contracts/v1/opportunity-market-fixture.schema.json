@@ -1,0 +1,483 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TianBingzhuo/Jiaowu2K26/app/contracts/v1/opportunity-market-fixture.schema.json",
+  "title": "University2K26 F-009 transparent Opportunity Market fixture",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "data_mode",
+    "generated_at",
+    "last_updated_at",
+    "student_id",
+    "profile_visibility",
+    "selected_profile_field_ids",
+    "forbidden_profile_field_ids",
+    "opportunities",
+    "packs",
+    "rules",
+    "profile_fields",
+    "entitlements",
+    "capacity",
+    "pathways",
+    "portfolio_artifacts",
+    "notifications",
+    "audit",
+    "invariants"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^1\\." },
+    "data_mode": { "const": "demo_fixture" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "last_updated_at": { "type": "string", "format": "date-time" },
+    "student_id": { "type": "string", "minLength": 1 },
+    "profile_visibility": { "const": "private" },
+    "selected_profile_field_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^field-" }
+    },
+    "forbidden_profile_field_ids": {
+      "type": "array",
+      "minItems": 5,
+      "uniqueItems": true,
+      "contains": { "const": "health" },
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "opportunities": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 10,
+      "items": { "$ref": "#/$defs/opportunity" }
+    },
+    "packs": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "$ref": "#/$defs/pack" }
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/rule" }
+    },
+    "profile_fields": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/profileField" }
+    },
+    "entitlements": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entitlement" }
+    },
+    "capacity": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": { "$ref": "#/$defs/capacity" }
+    },
+    "pathways": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": { "$ref": "#/$defs/pathway" }
+    },
+    "portfolio_artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/portfolioArtifact" }
+    },
+    "notifications": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/notification" }
+    },
+    "audit": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/auditEvent" }
+    },
+    "invariants": { "$ref": "#/$defs/invariants" }
+  },
+  "not": {
+    "anyOf": [
+      { "required": ["auto_application"] },
+      { "required": ["admission_probability"] },
+      { "required": ["eligibility_score"] },
+      { "required": ["paid_pass"] },
+      { "required": ["auction"] }
+    ]
+  },
+  "$defs": {
+    "nullableDateTime": {
+      "oneOf": [
+        { "type": "string", "format": "date-time" },
+        { "type": "null" }
+      ]
+    },
+    "stringArray": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "cost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["amount", "currency", "description"],
+      "properties": {
+        "amount": { "type": ["number", "null"], "minimum": 0 },
+        "currency": {
+          "oneOf": [
+            { "enum": ["CNY", "USD"] },
+            { "type": "null" }
+          ]
+        },
+        "description": { "type": "string", "minLength": 1 }
+      }
+    },
+    "opportunity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "summary",
+        "provider",
+        "category",
+        "pack_id",
+        "source_url",
+        "source_version",
+        "fetched_at",
+        "verified_at",
+        "deadline",
+        "location",
+        "cost",
+        "benefits",
+        "obligations",
+        "risks",
+        "eligibility_rule_ids",
+        "eligibility_summary",
+        "status",
+        "correction_route",
+        "external_application_url",
+        "paid_ranking_factor",
+        "random_allocation",
+        "auction_enabled",
+        "created_at",
+        "updated_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^opp-" },
+        "title": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 1 },
+        "provider": { "type": "string", "minLength": 1 },
+        "category": {
+          "enum": [
+            "journal",
+            "conference",
+            "competition",
+            "research",
+            "internship",
+            "scholarship",
+            "workshop",
+            "campus_project"
+          ]
+        },
+        "pack_id": { "type": "string", "pattern": "^pack-" },
+        "source_url": { "type": "string", "pattern": "^https://" },
+        "source_version": { "type": "string", "minLength": 1 },
+        "fetched_at": { "type": "string", "format": "date-time" },
+        "verified_at": { "$ref": "#/$defs/nullableDateTime" },
+        "deadline": { "$ref": "#/$defs/nullableDateTime" },
+        "location": { "type": "string", "minLength": 1 },
+        "cost": { "$ref": "#/$defs/cost" },
+        "benefits": { "$ref": "#/$defs/stringArray" },
+        "obligations": { "$ref": "#/$defs/stringArray" },
+        "risks": { "$ref": "#/$defs/stringArray" },
+        "eligibility_rule_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "pattern": "^rule-" }
+        },
+        "eligibility_summary": { "type": "string", "minLength": 1 },
+        "status": {
+          "enum": ["active", "expired", "under_review", "reported"]
+        },
+        "correction_route": { "type": "string", "minLength": 1 },
+        "external_application_url": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "paid_ranking_factor": { "const": 0 },
+        "random_allocation": { "const": false },
+        "auction_enabled": { "const": false },
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "pack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "description",
+        "opportunity_ids",
+        "transparent",
+        "paid_random"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^pack-" },
+        "title": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "opportunity_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^opp-" }
+        },
+        "transparent": { "const": true },
+        "paid_random": { "const": false }
+      }
+    },
+    "profileValue": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "number" },
+        {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      ]
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "opportunity_id",
+        "field_id",
+        "operator",
+        "expected_value",
+        "description",
+        "source_ref",
+        "required"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^rule-" },
+        "opportunity_id": { "type": "string", "pattern": "^opp-" },
+        "field_id": { "type": "string", "pattern": "^field-" },
+        "operator": { "enum": ["eq", "gte", "contains", "includes"] },
+        "expected_value": { "$ref": "#/$defs/profileValue" },
+        "description": { "type": "string", "minLength": 1 },
+        "source_ref": { "type": "string", "pattern": "^https://" },
+        "required": { "type": "boolean" }
+      }
+    },
+    "profileField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "kind",
+        "value",
+        "value_label",
+        "authority",
+        "source_id",
+        "verified_at",
+        "expires_at",
+        "private",
+        "selectable"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^field-" },
+        "label": { "type": "string", "minLength": 1 },
+        "kind": {
+          "enum": [
+            "goal",
+            "interest",
+            "availability",
+            "self_declared",
+            "verified_evidence"
+          ]
+        },
+        "value": { "$ref": "#/$defs/profileValue" },
+        "value_label": { "type": "string", "minLength": 1 },
+        "authority": {
+          "enum": ["demo_fixture", "self_declared", "verified_fixture"]
+        },
+        "source_id": { "type": ["string", "null"] },
+        "verified_at": { "$ref": "#/$defs/nullableDateTime" },
+        "expires_at": { "$ref": "#/$defs/nullableDateTime" },
+        "private": { "const": true },
+        "selectable": { "const": true }
+      }
+    },
+    "entitlement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "provider",
+        "scope",
+        "conditions",
+        "valid_from",
+        "expires_at",
+        "status",
+        "source_id",
+        "purchasable_qualification"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^ent-" },
+        "title": { "type": "string", "minLength": 1 },
+        "provider": { "type": "string", "minLength": 1 },
+        "scope": { "type": "string", "minLength": 1 },
+        "conditions": { "$ref": "#/$defs/stringArray" },
+        "valid_from": { "type": "string", "format": "date-time" },
+        "expires_at": { "type": "string", "format": "date-time" },
+        "status": { "enum": ["available", "active", "expired"] },
+        "source_id": { "type": "string", "minLength": 1 },
+        "purchasable_qualification": { "const": false }
+      }
+    },
+    "capacity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "available",
+        "committed",
+        "unit",
+        "source_label",
+        "can_purchase_eligibility"
+      ],
+      "properties": {
+        "id": { "enum": ["time", "energy", "lab_slot", "funding"] },
+        "label": { "type": "string", "minLength": 1 },
+        "available": { "type": "number", "minimum": 0 },
+        "committed": { "type": "number", "minimum": 0 },
+        "unit": { "type": "string", "minLength": 1 },
+        "source_label": { "type": "string", "minLength": 1 },
+        "can_purchase_eligibility": { "const": false }
+      }
+    },
+    "pathway": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "pathway_type",
+        "inherited_credits",
+        "estimated_time",
+        "estimated_cost",
+        "assumptions",
+        "risks",
+        "rollback_point",
+        "approval_path",
+        "authoritative"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^path-" },
+        "title": { "type": "string", "minLength": 1 },
+        "pathway_type": {
+          "enum": ["major_change", "exchange", "accelerated_study"]
+        },
+        "inherited_credits": { "type": "string", "minLength": 1 },
+        "estimated_time": { "type": "string", "minLength": 1 },
+        "estimated_cost": { "type": "string", "minLength": 1 },
+        "assumptions": { "$ref": "#/$defs/stringArray" },
+        "risks": { "$ref": "#/$defs/stringArray" },
+        "rollback_point": { "type": "string", "minLength": 1 },
+        "approval_path": { "$ref": "#/$defs/stringArray" },
+        "authoritative": { "const": false }
+      }
+    },
+    "portfolioArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "source_module",
+        "source_id",
+        "review_status",
+        "includes_original_material"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^artifact-" },
+        "title": { "type": "string", "minLength": 1 },
+        "source_module": { "enum": ["F-001", "F-005"] },
+        "source_id": { "type": "string", "minLength": 1 },
+        "review_status": {
+          "enum": ["teacher_approved_fixture", "private_reflection"]
+        },
+        "includes_original_material": { "const": false }
+      }
+    },
+    "notification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "opportunity_id",
+        "kind",
+        "message",
+        "created_at",
+        "read"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^notice-" },
+        "opportunity_id": { "type": "string", "pattern": "^opp-" },
+        "kind": { "enum": ["expiry", "rule_change", "consent", "report"] },
+        "message": { "type": "string", "minLength": 1 },
+        "created_at": { "type": "string", "format": "date-time" },
+        "read": { "type": "boolean" }
+      }
+    },
+    "auditEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "sequence",
+        "action",
+        "target_id",
+        "detail",
+        "occurred_at",
+        "previous_event_hash",
+        "event_hash"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^opp-event-" },
+        "sequence": { "type": "integer", "minimum": 1 },
+        "action": { "type": "string", "minLength": 1 },
+        "target_id": { "type": "string", "minLength": 1 },
+        "detail": { "type": "string", "minLength": 1 },
+        "occurred_at": { "type": "string", "format": "date-time" },
+        "previous_event_hash": { "type": ["string", "null"] },
+        "event_hash": { "type": "string", "minLength": 1 }
+      }
+    },
+    "invariants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "no_paid_ranking",
+        "no_random_qualification",
+        "no_human_auction",
+        "no_auto_apply",
+        "no_fomo_countdown",
+        "no_composite_eligibility_score"
+      ],
+      "properties": {
+        "no_paid_ranking": { "const": true },
+        "no_random_qualification": { "const": true },
+        "no_human_auction": { "const": true },
+        "no_auto_apply": { "const": true },
+        "no_fomo_countdown": { "const": true },
+        "no_composite_eligibility_score": { "const": true }
+      }
+    }
+  }
+}

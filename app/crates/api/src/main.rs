@@ -24,7 +24,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let bind = std::env::var("J2K26_BIND").unwrap_or_else(|_| "127.0.0.1:3000".to_owned());
     let address: SocketAddr = bind.parse()?;
     let listener = tokio::net::TcpListener::bind(address).await?;
-    tracing::info!(%address, data_mode = "fixture", "jiaowu2K26 Phase 0 API listening");
+    tracing::info!(%address, data_mode = "fixture", "University2K26 Phase 0 API listening");
     axum::serve(listener, build_router(service))
         .with_graceful_shutdown(shutdown_signal())
         .await?;

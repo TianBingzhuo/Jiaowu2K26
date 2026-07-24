@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0.0",
+  "data_mode": "fixture",
+  "student_id": "student-nan-fixture",
+  "course_id": "signal-linear-systems",
+  "source_boundary": "本模块只复用 F-001 已审核 Fixture 的对象与来源 ID；时间、准备状态、答题和建议均为本地演示，不是正式考试或成绩。",
+  "event": {
+    "id": "exam-sls-finals-fixture",
+    "course_id": "signal-linear-systems",
+    "title": "信号与线性系统 · 模拟期末",
+    "event_type": "final",
+    "scheduled_at": "2026-07-31T14:00:00+08:00",
+    "duration_minutes": 45,
+    "status": "briefing_open",
+    "is_formal": false,
+    "source_authority": "fixture"
+  },
+  "briefing": {
+    "scope_summary": "从一阶 RC 低通出发，解释截止频率、Bode 拐点，以及解析、仿真和测量波形不一致时的核验顺序。",
+    "sources": [
+      {
+        "source_id": "source-sls-slide-012",
+        "locator": "slides:12",
+        "coverage": "截止频率、拓扑、输出节点与单位"
+      },
+      {
+        "source_id": "source-sls-transcript-004",
+        "locator": "transcript:04:12-05:08",
+        "coverage": "解析、仿真、实测差异与误差表"
+      },
+      {
+        "source_id": "source-sls-handout-003",
+        "locator": "handout:p3",
+        "coverage": "Bode 图、非理想因素与复核顺序"
+      }
+    ],
+    "competency_targets": [
+      "从 RC 参数判断截止频率变化",
+      "用明确边界解释三条波形差异",
+      "识别没有来源支撑的 AI 断言"
+    ],
+    "available_resources": [
+      "教师批准理解检查",
+      "Bode 拐点复习卡",
+      "三条波形赛后解析"
+    ],
+    "readiness": {
+      "coverage_pct": 67,
+      "weak_areas": [
+        "仪器负载与元件公差"
+      ],
+      "unknown_areas": [
+        "当前 Fixture 未包含真实仪器型号"
+      ]
+    }
+  },
+  "warmup": {
+    "id": "warmup-sls-cutoff",
+    "object_id": "generated-sls-quiz-001",
+    "prompt": "若电阻 R 保持不变而电容 C 增大，一阶 RC 低通的截止频率会怎样变化？",
+    "options": [
+      {
+        "id": "increase",
+        "label": "升高"
+      },
+      {
+        "id": "decrease",
+        "label": "降低"
+      },
+      {
+        "id": "same",
+        "label": "保持不变"
+      }
+    ],
+    "correct_answer": "decrease",
+    "explanation": "fc = 1 / (2πRC)。R 不变、C 增大时分母增大，因此截止频率降低。",
+    "source_ids": [
+      "source-sls-slide-012"
+    ]
+  },
+  "playbook": [
+    {
+      "id": "section-foundation",
+      "title": "第一节 · 模型边界",
+      "knowledge_points": [
+        "拓扑",
+        "输出节点",
+        "参数与单位",
+        "初始条件"
+      ],
+      "items": [
+        {
+          "id": "item-cutoff-check",
+          "object_id": "generated-sls-quiz-001",
+          "title": "理解检查 · 截止频率",
+          "estimated_minutes": 4,
+          "source_ids": [
+            "source-sls-slide-012"
+          ]
+        },
+        {
+          "id": "item-model-hint",
+          "object_id": "generated-sls-hint-001",
+          "title": "提示 · 先确认模型再判断工具",
+          "estimated_minutes": 3,
+          "source_ids": [
+            "source-sls-slide-012",
+            "source-sls-handout-003"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-evidence",
+      "title": "第二节 · 三条波形",
+      "knowledge_points": [
+        "解析解",
+        "仿真",
+        "实测",
+        "误差表"
+      ],
+      "items": [
+        {
+          "id": "item-waveform-explanation",
+          "object_id": "generated-sls-explanation-001",
+          "title": "赛后解析 · 三条波形",
+          "estimated_minutes": 6,
+          "source_ids": [
+            "source-sls-slide-012",
+            "source-sls-transcript-004"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-bode",
+      "title": "第三节 · 频域复核",
+      "knowledge_points": [
+        "幅频",
+        "相频",
+        "拐点",
+        "非理想因素"
+      ],
+      "items": [
+        {
+          "id": "item-bode-card",
+          "object_id": "generated-sls-card-001",
+          "title": "复习卡 · Bode 拐点",
+          "estimated_minutes": 5,
+          "source_ids": [
+            "source-sls-handout-003"
+          ]
+        }
+      ]
+    }
+  ],
+  "match_questions": [
+    {
+      "id": "match-cutoff",
+      "object_id": "generated-sls-quiz-001",
+      "prompt": "R 不变、C 增大时，截止频率与 Bode 拐点应如何变化？",
+      "response_type": "single_choice",
+      "options": [
+        {
+          "id": "increase",
+          "label": "两者一起升高"
+        },
+        {
+          "id": "decrease",
+          "label": "两者一起降低"
+        },
+        {
+          "id": "unchanged",
+          "label": "两者都不变"
+        }
+      ],
+      "correct_answer": "decrease",
+      "source_ids": [
+        "source-sls-slide-012",
+        "source-sls-handout-003"
+      ],
+      "ai_trace": []
+    },
+    {
+      "id": "match-ai-trace",
+      "object_id": "generated-sls-explanation-001",
+      "prompt": "AI 给出解释：“三条波形不同，说明仿真器算错了。”你应该怎样处理？",
+      "response_type": "source_challenge",
+      "options": [
+        {
+          "id": "accept",
+          "label": "直接接受，因为 AI 已经给出结论"
+        },
+        {
+          "id": "challenge",
+          "label": "挑战断言：先核对拓扑、公差、仪器负载和采样边界"
+        },
+        {
+          "id": "ignore",
+          "label": "忽略全部来源，只看最终曲线"
+        }
+      ],
+      "correct_answer": "challenge",
+      "source_ids": [
+        "source-sls-slide-012",
+        "source-sls-transcript-004",
+        "source-sls-handout-003"
+      ],
+      "ai_trace": [
+        {
+          "id": "claim-simulator-wrong",
+          "claim": "波形不一致足以证明仿真器计算错误。",
+          "source_id": "source-sls-transcript-004",
+          "confidence": "unsupported"
+        },
+        {
+          "id": "claim-check-boundaries",
+          "claim": "应先核对模型边界、元件公差、仪器负载与采样条件。",
+          "source_id": "source-sls-transcript-004",
+          "confidence": "high"
+        }
+      ]
+    }
+  ]
+}

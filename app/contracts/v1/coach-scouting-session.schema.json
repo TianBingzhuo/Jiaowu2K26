@@ -1,0 +1,333 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TianBingzhuo/Jiaowu2K26/app/contracts/v1/coach-scouting-session.schema.json",
+  "title": "University2K26 F-007 governed Coach and Scouting session",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "data_mode",
+    "selected_version_id",
+    "version_comparison",
+    "correction_cases",
+    "feedback_submissions",
+    "fairness_audits",
+    "selected_team_field_ids",
+    "team_matches",
+    "advisor_handoff",
+    "acknowledged_reminder_ids",
+    "governance_cases",
+    "hidden_target_ids",
+    "read_only_cache_available",
+    "authoritative",
+    "audit"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^1\\." },
+    "data_mode": { "const": "demo_fixture" },
+    "selected_version_id": { "type": "string", "pattern": "^version-" },
+    "version_comparison": {
+      "oneOf": [
+        { "$ref": "#/$defs/versionComparison" },
+        { "type": "null" }
+      ]
+    },
+    "correction_cases": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/correctionCase" }
+    },
+    "feedback_submissions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/feedbackSubmission" }
+    },
+    "fairness_audits": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/fairnessAudit" }
+    },
+    "selected_team_field_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^team-" }
+    },
+    "team_matches": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/teamMatch" }
+    },
+    "advisor_handoff": {
+      "oneOf": [
+        { "$ref": "coach-advisor-handoff.schema.json" },
+        { "type": "null" }
+      ]
+    },
+    "acknowledged_reminder_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^reminder-" }
+    },
+    "governance_cases": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/governanceCase" }
+    },
+    "hidden_target_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "read_only_cache_available": { "const": true },
+    "authoritative": { "const": false },
+    "audit": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "coach-scouting-fixture.schema.json#/$defs/auditEvent"
+      }
+    }
+  },
+  "not": {
+    "anyOf": [
+      { "required": ["teacher_rating"] },
+      { "required": ["personality_label"] },
+      { "required": ["fabricated_advisor_reply"] },
+      { "required": ["sensitive_match_score"] }
+    ]
+  },
+  "$defs": {
+    "stringArray": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "versionChange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "field", "before", "after", "source_ids"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^change-" },
+        "field": { "type": "string", "minLength": 1 },
+        "before": { "type": "string", "minLength": 1 },
+        "after": { "type": "string", "minLength": 1 },
+        "source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^src-" }
+        }
+      }
+    },
+    "versionComparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "from_version_id",
+        "to_version_id",
+        "same_instructor_assignment",
+        "feedback_carried_forward",
+        "changes",
+        "warning"
+      ],
+      "properties": {
+        "from_version_id": { "type": "string", "pattern": "^version-" },
+        "to_version_id": { "type": "string", "pattern": "^version-" },
+        "same_instructor_assignment": { "type": "boolean" },
+        "feedback_carried_forward": { "const": false },
+        "changes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/versionChange" }
+        },
+        "warning": { "type": "string", "minLength": 1 }
+      }
+    },
+    "correctionHistory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "occurred_at", "note"],
+      "properties": {
+        "status": {
+          "enum": ["submitted", "in_review", "accepted", "rejected"]
+        },
+        "occurred_at": { "type": "string", "format": "date-time" },
+        "note": { "type": "string", "minLength": 1 }
+      }
+    },
+    "correctionCase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "target_id",
+        "requested_by",
+        "correction_type",
+        "statement",
+        "evidence_ids",
+        "status",
+        "created_at",
+        "review_due_at",
+        "history"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^correction-" },
+        "target_id": { "type": "string", "minLength": 1 },
+        "requested_by": { "const": "teacher_fixture" },
+        "correction_type": { "enum": ["context", "update", "dispute"] },
+        "statement": { "type": "string", "minLength": 12 },
+        "evidence_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^src-" }
+        },
+        "status": {
+          "enum": ["submitted", "in_review", "accepted", "rejected"]
+        },
+        "created_at": { "type": "string", "format": "date-time" },
+        "review_due_at": { "type": "string", "format": "date-time" },
+        "history": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/correctionHistory" }
+        }
+      }
+    },
+    "feedbackSubmission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "offering_id",
+        "dimension",
+        "concrete_experience",
+        "suggested_action",
+        "consent_to_aggregate",
+        "safety_status",
+        "created_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^feedback-" },
+        "offering_id": { "type": "string", "pattern": "^offering-" },
+        "dimension": {
+          "enum": [
+            "assignment_clarity",
+            "feedback_timeliness",
+            "workload_support",
+            "group_structure",
+            "accessibility"
+          ]
+        },
+        "concrete_experience": { "type": "string", "minLength": 12 },
+        "suggested_action": { "type": "string", "minLength": 8 },
+        "consent_to_aggregate": { "type": "boolean" },
+        "safety_status": { "enum": ["eligible", "held_for_review"] },
+        "created_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "fairnessCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "passed", "detail"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^fair-" },
+        "label": { "type": "string", "minLength": 1 },
+        "passed": { "type": "boolean" },
+        "detail": { "type": "string", "minLength": 1 }
+      }
+    },
+    "fairnessAudit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "status",
+        "sort_mode",
+        "checks",
+        "sensitive_attributes",
+        "proxy_fields",
+        "ran_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^fairness-" },
+        "status": { "enum": ["pass", "degraded"] },
+        "sort_mode": {
+          "enum": ["explainable_match", "time_and_topic"]
+        },
+        "checks": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": { "$ref": "#/$defs/fairnessCheck" }
+        },
+        "sensitive_attributes": { "$ref": "#/$defs/stringArray" },
+        "proxy_fields": { "$ref": "#/$defs/stringArray" },
+        "ran_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "teamMatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "team_need_id",
+        "status",
+        "reasons",
+        "conflicts",
+        "unknowns",
+        "used_field_ids",
+        "used_sensitive_attributes"
+      ],
+      "properties": {
+        "team_need_id": { "type": "string", "pattern": "^need-" },
+        "status": {
+          "enum": [
+            "ready_to_discuss",
+            "needs_confirmation",
+            "insufficient_data"
+          ]
+        },
+        "reasons": { "$ref": "#/$defs/stringArray" },
+        "conflicts": { "$ref": "#/$defs/stringArray" },
+        "unknowns": { "$ref": "#/$defs/stringArray" },
+        "used_field_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^team-" }
+        },
+        "used_sensitive_attributes": { "const": false }
+      }
+    },
+    "governanceCase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "report_type",
+        "target_id",
+        "evidence",
+        "serious",
+        "temporary_measure",
+        "status",
+        "created_at",
+        "review_due_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^governance-" },
+        "report_type": {
+          "enum": [
+            "harassment",
+            "misinformation",
+            "privacy",
+            "discrimination"
+          ]
+        },
+        "target_id": { "type": "string", "minLength": 1 },
+        "evidence": { "type": "string", "minLength": 8 },
+        "serious": { "type": "boolean" },
+        "temporary_measure": {
+          "enum": ["none", "hidden_pending_review"]
+        },
+        "status": {
+          "enum": ["submitted", "under_review", "resolved", "rejected"]
+        },
+        "created_at": { "type": "string", "format": "date-time" },
+        "review_due_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TianBingzhuo/Jiaowu2K26/app/contracts/v1/coach-advisor-handoff.schema.json",
+  "title": "University2K26 F-007 student-confirmed Advisor Handoff",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "offering_id",
+    "questions",
+    "evidence_ids",
+    "scenario_ids",
+    "consent_confirmed",
+    "status",
+    "advisor_response",
+    "created_at"
+  ],
+  "properties": {
+    "id": { "type": "string", "pattern": "^handoff-" },
+    "offering_id": { "type": "string", "pattern": "^offering-" },
+    "questions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "evidence_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^src-" }
+    },
+    "scenario_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "consent_confirmed": { "const": true },
+    "status": {
+      "enum": ["draft", "ready_for_student", "shared_externally"]
+    },
+    "advisor_response": { "type": "null" },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "not": {
+    "anyOf": [
+      { "required": ["advisor_prediction"] },
+      { "required": ["advisor_recommendation"] },
+      { "required": ["advisor_approval"] }
+    ]
+  }
+}

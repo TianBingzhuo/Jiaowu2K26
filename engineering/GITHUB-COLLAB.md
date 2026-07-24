@@ -1,4 +1,4 @@
-# jiaowu2K26 · GitHub 图形化协作说明
+# 大学2K26 / University2K26 · GitHub 图形化协作说明
 
 > **给谁：** 第一次参与 GitHub 协作的视觉、人因、产品和开发同学。  
 > **当前状态：** 已启用；唯一公开主仓为 [TianBingzhuo/Jiaowu2K26](https://github.com/TianBingzhuo/Jiaowu2K26)，当前只推进 `P0-00`。  

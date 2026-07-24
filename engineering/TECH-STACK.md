@@ -1,9 +1,9 @@
-# jiaowu2K26 · 技术选型
+# 大学2K26 / University2K26 · 技术选型
 
 > **状态：** GATE-1 本机实验和 GitHub Actions Ubuntu/Windows/合同文档门禁已通过，仍待第二台机器复现与产品总集成人员接受决定；未经批准不称为最终 Primary。
 > **原则：** 团队熟悉度 > 技术看起来新；6h 闸门未通过立即回退。
 > **P0 产品：** 智课工坊 / SmartCourse Studio
-> **更新时间：** 2026-07-23
+> **更新时间：** 2026-07-24
 
 ---
 
@@ -12,11 +12,11 @@
 | 层 | 结果 | 当前结论 |
 |---|---|---|
 | Rust 1.97.1 / Axum 0.8.9 / Tokio 1.53.1 | WSL2 编译、`fmt/check/test/clippy`、实时 API smoke 与 GitHub Actions 双平台门禁通过 | **进入接受评估**，FastAPI / Node 回退保留 |
-| 领域合同 | 无框架 domain crate；OpenAPI 3.1、4 份 JSON Schema、Golden Fixture | **进入 PR 审核**；未知枚举保留并阻止高风险自动动作 |
+| 领域合同 | 无框架 domain crate；OpenAPI 3.1、26 份 JSON Schema、9 份 Golden Fixture | **进入本地技术评审**；未知枚举保留并阻止高风险自动动作，F-003 固定来源/快照/字段血缘/同意/审计边界，F-004 固定 Prefix/Pins/Plan/Unsat/Transaction/Lock，F-005 复用同一证据命名空间与状态机，F-006 固定私密指标/证据/授权/纠错/STOP，F-007 固定课程来源/版本/纠错/公平/治理边界，F-008 固定画像关闭/日历冲突/非权威镜像/最小披露/紧急升级/私有回执边界，F-009 固定透明来源/四态资格/选择性 Profile/双向意向/最小披露/零自动投递/公平 Replay 边界 |
 | SQLx 0.9.0 / SQLite | 写入、查询、乐观并发、审核/发布事务与 Replay 通过 | **当前已验证数据路径**，无云账号也能运行 |
 | OceanBase | 尚未做账号、TLS、migration、事务和 join 实验 | **未采用 / 未否定**；只是可选后续 adapter，不阻塞启动 |
-| React / TypeScript / Vite | 本轮尚未建壳 | **待 P0-00-D**，不能声称前端已实现 |
-| AI Provider | 仅使用明确标注 Fixture | **未选择模型**，不得把 Fixture 说成实时 AI |
+| React 19 / TypeScript 5.9 / Vite 6.4.3 | 用户已接受 Option 1 首页美术；`app/apps/web` V0.9 与 F-001～F-009 Fixture 纵向切片通过类型检查、108 项测试和生产构建 | **本地技术评审**；API 握手、PWA/Fixture 降级、来源→Replay、赛季→课程、镜像→字段血缘/同意/归档、学期解析→What-if→Lock、赛事→举证→复盘、私密表现→建议/分享/STOP、课程球探→纠错/公平/治理、校园大厅→路线/MyCOURT/组队/支持/回放、透明机会→同意/撤回→公平 Replay 已落地，实体手柄、真实触屏、Firefox/Safari 运行时、动效 profile 和第二台机器仍待补证 |
+| AI Provider / GX10 | 当前仍仅使用明确标注 Fixture；GX10 与候选模型完成资料核验，未实机运行 | **未形成实时 AI 证据**；Qwen3.6 35B 是首个 Spike，模型故障不得阻塞产品 |
 | Unity / Unreal / Tauri / WinUI 3 | 未接入 | **不进入当前基座** |
 
 Windows 原生 Rust 失败的对照证据是 Code Integrity 3077/3033：Smart App Control 阻止 `rustc.exe` 加载本地生成的未签名 proc-macro DLL。同一工作树在 Ubuntu WSL2 编译和测试通过；项目没有关闭或修改安全策略，验证脚本会在该状态下自动选择 WSL。
@@ -76,7 +76,7 @@ OceanBase 云账号已确认，且以下条件全部通过？
 ```
 需要高密度数据展示、跨设备、72h 快速开发和演示？
 ├── 是 → React + TypeScript + Vite（Web/PWA Primary）
-│   ├── UI: CSS Design Tokens + Headless 组件（Radix UI）+ Framer Motion
+│   ├── UI: CSS Design Tokens + 原生语义组件；CSS/WAAPI 优先
 │   ├── 图表: 语义化 HTML/SVG/Canvas + 文本等价
 │   └── PWA 缓存只保存允许离线的数据
 └── 否 ↓
@@ -89,14 +89,15 @@ OceanBase 云账号已确认，且以下条件全部通过？
 └── 录屏 / 截图 + 口头讲解
 ```
 
-**待审核建议：** React + Vite Web/PWA 为 Primary。
+**当前 P0-00-D 实现：** React + TypeScript + Vite Web/PWA 为 Primary；是否跨过 GATE-1 仍由最终 QA 和产品总集成人员决定。
 - Design Tokens 管理色彩、字号、间距、动效和密度；
-- Framer Motion 只处理状态转场，支持 `prefers-reduced-motion`；
+- 当前不引入动效框架，先以 CSS/WAAPI 实现因果状态转场并支持 `prefers-reduced-motion`；只有测量证明复杂编排需要时才评估新增依赖；
 - 一个 `Experience Shell` 承载 Student / Faculty / Institution 三种 Role Lens；所有模块只能消费中央 Token、组件、图标、动效和资产登记，不得建立私有主题；
 - 第一轮只在 Windows 验证，但领域模型、OpenAPI/JSON Schema、状态机和 Design Token 从第一天保持平台无关；
 - WinUI 3 只可作为 Windows 特有能力壳，不能承载领域规则；Tauri 2 可在 P0 后评估 Windows/macOS/iOS/Android 壳，但不是 HarmonyOS 的默认答案；
 - HarmonyOS 7 使用同一 Web/API 合同，后续单独验证 ArkUI/ArkTS 或 ArkUI Web 适配；任何原生壳都不能复制第二套业务逻辑。
 - 输入层使用 `SemanticAction → InputAdapter → UI Focus Graph`：Web/PWA 通过 [W3C Gamepad API](https://www.w3.org/TR/gamepad/) 读取标准布局并保留键盘/触控/读屏等价路径；未来 Windows 原生壳可增加 [Microsoft GameInput](https://learn.microsoft.com/en-us/gaming/gdk/docs/features/common/input/overviews/input-overview) 适配器。组件不得硬编码按钮编号或把手柄逻辑写入领域层。
+- RealSense、NFC/智能卡和复古调制解调器只允许作为 `Capability/InputAdapter` 的非 P0 实验；数据最小化、替代路径与安全停损见 [HUMAN-FACTORS · 实验外设池](../product/HUMAN-FACTORS.md#715-实验外设池--peripheral-lab全部非-p0)。
 
 完整兼容策略、版本窗口和平台矩阵见 [ARCHITECTURE · 01 基座兼容性宪章](ARCHITECTURE.md#01-基座兼容性宪章)。
 
@@ -104,7 +105,7 @@ OceanBase 云账号已确认，且以下条件全部通过？
 
 | 表面 | 适合承担 | 本项目结论 |
 |---|---|---|
-| React / Web/PWA | 高频数据界面、快速模板迭代、跨桌面/平板/手机、可访问性与离线回退 | **Primary 候选**；先完成首页模板 Gate，再搭真实壳 |
+| React / Web/PWA | 高频数据界面、快速模板迭代、跨桌面/平板/手机、可访问性与离线回退 | **P0 Primary 已进入正式壳验证**；首页美术已接受，完整产品尚未完成 |
 | WinUI 3 | Windows 原生窗口、通知、系统输入、MSIX、特定教师/演示控制台 | **Windows adapter / Secondary**；官方明确它不是跨平台框架，不能成为未来多端共享 UI 或领域层 |
 | Unreal CommonUI / UMG | 高沉浸 3D 场景、复杂分层游戏菜单、手柄输入路由、展会级 Campus Arena | **可选 Companion**；只通过同一 API/语义动作连接，不接管教务表单、数据主权或领域规则 |
 
@@ -114,21 +115,46 @@ OceanBase 云账号已确认，且以下条件全部通过？
 
 ## 4. AI / 模型
 
-```
-开幕式确认至少 1 个赞助模型（账号、Credit、结构化输出、数据条款、延迟通过）？
-├── 是 → 赞助模型（Provider-neutral adapter）
+```text
+任务能由规则 / 检索 / Fixture 完成？
+├── 是 → 不调用模型
 └── 否 ↓
 
-本地有可用模型（延迟和内存可接受）？
-├── 是 → 本地模型
-└── 否 → Fixture（预置规则/固定草稿，明确标注 generation_mode: "fixture"）
+输入允许留在本地主权节点，且 GX10 Spike 通过？
+├── 是 → 本地 Provider
+│   ├── 默认 Main：Qwen3.6-35B-A3B-NVFP4
+│   └── 条件 Fast：Qwen3-8B-NVFP4（只有实测证明路由有收益才常驻）
+└── 否 ↓
+
+赞助模型账号、数据条款、结构化输出与延迟通过，且输入已获准/最小化？
+├── 是 → Step 3.7 Flash 等赞助 Provider
+└── 否 → Fixture / 人工路径
 ```
 
-**待审核建议：** Provider-neutral adapter + 一个可替换模型。
+**待审核建议：** Provider-neutral adapter + GX10 本地 Main Lane + 明确标注的 Fixture 回退。
+
+- 今晚只选一个本地主模型时使用 NVIDIA 已给出同类 GB10/128GB 单机配方的 `Qwen3.6-35B-A3B-NVFP4`；这表示“最适合当前硬件和交付约束”，不是通用能力排行榜第一；
+- Step 3.7 Flash 先作为赛事赞助 API 质量通道；其官方 GGUF 量化与运行开销接近 128GB 总统一内存上限，本地只允许停止其他模型后的独立 Spike；
+- DeepSeek V4 Flash、Kimi K2.5、GLM-5.2 与 MiniMax M3 的公开权重规模不适合单台 128GB 节点舒适常驻；Kimi K3、Qwen 3.8 截至 2026-07-23 未取得可核验的官方本地模型卡，不按名称猜选；
+- 双模型只在 Fast Lane 能显著降低延迟/成本且不造成资源争用时启用；否则一个 Main 模型 + 确定性路由更简单可靠；
 - 要求结构化输出、可回指 `source_ids`、错误可区分；
 - 核心状态由本地服务决定，模型不能直接发布或修改权威记录；
 - 网络/额度/格式失败时切规则或 fixture，明确显示 `fallback_used`；
 - 不把密钥、课程材料或个人数据提交到代码仓库。
+
+完整硬件事实、模型表、数据主权、安全边界和 30 分钟实机步骤见 [GX10 本地主权 AI 节点](LOCAL-AI-SOVEREIGN-NODE.md)。
+
+### BYOK 与 CLI / 外部 AI 访问
+
+**待审核建议：** `ProviderProfile + 本机凭据引用 + 同合同 CLI`，不让每个模型 SDK 或 AI 工具直接进入领域层。
+
+- 队友可自选 OpenAI-compatible、本地 GX10 或已批准的赞助模型，但只配置 `base_url/model_id/capabilities/key_ref`；密钥保存在操作系统凭据库或当前进程环境，不进入仓库、浏览器持久存储、参数、日志和 Replay。
+- CLI 暂定名 `j2k26`，第一批只读命令为 `doctor`、`health`、`capabilities`、`contract validate`；JSON 输出、稳定 exit code 和 OpenAPI/Schema 使外部 AI 不需要解析 GUI。
+- 外部 AI 访问默认只读、allowlist、短时 scope、可撤销和可审计；任何发布、支付、门禁、正式提交或权威写回都要求绑定具体动作的一次性人类批准，不能使用通用 `--yes` 绕过。
+- 模型 profile 可共享，credential 不共享；未知自定义 endpoint 需要 SSRF/重定向/IP 校验，未通过时保持 Fixture。
+- 这轮只冻结合同，不增加 CLI crate 或凭据库依赖；待 `P0-00-B/C` accepted 后再以独立任务实现，避免让 review 中的基座静默扩张。
+
+完整命令、安全和兼容合同见 [ARCHITECTURE · CLI、外部 AI 与 BYOK](ARCHITECTURE.md#9-cli外部-ai-与-byok-自动化合同)。
 
 **Python worker 边界：** 只承担 PDF/PPT/OCR/ASR 提取。输入输出版本化 JSON/文件合同，失败不改变领域状态，成功产物先进入草稿。
 
@@ -297,7 +323,7 @@ GATE-1 通过并由团队负责人记录后，才可把对应小节的“待审�
 3. **幂等与离线队列：** 可重试操作带幂等键、状态和人工接管；高风险动作离线时只能排队，不能伪造完成。
 4. **确定性 Rails：** AI 负责草稿、解释和备选，权限、发布、分账、资格与正式状态由 Rust/回退后端中的确定性规则和责任人决定。
 
-因此不新增多 Agent 展柜、事件总线、区块链、UE/Unity 客户端或本地大模型作为 P0 依赖。若未来处理高度敏感材料，可在机构批准、设备预算和模型能力核验后评估本地/端侧 Provider，但它仍须遵守相同数据合同。
+因此不新增多 Agent 展柜、事件总线、区块链、UE/Unity 客户端或**必须在线的本地大模型**作为 P0 启动依赖。GX10 可作为同合同的可选本地 Provider 进入 GATE-1 Spike；失败立即回到 Fixture，不改变领域合同或阻塞主闭环。
 
 ---
 

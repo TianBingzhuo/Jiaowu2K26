@@ -1,0 +1,352 @@
+{
+  "schema_version": "1.0.0",
+  "data_mode": "demo_fixture",
+  "generated_at": "2026-07-24T10:15:00+08:00",
+  "last_updated_at": "2026-07-24T10:15:00+08:00",
+  "sources": [
+    {
+      "id": "src-student-affairs",
+      "provider": "示例大学学生事务中心（Fixture）",
+      "official_url": "https://example.edu/student-affairs",
+      "version": "student-affairs-2026-07-r2",
+      "updated_at": "2026-07-23T09:00:00+08:00",
+      "expires_at": "2026-08-31T23:59:00+08:00",
+      "verification_status": "verified_fixture",
+      "correction_route": "在 Campus Replay 报告过期或差异；正式办理前必须回到学校权威入口复核。"
+    },
+    {
+      "id": "src-library",
+      "provider": "示例大学图书馆（Fixture）",
+      "official_url": "https://example.edu/library",
+      "version": "library-service-2026-07-r4",
+      "updated_at": "2026-07-22T16:30:00+08:00",
+      "expires_at": "2026-08-15T23:59:00+08:00",
+      "verification_status": "verified_fixture",
+      "correction_route": "在 Campus Replay 报告过期或差异；开放时间以图书馆正式公告为准。"
+    },
+    {
+      "id": "src-accessibility",
+      "provider": "示例大学无障碍支持办公室（Fixture）",
+      "official_url": "https://example.edu/accessibility",
+      "version": "access-2026-r1",
+      "updated_at": "2026-07-20T10:00:00+08:00",
+      "expires_at": "2026-12-31T23:59:00+08:00",
+      "verification_status": "verified_fixture",
+      "correction_route": "路线和支持信息变更时进入人工复核；紧急情况直接联系正式渠道。"
+    },
+    {
+      "id": "src-club-union",
+      "provider": "示例大学社团联合会（Fixture）",
+      "official_url": "https://example.edu/clubs",
+      "version": "clubs-2026-summer-r3",
+      "updated_at": "2026-07-21T18:00:00+08:00",
+      "expires_at": "2026-07-31T23:59:00+08:00",
+      "verification_status": "verified_fixture",
+      "correction_route": "活动取消或过期可报告；报名状态只在主办方正式系统确认。"
+    },
+    {
+      "id": "src-health-safety",
+      "provider": "示例大学健康与安全中心（Fixture）",
+      "official_url": "https://example.edu/health-safety",
+      "version": "health-safety-2026-r5",
+      "updated_at": "2026-07-24T08:00:00+08:00",
+      "expires_at": "2026-08-24T23:59:00+08:00",
+      "verification_status": "verified_fixture",
+      "correction_route": "危机与紧急信息不得等待应用内纠错；直接使用页面展示的正式渠道。"
+    }
+  ],
+  "resources": [
+    {
+      "id": "service-library-access",
+      "category": "library",
+      "title": "图书馆资源与空间入口",
+      "summary": "查看开放时间、馆藏入口、研讨间规则与无障碍支持。",
+      "intent_tags": ["查资料", "预约空间", "安静学习"],
+      "location_id": "loc-library",
+      "delivery_mode": "hybrid",
+      "accessibility": ["无障碍入口", "电梯", "可预约低刺激空间"],
+      "official_action_url": "https://example.edu/library",
+      "service_boundary": "只保存个人办理镜像，不代表预约或权限已经生效。",
+      "source_id": "src-library",
+      "status": "active"
+    },
+    {
+      "id": "service-accessibility-support",
+      "category": "accessibility",
+      "title": "无障碍支持与合理便利",
+      "summary": "找到正式申请入口、材料清单和咨询方式。",
+      "intent_tags": ["无障碍", "字幕", "合理便利"],
+      "location_id": "loc-student-center",
+      "delivery_mode": "hybrid",
+      "accessibility": ["线上申请", "电梯", "可提前提交沟通偏好"],
+      "official_action_url": "https://example.edu/accessibility",
+      "service_boundary": "本页不诊断、不批准，也不公开任何健康信息。",
+      "source_id": "src-accessibility",
+      "status": "active"
+    },
+    {
+      "id": "service-student-affairs",
+      "category": "student_affairs",
+      "title": "学生事务办事导航",
+      "summary": "按目标找到证明、住宿、资助和校园协作的正式入口。",
+      "intent_tags": ["办事", "证明", "住宿", "资助"],
+      "location_id": "loc-student-center",
+      "delivery_mode": "hybrid",
+      "accessibility": ["线上入口", "电梯", "人工咨询"],
+      "official_action_url": "https://example.edu/student-affairs",
+      "service_boundary": "步骤只作个人镜像，不能冒充审批完成。",
+      "source_id": "src-student-affairs",
+      "status": "active"
+    },
+    {
+      "id": "service-health-consult",
+      "category": "health",
+      "title": "健康与心理支持入口",
+      "summary": "非紧急咨询、预约说明与正式危机渠道分开展示。",
+      "intent_tags": ["健康", "心理支持", "咨询"],
+      "location_id": "loc-health-center",
+      "delivery_mode": "hybrid",
+      "accessibility": ["电话", "线上入口", "无障碍入口"],
+      "official_action_url": "https://example.edu/health-safety",
+      "service_boundary": "应用不提供医疗判断；紧急情况直接使用正式渠道。",
+      "source_id": "src-health-safety",
+      "status": "active"
+    },
+    {
+      "id": "service-old-club-desk",
+      "category": "clubs",
+      "title": "旧社团服务台入口",
+      "summary": "历史入口已停用，保留用于验证过期状态。",
+      "intent_tags": ["社团", "历史入口"],
+      "location_id": "loc-arena",
+      "delivery_mode": "in_person",
+      "accessibility": ["历史记录，路线不可依赖"],
+      "official_action_url": "https://example.edu/clubs",
+      "service_boundary": "过期入口不能执行操作。",
+      "source_id": "src-club-union",
+      "status": "expired"
+    }
+  ],
+  "events": [
+    {
+      "id": "event-film-room",
+      "title": "Signal Film Room · 实验复盘夜",
+      "host": "工程学习社群（Fixture）",
+      "starts_at": "2026-07-29T14:30:00+08:00",
+      "ends_at": "2026-07-29T16:30:00+08:00",
+      "deadline_at": "2026-07-28T20:00:00+08:00",
+      "location_id": "loc-library",
+      "delivery_mode": "hybrid",
+      "cost_label": "免费",
+      "eligibility": "带一张去标识实验误差表；不要求公开成绩。",
+      "accessibility": ["在线字幕", "电梯", "可提前索取材料"],
+      "source_id": "src-club-union",
+      "status": "active"
+    },
+    {
+      "id": "event-maker-night",
+      "title": "Maker Night · 3D 打印与机械臂开放体验",
+      "host": "创新实验室（Fixture）",
+      "starts_at": "2026-07-30T18:30:00+08:00",
+      "ends_at": "2026-07-30T21:00:00+08:00",
+      "deadline_at": "2026-07-29T18:00:00+08:00",
+      "location_id": "loc-arena",
+      "delivery_mode": "in_person",
+      "cost_label": "免费；材料量有限",
+      "eligibility": "完成现场安全说明；不授予长期门禁。",
+      "accessibility": ["无障碍入口", "可调高度工作台", "护具可借"],
+      "source_id": "src-student-affairs",
+      "status": "active"
+    },
+    {
+      "id": "event-writing-sprint",
+      "title": "Research Writing Sprint",
+      "host": "图书馆研究支持组（Fixture）",
+      "starts_at": "2026-08-01T09:30:00+08:00",
+      "ends_at": "2026-08-01T11:30:00+08:00",
+      "deadline_at": "2026-07-31T17:00:00+08:00",
+      "location_id": "loc-library",
+      "delivery_mode": "hybrid",
+      "cost_label": "免费",
+      "eligibility": "适合有研究问题或初稿的学生；不提供代写。",
+      "accessibility": ["在线参与", "字幕", "可提前提交问题"],
+      "source_id": "src-library",
+      "status": "active"
+    },
+    {
+      "id": "event-expired-club-fair",
+      "title": "春季社团招新日（已结束）",
+      "host": "社团联合会（Fixture）",
+      "starts_at": "2026-03-12T10:00:00+08:00",
+      "ends_at": "2026-03-12T16:00:00+08:00",
+      "deadline_at": "2026-03-10T18:00:00+08:00",
+      "location_id": "loc-arena",
+      "delivery_mode": "in_person",
+      "cost_label": "免费",
+      "eligibility": "历史活动，不应出现在默认推荐。",
+      "accessibility": ["历史记录"],
+      "source_id": "src-club-union",
+      "status": "expired"
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc-dorm",
+      "label": "学生宿舍区",
+      "zone": "WEST",
+      "x": 12,
+      "y": 68,
+      "accessibility": ["坡道", "无障碍接驳点"],
+      "source_id": "src-accessibility"
+    },
+    {
+      "id": "loc-library",
+      "label": "中央图书馆",
+      "zone": "NORTH",
+      "x": 46,
+      "y": 26,
+      "accessibility": ["北门无障碍入口", "电梯"],
+      "source_id": "src-library"
+    },
+    {
+      "id": "loc-student-center",
+      "label": "学生服务中心",
+      "zone": "CENTRAL",
+      "x": 55,
+      "y": 52,
+      "accessibility": ["南门无障碍入口", "电梯", "低位服务台"],
+      "source_id": "src-student-affairs"
+    },
+    {
+      "id": "loc-health-center",
+      "label": "健康支持中心",
+      "zone": "EAST",
+      "x": 82,
+      "y": 42,
+      "accessibility": ["无障碍入口", "安静候诊区"],
+      "source_id": "src-health-safety"
+    },
+    {
+      "id": "loc-arena",
+      "label": "创新 Arena",
+      "zone": "SOUTH",
+      "x": 64,
+      "y": 80,
+      "accessibility": ["无障碍入口", "电梯", "可调高度工作台"],
+      "source_id": "src-student-affairs"
+    }
+  ],
+  "routes": [
+    {
+      "id": "route-dorm-library-accessible",
+      "from_location_id": "loc-dorm",
+      "to_location_id": "loc-library",
+      "label": "无障碍优先路线",
+      "estimated_minutes": 12,
+      "accessible": true,
+      "steps": ["宿舍区无障碍接驳点", "中央步道缓坡", "图书馆北门无障碍入口"],
+      "source_id": "src-accessibility"
+    },
+    {
+      "id": "route-dorm-library-fast",
+      "from_location_id": "loc-dorm",
+      "to_location_id": "loc-library",
+      "label": "步行快捷路线",
+      "estimated_minutes": 8,
+      "accessible": false,
+      "steps": ["宿舍东门", "中央台阶", "图书馆西门"],
+      "source_id": "src-student-affairs"
+    },
+    {
+      "id": "route-library-arena-accessible",
+      "from_location_id": "loc-library",
+      "to_location_id": "loc-arena",
+      "label": "室内连廊路线",
+      "estimated_minutes": 10,
+      "accessible": true,
+      "steps": ["图书馆北门电梯", "中央连廊", "Arena 东侧无障碍入口"],
+      "source_id": "src-accessibility"
+    }
+  ],
+  "team_listings": [
+    {
+      "id": "team-signal-story",
+      "title": "校园数据故事板小队",
+      "role_gap": "需要 UI / 可视化与访谈整理",
+      "hours_per_week": 4,
+      "collaboration_mode": "异步文档 + 每周一次线下 Huddle",
+      "minimum_public_fields": ["角色缺口", "预计时间", "协作方式"],
+      "source_id": "src-club-union",
+      "report_route": "Campus Replay → 组队治理"
+    },
+    {
+      "id": "team-access-map",
+      "title": "无障碍路线核对小队",
+      "role_gap": "需要愿意做来源核验与文本说明的成员",
+      "hours_per_week": 2,
+      "collaboration_mode": "线上核对；不采集连续位置",
+      "minimum_public_fields": ["角色缺口", "预计时间", "数据边界"],
+      "source_id": "src-accessibility",
+      "report_route": "Campus Replay → 组队治理"
+    }
+  ],
+  "mentors": [
+    {
+      "id": "mentor-senior-fixture",
+      "display_name": "高年级同伴导师（Fixture）",
+      "qualification": "完成同伴支持培训；不是学业审批人",
+      "help_topics": ["校园入口导航", "学习资源发现", "项目组队准备"],
+      "boundaries": ["不代替教师或专业顾问", "不索要成绩与健康隐私", "不承诺审批结果"],
+      "verified": true,
+      "source_id": "src-student-affairs",
+      "report_route": "Campus Replay → 导师治理"
+    }
+  ],
+  "escalation_routes": [
+    {
+      "id": "escalation-emergency",
+      "issue_type": "immediate_safety",
+      "title": "立即安全风险",
+      "channel": "学校保卫与当地紧急服务正式入口",
+      "official_url": "https://example.edu/health-safety/emergency",
+      "scope": "正在发生或可能立即造成伤害的安全问题；不要等待应用内流程。",
+      "emergency": true,
+      "available_label": "24/7（Fixture 说明，正式号码需现场核对）",
+      "source_id": "src-health-safety"
+    },
+    {
+      "id": "escalation-crisis-support",
+      "issue_type": "urgent_support",
+      "title": "紧急心理与健康支持",
+      "channel": "学校健康支持正式入口",
+      "official_url": "https://example.edu/health-safety/urgent",
+      "scope": "需要尽快得到真人支持，但当前没有立即危险。",
+      "emergency": true,
+      "available_label": "以学校正式页面为准",
+      "source_id": "src-health-safety"
+    },
+    {
+      "id": "escalation-nonurgent",
+      "issue_type": "non_urgent",
+      "title": "一般咨询与预约",
+      "channel": "健康支持中心预约入口",
+      "official_url": "https://example.edu/health-safety/appointments",
+      "scope": "非紧急咨询、预约与服务说明。",
+      "emergency": false,
+      "available_label": "工作时间",
+      "source_id": "src-health-safety"
+    }
+  ],
+  "interest_catalog": ["研究", "创作", "社团", "健康", "志愿服务", "无障碍", "工程实践"],
+  "invariants": {
+    "no_official_result_claims": true,
+    "no_auto_registration_or_cancellation": true,
+    "profiling_can_be_disabled": true,
+    "mycourt_private_by_default": true,
+    "no_default_location_tracking": true,
+    "mutual_intent_before_disclosure": true,
+    "emergency_routes_are_direct": true,
+    "emergency_and_marketing_separated": true,
+    "no_participation_value_score": true
+  }
+}

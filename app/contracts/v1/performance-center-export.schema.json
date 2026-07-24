@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TianBingzhuo/Jiaowu2K26/app/contracts/v1/performance-center-export.schema.json",
+  "title": "University2K26 F-006 readable untrusted private archive",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "archive_type",
+    "data_mode",
+    "student_id",
+    "private",
+    "authoritative",
+    "comparison_mode",
+    "metrics",
+    "observations",
+    "abilities",
+    "badges",
+    "status_label",
+    "recommendations",
+    "share_grants",
+    "corrections",
+    "harm_signals",
+    "audit_receipt",
+    "warning"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^1\\." },
+    "archive_type": { "const": "readable_untrusted" },
+    "data_mode": { "const": "fixture" },
+    "student_id": { "type": "string", "minLength": 1 },
+    "private": { "const": true },
+    "authoritative": { "const": false },
+    "comparison_mode": { "const": "self_only" },
+    "metrics": { "type": "array" },
+    "observations": { "type": "array" },
+    "abilities": { "type": "array", "minItems": 4, "maxItems": 4 },
+    "badges": { "type": "array" },
+    "status_label": { "type": "object" },
+    "recommendations": { "type": "array" },
+    "share_grants": { "type": "array" },
+    "corrections": { "type": "array" },
+    "harm_signals": { "type": "array" },
+    "audit_receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_count", "latest_event_hash"],
+      "properties": {
+        "event_count": { "type": "integer", "minimum": 1 },
+        "latest_event_hash": {
+          "oneOf": [{ "type": "string" }, { "type": "null" }]
+        }
+      }
+    },
+    "warning": { "type": "string", "minLength": 40 }
+  },
+  "not": {
+    "anyOf": [
+      { "required": ["signature_status"] },
+      { "required": ["issuer"] },
+      { "required": ["authoritative_grade"] }
+    ]
+  }
+}

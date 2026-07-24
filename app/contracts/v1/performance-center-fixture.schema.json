@@ -1,0 +1,521 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TianBingzhuo/Jiaowu2K26/app/contracts/v1/performance-center-fixture.schema.json",
+  "title": "University2K26 F-006 private Performance Center fixture",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "data_mode",
+    "student_id",
+    "private_by_default",
+    "comparison_mode",
+    "source_boundary",
+    "last_updated_at",
+    "forbidden_inputs",
+    "metrics",
+    "observations",
+    "abilities",
+    "load_signals",
+    "support_actions",
+    "badges",
+    "status_label",
+    "recommendations",
+    "share_grants",
+    "corrections",
+    "harm_signals",
+    "evidence",
+    "research_gate",
+    "audit"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^1\\." },
+    "data_mode": { "const": "fixture" },
+    "student_id": { "type": "string", "minLength": 1 },
+    "private_by_default": { "const": true },
+    "comparison_mode": { "const": "self_only" },
+    "source_boundary": { "type": "string", "minLength": 40 },
+    "last_updated_at": { "type": "string", "format": "date-time" },
+    "forbidden_inputs": {
+      "type": "array",
+      "minItems": 6,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "metrics": {
+      "type": "array",
+      "minItems": 4,
+      "items": { "$ref": "#/$defs/metric" }
+    },
+    "observations": {
+      "type": "array",
+      "minItems": 4,
+      "items": { "$ref": "#/$defs/observation" }
+    },
+    "abilities": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": { "$ref": "#/$defs/ability" }
+    },
+    "load_signals": {
+      "type": "array",
+      "minItems": 3,
+      "items": { "$ref": "#/$defs/loadSignal" }
+    },
+    "support_actions": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/supportAction" }
+    },
+    "badges": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/badge" }
+    },
+    "status_label": { "$ref": "#/$defs/statusLabel" },
+    "recommendations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/recommendation" }
+    },
+    "share_grants": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/shareGrant" }
+    },
+    "corrections": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/correction" }
+    },
+    "harm_signals": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/harmSignal" }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/evidence" }
+    },
+    "research_gate": { "$ref": "#/$defs/researchGate" },
+    "audit": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/auditEvent" }
+    }
+  },
+  "not": {
+    "anyOf": [
+      { "required": ["gpa"] },
+      { "required": ["class_rank"] },
+      { "required": ["medical_diagnosis"] },
+      { "required": ["pass_probability"] },
+      { "required": ["peer_ranking"] }
+    ]
+  },
+  "$defs": {
+    "nullableDateTime": {
+      "oneOf": [
+        { "type": "string", "format": "date-time" },
+        { "type": "null" }
+      ]
+    },
+    "stringArray": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "confidence": {
+      "enum": ["high", "medium", "low", "insufficient"]
+    },
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "unit",
+        "definition",
+        "purpose",
+        "limitation",
+        "correction_route",
+        "version",
+        "source_types",
+        "can_correct",
+        "comparison_mode"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^metric-" },
+        "label": { "type": "string", "minLength": 1 },
+        "unit": { "type": "string", "minLength": 1 },
+        "definition": { "type": "string", "minLength": 1 },
+        "purpose": { "type": "string", "minLength": 1 },
+        "limitation": { "type": "string", "minLength": 1 },
+        "correction_route": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 },
+        "source_types": { "$ref": "#/$defs/stringArray" },
+        "can_correct": { "type": "boolean" },
+        "comparison_mode": { "const": "self_only" }
+      }
+    },
+    "trendPoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["period", "label", "value", "status"],
+      "properties": {
+        "period": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "value": { "type": ["number", "null"] },
+        "status": { "enum": ["observed", "gap"] }
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "metric_id",
+        "value",
+        "display_value",
+        "range_label",
+        "period_start",
+        "period_end",
+        "updated_at",
+        "expires_at",
+        "source_ids",
+        "confidence",
+        "confidence_reason",
+        "data_gaps",
+        "trend"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^obs-" },
+        "metric_id": { "type": "string", "pattern": "^metric-" },
+        "value": { "type": ["number", "null"] },
+        "display_value": { "type": "string", "minLength": 1 },
+        "range_label": { "type": "string", "minLength": 1 },
+        "period_start": { "type": "string", "format": "date-time" },
+        "period_end": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" },
+        "expires_at": { "$ref": "#/$defs/nullableDateTime" },
+        "source_ids": { "$ref": "#/$defs/stringArray" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "confidence_reason": { "type": "string", "minLength": 1 },
+        "data_gaps": { "$ref": "#/$defs/stringArray" },
+        "trend": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/trendPoint" }
+        }
+      }
+    },
+    "ability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "observed_label",
+        "description",
+        "source_ids",
+        "confidence"
+      ],
+      "properties": {
+        "id": {
+          "enum": [
+            "ability-knowledge",
+            "ability-applied",
+            "ability-collaboration",
+            "ability-habit"
+          ]
+        },
+        "label": { "type": "string", "minLength": 1 },
+        "observed_label": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "source_ids": { "$ref": "#/$defs/stringArray" },
+        "confidence": { "$ref": "#/$defs/confidence" }
+      }
+    },
+    "loadSignal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "display_value",
+        "severity",
+        "text_equivalent",
+        "source_ids"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^load-" },
+        "label": { "type": "string", "minLength": 1 },
+        "display_value": { "type": "string", "minLength": 1 },
+        "severity": { "enum": ["steady", "watch", "high", "unknown"] },
+        "text_equivalent": { "type": "string", "minLength": 1 },
+        "source_ids": { "$ref": "#/$defs/stringArray" }
+      }
+    },
+    "supportAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "action", "availability", "source_id"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^support-" },
+        "title": { "type": "string", "minLength": 1 },
+        "action": { "type": "string", "minLength": 1 },
+        "availability": { "type": "string", "minLength": 1 },
+        "source_id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "badge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "subtitle",
+        "criteria",
+        "evidence_ids",
+        "status",
+        "earned_at",
+        "progress_label",
+        "private",
+        "affects_rights"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^badge-" },
+        "title": { "type": "string", "minLength": 1 },
+        "subtitle": { "type": "string" },
+        "criteria": { "type": "string", "minLength": 1 },
+        "evidence_ids": { "$ref": "#/$defs/stringArray" },
+        "status": { "enum": ["earned", "in_progress"] },
+        "earned_at": { "$ref": "#/$defs/nullableDateTime" },
+        "progress_label": { "type": "string", "minLength": 1 },
+        "private": { "const": true },
+        "affects_rights": { "const": false }
+      }
+    },
+    "statusLabel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "words",
+        "number_preview",
+        "basis_ids",
+        "starts_at",
+        "expires_at",
+        "withdrawn_at",
+        "private",
+        "non_medical"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "words": { "type": "string", "minLength": 1 },
+        "number_preview": { "type": "string", "minLength": 1 },
+        "basis_ids": { "$ref": "#/$defs/stringArray" },
+        "starts_at": { "type": "string", "format": "date-time" },
+        "expires_at": { "type": "string", "format": "date-time" },
+        "withdrawn_at": { "$ref": "#/$defs/nullableDateTime" },
+        "private": { "const": true },
+        "non_medical": { "const": true }
+      }
+    },
+    "recommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "basis_ids",
+        "cost",
+        "expected_effect",
+        "alternative",
+        "unknowns",
+        "generation_mode",
+        "status"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^rec-" },
+        "title": { "type": "string", "minLength": 1 },
+        "basis_ids": { "$ref": "#/$defs/stringArray" },
+        "cost": { "type": "string", "minLength": 1 },
+        "expected_effect": { "type": "string", "minLength": 1 },
+        "alternative": { "type": "string", "minLength": 1 },
+        "unknowns": { "$ref": "#/$defs/stringArray" },
+        "generation_mode": { "const": "rule_fixture" },
+        "status": { "enum": ["open", "adopted", "later", "dismissed"] }
+      }
+    },
+    "shareGrant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "recipient",
+        "purpose",
+        "dimension_ids",
+        "granted_at",
+        "expires_at",
+        "revoked_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^share-grant-" },
+        "recipient": { "type": "string", "minLength": 1 },
+        "purpose": { "type": "string", "minLength": 1 },
+        "dimension_ids": { "$ref": "#/$defs/stringArray" },
+        "granted_at": { "type": "string", "format": "date-time" },
+        "expires_at": { "type": "string", "format": "date-time" },
+        "revoked_at": { "$ref": "#/$defs/nullableDateTime" }
+      }
+    },
+    "correction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "target_id",
+        "reason",
+        "evidence_ids",
+        "status",
+        "created_at",
+        "revision"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^correction-" },
+        "target_id": { "type": "string", "minLength": 1 },
+        "reason": { "type": "string", "minLength": 1 },
+        "evidence_ids": { "$ref": "#/$defs/stringArray" },
+        "status": {
+          "enum": ["queued_for_human_review", "resolved", "withdrawn"]
+        },
+        "created_at": { "type": "string", "format": "date-time" },
+        "revision": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "harmSignal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "category",
+        "description",
+        "severity",
+        "status",
+        "action_taken",
+        "created_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^harm-" },
+        "category": {
+          "enum": [
+            "score_misread",
+            "medical_misread",
+            "identity_label",
+            "pressure",
+            "privacy"
+          ]
+        },
+        "description": { "type": "string", "minLength": 1 },
+        "severity": { "enum": ["watch", "stop"] },
+        "status": { "enum": ["open", "mitigated"] },
+        "action_taken": { "type": "string", "minLength": 1 },
+        "created_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "evidence_type",
+        "source_id",
+        "label",
+        "locator",
+        "updated_at",
+        "authority",
+        "freshness",
+        "detail"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^ev-" },
+        "evidence_type": {
+          "enum": [
+            "learning_event",
+            "review_object",
+            "academic_mirror",
+            "self_report",
+            "support_directory"
+          ]
+        },
+        "source_id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "locator": { "type": "string", "minLength": 1 },
+        "updated_at": { "type": "string", "format": "date-time" },
+        "authority": { "enum": ["demo_fixture", "self_declared"] },
+        "freshness": { "enum": ["fresh", "warning", "expired", "no_expiry"] },
+        "detail": { "type": "string", "minLength": 1 }
+      }
+    },
+    "researchGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "default_variant",
+        "evidence_count",
+        "required_participants",
+        "variants",
+        "stop_conditions"
+      ],
+      "properties": {
+        "status": { "const": "deferred_pending_human_evidence" },
+        "default_variant": { "const": "c_dimensions" },
+        "evidence_count": { "const": 0 },
+        "required_participants": { "const": "6-10" },
+        "variants": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "label", "description"],
+            "properties": {
+              "id": { "enum": ["a_numbers", "b_words", "c_dimensions"] },
+              "label": { "type": "string", "minLength": 1 },
+              "description": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "stop_conditions": {
+          "type": "array",
+          "minItems": 3,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "auditEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "sequence",
+        "action",
+        "target_id",
+        "detail",
+        "occurred_at",
+        "previous_event_hash",
+        "event_hash"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^perf-event-" },
+        "sequence": { "type": "integer", "minimum": 1 },
+        "action": { "type": "string", "minLength": 1 },
+        "target_id": { "type": "string", "minLength": 1 },
+        "detail": { "type": "string", "minLength": 1 },
+        "occurred_at": { "type": "string", "format": "date-time" },
+        "previous_event_hash": {
+          "oneOf": [{ "type": "string" }, { "type": "null" }]
+        },
+        "event_hash": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

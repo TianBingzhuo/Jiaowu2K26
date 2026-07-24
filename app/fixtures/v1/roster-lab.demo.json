@@ -1,0 +1,462 @@
+{
+  "schema_version": "1.0.0",
+  "data_mode": "fixture",
+  "student_id": "student-nan-fixture",
+  "semester": "2026-Fall",
+  "catalog_version": "catalog-2026-fall-fixture-r3",
+  "source_boundary": "12 门课程、容量、班次、先修、偏好和方案均为脱敏 Fixture，只用于规划技术验证；不连接学校选课系统，也不代表正式学籍、容量或交易。",
+  "credit_range": { "min": 15, "max": 18 },
+  "catalog": [
+    {
+      "course_id": "SLS201",
+      "title": "信号与线性系统",
+      "credits": 3,
+      "role": "required",
+      "department": "电子信息",
+      "prerequisites": ["CAL101"],
+      "corequisites": [],
+      "substitutes": [],
+      "exclusions": [],
+      "offerings": [
+        {
+          "offering_id": "sls201-a",
+          "capacity": 64,
+          "enrolled": 51,
+          "time_slots": [
+            { "weekday": "Mon", "start": "09:00", "end": "10:30", "room": "工科楼 A201" },
+            { "weekday": "Wed", "start": "09:00", "end": "10:30", "room": "工科楼 A201" }
+          ]
+        }
+      ]
+    },
+    {
+      "course_id": "CIR220",
+      "title": "电子电路",
+      "credits": 3,
+      "role": "required",
+      "department": "电子信息",
+      "prerequisites": ["PHY101"],
+      "corequisites": [],
+      "substitutes": [],
+      "exclusions": [],
+      "offerings": [
+        {
+          "offering_id": "cir220-a",
+          "capacity": 56,
+          "enrolled": 48,
+          "time_slots": [
+            { "weekday": "Tue", "start": "10:30", "end": "12:00", "room": "工科楼 B310" },
+            { "weekday": "Thu", "start": "10:30", "end": "12:00", "room": "工科楼 B310" }
+          ]
+        },
+        {
+          "offering_id": "cir220-b",
+          "capacity": 56,
+          "enrolled": 37,
+          "time_slots": [
+            { "weekday": "Mon", "start": "09:00", "end": "10:30", "room": "工科楼 B307" },
+            { "weekday": "Wed", "start": "09:00", "end": "10:30", "room": "工科楼 B307" }
+          ]
+        }
+      ]
+    },
+    {
+      "course_id": "MAT313",
+      "title": "高等数学专题",
+      "credits": 3,
+      "role": "required",
+      "department": "数学",
+      "prerequisites": ["CAL101"],
+      "corequisites": [],
+      "substitutes": [],
+      "exclusions": [],
+      "offerings": [
+        {
+          "offering_id": "mat313-a",
+          "capacity": 72,
+          "enrolled": 59,
+          "time_slots": [
+            { "weekday": "Tue", "start": "08:00", "end": "09:30", "room": "理科楼 105" },
+            { "weekday": "Thu", "start": "08:00", "end": "09:30", "room": "理科楼 105" }
+          ]
+        },
+        {
+          "offering_id": "mat313-b",
+          "capacity": 72,
+          "enrolled": 61,
+          "time_slots": [
+            { "weekday": "Tue", "start": "14:00", "end": "15:30", "room": "理科楼 105" },
+            { "weekday": "Thu", "start": "14:00", "end": "15:30", "room": "理科楼 105" }
+          ]
+        }
+      ]
+    },
+    {
+      "course_id": "OPT210",
+      "title": "应用光学",
+      "credits": 3,
+      "role": "elective",
+      "department": "物理",
+      "prerequisites": ["PHY101"],
+      "corequisites": [],
+      "substitutes": ["PHY240"],
+      "exclusions": ["PHY240"],
+      "offerings": [
+        {
+          "offering_id": "opt210-a",
+          "capacity": 42,
+          "enrolled": 34,
+          "time_slots": [
+            { "weekday": "Mon", "start": "14:00", "end": "15:30", "room": "理科楼 408" },
+            { "weekday": "Wed", "start": "14:00", "end": "15:30", "room": "理科楼 408" }
+          ]
+        }
+      ]
+    },
+    {
+      "course_id": "ENG210",
+      "title": "学术英语",
+      "credits": 2,
+      "role": "general_ed",
+      "department": "外国语",
+      "prerequisites": [],
+      "corequisites": [],
+      "substitutes": ["WRT201"],
+      "exclusions": [],
+      "offerings": [
+        {
+          "offering_id": "eng210-a",
+          "capacity": 36,
+          "enrolled": 29,
+          "time_slots": [
+            { "weekday": "Fri", "start": "08:00", "end": "10:00", "room": "文科楼 214" }
+          ]
+        },
+        {
+          "offering_id": "eng210-b",
+          "capacity": 36,
+          "enrolled": 31,
+          "time_slots": [
+            { "weekday": "Fri", "start": "14:00", "end": "16:00", "room": "文科楼 214" }
+          ]
+        }
+      ]
+    },
+    {
+      "course_id": "EGR201",
+      "title": "工程训练实验",
+      "credits": 2,
+      "role": "lab",
+      "department": "工程实践",
+      "prerequisites": [],
+      "corequisites": ["CIR220"],
+      "substitutes": [],
+      "exclusions": [],
+      "offerings": [
+        {
+          "offering_id": "egr201-a",
+          "capacity": 24,
+          "enrolled": 19,
+          "time_slots": [
+            { "weekday": "Wed", "start": "14:00", "end": "17:00", "room": "工程中心 L2" }
+          ]
+        }
+      ]
+    },
+    {
+      "course_id": "DAT210",
+      "title": "数据与社会",
+      "credits": 2,
+      "role": "general_ed",
+      "department": "公共事务",
+      "prerequisites": [],
+      "corequisites": [],
+      "substitutes": [],
+      "exclusions": [],
+      "offerings": [
+        {
+          "offering_id": "dat210-a",
+          "capacity": 80,
+          "enrolled": 63,
+          "time_slots": [
+            { "weekday": "Tue", "start": "16:00", "end": "17:30", "room": "公共楼 301" }
+          ]
+        }
+      ]
+    },
+    {
+      "course_id": "HCI205",
+      "title": "人因与交互设计",
+      "credits": 2,
+      "role": "elective",
+      "department": "设计",
+      "prerequisites": [],
+      "corequisites": [],
+      "substitutes": [],
+      "exclusions": ["AI220"],
+      "offerings": [
+        {
+          "offering_id": "hci205-a",
+          "capacity": 32,
+          "enrolled": 24,
+          "time_slots": [
+            { "weekday": "Fri", "start": "10:00", "end": "12:00", "room": "设计楼 Studio 3" }
+          ]
+        }
+      ]
+    },
+    {
+      "course_id": "AI220",
+      "title": "机器智能导论",
+      "credits": 3,
+      "role": "elective",
+      "department": "计算机",
+      "prerequisites": ["PRG100"],
+      "corequisites": [],
+      "substitutes": [],
+      "exclusions": ["HCI205"],
+      "offerings": [
+        {
+          "offering_id": "ai220-a",
+          "capacity": 48,
+          "enrolled": 45,
+          "time_slots": [
+            { "weekday": "Fri", "start": "10:00", "end": "12:00", "room": "信息楼 C402" }
+          ]
+        }
+      ]
+    },
+    {
+      "course_id": "RES101",
+      "title": "科研方法与选题",
+      "credits": 2,
+      "role": "elective",
+      "department": "创新学院",
+      "prerequisites": [],
+      "corequisites": [],
+      "substitutes": [],
+      "exclusions": [],
+      "offerings": [
+        {
+          "offering_id": "res101-a",
+          "capacity": 40,
+          "enrolled": 33,
+          "time_slots": [
+            { "weekday": "Mon", "start": "16:00", "end": "17:30", "room": "创新楼 102" }
+          ]
+        }
+      ]
+    },
+    {
+      "course_id": "PHY240",
+      "title": "现代物理",
+      "credits": 3,
+      "role": "elective",
+      "department": "物理",
+      "prerequisites": ["PHY101"],
+      "corequisites": [],
+      "substitutes": ["OPT210"],
+      "exclusions": ["OPT210"],
+      "offerings": [
+        {
+          "offering_id": "phy240-a",
+          "capacity": 46,
+          "enrolled": 38,
+          "time_slots": [
+            { "weekday": "Wed", "start": "10:30", "end": "12:00", "room": "理科楼 207" }
+          ]
+        }
+      ]
+    },
+    {
+      "course_id": "WRT201",
+      "title": "技术写作",
+      "credits": 2,
+      "role": "general_ed",
+      "department": "写作中心",
+      "prerequisites": [],
+      "corequisites": [],
+      "substitutes": ["ENG210"],
+      "exclusions": [],
+      "offerings": [
+        {
+          "offering_id": "wrt201-a",
+          "capacity": 30,
+          "enrolled": 26,
+          "time_slots": [
+            { "weekday": "Thu", "start": "16:00", "end": "17:30", "room": "文科楼 118" }
+          ]
+        }
+      ]
+    }
+  ],
+  "prefix": {
+    "id": "prefix-nan-2026-fall-v3",
+    "student_id": "student-nan-fixture",
+    "version": 3,
+    "completed": ["CAL101", "PHY101", "PRG100"],
+    "in_progress": ["SLS200"],
+    "planned": [
+      { "course_id": "SLS201", "offering_id": "sls201-a" },
+      { "course_id": "CIR220", "offering_id": "cir220-a" },
+      { "course_id": "MAT313", "offering_id": "mat313-a" },
+      { "course_id": "OPT210", "offering_id": "opt210-a" },
+      { "course_id": "ENG210", "offering_id": "eng210-a" },
+      { "course_id": "DAT210", "offering_id": "dat210-a" }
+    ],
+    "dropped": ["WRT201"],
+    "total_credits_earned": 11
+  },
+  "pins": [
+    {
+      "id": "pin-sls-section",
+      "pin_type": "required_course",
+      "course_id": "SLS201",
+      "offering_id": "sls201-a",
+      "time_slot": null,
+      "lock_reason": "专业培养方案核心课；保留已确认班次",
+      "active": true
+    },
+    {
+      "id": "pin-friday-commitment",
+      "pin_type": "personal_commitment",
+      "course_id": null,
+      "offering_id": null,
+      "time_slot": { "weekday": "Fri", "start": "12:00", "end": "13:30", "room": "学生个人安排" },
+      "lock_reason": "每周固定个人承诺，不允许求解器移动",
+      "active": true
+    },
+    {
+      "id": "pin-circuits-section",
+      "pin_type": "required_course",
+      "course_id": "CIR220",
+      "offering_id": "cir220-a",
+      "time_slot": null,
+      "lock_reason": "希望与实验搭配；启用后锁定当前班次",
+      "active": false
+    }
+  ],
+  "preferences": {
+    "time_of_day": "daytime",
+    "compactness": 2,
+    "variety": 2,
+    "stability": 3
+  },
+  "goal_order": [
+    "hard_constraints",
+    "graduation_progress",
+    "minimal_change",
+    "personal_preference",
+    "minimal_gaps"
+  ],
+  "plans": [
+    {
+      "id": "plan-stable-fixture",
+      "label": "方案 A · 稳定阵容",
+      "strategy": "最少改动，保留当前 Prefix 的六门拟选与已确认班次。",
+      "course_selections": [
+        { "course_id": "SLS201", "offering_id": "sls201-a" },
+        { "course_id": "CIR220", "offering_id": "cir220-a" },
+        { "course_id": "MAT313", "offering_id": "mat313-a" },
+        { "course_id": "OPT210", "offering_id": "opt210-a" },
+        { "course_id": "ENG210", "offering_id": "eng210-a" },
+        { "course_id": "DAT210", "offering_id": "dat210-a" }
+      ],
+      "total_credits": 16,
+      "hard_constraints_met": true,
+      "preference_score": 87,
+      "migration_cost": 0,
+      "tradeoffs": [
+        { "impact": "positive", "title": "迁移最小", "detail": "与 Prefix 完全一致；代价是保留两次 08:00 课程。" }
+      ],
+      "risks": [
+        { "severity": "low", "description": "真实容量仍需在学校系统复核。" }
+      ],
+      "solver_backend": "deterministic_heuristic_fixture",
+      "is_simulation": false,
+      "input_fingerprint": "fnv1a-roster-stable-r3",
+      "is_formal_enrollment": false
+    },
+    {
+      "id": "plan-late-fixture",
+      "label": "方案 B · 午后专注",
+      "strategy": "避开早课，加入实验和科研方法；迁移成本高于方案 A。",
+      "course_selections": [
+        { "course_id": "SLS201", "offering_id": "sls201-a" },
+        { "course_id": "CIR220", "offering_id": "cir220-a" },
+        { "course_id": "MAT313", "offering_id": "mat313-b" },
+        { "course_id": "EGR201", "offering_id": "egr201-a" },
+        { "course_id": "ENG210", "offering_id": "eng210-b" },
+        { "course_id": "RES101", "offering_id": "res101-a" }
+      ],
+      "total_credits": 15,
+      "hard_constraints_met": true,
+      "preference_score": 80,
+      "migration_cost": 6,
+      "tradeoffs": [
+        { "impact": "negative", "title": "迁移较多", "detail": "避开早课，但需要 add/drop/swap 多项变化。" }
+      ],
+      "risks": [
+        { "severity": "medium", "description": "工程实验名额较少，真实容量必须复核。" }
+      ],
+      "solver_backend": "deterministic_heuristic_fixture",
+      "is_simulation": false,
+      "input_fingerprint": "fnv1a-roster-late-r3",
+      "is_formal_enrollment": false
+    },
+    {
+      "id": "plan-explore-fixture",
+      "label": "方案 C · 跨域探索",
+      "strategy": "保留专业主线，并加入人因设计与科研方法两个跨域入口。",
+      "course_selections": [
+        { "course_id": "SLS201", "offering_id": "sls201-a" },
+        { "course_id": "CIR220", "offering_id": "cir220-a" },
+        { "course_id": "MAT313", "offering_id": "mat313-b" },
+        { "course_id": "OPT210", "offering_id": "opt210-a" },
+        { "course_id": "HCI205", "offering_id": "hci205-a" },
+        { "course_id": "RES101", "offering_id": "res101-a" }
+      ],
+      "total_credits": 16,
+      "hard_constraints_met": true,
+      "preference_score": 78,
+      "migration_cost": 5,
+      "tradeoffs": [
+        { "impact": "positive", "title": "跨域较强", "detail": "覆盖电子、数学、物理、设计与科研方法。" }
+      ],
+      "risks": [
+        { "severity": "low", "description": "方向探索不等于正式转专业或课程批准。" }
+      ],
+      "solver_backend": "deterministic_heuristic_fixture",
+      "is_simulation": false,
+      "input_fingerprint": "fnv1a-roster-explore-r3",
+      "is_formal_enrollment": false
+    }
+  ],
+  "unsat": {
+    "request_id": "unsat-pin-sls-circuits-b-fixture",
+    "minimal_conflict_set": [
+      {
+        "violation_type": "pin",
+        "course_ids": ["SLS201", "CIR220"],
+        "description": "SLS201-A 与 CIR220-B 都被锁定在周一、周三 09:00–10:30，同一学生无法同时出席。"
+      }
+    ],
+    "blocking_chain": [
+      { "step": 1, "description": "SLS201-A 是当前已启用 Pin，求解器不得移动。" },
+      { "step": 2, "description": "测试将 CIR220-B 也设为不可移动 Pin。" },
+      { "step": 3, "description": "两个班次在两天均完全重叠，因此不存在可行方案。" }
+    ],
+    "relaxable_items": [
+      {
+        "item": "放宽 CIR220-B 班次 Pin",
+        "impact_if_relaxed": "切回 CIR220-A；保留课程但改到周二、周四 10:30。",
+        "alternative_course_ids": ["CIR220"]
+      },
+      {
+        "item": "暂不选择 CIR220",
+        "impact_if_relaxed": "可改用其他 3 学分课程，但会改变专业必修推进顺序。",
+        "alternative_course_ids": ["PHY240", "OPT210"]
+      }
+    ]
+  }
+}

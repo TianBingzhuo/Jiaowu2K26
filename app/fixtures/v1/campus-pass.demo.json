@@ -1,0 +1,251 @@
+{
+  "schema_version": "1.0.0",
+  "data_mode": "demo_fixture",
+  "generated_at": "2026-07-24T11:00:00+08:00",
+  "last_updated_at": "2026-07-24T11:00:00+08:00",
+  "sources": [
+    {
+      "id": "src-identity-fixture",
+      "provider": "校园身份办公室（Fixture）",
+      "official_url": "https://example.invalid/campus-pass/identity",
+      "version": "fixture-2026.07",
+      "updated_at": "2026-07-24T09:00:00+08:00",
+      "verification_status": "verified_fixture",
+      "correction_route": "Fixture 身份来源纠错入口"
+    },
+    {
+      "id": "src-security-fixture",
+      "provider": "校园安全与门禁中心（Fixture）",
+      "official_url": "https://example.invalid/campus-pass/security",
+      "version": "fixture-2026.07",
+      "updated_at": "2026-07-24T09:10:00+08:00",
+      "verification_status": "verified_fixture",
+      "correction_route": "Fixture 门禁状态纠错入口"
+    },
+    {
+      "id": "src-lab-safety-fixture",
+      "provider": "实验室安全办公室（Fixture）",
+      "official_url": "https://example.invalid/campus-pass/lab-safety",
+      "version": "fixture-2026.07",
+      "updated_at": "2026-07-24T09:20:00+08:00",
+      "verification_status": "verified_fixture",
+      "correction_route": "Fixture 培训与前置条件纠错入口"
+    },
+    {
+      "id": "src-accessibility-fixture",
+      "provider": "无障碍与综合服务台（Fixture）",
+      "official_url": "https://example.invalid/campus-pass/accessibility",
+      "version": "fixture-2026.07",
+      "updated_at": "2026-07-24T09:30:00+08:00",
+      "verification_status": "verified_fixture",
+      "correction_route": "Fixture 人工核验路径纠错入口"
+    }
+  ],
+  "identities": [
+    {
+      "id": "identity-nan-student",
+      "subject_label": "NAN · Fictional Student",
+      "role": "student",
+      "authority_source_id": "src-identity-fixture",
+      "status": "linked_fixture",
+      "verified_at": "2026-07-24T09:00:00+08:00",
+      "expires_at": "2026-08-31T23:59:00+08:00",
+      "source_password_stored": false
+    }
+  ],
+  "credentials": [
+    {
+      "id": "credential-student-active",
+      "title": "Student Campus Pass",
+      "issuer": "校园身份办公室（Fixture）",
+      "credential_type": "student_pass",
+      "supported_carriers": ["physical_card", "nfc", "dynamic_qr", "mobile"],
+      "scope_zone_ids": ["zone-library", "zone-classroom", "zone-access-desk"],
+      "purpose": "课程、图书馆与本人服务办理的最小演示范围",
+      "valid_from": "2026-07-24T00:00:00+08:00",
+      "expires_at": "2026-08-31T23:59:00+08:00",
+      "state": "active",
+      "source_ids": ["src-identity-fixture", "src-security-fixture"],
+      "minimum_privilege": true,
+      "secret_material_stored": false
+    },
+    {
+      "id": "credential-robotics-pending",
+      "title": "Robotics Lab Entitlement",
+      "issuer": "实验室安全办公室（Fixture）",
+      "credential_type": "lab_entitlement",
+      "supported_carriers": ["physical_card", "nfc"],
+      "scope_zone_ids": ["zone-robotics-lab"],
+      "purpose": "完成安全培训与审批后的实验室访问候选",
+      "valid_from": "2026-07-24T00:00:00+08:00",
+      "expires_at": "2026-07-31T23:59:00+08:00",
+      "state": "pending",
+      "source_ids": ["src-lab-safety-fixture", "src-security-fixture"],
+      "minimum_privilege": true,
+      "secret_material_stored": false
+    },
+    {
+      "id": "credential-visitor-expired",
+      "title": "Visitor Session Pass",
+      "issuer": "综合服务台（Fixture）",
+      "credential_type": "visitor_pass",
+      "supported_carriers": ["dynamic_qr", "physical_card"],
+      "scope_zone_ids": ["zone-library", "zone-access-desk"],
+      "purpose": "过期状态与自动失效演示",
+      "valid_from": "2026-07-20T09:00:00+08:00",
+      "expires_at": "2026-07-20T17:00:00+08:00",
+      "state": "expired",
+      "source_ids": ["src-security-fixture"],
+      "minimum_privilege": true,
+      "secret_material_stored": false
+    }
+  ],
+  "zones": [
+    {
+      "id": "zone-library",
+      "label": "Central Library",
+      "sensitivity": "standard",
+      "allowed_roles": ["student", "faculty", "visitor"],
+      "time_window": "06:30–23:00",
+      "requires_extra_approval": false,
+      "source_id": "src-security-fixture"
+    },
+    {
+      "id": "zone-classroom",
+      "label": "Teaching Hall",
+      "sensitivity": "standard",
+      "allowed_roles": ["student", "faculty"],
+      "time_window": "07:00–22:30",
+      "requires_extra_approval": false,
+      "source_id": "src-security-fixture"
+    },
+    {
+      "id": "zone-robotics-lab",
+      "label": "Robotics Lab A",
+      "sensitivity": "controlled",
+      "allowed_roles": ["student", "faculty", "lab_staff"],
+      "time_window": "08:00–21:00",
+      "requires_extra_approval": true,
+      "source_id": "src-lab-safety-fixture"
+    },
+    {
+      "id": "zone-access-desk",
+      "label": "Accessible Service Desk",
+      "sensitivity": "service",
+      "allowed_roles": ["student", "faculty", "visitor"],
+      "time_window": "08:00–20:00",
+      "requires_extra_approval": false,
+      "source_id": "src-accessibility-fixture"
+    }
+  ],
+  "prerequisites": [
+    {
+      "id": "prereq-lab-training",
+      "zone_id": "zone-robotics-lab",
+      "label": "实验室安全培训",
+      "status": "fulfilled",
+      "official_action_url": "https://example.invalid/campus-pass/lab-training",
+      "source_id": "src-lab-safety-fixture"
+    },
+    {
+      "id": "prereq-advisor-approval",
+      "zone_id": "zone-robotics-lab",
+      "label": "导师或实验室负责人批准",
+      "status": "missing",
+      "official_action_url": "https://example.invalid/campus-pass/lab-approval",
+      "source_id": "src-lab-safety-fixture"
+    },
+    {
+      "id": "prereq-lab-reservation",
+      "zone_id": "zone-robotics-lab",
+      "label": "有效预约",
+      "status": "unknown",
+      "official_action_url": "https://example.invalid/campus-pass/lab-reservation",
+      "source_id": "src-lab-safety-fixture"
+    }
+  ],
+  "guest_policy": {
+    "id": "guest-policy-fixture",
+    "allowed_zone_ids": ["zone-library", "zone-access-desk"],
+    "maximum_hours": 8,
+    "sponsor_required": true,
+    "purpose_required": true,
+    "sensitive_area_extra_approval": true,
+    "auto_expiry_required": true,
+    "source_id": "src-security-fixture"
+  },
+  "offline_policy": {
+    "valid_until": "2026-07-24T18:00:00+08:00",
+    "accepted_carriers": ["physical_card", "nfc", "mobile"],
+    "unavailable_zone_ids": ["zone-robotics-lab"],
+    "screenshot_is_credential": false,
+    "cryptographic_verification": "真实部署必须验证受签凭证；Fixture 不执行密码学验证",
+    "source_id": "src-security-fixture"
+  },
+  "self_access_records": [
+    {
+      "id": "access-record-001",
+      "occurred_at": "2026-07-24T08:15:00+08:00",
+      "zone_id": "zone-library",
+      "result": "source_reported_allowed",
+      "purpose": "本人记录自查 Fixture",
+      "source_id": "src-security-fixture",
+      "retained_until": "2026-08-23T23:59:00+08:00",
+      "precise_location_retained": false,
+      "correction_route": "Fixture 本人通行记录纠错入口"
+    },
+    {
+      "id": "access-record-002",
+      "occurred_at": "2026-07-24T09:40:00+08:00",
+      "zone_id": "zone-robotics-lab",
+      "result": "source_reported_denied",
+      "purpose": "缺少审批的拒绝状态 Fixture",
+      "source_id": "src-lab-safety-fixture",
+      "retained_until": "2026-08-23T23:59:00+08:00",
+      "precise_location_retained": false,
+      "correction_route": "Fixture 本人通行记录纠错入口"
+    }
+  ],
+  "emergency_modes": [
+    {
+      "id": "emergency-normal",
+      "title": "Normal Operations",
+      "status": "normal_fixture",
+      "authority": "校园安全与门禁中心（Fixture）",
+      "official_url": "https://example.invalid/campus-pass/emergency",
+      "experience_layer_can_execute": false,
+      "source_id": "src-security-fixture"
+    }
+  ],
+  "manual_fallbacks": [
+    {
+      "id": "fallback-access-desk",
+      "label": "无手机 / 设备没电人工核验",
+      "conditions": ["携带可接受的身份证明", "由正式服务台核验", "不要求智能手机"],
+      "channel": "Accessible Service Desk（Fixture）",
+      "accessible": true,
+      "requires_phone": false,
+      "source_id": "src-accessibility-fixture"
+    },
+    {
+      "id": "fallback-accompanied-entry",
+      "label": "残障陪同与临时人工通道",
+      "conditions": ["本人提出请求", "正式工作人员确认", "最小必要信息"],
+      "channel": "Accessibility Support（Fixture）",
+      "accessible": true,
+      "requires_phone": false,
+      "source_id": "src-accessibility-fixture"
+    }
+  ],
+  "invariants": {
+    "no_official_credential_issuance": true,
+    "no_source_password_storage": true,
+    "no_secret_material_storage": true,
+    "static_screenshot_never_dynamic_credential": true,
+    "minimum_privilege_default": true,
+    "access_state_is_authority_mirror": true,
+    "no_precise_mobility_profile": true,
+    "emergency_execution_stays_external": true,
+    "phone_is_not_required": true
+  }
+}

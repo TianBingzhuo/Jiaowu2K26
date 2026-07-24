@@ -1,0 +1,395 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TianBingzhuo/Jiaowu2K26/app/contracts/v1/academic-mirror-fixture.schema.json",
+  "title": "AcademicMirrorFixture v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "data_mode",
+    "student_id",
+    "reference_time",
+    "source_boundary",
+    "read_only",
+    "authority_catalog",
+    "sources",
+    "snapshots",
+    "records",
+    "conflicts",
+    "consents",
+    "audit"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^1\\." },
+    "data_mode": { "const": "fixture" },
+    "student_id": { "type": "string", "minLength": 1 },
+    "reference_time": { "type": "string", "format": "date-time" },
+    "source_boundary": { "type": "string", "minLength": 20 },
+    "read_only": { "const": true },
+    "authority_catalog": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": { "$ref": "#/$defs/authorityDefinition" }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "$ref": "#/$defs/dataSource" }
+    },
+    "snapshots": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "$ref": "#/$defs/rawSnapshot" }
+    },
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/normalizedRecord" }
+    },
+    "conflicts": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/conflictRecord" }
+    },
+    "consents": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/consentRecord" }
+    },
+    "audit": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/auditEvent" }
+    }
+  },
+  "$defs": {
+    "authorityLevel": {
+      "enum": [
+        "authoritative",
+        "official_reference",
+        "authorized_mirror",
+        "self_declared",
+        "model_inferred",
+        "demo_fixture"
+      ]
+    },
+    "authorityDefinition": {
+      "type": "object",
+      "required": ["level", "title", "description", "high_risk_eligible"],
+      "properties": {
+        "level": { "$ref": "#/$defs/authorityLevel" },
+        "title": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "high_risk_eligible": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "dataSource": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "system_type",
+        "adapter_kind",
+        "responsible_party",
+        "auth_method",
+        "field_scope",
+        "refresh_method",
+        "retention_days",
+        "correction_route",
+        "consent_required",
+        "status",
+        "authorized",
+        "declared_authority",
+        "created_at",
+        "updated_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^ds-" },
+        "name": { "type": "string", "minLength": 1 },
+        "system_type": {
+          "enum": ["sis", "urp", "lms", "manual_export", "demo_fixture"]
+        },
+        "adapter_kind": { "enum": ["demo_fixture", "file_import"] },
+        "responsible_party": { "type": "string", "minLength": 1 },
+        "auth_method": { "enum": ["manual", "file_import"] },
+        "field_scope": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "refresh_method": { "enum": ["manual", "on_demand"] },
+        "retention_days": { "type": "integer", "minimum": 1 },
+        "correction_route": { "type": "string", "minLength": 1 },
+        "consent_required": { "const": true },
+        "status": { "enum": ["active", "suspended", "deprecated"] },
+        "authorized": { "type": "boolean" },
+        "declared_authority": { "$ref": "#/$defs/authorityLevel" },
+        "last_synced_at": {
+          "oneOf": [
+            { "type": "string", "format": "date-time" },
+            { "type": "null" }
+          ]
+        },
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+    "rawSnapshot": {
+      "type": "object",
+      "required": [
+        "id",
+        "data_source_id",
+        "external_id",
+        "source_version",
+        "fetched_at",
+        "content_hash",
+        "raw_reference",
+        "format",
+        "size_bytes",
+        "immutable",
+        "demo_fixture"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^snap-" },
+        "data_source_id": { "type": "string", "pattern": "^ds-" },
+        "external_id": { "type": "string", "minLength": 1 },
+        "source_version": { "type": "string", "minLength": 1 },
+        "fetched_at": { "type": "string", "format": "date-time" },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "raw_reference": { "type": "string", "minLength": 1 },
+        "format": { "enum": ["json", "csv", "manual"] },
+        "size_bytes": { "type": "integer", "minimum": 0 },
+        "immutable": { "const": true },
+        "demo_fixture": { "const": true }
+      },
+      "additionalProperties": false
+    },
+    "mirrorValue": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "integer" },
+        { "type": "boolean" },
+        {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "source_system",
+        "data_source_id",
+        "external_field",
+        "source_version",
+        "fetched_at",
+        "declared_authority",
+        "effective_authority",
+        "conversion_rule",
+        "raw_snapshot_id"
+      ],
+      "properties": {
+        "source_system": { "type": "string", "minLength": 1 },
+        "data_source_id": { "type": "string", "pattern": "^ds-" },
+        "external_field": { "type": "string", "minLength": 1 },
+        "source_version": { "type": "string", "minLength": 1 },
+        "fetched_at": { "type": "string", "format": "date-time" },
+        "declared_authority": { "$ref": "#/$defs/authorityLevel" },
+        "effective_authority": { "const": "demo_fixture" },
+        "conversion_rule": { "type": "string", "minLength": 1 },
+        "raw_snapshot_id": { "type": "string", "pattern": "^snap-" }
+      },
+      "additionalProperties": false
+    },
+    "normalizedField": {
+      "type": "object",
+      "required": ["value", "provenance"],
+      "properties": {
+        "value": { "$ref": "#/$defs/mirrorValue" },
+        "provenance": { "$ref": "#/$defs/provenance" }
+      },
+      "additionalProperties": false
+    },
+    "normalizedRecord": {
+      "type": "object",
+      "required": [
+        "id",
+        "snapshot_ids",
+        "entity_type",
+        "entity_id",
+        "label",
+        "student_id",
+        "fields",
+        "effective_at",
+        "consent_basis",
+        "correction_route",
+        "removable",
+        "demo_fixture"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^nr-" },
+        "snapshot_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "pattern": "^snap-" }
+        },
+        "entity_type": {
+          "enum": [
+            "student",
+            "course",
+            "offering",
+            "grade",
+            "requirement",
+            "activity",
+            "term"
+          ]
+        },
+        "entity_id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "student_id": { "type": "string", "minLength": 1 },
+        "fields": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "$ref": "#/$defs/normalizedField" }
+        },
+        "effective_at": { "type": "string", "format": "date-time" },
+        "expires_at": {
+          "oneOf": [
+            { "type": "string", "format": "date-time" },
+            { "type": "null" }
+          ]
+        },
+        "consent_basis": { "type": "string", "minLength": 1 },
+        "correction_route": { "type": "string", "minLength": 1 },
+        "removable": { "type": "boolean" },
+        "demo_fixture": { "const": true }
+      },
+      "additionalProperties": false
+    },
+    "conflictOption": {
+      "type": "object",
+      "required": [
+        "id",
+        "source_system",
+        "data_source_id",
+        "value",
+        "declared_authority",
+        "fetched_at",
+        "raw_snapshot_id"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "source_system": { "type": "string", "minLength": 1 },
+        "data_source_id": { "type": "string", "pattern": "^ds-" },
+        "value": { "$ref": "#/$defs/mirrorValue" },
+        "declared_authority": { "$ref": "#/$defs/authorityLevel" },
+        "fetched_at": { "type": "string", "format": "date-time" },
+        "raw_snapshot_id": { "type": "string", "pattern": "^snap-" }
+      },
+      "additionalProperties": false
+    },
+    "conflictRecord": {
+      "type": "object",
+      "required": [
+        "id",
+        "entity_id",
+        "entity_label",
+        "field_name",
+        "options",
+        "status",
+        "resolution"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^conf-" },
+        "entity_id": { "type": "string", "minLength": 1 },
+        "entity_label": { "type": "string", "minLength": 1 },
+        "field_name": { "type": "string", "minLength": 1 },
+        "options": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/$defs/conflictOption" }
+        },
+        "status": {
+          "enum": ["detected", "reviewing", "resolved", "dismissed"]
+        },
+        "resolution": {
+          "oneOf": [{ "type": "object" }, { "type": "null" }]
+        }
+      },
+      "additionalProperties": false
+    },
+    "consentRecord": {
+      "type": "object",
+      "required": [
+        "id",
+        "student_id",
+        "data_source_id",
+        "allowed_modules",
+        "purpose",
+        "granted_at",
+        "scope"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^consent-" },
+        "student_id": { "type": "string", "minLength": 1 },
+        "data_source_id": { "type": "string", "pattern": "^ds-" },
+        "allowed_modules": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "pattern": "^F-" }
+        },
+        "purpose": { "type": "string", "minLength": 1 },
+        "granted_at": { "type": "string", "format": "date-time" },
+        "expires_at": {
+          "oneOf": [
+            { "type": "string", "format": "date-time" },
+            { "type": "null" }
+          ]
+        },
+        "revoked_at": {
+          "oneOf": [
+            { "type": "string", "format": "date-time" },
+            { "type": "null" }
+          ]
+        },
+        "scope": { "enum": ["read_only", "export", "matching"] }
+      },
+      "additionalProperties": false
+    },
+    "auditEvent": {
+      "type": "object",
+      "required": [
+        "id",
+        "sequence",
+        "action",
+        "actor_id",
+        "target_entity",
+        "timestamp",
+        "detail",
+        "event_hash",
+        "append_only"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^aud-" },
+        "sequence": { "type": "integer", "minimum": 1 },
+        "action": { "type": "string", "minLength": 1 },
+        "actor_id": { "type": "string", "minLength": 1 },
+        "target_entity": { "type": "string", "minLength": 1 },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "detail": { "type": "string", "minLength": 1 },
+        "previous_event_hash": {
+          "oneOf": [{ "type": "string" }, { "type": "null" }]
+        },
+        "event_hash": { "type": "string", "minLength": 1 },
+        "append_only": { "const": true }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

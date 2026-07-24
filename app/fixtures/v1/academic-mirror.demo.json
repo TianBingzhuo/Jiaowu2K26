@@ -1,0 +1,589 @@
+{
+  "schema_version": "1.0.0",
+  "data_mode": "fixture",
+  "student_id": "student-nan-fixture",
+  "reference_time": "2026-07-24T18:00:00+08:00",
+  "source_boundary": "Academic Mirror only uses fictional and sanitized Fixture data. It is a provenance-aware read-only copy, not SIS, URP or LMS, and it never writes grades, enrollment or student status.",
+  "read_only": true,
+  "authority_catalog": [
+    {
+      "level": "authoritative",
+      "title": "权威记录",
+      "description": "学校正式记录分类；当前值仍受 Fixture 边界约束。",
+      "high_risk_eligible": true
+    },
+    {
+      "level": "official_reference",
+      "title": "官方参考",
+      "description": "课程目录和培养方案等正式参考。",
+      "high_risk_eligible": true
+    },
+    {
+      "level": "authorized_mirror",
+      "title": "授权镜像",
+      "description": "授权导出的只读副本，需检查新鲜度。",
+      "high_risk_eligible": true
+    },
+    {
+      "level": "self_declared",
+      "title": "本人声明",
+      "description": "可撤回的个人目标或偏好。",
+      "high_risk_eligible": false
+    },
+    {
+      "level": "model_inferred",
+      "title": "模型推断",
+      "description": "可拒绝的建议线索，不可作出正式决定。",
+      "high_risk_eligible": false
+    },
+    {
+      "level": "demo_fixture",
+      "title": "演示夹具",
+      "description": "虚构或脱敏数据，不支持正式决定。",
+      "high_risk_eligible": false
+    }
+  ],
+  "sources": [
+    {
+      "id": "ds-sis-demo",
+      "name": "SIS 权威记录演示源",
+      "system_type": "sis",
+      "adapter_kind": "demo_fixture",
+      "responsible_party": "教务处（Fixture）",
+      "auth_method": "manual",
+      "field_scope": ["student.name", "student.major", "grade.result"],
+      "refresh_method": "on_demand",
+      "retention_days": 30,
+      "correction_route": "正式记录请联系学校教务处；本页只能提交镜像校对请求。",
+      "consent_required": true,
+      "status": "active",
+      "authorized": true,
+      "declared_authority": "authoritative",
+      "last_synced_at": "2026-07-24T10:30:00+08:00",
+      "created_at": "2026-07-24T09:00:00+08:00",
+      "updated_at": "2026-07-24T10:30:00+08:00"
+    },
+    {
+      "id": "ds-catalog-demo",
+      "name": "课程目录演示源",
+      "system_type": "sis",
+      "adapter_kind": "demo_fixture",
+      "responsible_party": "本科生院（Fixture）",
+      "auth_method": "manual",
+      "field_scope": ["course.title", "course.credits"],
+      "refresh_method": "on_demand",
+      "retention_days": 90,
+      "correction_route": "课程目录问题请通过本科生院课程目录勘误入口核对。",
+      "consent_required": true,
+      "status": "active",
+      "authorized": true,
+      "declared_authority": "official_reference",
+      "last_synced_at": "2026-07-23T16:00:00+08:00",
+      "created_at": "2026-07-23T15:30:00+08:00",
+      "updated_at": "2026-07-23T16:00:00+08:00"
+    },
+    {
+      "id": "ds-file-import",
+      "name": "已授权活动导出文件",
+      "system_type": "manual_export",
+      "adapter_kind": "file_import",
+      "responsible_party": "学生本人",
+      "auth_method": "file_import",
+      "field_scope": ["activity.title", "activity.role"],
+      "refresh_method": "manual",
+      "retention_days": 14,
+      "correction_route": "重新导入已脱敏文件，或删除此非权威副本。",
+      "consent_required": true,
+      "status": "active",
+      "authorized": true,
+      "declared_authority": "authorized_mirror",
+      "last_synced_at": "2026-07-24T11:10:00+08:00",
+      "created_at": "2026-07-24T11:00:00+08:00",
+      "updated_at": "2026-07-24T11:10:00+08:00"
+    },
+    {
+      "id": "ds-self-profile",
+      "name": "本人目标与偏好",
+      "system_type": "manual_export",
+      "adapter_kind": "file_import",
+      "responsible_party": "学生本人",
+      "auth_method": "file_import",
+      "field_scope": ["student.goal"],
+      "refresh_method": "manual",
+      "retention_days": 365,
+      "correction_route": "本人可直接更新或删除，不影响学校正式记录。",
+      "consent_required": true,
+      "status": "active",
+      "authorized": true,
+      "declared_authority": "self_declared",
+      "last_synced_at": "2026-07-24T11:20:00+08:00",
+      "created_at": "2026-07-24T11:15:00+08:00",
+      "updated_at": "2026-07-24T11:20:00+08:00"
+    },
+    {
+      "id": "ds-model-insight",
+      "name": "本地模型建议输出",
+      "system_type": "manual_export",
+      "adapter_kind": "file_import",
+      "responsible_party": "University2K26 本地 AI",
+      "auth_method": "file_import",
+      "field_scope": ["student.suggested_focus"],
+      "refresh_method": "manual",
+      "retention_days": 7,
+      "correction_route": "可拒绝或删除模型推断；模型无权修改正式记录。",
+      "consent_required": true,
+      "status": "active",
+      "authorized": true,
+      "declared_authority": "model_inferred",
+      "last_synced_at": "2026-07-24T11:25:00+08:00",
+      "created_at": "2026-07-24T11:22:00+08:00",
+      "updated_at": "2026-07-24T11:25:00+08:00"
+    },
+    {
+      "id": "ds-pure-fixture",
+      "name": "镜像流程演示夹具",
+      "system_type": "demo_fixture",
+      "adapter_kind": "demo_fixture",
+      "responsible_party": "University2K26 Demo",
+      "auth_method": "manual",
+      "field_scope": ["term.label"],
+      "refresh_method": "on_demand",
+      "retention_days": 1,
+      "correction_route": "演示夹具可重置，不代表任何学校或学生。",
+      "consent_required": true,
+      "status": "active",
+      "authorized": true,
+      "declared_authority": "demo_fixture",
+      "last_synced_at": "2026-07-24T10:00:00+08:00",
+      "created_at": "2026-07-24T10:00:00+08:00",
+      "updated_at": "2026-07-24T10:00:00+08:00"
+    }
+  ],
+  "snapshots": [
+    {
+      "id": "snap-sis-001",
+      "data_source_id": "ds-sis-demo",
+      "external_id": "ds-sis-demo-student-nan",
+      "source_version": "sis-fixture-r4",
+      "fetched_at": "2026-07-24T10:30:00+08:00",
+      "content_hash": "sha256:6b43a6aa60fb2d35c5907c643e9a519b7f615959b92983c9e649f04c5b51f15f",
+      "raw_reference": "fixture://academic-mirror/snap-sis-001",
+      "format": "json",
+      "size_bytes": 648,
+      "immutable": true,
+      "demo_fixture": true
+    },
+    {
+      "id": "snap-catalog-001",
+      "data_source_id": "ds-catalog-demo",
+      "external_id": "ds-catalog-demo-student-nan",
+      "source_version": "catalog-fixture-r3",
+      "fetched_at": "2026-07-23T16:00:00+08:00",
+      "content_hash": "sha256:fc88bf3c8ef9a5e40e51465b4a89fab6c8320258d911b3178400e7589429f736",
+      "raw_reference": "fixture://academic-mirror/snap-catalog-001",
+      "format": "json",
+      "size_bytes": 702,
+      "immutable": true,
+      "demo_fixture": true
+    },
+    {
+      "id": "snap-file-001",
+      "data_source_id": "ds-file-import",
+      "external_id": "ds-file-import-student-nan",
+      "source_version": "authorized-export-r1",
+      "fetched_at": "2026-07-24T11:10:00+08:00",
+      "content_hash": "sha256:423c25d04dd9fd711eb65683f7bca7a52e538245018362875ca9fd6c0958f311",
+      "raw_reference": "fixture://academic-mirror/snap-file-001",
+      "format": "csv",
+      "size_bytes": 590,
+      "immutable": true,
+      "demo_fixture": true
+    },
+    {
+      "id": "snap-self-001",
+      "data_source_id": "ds-self-profile",
+      "external_id": "ds-self-profile-student-nan",
+      "source_version": "self-declared-r1",
+      "fetched_at": "2026-07-24T11:20:00+08:00",
+      "content_hash": "sha256:1731c5f2b49199dc82167a8f0d0d0bcf38f91aaab260deef564c866f151b9624",
+      "raw_reference": "fixture://academic-mirror/snap-self-001",
+      "format": "manual",
+      "size_bytes": 468,
+      "immutable": true,
+      "demo_fixture": true
+    },
+    {
+      "id": "snap-model-001",
+      "data_source_id": "ds-model-insight",
+      "external_id": "ds-model-insight-student-nan",
+      "source_version": "local-model-r1",
+      "fetched_at": "2026-07-24T11:25:00+08:00",
+      "content_hash": "sha256:5bdabf57a889166430ab6f79d97c918d404665bb20b75fbf08c1a83063b48b9b",
+      "raw_reference": "fixture://academic-mirror/snap-model-001",
+      "format": "json",
+      "size_bytes": 512,
+      "immutable": true,
+      "demo_fixture": true
+    },
+    {
+      "id": "snap-fixture-001",
+      "data_source_id": "ds-pure-fixture",
+      "external_id": "ds-pure-fixture-student-nan",
+      "source_version": "fixture-r1",
+      "fetched_at": "2026-07-24T10:00:00+08:00",
+      "content_hash": "sha256:b302d1df0b51c3459e32c33d2f9903fc7693baa373069413607b7ac756010e79",
+      "raw_reference": "fixture://academic-mirror/snap-fixture-001",
+      "format": "json",
+      "size_bytes": 452,
+      "immutable": true,
+      "demo_fixture": true
+    }
+  ],
+  "records": [
+    {
+      "id": "nr-student-profile",
+      "snapshot_ids": ["snap-sis-001"],
+      "entity_type": "student",
+      "entity_id": "student-nan-fixture",
+      "label": "南同学（NaN）· 学生档案",
+      "student_id": "student-nan-fixture",
+      "fields": {
+        "display_name": {
+          "value": "南同学（NaN）",
+          "provenance": {
+            "source_system": "SIS 权威记录演示源",
+            "data_source_id": "ds-sis-demo",
+            "external_field": "student.display_name",
+            "source_version": "sis-fixture-r4",
+            "fetched_at": "2026-07-24T10:30:00+08:00",
+            "declared_authority": "authoritative",
+            "effective_authority": "demo_fixture",
+            "conversion_rule": "原值映射；保留未知字段",
+            "raw_snapshot_id": "snap-sis-001"
+          }
+        }
+      },
+      "effective_at": "2026-07-24T10:30:00+08:00",
+      "expires_at": "2026-08-23T10:30:00+08:00",
+      "consent_basis": "consent-sis-read",
+      "correction_route": "正式档案请联系教务处；镜像差异可提交校对。",
+      "removable": false,
+      "demo_fixture": true
+    },
+    {
+      "id": "nr-course-sls201",
+      "snapshot_ids": ["snap-catalog-001"],
+      "entity_type": "course",
+      "entity_id": "SLS201",
+      "label": "SLS201 · 信号与线性系统",
+      "student_id": "student-nan-fixture",
+      "fields": {
+        "credits": {
+          "value": 3,
+          "provenance": {
+            "source_system": "课程目录演示源",
+            "data_source_id": "ds-catalog-demo",
+            "external_field": "course.credit_value",
+            "source_version": "catalog-fixture-r3",
+            "fetched_at": "2026-07-23T16:00:00+08:00",
+            "declared_authority": "official_reference",
+            "effective_authority": "demo_fixture",
+            "conversion_rule": "decimal credits to integer when exact",
+            "raw_snapshot_id": "snap-catalog-001"
+          }
+        }
+      },
+      "effective_at": "2026-07-23T16:00:00+08:00",
+      "expires_at": "2026-07-24T22:00:00+08:00",
+      "consent_basis": "consent-catalog-read",
+      "correction_route": "请从学校课程目录核对，并向本科生院提交勘误。",
+      "removable": false,
+      "demo_fixture": true
+    },
+    {
+      "id": "nr-activity-hackathon",
+      "snapshot_ids": ["snap-file-001"],
+      "entity_type": "activity",
+      "entity_id": "activity-adventurex-demo",
+      "label": "AdventureX 项目经历（授权导入）",
+      "student_id": "student-nan-fixture",
+      "fields": {
+        "title": {
+          "value": "University2K26 原型协作",
+          "provenance": {
+            "source_system": "已授权活动导出文件",
+            "data_source_id": "ds-file-import",
+            "external_field": "activity.title",
+            "source_version": "authorized-export-r1",
+            "fetched_at": "2026-07-24T11:10:00+08:00",
+            "declared_authority": "authorized_mirror",
+            "effective_authority": "demo_fixture",
+            "conversion_rule": "原值映射；保留未知字段",
+            "raw_snapshot_id": "snap-file-001"
+          }
+        }
+      },
+      "effective_at": "2026-07-24T11:10:00+08:00",
+      "expires_at": null,
+      "consent_basis": "consent-activity-opportunity",
+      "correction_route": "可重新导入或删除此授权副本。",
+      "removable": true,
+      "demo_fixture": true
+    },
+    {
+      "id": "nr-self-goal",
+      "snapshot_ids": ["snap-self-001"],
+      "entity_type": "student",
+      "entity_id": "student-nan-fixture-goal",
+      "label": "本人方向偏好",
+      "student_id": "student-nan-fixture",
+      "fields": {
+        "goal": {
+          "value": "交互设计 × 嵌入式系统",
+          "provenance": {
+            "source_system": "本人目标与偏好",
+            "data_source_id": "ds-self-profile",
+            "external_field": "student.goal",
+            "source_version": "self-declared-r1",
+            "fetched_at": "2026-07-24T11:20:00+08:00",
+            "declared_authority": "self_declared",
+            "effective_authority": "demo_fixture",
+            "conversion_rule": "原值映射；保留未知字段",
+            "raw_snapshot_id": "snap-self-001"
+          }
+        }
+      },
+      "effective_at": "2026-07-24T11:20:00+08:00",
+      "expires_at": null,
+      "consent_basis": "consent-self-profile",
+      "correction_route": "本人可随时更新或删除。",
+      "removable": true,
+      "demo_fixture": true
+    },
+    {
+      "id": "nr-model-suggestion",
+      "snapshot_ids": ["snap-model-001"],
+      "entity_type": "requirement",
+      "entity_id": "suggestion-focus-demo",
+      "label": "AI 学习建议（可拒绝）",
+      "student_id": "student-nan-fixture",
+      "fields": {
+        "suggested_focus": {
+          "value": "先核对卷积与系统性质的证据链",
+          "provenance": {
+            "source_system": "本地模型建议输出",
+            "data_source_id": "ds-model-insight",
+            "external_field": "model.suggested_focus",
+            "source_version": "local-model-r1",
+            "fetched_at": "2026-07-24T11:25:00+08:00",
+            "declared_authority": "model_inferred",
+            "effective_authority": "demo_fixture",
+            "conversion_rule": "原值映射；保留未知字段",
+            "raw_snapshot_id": "snap-model-001"
+          }
+        }
+      },
+      "effective_at": "2026-07-24T11:25:00+08:00",
+      "expires_at": "2026-07-31T11:25:00+08:00",
+      "consent_basis": "consent-model-revoked",
+      "correction_route": "可拒绝或删除；模型不能更改课程、成绩或学籍。",
+      "removable": true,
+      "demo_fixture": true
+    },
+    {
+      "id": "nr-term-fixture",
+      "snapshot_ids": ["snap-fixture-001"],
+      "entity_type": "term",
+      "entity_id": "2026-fall-fixture",
+      "label": "2026 Fall Season（Fixture）",
+      "student_id": "student-nan-fixture",
+      "fields": {
+        "season": {
+          "value": "Season 4 / 8",
+          "provenance": {
+            "source_system": "镜像流程演示夹具",
+            "data_source_id": "ds-pure-fixture",
+            "external_field": "term.season",
+            "source_version": "fixture-r1",
+            "fetched_at": "2026-07-24T10:00:00+08:00",
+            "declared_authority": "demo_fixture",
+            "effective_authority": "demo_fixture",
+            "conversion_rule": "原值映射；保留未知字段",
+            "raw_snapshot_id": "snap-fixture-001"
+          }
+        }
+      },
+      "effective_at": "2026-07-24T10:00:00+08:00",
+      "expires_at": "2026-07-25T10:00:00+08:00",
+      "consent_basis": "consent-fixture",
+      "correction_route": "演示夹具可重置。",
+      "removable": true,
+      "demo_fixture": true
+    }
+  ],
+  "conflicts": [
+    {
+      "id": "conf-sls-credits",
+      "entity_id": "SLS201",
+      "entity_label": "SLS201 · 信号与线性系统",
+      "field_name": "credits",
+      "options": [
+        {
+          "id": "opt-catalog-3",
+          "source_system": "课程目录演示源",
+          "data_source_id": "ds-catalog-demo",
+          "value": 3,
+          "declared_authority": "official_reference",
+          "fetched_at": "2026-07-23T16:00:00+08:00",
+          "raw_snapshot_id": "snap-catalog-001"
+        },
+        {
+          "id": "opt-file-4",
+          "source_system": "已授权活动导出文件",
+          "data_source_id": "ds-file-import",
+          "value": 4,
+          "declared_authority": "authorized_mirror",
+          "fetched_at": "2026-07-24T11:10:00+08:00",
+          "raw_snapshot_id": "snap-file-001"
+        }
+      ],
+      "status": "detected",
+      "resolution": null
+    },
+    {
+      "id": "conf-major-label",
+      "entity_id": "student-nan-fixture",
+      "entity_label": "南同学（NaN）· 学生档案",
+      "field_name": "major",
+      "options": [
+        {
+          "id": "opt-sis-major",
+          "source_system": "SIS 权威记录演示源",
+          "data_source_id": "ds-sis-demo",
+          "value": "电子信息工程（Fixture）",
+          "declared_authority": "authoritative",
+          "fetched_at": "2026-07-24T10:30:00+08:00",
+          "raw_snapshot_id": "snap-sis-001"
+        },
+        {
+          "id": "opt-self-major",
+          "source_system": "本人目标与偏好",
+          "data_source_id": "ds-self-profile",
+          "value": "电子信息工程 + 交互设计方向",
+          "declared_authority": "self_declared",
+          "fetched_at": "2026-07-24T11:20:00+08:00",
+          "raw_snapshot_id": "snap-self-001"
+        }
+      ],
+      "status": "detected",
+      "resolution": null
+    }
+  ],
+  "consents": [
+    {
+      "id": "consent-sis-read",
+      "student_id": "student-nan-fixture",
+      "data_source_id": "ds-sis-demo",
+      "allowed_modules": ["F-002", "F-004"],
+      "purpose": "在赛季中心展示课程状态，并为 Roster Lab 提供只读 Prefix。",
+      "granted_at": "2026-07-24T09:40:00+08:00",
+      "expires_at": "2026-08-24T09:40:00+08:00",
+      "revoked_at": null,
+      "scope": "read_only"
+    },
+    {
+      "id": "consent-catalog-read",
+      "student_id": "student-nan-fixture",
+      "data_source_id": "ds-catalog-demo",
+      "allowed_modules": ["F-002", "F-004"],
+      "purpose": "显示课程目录并解释培养方案约束。",
+      "granted_at": "2026-07-24T09:42:00+08:00",
+      "expires_at": "2026-10-24T09:42:00+08:00",
+      "revoked_at": null,
+      "scope": "read_only"
+    },
+    {
+      "id": "consent-activity-opportunity",
+      "student_id": "student-nan-fixture",
+      "data_source_id": "ds-file-import",
+      "allowed_modules": ["F-009"],
+      "purpose": "用于机会匹配资格解释；不自动投递。",
+      "granted_at": "2026-07-24T11:12:00+08:00",
+      "expires_at": "2026-08-07T11:12:00+08:00",
+      "revoked_at": null,
+      "scope": "matching"
+    },
+    {
+      "id": "consent-self-profile",
+      "student_id": "student-nan-fixture",
+      "data_source_id": "ds-self-profile",
+      "allowed_modules": ["F-004", "F-006", "F-009"],
+      "purpose": "用于本人可撤回的规划偏好与机会匹配。",
+      "granted_at": "2026-07-24T11:22:00+08:00",
+      "expires_at": null,
+      "revoked_at": null,
+      "scope": "matching"
+    },
+    {
+      "id": "consent-model-revoked",
+      "student_id": "student-nan-fixture",
+      "data_source_id": "ds-model-insight",
+      "allowed_modules": ["F-006"],
+      "purpose": "曾用于学习建议，现已撤回。",
+      "granted_at": "2026-07-24T11:26:00+08:00",
+      "expires_at": "2026-07-31T11:26:00+08:00",
+      "revoked_at": "2026-07-24T11:30:00+08:00",
+      "scope": "read_only"
+    }
+  ],
+  "audit": [
+    {
+      "id": "aud-001",
+      "sequence": 1,
+      "action": "sync",
+      "actor_id": "student-nan-fixture",
+      "target_entity": "source:ds-sis-demo",
+      "timestamp": "2026-07-24T10:30:00+08:00",
+      "detail": "DemoFixtureAdapter 生成不可变快照 snap-sis-001。",
+      "previous_event_hash": null,
+      "event_hash": "fnv1a-aud-001",
+      "append_only": true
+    },
+    {
+      "id": "aud-002",
+      "sequence": 2,
+      "action": "map",
+      "actor_id": "student-nan-fixture",
+      "target_entity": "snapshot:snap-sis-001",
+      "timestamp": "2026-07-24T10:31:00+08:00",
+      "detail": "映射标准记录；字段级来源已保留。",
+      "previous_event_hash": "fnv1a-aud-001",
+      "event_hash": "fnv1a-aud-002",
+      "append_only": true
+    },
+    {
+      "id": "aud-003",
+      "sequence": 3,
+      "action": "sync",
+      "actor_id": "student-nan-fixture",
+      "target_entity": "source:ds-file-import",
+      "timestamp": "2026-07-24T11:10:00+08:00",
+      "detail": "FileImportAdapter 读取已脱敏授权样例，未上传原文件。",
+      "previous_event_hash": "fnv1a-aud-002",
+      "event_hash": "fnv1a-aud-003",
+      "append_only": true
+    },
+    {
+      "id": "aud-004",
+      "sequence": 4,
+      "action": "consent_revoke",
+      "actor_id": "student-nan-fixture",
+      "target_entity": "consent:consent-model-revoked",
+      "timestamp": "2026-07-24T11:30:00+08:00",
+      "detail": "撤回 F-006 对模型推断源的读取同意。",
+      "previous_event_hash": "fnv1a-aud-003",
+      "event_hash": "fnv1a-aud-004",
+      "append_only": true
+    }
+  ]
+}

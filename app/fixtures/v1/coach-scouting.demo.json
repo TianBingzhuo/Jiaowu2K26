@@ -1,0 +1,544 @@
+{
+  "schema_version": "1.0.0",
+  "data_mode": "demo_fixture",
+  "generated_at": "2026-07-24T08:45:00+08:00",
+  "last_updated_at": "2026-07-24T08:45:00+08:00",
+  "course": {
+    "id": "course-profile-sls201-2026sp",
+    "course_id": "SLS201",
+    "offering_id": "offering-sls201-2026sp",
+    "term": "2026 Spring",
+    "title": "信号与线性系统",
+    "instructor_id": "faculty-lin-fixture",
+    "instructor_assignment_id": "assignment-lin-sls201-2026sp",
+    "instructor_display_name": "林老师（Fixture）",
+    "summary": {
+      "id": "course-summary",
+      "label": "课程简介",
+      "value": "以连续与离散信号、系统性质、卷积、频域方法和工程证据为主线。",
+      "source_id": "src-official-syllabus",
+      "effective_term": "2026 Spring"
+    },
+    "objectives": [
+      {
+        "id": "objective-model",
+        "label": "学习目标 1",
+        "value": "能把物理或工程现象转译为信号与系统模型。",
+        "source_id": "src-official-syllabus",
+        "effective_term": "2026 Spring"
+      },
+      {
+        "id": "objective-evidence",
+        "label": "学习目标 2",
+        "value": "能用来源、推导和实验结果说明判断，而不是只给答案。",
+        "source_id": "src-teacher-confirmed",
+        "effective_term": "2026 Spring"
+      }
+    ],
+    "assessments": [
+      {
+        "label": "每周练习",
+        "weight": 20,
+        "source_id": "src-official-syllabus"
+      },
+      {
+        "label": "实验与复盘",
+        "weight": 25,
+        "source_id": "src-official-syllabus"
+      },
+      {
+        "label": "期中检查",
+        "weight": 20,
+        "source_id": "src-official-syllabus"
+      },
+      {
+        "label": "期末综合任务",
+        "weight": 35,
+        "source_id": "src-teacher-confirmed"
+      }
+    ],
+    "textbooks": [
+      {
+        "id": "textbook-main",
+        "label": "主要材料",
+        "value": "课程讲义与经教师确认的公开参考章节；无强制付费平台。",
+        "source_id": "src-teacher-confirmed",
+        "effective_term": "2026 Spring"
+      }
+    ],
+    "prerequisites": [
+      {
+        "id": "prerequisite-calculus",
+        "label": "先修基础",
+        "value": "微积分、线性代数与基础电路；缺口可在开课前咨询。",
+        "source_id": "src-official-syllabus",
+        "effective_term": "2026 Spring"
+      }
+    ],
+    "updated_at": "2026-07-23T16:20:00+08:00"
+  },
+  "sources": [
+    {
+      "id": "src-teacher-confirmed",
+      "tier": "teacher_confirmed",
+      "label": "教师确认",
+      "owner": "林老师（Fixture）",
+      "version": "teacher-note-r3",
+      "updated_at": "2026-07-23T16:20:00+08:00",
+      "expires_at": "2026-09-01T00:00:00+08:00",
+      "correction_route": "Fixture 信息可在 Coach Studio 提交纠错；正式课程信息请回到学校权威系统核对。",
+      "verified": true
+    },
+    {
+      "id": "src-official-syllabus",
+      "tier": "official_syllabus",
+      "label": "官方大纲",
+      "owner": "示例大学课程目录",
+      "version": "SLS201-2026SP-v2",
+      "updated_at": "2026-07-22T10:00:00+08:00",
+      "expires_at": "2026-09-01T00:00:00+08:00",
+      "correction_route": "Fixture 信息可在 Coach Studio 提交纠错；正式课程信息请回到学校权威系统核对。",
+      "verified": true
+    },
+    {
+      "id": "src-history-2025",
+      "tier": "historical_version",
+      "label": "历史版本",
+      "owner": "2025 Spring 归档（Fixture）",
+      "version": "SLS201-2025SP-v4",
+      "updated_at": "2025-06-30T12:00:00+08:00",
+      "expires_at": null,
+      "correction_route": "Fixture 信息可在 Coach Studio 提交纠错；正式课程信息请回到学校权威系统核对。",
+      "verified": true
+    },
+    {
+      "id": "src-student-aggregate",
+      "tier": "student_aggregate",
+      "label": "学生自愿汇总",
+      "owner": "8 份结构化反馈（Fixture）",
+      "version": "aggregate-2026SP-r1",
+      "updated_at": "2026-07-23T20:00:00+08:00",
+      "expires_at": "2026-08-31T23:59:00+08:00",
+      "correction_route": "Fixture 信息可在 Coach Studio 提交纠错；正式课程信息请回到学校权威系统核对。",
+      "verified": true
+    },
+    {
+      "id": "src-system-inference",
+      "tier": "system_inference",
+      "label": "系统推断",
+      "owner": "University2K26 规则引擎",
+      "version": "rule-envelope-r1",
+      "updated_at": "2026-07-24T08:30:00+08:00",
+      "expires_at": "2026-07-31T23:59:00+08:00",
+      "correction_route": "Fixture 信息可在 Coach Studio 提交纠错；正式课程信息请回到学校权威系统核对。",
+      "verified": false
+    }
+  ],
+  "teaching": {
+    "offering_id": "offering-sls201-2026sp",
+    "activities": [
+      {
+        "id": "activity-lecture",
+        "label": "讲授与推导",
+        "share": 40,
+        "frequency": "每周 2 次",
+        "source_id": "src-teacher-confirmed"
+      },
+      {
+        "id": "activity-discussion",
+        "label": "讨论与直觉检验",
+        "share": 20,
+        "frequency": "每周 1 次",
+        "source_id": "src-teacher-confirmed"
+      },
+      {
+        "id": "activity-lab",
+        "label": "实验与仿真",
+        "share": 25,
+        "frequency": "双周",
+        "source_id": "src-official-syllabus"
+      },
+      {
+        "id": "activity-project",
+        "label": "小型项目",
+        "share": 15,
+        "frequency": "学期 2 次",
+        "source_id": "src-official-syllabus"
+      }
+    ],
+    "homework_frequency": {
+      "id": "homework-frequency",
+      "label": "作业频率",
+      "value": "通常每周一组；期中周可能调整，以课程公告为准。",
+      "source_id": "src-teacher-confirmed",
+      "effective_term": "2026 Spring"
+    },
+    "feedback_method": {
+      "id": "feedback-method",
+      "label": "反馈方式",
+      "value": "课堂讲评、Rubric、实验复盘与 Office Hours；不承诺固定返回日。",
+      "source_id": "src-teacher-confirmed",
+      "effective_term": "2026 Spring"
+    },
+    "group_share": {
+      "id": "group-share",
+      "label": "小组占比",
+      "value": "项目部分约占总评 15%；个人贡献需要单独说明。",
+      "source_id": "src-official-syllabus",
+      "effective_term": "2026 Spring"
+    }
+  },
+  "office_hours": [
+    {
+      "id": "office-hours-current",
+      "instructor_assignment_id": "assignment-lin-sls201-2026sp",
+      "schedule": "周二 16:00–17:30",
+      "location": "教学楼 B214 / 可预约在线",
+      "appointment_method": "课程系统预约或课后确认",
+      "suitable_topics": [
+        "概念澄清",
+        "实验设计",
+        "复盘与申诉流程"
+      ],
+      "accessibility": [
+        "电梯可达",
+        "在线字幕可申请",
+        "可提前提交问题"
+      ],
+      "source_id": "src-teacher-confirmed",
+      "updated_at": "2026-07-23T16:20:00+08:00",
+      "expires_at": "2026-08-31T23:59:00+08:00",
+      "status": "active"
+    },
+    {
+      "id": "office-hours-expired",
+      "instructor_assignment_id": "assignment-lin-sls201-2026sp",
+      "schedule": "周四 12:30–13:00",
+      "location": "旧线上链接",
+      "appointment_method": "已停用",
+      "suitable_topics": [
+        "历史记录"
+      ],
+      "accessibility": [
+        "已过期，不应继续导航"
+      ],
+      "source_id": "src-history-2025",
+      "updated_at": "2025-06-01T08:00:00+08:00",
+      "expires_at": "2025-07-01T00:00:00+08:00",
+      "status": "expired"
+    }
+  ],
+  "workload": [
+    {
+      "id": "workload-teacher",
+      "label": "教师说明",
+      "minimum": 5,
+      "maximum": 8,
+      "unit": "hours_per_week",
+      "sample_size": null,
+      "minimum_sample": null,
+      "time_range": "2026 Spring 课程设计",
+      "source_id": "src-teacher-confirmed",
+      "publishable": true,
+      "caveat": "范围不是对个人用时的承诺。"
+    },
+    {
+      "id": "workload-aggregate",
+      "label": "学生自愿汇总",
+      "minimum": 6,
+      "maximum": 9,
+      "unit": "hours_per_week",
+      "sample_size": 8,
+      "minimum_sample": 5,
+      "time_range": "2026-03-01 至 2026-06-20",
+      "source_id": "src-student-aggregate",
+      "publishable": true,
+      "caveat": "仅代表 8 份结构化 Fixture 反馈，不代表全部学生。"
+    },
+    {
+      "id": "workload-insufficient",
+      "label": "实验周额外负荷",
+      "minimum": 2,
+      "maximum": 4,
+      "unit": "hours_per_week",
+      "sample_size": 3,
+      "minimum_sample": 5,
+      "time_range": "2026-05 实验周",
+      "source_id": "src-student-aggregate",
+      "publishable": false,
+      "caveat": "样本不足，暂不公开聚合结论。"
+    }
+  ],
+  "scouting": {
+    "offering_id": "offering-sls201-2026sp",
+    "prepared_for": [
+      {
+        "id": "prepared-math",
+        "label": "适合的准备",
+        "value": "愿意把微积分与线性代数用于解释具体系统。",
+        "source_id": "src-official-syllabus",
+        "effective_term": "2026 Spring"
+      },
+      {
+        "id": "prepared-evidence",
+        "label": "适合的准备",
+        "value": "能保留推导、实验记录和来源。",
+        "source_id": "src-teacher-confirmed",
+        "effective_term": "2026 Spring"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "challenge-abstraction",
+        "label": "可能挑战",
+        "value": "时域与频域之间需要反复切换；当前没有个人难度预测。",
+        "source_id": "src-system-inference",
+        "effective_term": "2026 Spring"
+      },
+      {
+        "id": "challenge-group",
+        "label": "可能挑战",
+        "value": "项目包含小组协作，但个人证据仍需单独提交。",
+        "source_id": "src-official-syllabus",
+        "effective_term": "2026 Spring"
+      }
+    ],
+    "actions": [
+      {
+        "id": "action-preview",
+        "label": "建议动作",
+        "value": "开课前用一页例题核对卷积、复数与线性代数基础。",
+        "source_id": "src-teacher-confirmed",
+        "effective_term": "2026 Spring"
+      },
+      {
+        "id": "action-office",
+        "label": "建议动作",
+        "value": "若先修证据不完整，带问题清单去 Office Hours，而不是自我淘汰。",
+        "source_id": "src-teacher-confirmed",
+        "effective_term": "2026 Spring"
+      }
+    ],
+    "unknowns": [
+      {
+        "id": "unknown-equipment",
+        "label": "未知",
+        "value": "下一学期实验设备清单尚待院系发布。",
+        "source_id": "src-system-inference",
+        "effective_term": "2026 Fall"
+      },
+      {
+        "id": "unknown-section",
+        "label": "未知",
+        "value": "其他班次的教学结构不能从本班自动推断。",
+        "source_id": "src-system-inference",
+        "effective_term": "2026 Spring"
+      }
+    ]
+  },
+  "versions": [
+    {
+      "id": "version-2025sp",
+      "course_id": "SLS201",
+      "offering_id": "offering-sls201-2025sp",
+      "term": "2025 Spring",
+      "instructor_id": "faculty-zhou-fixture",
+      "instructor_assignment_id": "assignment-zhou-sls201-2025sp",
+      "profile_version": "SLS201-2025SP-v4",
+      "assessment_summary": "作业 25% · 实验 20% · 期中 20% · 期末 35%",
+      "teaching_summary": "讲授 50% · 讨论 10% · 实验 25% · 项目 15%",
+      "source_ids": [
+        "src-history-2025"
+      ]
+    },
+    {
+      "id": "version-2026sp",
+      "course_id": "SLS201",
+      "offering_id": "offering-sls201-2026sp",
+      "term": "2026 Spring",
+      "instructor_id": "faculty-lin-fixture",
+      "instructor_assignment_id": "assignment-lin-sls201-2026sp",
+      "profile_version": "SLS201-2026SP-v2",
+      "assessment_summary": "作业 20% · 实验 25% · 期中 20% · 期末综合任务 35%",
+      "teaching_summary": "讲授 40% · 讨论 20% · 实验 25% · 项目 15%",
+      "source_ids": [
+        "src-official-syllabus",
+        "src-teacher-confirmed"
+      ]
+    }
+  ],
+  "feedback_aggregates": [
+    {
+      "id": "aggregate-clarity",
+      "offering_id": "offering-sls201-2026sp",
+      "dimension": "assignment_clarity",
+      "sample_size": 8,
+      "minimum_sample": 5,
+      "time_range": "2026-03-01 至 2026-06-20",
+      "summary": "多数反馈认为作业目标清楚，但实验报告示例需要更早发布。",
+      "suggested_action": "在实验开始前一周发布去标识示例结构。",
+      "source_id": "src-student-aggregate",
+      "published": true
+    },
+    {
+      "id": "aggregate-accessibility",
+      "offering_id": "offering-sls201-2026sp",
+      "dimension": "accessibility",
+      "sample_size": 3,
+      "minimum_sample": 5,
+      "time_range": "2026-05-01 至 2026-06-20",
+      "summary": "样本不足，不能形成公开结论。",
+      "suggested_action": "继续自愿收集，不显示方向性判断。",
+      "source_id": "src-student-aggregate",
+      "published": false
+    }
+  ],
+  "team_fields": [
+    {
+      "id": "team-skill-signal",
+      "label": "技能 · 信号建模",
+      "kind": "skill",
+      "value": "signal_modeling",
+      "selectable": true,
+      "private": true
+    },
+    {
+      "id": "team-skill-ui",
+      "label": "技能 · UI / 可视化",
+      "kind": "skill",
+      "value": "ui_visualization",
+      "selectable": true,
+      "private": true
+    },
+    {
+      "id": "team-availability",
+      "label": "时间 · 每周 5 小时",
+      "kind": "availability",
+      "value": "5_hours",
+      "selectable": true,
+      "private": true
+    },
+    {
+      "id": "team-communication",
+      "label": "沟通 · 异步文档 + 每周一次会议",
+      "kind": "communication",
+      "value": "async_weekly",
+      "selectable": true,
+      "private": true
+    },
+    {
+      "id": "team-sensitive-gender",
+      "label": "敏感字段 · 性别（禁止匹配）",
+      "kind": "sensitive",
+      "value": "withheld",
+      "selectable": false,
+      "private": true
+    },
+    {
+      "id": "team-sensitive-nationality",
+      "label": "敏感字段 · 国籍（禁止匹配）",
+      "kind": "sensitive",
+      "value": "withheld",
+      "selectable": false,
+      "private": true
+    }
+  ],
+  "team_needs": [
+    {
+      "id": "need-lab-story",
+      "offering_id": "offering-sls201-2026sp",
+      "project_title": "实验数据故事板",
+      "role_gap": "需要一位把实验结果转成可读交互的人",
+      "skills": [
+        "ui_visualization"
+      ],
+      "hours_per_week": 4,
+      "communication": [
+        "async_weekly"
+      ],
+      "source_ids": [
+        "src-teacher-confirmed"
+      ]
+    },
+    {
+      "id": "need-filter-model",
+      "offering_id": "offering-sls201-2026sp",
+      "project_title": "滤波器 What-if",
+      "role_gap": "需要一位能解释信号模型假设的人",
+      "skills": [
+        "signal_modeling"
+      ],
+      "hours_per_week": 6,
+      "communication": [
+        "async_weekly"
+      ],
+      "source_ids": [
+        "src-official-syllabus"
+      ]
+    }
+  ],
+  "reminders": [
+    {
+      "id": "reminder-equipment",
+      "offering_id": "offering-sls201-2026sp",
+      "reminder_type": "equipment",
+      "title": "设备清单尚未定稿",
+      "detail": "不要提前购买；等待院系正式清单。",
+      "due_at": "2026-08-20T12:00:00+08:00",
+      "source_id": "src-system-inference",
+      "required": false
+    },
+    {
+      "id": "reminder-material",
+      "offering_id": "offering-sls201-2026sp",
+      "reminder_type": "material",
+      "title": "开课前复核讲义版本",
+      "detail": "只使用 SLS201-2026SP-v2 或之后的官方版本。",
+      "due_at": "2026-08-28T18:00:00+08:00",
+      "source_id": "src-official-syllabus",
+      "required": true
+    },
+    {
+      "id": "reminder-attendance",
+      "offering_id": "offering-sls201-2026sp",
+      "reminder_type": "attendance",
+      "title": "实验出勤规则",
+      "detail": "缺席补做路径需提前向教师确认；本页不能批准例外。",
+      "due_at": "2026-09-01T08:00:00+08:00",
+      "source_id": "src-teacher-confirmed",
+      "required": true
+    },
+    {
+      "id": "reminder-safety",
+      "offering_id": "offering-sls201-2026sp",
+      "reminder_type": "safety",
+      "title": "实验室安全说明",
+      "detail": "首次进入实验室前完成正式安全说明；Fixture 不授予门禁。",
+      "due_at": "2026-09-03T08:00:00+08:00",
+      "source_id": "src-official-syllabus",
+      "required": true
+    }
+  ],
+  "audit": [
+    {
+      "id": "coach-event-001",
+      "sequence": 1,
+      "action": "view",
+      "target_id": "course-profile-sls201-2026sp",
+      "detail": "loaded course and instructor-assignment Fixture as separate records",
+      "occurred_at": "2026-07-24T08:45:00+08:00",
+      "previous_event_hash": null,
+      "event_hash": "fnv1a-coach-event-001"
+    }
+  ],
+  "invariants": {
+    "no_teacher_rating": true,
+    "no_personality_labels": true,
+    "separate_course_and_teacher": true,
+    "no_feedback_carry_forward": true,
+    "minimum_feedback_sample": 5,
+    "no_sensitive_team_matching": true,
+    "no_fabricated_advisor_reply": true,
+    "severe_content_hidden_first": true
+  }
+}

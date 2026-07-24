@@ -19,7 +19,7 @@
 | 7 | F-006 | Performance Center | P2 | 低 | 私密进度与能力中心 |
 | 8 | F-007 | Coach & Scouting | P2 | 低 | 课程信息与教学风格发现 |
 | 9 | F-008 | Campus Life Hub | Vision | 不排 | 校园服务长期枢纽 |
-| 10 | F-010 | Campus Pass & Entitlements | P2 / Vision | 不排 | 门禁、实验室、设备与非货币权益的可解释钱包 |
+| 10 | F-010 | Campus Pass & Entitlements | P2 / Vision | technical_review | 门禁、实验室、设备与非货币权益的可解释钱包；当前仅脱敏 Fixture 技术候选 |
 | 11 | F-011 | General Balance & Campus Commerce | P2 / Vision | 不排 | 通用余额、政策资金、支付通道和学生模块预算 |
 | 12 | F-012 | Dining & Wellbeing | P2 / Vision | 不排 | 菜单、预算内饮食建议与食堂运营优化 |
 | 13 | F-013 | Faculty Success Studio | P2 / Vision | 不排 | 教师教学、科研、合规与晋升证据工作台 |

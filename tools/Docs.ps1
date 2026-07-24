@@ -278,14 +278,14 @@ function New-DesktopShortcut {
     $desktop = [Environment]::GetFolderPath('Desktop')
     if (-not $desktop) { throw '无法确定当前用户桌面路径。' }
     $shell = New-Object -ComObject WScript.Shell
-    $shortcutPath = Join-Path $desktop 'Jiaowu2K26 文档中心.lnk'
+    $shortcutPath = Join-Path $desktop '大学2K26 文档中心.lnk'
     $shortcut = $shell.CreateShortcut($shortcutPath)
     $hostCommand = Get-Command pwsh -ErrorAction SilentlyContinue
     if (-not $hostCommand) { $hostCommand = Get-Command powershell -ErrorAction Stop }
     $shortcut.TargetPath = $hostCommand.Source
     $shortcut.Arguments = "-NoLogo -NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`" -Action Open -Pull"
     $shortcut.WorkingDirectory = $ProjectRoot
-    $shortcut.Description = '安全拉取最新内容并打开 Jiaowu2K26 本地文档门户'
+    $shortcut.Description = '安全拉取最新内容并打开大学2K26 / University2K26 本地文档门户'
     $shortcut.IconLocation = "$env:SystemRoot\System32\shell32.dll,220"
     $shortcut.WindowStyle = 7
     $shortcut.Save()

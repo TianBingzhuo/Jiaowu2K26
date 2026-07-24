@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://university2k26.local/contracts/v1/career-course-detail.schema.json",
+  "title": "University2K26 F-002 course detail response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "data_mode", "course", "linked_content"],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^1\\." },
+    "data_mode": { "const": "fixture" },
+    "course": {
+      "$ref": "./career-fixture.schema.json#/$defs/course"
+    },
+    "linked_content": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["published_id", "student_path", "replay_path"],
+          "properties": {
+            "published_id": { "type": "string", "minLength": 1 },
+            "student_path": { "type": "string", "pattern": "^/student/watch/" },
+            "replay_path": {
+              "type": "string",
+              "pattern": "^/smartcourse/replay/"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

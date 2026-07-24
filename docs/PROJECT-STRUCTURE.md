@@ -21,7 +21,7 @@ jiaowu2K26/
 ├─ brainstorm/               尚待批准的洞察和机制映射
 ├─ archive/                  只读历史材料；不参与当前派单与搜索
 │
-├─ app/                      正式产品工作区；当前为待审 Phase 0 合同/Rust/SQLite/API 切片
+├─ app/                      正式产品工作区；含待审 Phase 0 后端切片与隔离式首页模板
 ├─ docs/                     新同学、AI 与本地工具的使用说明
 ├─ docs-site/                Starlight 浏览器文档中心
 └─ tools/                    可审计的本地配置、更新与诊断脚本
@@ -50,11 +50,11 @@ jiaowu2K26/
 |---|---|---|---|
 | 新队友 / 新 AI | `AGENTS.md`、Manifest 当前状态 | 当前任务 `required_reads` | 一个合法、可验收的当前任务 |
 | 产品 / 总集成 | VISION、MODULE-MAP、BOUNDARIES | Gates、模块 STATUS | 范围、验收、停损和合并判断 |
-| 前端 / 交互 | DESIGN-SYSTEM、当前 SPEC | 架构中的客户端合同 | 页面状态、可访问性交互和证据回放 |
+| 前端 / 交互 | DESIGN-SYSTEM、MOTION-SYSTEM、当前 SPEC | 架构中的客户端合同 | 页面状态、因果反馈、可访问性交互和证据回放 |
 | 后端 / 数据 | ARCHITECTURE、TECH-STACK | Academic Mirror / 当前 SPEC | API、状态机、来源、审计和回退 |
-| AI Pipeline | F-001 SPEC、QUALITY | 模型与 Fixture 合同 | 来源约束生成、Schema 校验和评测 |
+| AI Pipeline | F-001 SPEC、QUALITY | LOCAL-AI-SOVEREIGN-NODE、模型与 Fixture 合同 | 来源约束生成、模型路由、Schema 校验和评测 |
 | 人因研究 | HUMAN-FACTORS | 当前机制与模块验收 | 盲读、访谈、风险结论和停损建议 |
-| 视觉 / 宣发 | DESIGN-SYSTEM、BOUNDARIES | PITCH-COPY、登记资产 | 同一游戏世界内的组件与传播物料 |
+| 视觉 / 宣发 | DESIGN-SYSTEM、MOTION-SYSTEM、BOUNDARIES | PITCH-COPY、登记资产 | 同一游戏世界内的组件、动效与传播物料 |
 | 赛事 / 资源 | RESEARCH、SPONSORS | ENVIRONMENT、对应 Gate | 动态核验、资源适配和证据登记 |
 
 ## 本地文档中心是什么

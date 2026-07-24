@@ -42,7 +42,7 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 ## 可复现技术证据
 
 - Rust：20 项 domain、14 项 API、1 项 SQLite，共 35 项测试；`fmt`、`check`、`clippy` 均通过。
-- Web：严格 TypeScript、10 个测试文件共 62 项 Vitest、Vite 6.4.3 生产构建通过。
+- Web：严格 TypeScript、全站 16 个测试文件共 120 项 Vitest、Vite 6.4.3 生产构建通过。
 - 合同：18 份 JSON Schema、6 份 Golden Fixture、OpenAPI 与 Manifest 确定性检查通过。
 - API：F-006 的 14 条路由通过推荐、研究预览、分享、撤回、纠错、STOP、导出、Replay 与 Reset smoke；STOP 后重启 A/B 返回 422。
 - 浏览器：桌面与 377px 移动宽度完成五步路径；验证 C 版默认、证据缺口、负荷支持、分享预览、纠错历史、STOP 锁定、离线诚实状态与可访问性开关。

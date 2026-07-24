@@ -38,7 +38,7 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
   - [x] 线下回执
   - [x] 稳定功能 ID 与 SPEC.md 对账
 - **自动化证据:**
-  - 前端：`campusLifeEngine.test.ts` 13 项通过；全 Web 108/108 通过；TypeScript 与 Vite 生产构建通过。
+  - 前端：`campusLifeEngine.test.ts` 13 项通过；全 Web 120/120 通过；TypeScript 与 Vite 生产构建通过。
   - 领域：F-008 4 项 Rust 状态机测试纳入 domain 全套 32 项。
   - API：F-008 3 项端到端路由测试纳入 API 全套 23 项。
   - 合同：26 个 JSON Schema、9 个 Golden Fixture、OpenAPI 3.1 与 manifest 确定性校验通过。

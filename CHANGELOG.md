@@ -30,7 +30,9 @@
 - 产品总集成人员 × Codex 双轮共创：可丢弃原型、盲用 Think-aloud、六个固定问题、自由想法、四态决定与目标用户复核。
 - CLI / 外部 AI / BYOK 合同：同一 `/api/v1` 与 Schema、默认只读 allowlist、机器可读输出、动作绑定的人类批准，以及仅留本机的凭据引用。
 - GX10 设备 AI 交接状态机、启动 Prompt、脱敏 receipt、批准点和立即停止条件。
-- `app/apps/web`：University2K26 V0.9 React 19 + strict TypeScript + Vite 6.4.3 Web/PWA 外壳、真实 `/api/v1/health` 握手、显式 Fixture 回退、离线 App Shell 与 115 项前端测试。
+- `app/apps/web`：University2K26 V0.9 React 19 + strict TypeScript + Vite 6.4.3 Web/PWA 外壳、真实 `/api/v1/health` 握手、显式 Fixture 回退、离线 App Shell 与 120 项前端测试。
+- 五种 Demo Role Lens：首页可在学生、教师、辅导员 / 学业导师、专业负责人 / 系主任、本科生院 / 教务处之间切换；每种角色拥有独立导航、优先任务、非人员评分 Box Score、可见 / 禁止数据范围和角色化模块返回，同时明确生产 SSO 与服务端授权尚未实现。
+- `engineering/FUNCTIONAL-COVERAGE-AUDIT-2026-07-24.md`：以 214 个稳定功能切片为全集，区分规格、Fixture 技术候选、Role Lens 预览、真实集成和人类接受，列出当前最短补齐路径。
 - F-010 Campus Pass 脱敏 Fixture 技术切片：Pass Wallet、四类载体 Reader Drill、静态二维码截图拒绝、区域/时段/最小权限、带前置条件的申请镜像、访客自动到期草稿、离线新鲜度、遗失/冻结/恢复交接、本人记录纠错、无手机/残障人工回退、应急权威只读与追加式 Replay；正式凭证签发、门锁动作、密钥/密码存储和精细位置追踪恒为 0。
 - 首页第十个模块入口在固定底栏下不可点击的问题已通过紧凑可滚动导航轨修复；Edge 已验证 MyCareer → Campus Pass 与直接深链 → 浏览器 Back → MyCareer。
 - World Exam 选择即自动保存、`0/2 → 2/2` 进度、公开 Demo 全步骤解锁和可见 Replay CTA；首页增加本地 Coach’s Note，课程阵容增加三档卡片预设、等价排序与虚构教师大卡视觉。

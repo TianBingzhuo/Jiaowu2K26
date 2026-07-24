@@ -61,7 +61,7 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 
 ## 自动与人工证据
 
-- Web：全站 14 个测试文件、109 项 Vitest、strict TypeScript 与 Vite
+- Web：全站 16 个测试文件、120 项 Vitest、strict TypeScript 与 Vite
   生产构建通过；其中 F-005 引擎测试 9 项。
 - Rust：domain / API / SQLite adapter 合计 16 项测试；`fmt`、`check`、`test`、`clippy -D warnings` 通过。
 - 合同：9 份 JSON Schema、3 份 Golden Fixture、OpenAPI 3.1 与 Manifest 校验通过。

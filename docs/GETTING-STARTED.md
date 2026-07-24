@@ -36,6 +36,10 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\Start-University2K26.ps1
 pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\Stop-University2K26.ps1
 ```
 
+### 试玩五种角色
+
+首页右上角“切换角色”可选择学生、教师、辅导员 / 学业导师、专业负责人 / 系主任、本科生院 / 教务处。五种 Role Lens 使用同一套游戏世界、输入模型和证据合同；刷新页面会保留本浏览器当前角色。公开 Demo 只模拟任务入口和数据边界，不是学校真实登录：生产环境仍必须接学校 SSO，并由服务端执行角色、组织范围、用途和时限授权。
+
 ## Windows 同学：首次配置
 
 ### 必需环境

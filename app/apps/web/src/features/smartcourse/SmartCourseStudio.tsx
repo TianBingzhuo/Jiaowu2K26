@@ -53,6 +53,7 @@ import "./smartcourse.css";
 type SmartCourseStudioProps = {
   backendLabel: string;
   entryPoint?: SmartCourseEntryPoint;
+  exitLabel?: string;
   onExit: () => void;
 };
 
@@ -119,6 +120,7 @@ function StepIcon({
 export function SmartCourseStudio({
   backendLabel,
   entryPoint = "authoring",
+  exitLabel = "MyCareer",
   onExit,
 }: SmartCourseStudioProps) {
   const [state, setState] = useState(() =>
@@ -153,9 +155,13 @@ export function SmartCourseStudio({
   const [message, setMessage] = useState(
     entryPoint === "authoring"
       ? "当前为明确标注的本地 Fixture；所有动作可重置，不写入学校系统。"
+      : entryPoint === "review"
+        ? "已从 Coach Studio 进入教师审核席；所有来源、修改和决定均保留 Replay。"
+        : entryPoint === "publish"
+          ? "已从 Coach Studio 进入发布门禁；只有教师已通过且来源有效的对象可发布。"
       : entryPoint === "student"
-        ? "已从 MyCareer 赛季中心进入教师审核后的发布版本；返回路径始终可见。"
-        : "已从 MyCareer 课程 Box Score 进入完整证据回放；这是可重复的 Fixture 记录。",
+          ? "已从 MyCareer 赛季中心进入教师审核后的发布版本；返回路径始终可见。"
+          : "已从 MyCareer 课程 Box Score 进入完整证据回放；这是可重复的 Fixture 记录。",
   );
 
   const filteredObjects = useMemo(
@@ -383,7 +389,7 @@ export function SmartCourseStudio({
       <header className="smartcourse-topbar">
         <button className="smartcourse-back" type="button" onClick={onExit}>
           <ArrowLeft24Regular aria-hidden="true" />
-          <span className="smartcourse-back__label">返回 MyCareer</span>
+          <span className="smartcourse-back__label">返回 {exitLabel}</span>
         </button>
         <div className="smartcourse-brand" aria-label="大学2K26 智课工坊">
           <span>UNIVERSITY<strong>2K26</strong></span>
@@ -1141,7 +1147,7 @@ export function SmartCourseStudio({
                 重置 Demo
               </button>
               <button className="is-primary" type="button" onClick={onExit}>
-                返回 MyCareer
+                返回 {exitLabel}
                 <ArrowRight24Regular aria-hidden="true" />
               </button>
             </div>

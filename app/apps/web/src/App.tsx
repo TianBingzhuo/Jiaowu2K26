@@ -54,6 +54,21 @@ import {
   COURSE_ROLE_LABEL,
   COURSE_STATUS_LABEL,
 } from "./features/mycareer/engine";
+import {
+  RoleCommandCenter,
+  RoleSwitcherPanel,
+  getRoleIconComponent,
+} from "./features/roles/RoleCommandCenter";
+import {
+  getRoleProfile,
+  persistRole,
+  readStoredRole,
+} from "./features/roles/engine";
+import type {
+  RoleDestination,
+  RoleExperience,
+  RoleId,
+} from "./features/roles/types";
 
 const SmartCourseStudio = lazy(() =>
   import("./features/smartcourse/SmartCourseStudio").then((module) => ({
@@ -105,18 +120,8 @@ const CampusPassStudio = lazy(() =>
   })),
 );
 
-type Panel = "evidence" | "settings" | "courses" | null;
-type Experience =
-  | "career"
-  | "smartcourse"
-  | "worldexam"
-  | "rosterlab"
-  | "academicmirror"
-  | "performancecenter"
-  | "opportunitymarket"
-  | "coachscouting"
-  | "campuslife"
-  | "campuspass";
+type Panel = "evidence" | "settings" | "courses" | "roles" | null;
+type Experience = "career" | RoleExperience;
 type AppRoute = {
   experience: Experience;
   panel: Panel;
@@ -155,7 +160,12 @@ const EXPERIENCE_IDS: Experience[] = [
   "campuslife",
   "campuspass",
 ];
-const PANEL_IDS: Exclude<Panel, null>[] = ["evidence", "settings", "courses"];
+const PANEL_IDS: Exclude<Panel, null>[] = [
+  "evidence",
+  "settings",
+  "courses",
+  "roles",
+];
 
 const routeToHash = ({ experience, panel }: AppRoute) =>
   `#/${experience}${panel ? `/${panel}` : ""}`;
@@ -174,19 +184,6 @@ const readAppRoute = (): AppRoute => {
       : null;
   return { experience, panel };
 };
-
-const NAV_ITEMS = [
-  { id: "schedule", label: "我的赛程", icon: Home24Regular },
-  { id: "courses", label: "课程与考试", icon: HatGraduation24Regular },
-  { id: "mirror", label: "Academic Mirror", icon: Database24Regular },
-  { id: "roster", label: "Roster Lab", icon: BranchFork24Regular },
-  { id: "exams", label: "World Finals", icon: Trophy24Regular },
-  { id: "performance", label: "生涯数据", icon: DataBarVertical24Regular },
-  { id: "opportunities", label: "机会市场", icon: Briefcase24Regular },
-  { id: "scouting", label: "课程球探", icon: PersonFeedback24Regular },
-  { id: "campus", label: "校园生活", icon: City24Regular },
-  { id: "campuspass", label: "校园通行", icon: ShieldKeyhole24Regular },
-];
 
 const EVIDENCE_ITEMS = [
   {
@@ -345,6 +342,13 @@ function FeatureLoading({ label }: { label: string }) {
 
 export function App() {
   const initialRoute = useMemo(readAppRoute, []);
+  const [activeRole, setActiveRole] = useState<RoleId>(() => {
+    try {
+      return readStoredRole(window.localStorage);
+    } catch {
+      return "student";
+    }
+  });
   const [experience, setExperience] = useState<Experience>(
     initialRoute.experience,
   );
@@ -393,6 +397,10 @@ export function App() {
 
   const systemReducedMotion = usePrefersReducedMotion();
   const reducedMotion = systemReducedMotion || reduceMotionOverride;
+  const activeProfile = useMemo(
+    () => getRoleProfile(activeRole),
+    [activeRole],
+  );
   const courseProgressDisplay = useCountUp(
     DEMO_SEASON.progress.courseProgress,
     reducedMotion,
@@ -655,45 +663,61 @@ export function App() {
     setActionState("ready");
   };
 
-  const handleNav = (item: (typeof NAV_ITEMS)[number]) => {
-    if (item.id === "schedule") return;
-    if (item.id === "courses") {
-      openPanel("courses");
+  const navigateToDestination = (destination: RoleDestination) => {
+    if (destination.type === "home") {
+      if (experience !== "career" || panel) {
+        applyRoute({ experience: "career", panel: null }, panel ? "replace" : "push");
+      }
       return;
     }
-    if (item.id === "mirror") {
-      openAcademicMirror();
+
+    if (destination.type === "panel") {
+      openPanel(destination.panel);
       return;
     }
-    if (item.id === "roster") {
-      openRosterLab();
+
+    if (destination.type === "planned") {
+      showToast(`${destination.label}已进入路线图，本轮保持为诚实的 Vision 入口。`);
       return;
     }
-    if (item.id === "exams") {
-      openWorldExam();
+
+    if (
+      destination.experience === "smartcourse" &&
+      destination.smartCourseEntry
+    ) {
+      setSmartCourseEntry(destination.smartCourseEntry);
+    }
+    navigateToExperience(destination.experience);
+    setActionState("ready");
+  };
+
+  const runCurrentPrimaryAction = () => {
+    if (activeRole === "student") {
+      runPrimaryAction();
       return;
     }
-    if (item.id === "performance") {
-      openPerformanceCenter();
-      return;
+    navigateToDestination(activeProfile.primaryDestination);
+  };
+
+  const handleNav = (
+    item: (typeof activeProfile.navigation)[number],
+  ) => {
+    navigateToDestination(item.destination);
+  };
+
+  const selectDemoRole = (roleId: RoleId) => {
+    try {
+      persistRole(roleId, window.localStorage);
+    } catch {
+      // Storage can be unavailable in hardened private browsing. The current
+      // session still changes role; the UI does not pretend it persisted.
     }
-    if (item.id === "opportunities") {
-      openOpportunityMarket();
-      return;
-    }
-    if (item.id === "scouting") {
-      openCoachScouting();
-      return;
-    }
-    if (item.id === "campus") {
-      openCampusLife();
-      return;
-    }
-    if (item.id === "campuspass") {
-      openCampusPass();
-      return;
-    }
-    showToast(`${item.label}将在首页模板通过后进入独立切片。`);
+    const nextProfile = getRoleProfile(roleId);
+    setActiveRole(roleId);
+    setActionState("idle");
+    applyRoute({ experience: "career", panel: null }, "replace");
+    showToast(`已进入 ${nextProfile.formalRole} Demo 身份；正式权限仍需学校 SSO。`);
+    window.setTimeout(() => lastFocusRef.current?.focus?.(), 0);
   };
 
   handlersRef.current = {
@@ -794,7 +818,7 @@ export function App() {
         }
       }, 0);
       if (state?.university2k26 && state.rootGuard) {
-        showToast("已到 MyCareer 首页；再次返回将离开 University2K26。");
+        showToast("已到当前角色首页；再次返回将离开 University2K26。");
       }
     };
 
@@ -808,6 +832,13 @@ export function App() {
       delete document.documentElement.dataset.inputMode;
     };
   }, [lastInput]);
+
+  useEffect(() => {
+    document.documentElement.dataset.role = activeRole;
+    return () => {
+      delete document.documentElement.dataset.role;
+    };
+  }, [activeRole]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -1007,6 +1038,7 @@ export function App() {
         <SmartCourseStudio
           backendLabel={backend.label}
           entryPoint={smartCourseEntry}
+          exitLabel={`${activeProfile.formalRole}首页`}
           onExit={returnWithinApp}
         />
       </Suspense>
@@ -1134,14 +1166,18 @@ export function App() {
           <strong>2K26</strong>
         </div>
         <span className="role-divider" aria-hidden="true" />
-        <div className="role-name">{copy.mode}</div>
+        <div className="role-name">
+          {activeRole === "student"
+            ? copy.mode
+            : traditional
+              ? activeProfile.formalRole
+              : activeProfile.gameMode}
+        </div>
 
         <div className="status-cluster">
           <div className="status-chip">
             <CalendarLtr24Regular aria-hidden="true" />
-            <span>
-              第 {DEMO_SEASON.seasonNumber} / {DEMO_SEASON.totalSeasons} 赛季
-            </span>
+            <span>{activeProfile.periodLabel}</span>
           </div>
           <div
             className={`status-chip status-chip--${backend.state}`}
@@ -1150,6 +1186,21 @@ export function App() {
             <DataTrending24Regular aria-hidden="true" />
             <span>{backend.label} · Fixture</span>
           </div>
+          <button
+            className="role-switch-action"
+            type="button"
+            onClick={() => openPanel("roles")}
+            data-focusable="true"
+            aria-label={`切换 Demo 角色；当前为${activeProfile.formalRole}`}
+          >
+            <span className={`role-switch-action__avatar is-${activeProfile.accent}`}>
+              <Person24Regular aria-hidden="true" />
+            </span>
+            <span>
+              <small>{activeProfile.shortLabel}</small>
+              <strong>切换角色</strong>
+            </span>
+          </button>
           <button
             className="top-action"
             type="button"
@@ -1172,9 +1223,9 @@ export function App() {
       </header>
 
       <aside className="navigation-rail" aria-label="主要导航">
-        {NAV_ITEMS.map((item) => {
-          const Icon = item.icon;
-          const active = item.id === "schedule";
+        {activeProfile.navigation.map((item) => {
+          const Icon = getRoleIconComponent(item.icon);
+          const active = item.destination.type === "home";
           return (
             <button
               key={item.id}
@@ -1191,7 +1242,9 @@ export function App() {
         })}
       </aside>
 
-      <main className="career-stage" aria-labelledby="page-heading">
+      {activeRole === "student" ? (
+        <>
+          <main className="career-stage" aria-labelledby="page-heading">
         <section className="briefing-panel">
           <div className="section-kicker">
             <span aria-hidden="true" />
@@ -1384,21 +1437,29 @@ export function App() {
             </div>
           </div>
         </section>
-      </main>
+          </main>
 
-      <SeasonSideboard
-        season={DEMO_SEASON}
-        selectedCourseId={selectedCourse.id}
-        onSelectCourse={(courseId) => {
-          setSelectedCourseId(courseId);
-          openPanel("courses");
-        }}
-      />
+          <SeasonSideboard
+            season={DEMO_SEASON}
+            selectedCourseId={selectedCourse.id}
+            onSelectCourse={(courseId) => {
+              setSelectedCourseId(courseId);
+              openPanel("courses");
+            }}
+          />
+        </>
+      ) : (
+        <RoleCommandCenter
+          profile={activeProfile}
+          traditional={traditional}
+          onNavigate={navigateToDestination}
+        />
+      )}
 
       <footer className="controller-bar" aria-label="操作提示">
         <button
           type="button"
-          onClick={runPrimaryAction}
+          onClick={runCurrentPrimaryAction}
           data-focusable="true"
           aria-label="执行主要行动"
         >
@@ -1445,7 +1506,9 @@ export function App() {
             onClick={closePanel}
           />
           <aside
-            className={`drawer ${panel === "courses" ? "drawer--wide" : ""}`}
+            className={`drawer ${
+              panel === "courses" || panel === "roles" ? "drawer--wide" : ""
+            }`}
             ref={panelRef}
             role="dialog"
             aria-modal="true"
@@ -1458,14 +1521,18 @@ export function App() {
                     ? "EVIDENCE"
                     : panel === "courses"
                       ? "2026 SPRING ROSTER"
-                      : "CONTROL CENTER"}
+                      : panel === "roles"
+                        ? "IDENTITY BAY"
+                        : "CONTROL CENTER"}
                 </span>
                 <h2 id="drawer-heading">
                   {panel === "evidence"
                     ? "依据与数据状态"
                     : panel === "courses"
                       ? "Demo 课程阵容"
-                      : "体验设置"}
+                      : panel === "roles"
+                        ? "选择 Demo 角色"
+                        : "体验设置"}
                 </h2>
               </div>
               <button
@@ -1491,6 +1558,15 @@ export function App() {
                   <span>后端握手</span>
                   <strong>{backend.label}</strong>
                   <small>{backend.detail}</small>
+                </article>
+                <article className="evidence-item">
+                  <span>当前角色 Lens</span>
+                  <strong>
+                    {activeProfile.formalRole} · {activeProfile.gameMode}
+                  </strong>
+                  <small>
+                    Demo Fixture 权限预览；生产环境必须接学校 SSO，并由服务端重新授权
+                  </small>
                 </article>
                 {EVIDENCE_ITEMS.map((item) => (
                   <article key={item.title} className="evidence-item">
@@ -1709,6 +1785,11 @@ export function App() {
                   </small>
                 </section>
               </div>
+            ) : panel === "roles" ? (
+              <RoleSwitcherPanel
+                activeRole={activeRole}
+                onSelect={selectDemoRole}
+              />
             ) : (
               <div className="settings-list">
                 <p className="settings-intro">

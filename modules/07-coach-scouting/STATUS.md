@@ -35,7 +35,7 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
   - [x] 严重内容先隐藏、限时人工复核与追加式 Replay
   - [x] 稳定功能 ID 与 SPEC.md 对账
 - **自动化证据:**
-  - 前端：`coachScoutingEngine.test.ts` 14 项通过；当前全 Web 108/108 通过；TypeScript 与 Vite 生产构建通过。
+  - 前端：`coachScoutingEngine.test.ts` 14 项通过；当前全 Web 120/120 通过；TypeScript 与 Vite 生产构建通过。
   - 领域：F-007 4 项 Rust 状态机测试纳入当前 domain 全套 32 项。
   - API：F-007 3 项端到端路由测试纳入当前 API 全套 23 项。
   - 合同：当前 26 个 JSON Schema、9 个 Golden Fixture、OpenAPI 3.1 与 manifest 确定性校验通过。

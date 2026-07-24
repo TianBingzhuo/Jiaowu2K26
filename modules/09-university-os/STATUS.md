@@ -22,7 +22,17 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 | F-011 General Balance & Campus Commerce | approved_vision | P2 / Vision | pending | unscheduled |
 | F-012 Dining & Wellbeing | approved_vision | P2 / Vision | pending | unscheduled |
 | F-013 Faculty Success Studio | approved_vision | P2 / Vision | pending | unscheduled |
-| F-014 Institutional Front Office | approved_vision | P2 / Vision | pending | unscheduled |
+| F-014 Institutional Front Office | approved_vision | P2 / Vision | pending；已有 Role Lens 前端预览 | unscheduled |
+
+## 跨角色 Experience Shell 预览（不改变 F-011～F-014 状态）
+
+P0-00 Web 壳新增五种显式 Fixture Role Lens：学生、教师、辅导员 / 学业导师、专业负责人 / 系主任、本科生院 / 教务处。它验证同一设计系统可随角色切换任务、导航、信息密度和数据边界，并让教师从 Coach Studio 直达 F-001 审核席。
+
+- 角色选择在本浏览器刷新后保持；模块返回会回到当前角色首页。
+- 每个角色都显示可见范围、禁止范围和“工作状态，不是人员评分”。
+- 学校端和教师端出现的 F-013 / F-014 内容均明确标记 `Vision` 或 `Demo Role Lens`。
+- 当前没有真实账号、组织关系、服务端授权、学校 SSO、正式审批或个人数据；因此这只是 F014-01 的前端交互假设与跨角色壳证据，不足以把 F-013 或 F-014 推进到 `technical_review`。
+- Web 严格 TypeScript、120 项 Vitest 与 Vite Production Build 通过；Edge / Chromium 已实测五角色切换、刷新保持、教师审核深链、History 返回、方向键空间寻焦和 390px 窄屏。
 
 ## F-010 功能覆盖与技术证据
 
@@ -49,7 +59,7 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 - Golden Fixture：`app/fixtures/v1/campus-pass.demo.json`
 - 领域与 API：`app/crates/domain/src/campus_pass.rs`、`app/crates/api/src/lib.rs`
 - Web：`app/apps/web/src/features/campuspass/`，通过 `#/campuspass` 或 MyCareer 的“校园通行”进入
-- 自动化：4 个领域用例、3 个 API 用例、6 个 Web Engine 用例；全量 Web 严格 TypeScript、115 项 Vitest 与 Vite Production Build 通过
+- 自动化：4 个领域用例、3 个 API 用例、6 个 Web Engine 用例；全量 Web 严格 TypeScript、120 项 Vitest 与 Vite Production Build 通过
 - 浏览器人工技术验收：Edge 完成 Wallet → 静态 QR 拒绝 → 普通/受控区域申请 → 访客草稿 → 状态镜像 → 冻结交接 → 无手机回退 → 记录纠错 → Replay；浏览器 Back 回到 MyCareer 而非退出系统
 - 当前界面证据：`reference/audit/2026-07-24-current-ui-audit/07-campus-pass-wallet.png`、`08-campus-pass-reader-reject.png`、`09-campus-pass-access-queue.png`、`10-campus-pass-replay.png`
 
@@ -82,3 +92,5 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 - 2026-07-22：将 Campus Pass、General Balance、Dining & Wellbeing、Faculty Success、Institutional Front Office 纳入合并式扩展包；全部保持 `pending`。
 
 - 2026-07-24：F-010 完成脱敏 Fixture 的合同、Golden Fixture、Rust 领域/API、Web 五阶段交互、自动化与 Edge 主路径技术验收，推进到 `technical_review`；F-011～F-014 不变。
+
+- 2026-07-24：P0-00 Experience Shell 增加五角色 Demo Lens，用于验证 F014-01 的统一前端交互假设；F-013/F-014 仍保持 `pending`，生产身份与授权没有被伪装实现。

@@ -66,7 +66,7 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 
 ## 自动化与可视证据
 
-- Web：严格 TypeScript、23 项 Vitest（含 F-002 跨模块回归）、Vite 6.4.3 生产构建通过。
+- Web：严格 TypeScript、全站 16 个测试文件 / 120 项 Vitest（其中 SmartCourse 9 项，含 F-002 跨模块回归）、Vite 6.4.3 生产构建通过。
 - Rust：11 项测试通过（含 F-002 路由回归）；Live API 已实测 `review → approve → publish → interaction → replay`，随后重启恢复干净 Fixture。
 - 浏览器：1440×1024 完整流程 7/7；390×844 Replay 可用；键盘语义按钮与 Reduced Motion 继承统一基座。
 - 截图：`app/apps/web/qa-f001-source-1440x1024.jpg`、`qa-f001-review-1440x1024.jpg`、`qa-f001-release-gate-1440x1024.jpg`、`qa-f001-replay-1440x1024.jpg`、`qa-f001-replay-mobile-390x844.jpg`。

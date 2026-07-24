@@ -60,13 +60,14 @@ AI 的回执至少应包含：
 - 当前阶段：AdventureX 2026 `hacking` · GATE-1 基座仍待人接受；在 [`F-MODULE-DELIVERY-GATE`](engineering/F-MODULE-DELIVERY-GATE.md) 下按单模块顺序推进技术候选
 - 首个 P0：智课工坊 / SmartCourse Studio
 - 技术栈状态：Rust / Axum / Tokio + SQLite 的 P0-00 本地证据及 GitHub Actions Ubuntu/Windows/合同文档门禁已通过，仍等待第二台机器复现与产品总集成人员接受决定；OceanBase 仍是未验证的可选适配器
-- 实现状态：已通过的 Option 1 首页美术已晋升为 `app/apps/web` 中的 University2K26 V0.9 正式 Web/PWA 外壳；严格 TypeScript、Vite 6.4.3 构建、统一 Motion Tokens 与显式 Fixture 降级已就绪。F-001～F-009 的学习、生涯、数据镜像、排课、赛事、能力、球探、校园生活与机会纵向切片，以及 F-010 Campus Pass 的 Wallet→Reader→Access Queue→Safety Desk→Replay 脱敏切片均通过本地技术验证；状态均为 `technical_review`，未获人类接受的模块不得称为完成
+- 实现状态：已通过的 Option 1 首页美术已晋升为 `app/apps/web` 中的 University2K26 V0.9 正式 Web/PWA 外壳；严格 TypeScript、Vite 6.4.3 构建、统一 Motion Tokens 与显式 Fixture 降级已就绪。首页现提供学生、教师、辅导员 / 学业导师、专业负责人 / 系主任、本科生院 / 教务处五种 Demo Role Lens，共用同一游戏世界、输入合同和责任链。F-001～F-009 的学习、生涯、数据镜像、排课、赛事、能力、球探、校园生活与机会纵向切片，以及 F-010 Campus Pass 的 Wallet→Reader→Access Queue→Safety Desk→Replay 脱敏切片均通过本地技术验证；状态均为 `technical_review`，未获人类接受的模块不得称为完成
 - 公开主仓：[TianBingzhuo/Jiaowu2K26](https://github.com/TianBingzhuo/Jiaowu2K26)；GitHub Issue / PR 是开仓后的实时工作源
-- 当前代码证据：63 项 Rust 工作区测试（含 F-010 的 4 项领域与 3 项 API 边界用例）、28 份 JSON Schema、10 份 Golden Fixture、OpenAPI/Manifest 合同检查通过；F-001～F-010 Web/PWA 通过严格 TypeScript、115 项 Vitest 与 Vite Production Build。F-010 的 Edge 主路径和浏览器 Back 已实测；这些仍是“技术切片待审”，不是产品完成声明
+- 当前代码证据：63 项 Rust 工作区测试（含 F-010 的 4 项领域与 3 项 API 边界用例）、28 份 JSON Schema、10 份 Golden Fixture、OpenAPI/Manifest 合同检查通过；F-001～F-010 与五角色 Experience Shell 通过严格 TypeScript、120 项 Vitest 与 Vite Production Build。当前 Edge / Chromium 已实测五角色切换、刷新保持、教师审核深链、当前角色返回、桌面 / 390px 窄屏和方向键空间寻焦；这些仍是“技术切片待审”，不是生产 SSO、服务端授权或产品完成声明
 - Demo 课程：信号与线性系统为首页主赛程，光学、电子电路、高等数学、学术英语、工程训练构成课程阵容；仅使用本地已审核 README/索引中的名称、主题与证据边界，分析路径、身份、进度、等级和建议均明确标记为 Fixture，详见 [Demo 课程来源与脱敏边界](reference/DEMO-COURSE-PROVENANCE.md)
 - 全部学科发现池：桌面“学科”中的 43 个快捷方式已只读映射为 40 个唯一来源目录，10 个已有根 README；它们是待复核候选，不是选课记录或已完成分析，详见 [本地学科发现池快照](reference/COURSE-CATALOG-SNAPSHOT.md)
 - 稳定 ID：F-001～F-014 各功能表中已经发布的编号与含义不得重新编号或复用
 - 路线图：F-010～F-014 已纳入产品范围并合并维护于 University OS 扩展包；F-010 为当前 `technical_review` 候选，F-011～F-014 仍未排期、可裁剪
+- 功能覆盖审计：[`F-001～F-014 / 214 个稳定切片对账`](engineering/FUNCTIONAL-COVERAGE-AUDIT-2026-07-24.md) 区分规格、Role Lens 预览、Fixture 技术候选、真实集成和人类接受；不得用入口数量替代完成证据
 - 视觉硬约束：学生 / 教师 / 学校三端共用一套游戏化 Design System，任何模块不得独立换肤
 - 输入硬约束：产品是 multi-input native，手柄只是突出展示路径；键盘、鼠标、触控、读屏与高风险确认拥有信息等价、可独立完成且不可被削弱的路径
 - 动效硬约束：游戏感来自 `输入确认 → 因果变化 → Replay → Next Move`，不是特效数量；详细状态机、性能、声音/触觉和 Reduced Motion 以 [`MOTION-SYSTEM`](engineering/MOTION-SYSTEM.md) 为准

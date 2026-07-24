@@ -25,6 +25,7 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 - 南同学 / NAN 保持 `UNRATED`，不使用 OVR、公开 GPA 排行或单一分数定义学生。
 - `attention / critical` 描述课程任务和截止日状态，不描述学生人格、能力或价值。
 - 课程名称与主题级摘要来自已审核本地索引；人物、日期、进度、状态、学习记录与建议均为明确 Fixture。
+- P0-00 Experience Shell 已增加学生、教师、辅导员 / 学业导师、专业负责人 / 系主任、本科生院 / 教务处五种 Demo Role Lens。它验证统一首页、导航和数据边界，不是 F002-01/02/05～15 的完整实现，也不是生产身份认证。
 
 ## 进度
 
@@ -43,6 +44,7 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 - [x] 无内容与未学习空状态
 - [x] Fixture / API 回退数据准备
 - [x] 桌面、手机与跨模块浏览器验收
+- [x] 五角色 Demo 切换、刷新保持、角色化导航 / 返回与 390px 角色选择器
 - [ ] 产品总集成人员最终验收
 
 ## 功能点验收快照
@@ -68,7 +70,7 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 
 ## 自动化与可视证据
 
-- Web：严格 TypeScript、全站 14 个测试文件 / 109 项 Vitest、Vite 6.4.3
+- Web：严格 TypeScript、全站 16 个测试文件 / 120 项 Vitest、Vite 6.4.3
   生产构建通过。
 - Rust：11 项测试通过；Career 六端点、Published/Empty 课程详情与 404 均通过路由测试。
 - Live API：实测第 4/8 赛季、`published-sls-v1`、100% 会话摘要与空内容课程。
@@ -88,7 +90,7 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 ## 裁剪决策
 
 - P0 只实现 F002-03、F002-04 和两条跨模块跳转。
-- F002-01/02/05～15 全部保留稳定规格，未在本轮伪装实现。
+- F002-01/02/05～15 全部保留稳定规格；五角色 Role Lens 只算 P0-00 壳的交互验证，不在本轮伪装为这些稳定切片已实现。
 
 ## 最后更新
 

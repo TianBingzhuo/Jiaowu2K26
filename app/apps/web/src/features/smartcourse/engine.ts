@@ -43,7 +43,12 @@ const requireObject = (state: SmartCourseState, objectId: string) => {
 
 export const createSmartCourseState = () => copyState();
 
-export type SmartCourseEntryPoint = "authoring" | "student" | "replay";
+export type SmartCourseEntryPoint =
+  | "authoring"
+  | "review"
+  | "publish"
+  | "student"
+  | "replay";
 
 export function loadAuthorizedFixture(
   state: SmartCourseState,
@@ -328,6 +333,8 @@ export function createSmartCourseEntryState(
   if (entryPoint === "authoring") return createSmartCourseState();
 
   let state = loadAuthorizedFixture(createSmartCourseState());
+  if (entryPoint === "review") return { ...state, step: "review" };
+
   const quiz = state.objects.find((object) => object.kind === "quiz");
   const removable = state.objects.find((object) => object.kind === "scene");
   if (!quiz || !removable) {
@@ -345,6 +352,8 @@ export function createSmartCourseEntryState(
     removable.id,
     "跨模块演示只发布完成审核的理解检查；互动场景保留为未发布证据。",
   );
+  if (entryPoint === "publish") return { ...state, step: "publish" };
+
   state = publishApprovedObjects(state);
 
   if (entryPoint === "replay") {

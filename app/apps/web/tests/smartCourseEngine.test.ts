@@ -26,6 +26,23 @@ import {
 
 describe("SmartCourse fixture workflow", () => {
   it("builds deterministic student and replay entry states for F-002", () => {
+    const review = createSmartCourseEntryState("review");
+    expect(review.step).toBe("review");
+    expect(review.materialLoaded).toBe(true);
+    expect(review.objects.every((object) => object.status === "review")).toBe(
+      true,
+    );
+
+    const publish = createSmartCourseEntryState("publish");
+    expect(publish.step).toBe("publish");
+    expect(publish.publication).toBeNull();
+    expect(
+      publish.objects.some((object) => object.status === "approved"),
+    ).toBe(true);
+    expect(
+      publish.objects.some((object) => object.status === "removed"),
+    ).toBe(true);
+
     const student = createSmartCourseEntryState("student");
     expect(student.step).toBe("student");
     expect(student.publication?.id).toBe("published-sls-v1");

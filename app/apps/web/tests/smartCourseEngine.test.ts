@@ -23,6 +23,10 @@ import {
   FIXTURE_GENERATION_ADAPTER,
   validateGeneratedObjects,
 } from "../src/features/smartcourse/generation";
+import {
+  FREQUENCY_RESPONSE_MODEL,
+  buildFrequencyResponseModel,
+} from "../src/features/smartcourse/frequencyResponse";
 
 describe("SmartCourse fixture workflow", () => {
   it("builds deterministic student and replay entry states for F-002", () => {
@@ -208,5 +212,46 @@ describe("SmartCourse provider-neutral generation contract", () => {
     expect(() => validateGeneratedObjects(invalid, state.sources)).toThrow(
       "references invalid source",
     );
+  });
+});
+
+describe("SmartCourse deterministic RC model court", () => {
+  it("calculates a reproducible six-point response without claiming measurement data", () => {
+    const model = FREQUENCY_RESPONSE_MODEL;
+
+    expect(model.measured).toBe(false);
+    expect(model.points).toHaveLength(6);
+    expect(model.nominalCutoffHz).toBeCloseTo(1591.55, 2);
+    expect(model.toleranceCutoffHz).toBeLessThan(model.nominalCutoffHz);
+    expect(model.sourceIds).toEqual([
+      "source-sls-slide-012",
+      "source-sls-transcript-004",
+      "source-sls-handout-003",
+    ]);
+
+    const cutoffPoint = model.points.find(
+      (point) => point.frequencyHz === 1592,
+    );
+    expect(cutoffPoint?.idealMagnitudeDb).toBeCloseTo(-3.01, 2);
+    expect(cutoffPoint?.capacitanceToleranceMagnitudeDb).toBeLessThan(
+      cutoffPoint?.idealMagnitudeDb ?? 0,
+    );
+  });
+
+  it("keeps frequency ordering and response monotonic for a custom sweep", () => {
+    const model = buildFrequencyResponseModel([10, 100, 1_000, 10_000]);
+    expect(model.points.map((point) => point.frequencyHz)).toEqual([
+      10,
+      100,
+      1_000,
+      10_000,
+    ]);
+    expect(
+      model.points.every(
+        (point, index, points) =>
+          index === 0 ||
+          point.idealMagnitudeDb < points[index - 1].idealMagnitudeDb,
+      ),
+    ).toBe(true);
   });
 });

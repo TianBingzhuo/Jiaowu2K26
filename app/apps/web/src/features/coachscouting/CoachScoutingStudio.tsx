@@ -58,6 +58,10 @@ import type {
   FeedbackDimension,
   SourcedField,
 } from "./types";
+import {
+  UARIZONA_2026_CATALOG_SOURCE,
+  UARIZONA_2026_COURSES,
+} from "../../data/uarizona2026Catalog";
 import "./coachscouting.css";
 
 type CoachScoutingStudioProps = {
@@ -192,6 +196,7 @@ export function CoachScoutingStudio({
   onExit,
 }: CoachScoutingStudioProps) {
   const [state, setState] = useState(loadCoachState);
+  const [selectedCourseId, setSelectedCourseId] = useState("SLS201");
   const [toast, setToast] = useState("");
   const [feedbackDimension, setFeedbackDimension] =
     useState<FeedbackDimension>("feedback_timeliness");
@@ -235,11 +240,353 @@ export function CoachScoutingStudio({
   const activeOfficeHours = state.fixture.officeHours.find(
     (item) => item.status === "active",
   );
+  const selectedCatalogCourse = UARIZONA_2026_COURSES.find(
+    (course) => course.id === selectedCourseId,
+  );
 
   const reset = () => {
     clearCoachState();
     setState(createCoachScoutingState());
+    setSelectedCourseId("SLS201");
     setToast("F-007 Fixture 已重置；权威系统未发生变化。");
+  };
+
+  const renderPublicCatalogCourse = () => {
+    const course = selectedCatalogCourse;
+    if (!course) return null;
+
+    const sourceStrip = (
+      <div className="coach-public-source-strip">
+        <DocumentSearch24Regular aria-hidden="true" />
+        <div>
+          <strong>{UARIZONA_2026_CATALOG_SOURCE.label}</strong>
+          <span>
+            {UARIZONA_2026_CATALOG_SOURCE.sourceSystem} · captured{" "}
+            {UARIZONA_2026_CATALOG_SOURCE.capturedAt}
+          </span>
+          <small>{UARIZONA_2026_CATALOG_SOURCE.boundary}</small>
+        </div>
+      </div>
+    );
+
+    if (state.stage === "profile") {
+      return (
+        <div className="coach-public-course-layout">
+          <section className="coach-card coach-public-profile">
+            <span className="coach-card__kicker">
+              OFFICIAL CATALOG // {course.id}
+            </span>
+            <div className="coach-public-profile__title">
+              <div>
+                <strong>{course.id}</strong>
+                <span>{course.offeredTerms.join(" · ")}</span>
+              </div>
+              <div>
+                <h2>{course.titleZh}</h2>
+                <p>{course.title}</p>
+              </div>
+            </div>
+            <p className="coach-public-profile__summary">
+              {course.summaryZh}
+            </p>
+            <div className="coach-public-tags">
+              {course.fitTags.map((tag) => (
+                <span key={tag}>{tag}</span>
+              ))}
+            </div>
+            <article className="coach-public-description">
+              <span>PUBLIC DESCRIPTION</span>
+              <p>{course.officialDescription}</p>
+            </article>
+          </section>
+
+          <section className="coach-card coach-public-fit">
+            <SectionHeading
+              eyebrow="NAN FIT // EXPLAINABLE, NOT A VERDICT"
+              title="为什么进入南同学的球探名单"
+              detail="这段是 University2K26 基于已授权经历生成的匹配解释，不是 UArizona 官方意见。"
+            />
+            <p>{course.fitNarrative}</p>
+            <div>
+              <article>
+                <CheckmarkCircle24Filled aria-hidden="true" />
+                <strong>已知</strong>
+                <span>公开课程标题、描述、学期与班次快照</span>
+              </article>
+              <article>
+                <QuestionCircle24Regular aria-hidden="true" />
+                <strong>待核对</strong>
+                <span>{course.unknowns.length} 项先修或大纲信息</span>
+              </article>
+            </div>
+          </section>
+
+          <section className="coach-card coach-public-sections">
+            <SectionHeading
+              eyebrow="2026 SECTION SNAPSHOT"
+              title="公开班次"
+              detail="状态、容量和教师均是抓取时点快照，不承诺当前仍然相同。"
+            />
+            <div className="coach-public-section-table">
+              <div className="coach-public-section-table__head">
+                <span>学期 / 班次</span>
+                <span>时间</span>
+                <span>教师</span>
+                <span>容量</span>
+                <span>状态</span>
+              </div>
+              {course.sections.map((section) => (
+                <article key={`${section.term}-${section.section}`}>
+                  <div>
+                    <strong>{section.term}</strong>
+                    <span>Section {section.section}</span>
+                  </div>
+                  <span>
+                    {section.days && section.time
+                      ? `${section.days} · ${section.time}`
+                      : "TBA / 异步待核"}
+                  </span>
+                  <span>{section.instructor}</span>
+                  <span>
+                    {section.enrolled} / {section.capacity}
+                  </span>
+                  <strong
+                    className={`is-${section.enrollmentStatus
+                      .toLowerCase()
+                      .replaceAll(" ", "-")}`}
+                  >
+                    {section.enrollmentStatus}
+                  </strong>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="coach-card coach-public-unknowns">
+            <SectionHeading
+              eyebrow="SOURCE GAP // DO NOT INVENT"
+              title="公开快照没有告诉我们的事"
+              detail="未知不会被模型补写成确定事实。"
+            />
+            <ul>
+              {course.unknowns.map((unknown) => (
+                <li key={unknown}>
+                  <Warning24Regular aria-hidden="true" />
+                  {unknown}
+                </li>
+              ))}
+            </ul>
+            <a href={course.detailUrl} target="_blank" rel="noreferrer">
+              <DocumentSearch24Regular aria-hidden="true" />
+              打开官方课程详情 API
+            </a>
+          </section>
+          {sourceStrip}
+        </div>
+      );
+    }
+
+    if (state.stage === "scouting") {
+      return (
+        <div className="coach-public-course-layout">
+          <section className="coach-card coach-public-scouting-hero">
+            <span className="coach-card__kicker">
+              {course.id} // SCOUTING REPORT
+            </span>
+            <h2>{course.titleZh}</h2>
+            <p>{course.fitNarrative}</p>
+            <div className="coach-public-tags">
+              {course.fitTags.map((tag) => (
+                <span key={tag}>{tag}</span>
+              ))}
+            </div>
+          </section>
+          <section className="coach-public-scout-grid">
+            <article className="coach-card">
+              <CheckmarkCircle24Filled aria-hidden="true" />
+              <span>PREPARED FOR</span>
+              <h3>已有可迁移证据</h3>
+              <p>
+                应用物理、实验测量、嵌入式与机器人项目可以提供问题背景，但不自动等于满足先修课。
+              </p>
+            </article>
+            <article className="coach-card">
+              <Flag24Regular aria-hidden="true" />
+              <span>VERIFY FIRST</span>
+              <h3>先修与权限</h3>
+              <p>
+                先向课程目录或 advisor 核对课程层级、先修、选课权限和替代关系。
+              </p>
+            </article>
+            <article className="coach-card">
+              <CalendarClock24Regular aria-hidden="true" />
+              <span>TIME WINDOW</span>
+              <h3>{course.offeredTerms.join(" / ")}</h3>
+              <p>
+                当前有 {course.sections.length} 个公开班次快照；排课求解前需刷新状态。
+              </p>
+            </article>
+            <article className="coach-card">
+              <QuestionCircle24Regular aria-hidden="true" />
+              <span>UNKNOWN</span>
+              <h3>{course.unknowns.length} 个信息缺口</h3>
+              <p>{course.unknowns.join("、")}</p>
+            </article>
+          </section>
+          {sourceStrip}
+        </div>
+      );
+    }
+
+    if (state.stage === "versions") {
+      return (
+        <div className="coach-public-course-layout">
+          <section className="coach-card coach-public-version-board">
+            <SectionHeading
+              eyebrow={`${course.id} // TERM FILM`}
+              title="同一课程，不同赛季的开课快照"
+              detail="比较的是班次、时间、容量与状态，不推断教师风格或教学质量。"
+            />
+            <div>
+              {course.sections.map((section) => (
+                <article key={`${section.term}-${section.section}`}>
+                  <header>
+                    <div>
+                      <span>{section.term}</span>
+                      <h3>Section {section.section}</h3>
+                    </div>
+                    <strong>{section.enrollmentStatus}</strong>
+                  </header>
+                  <dl>
+                    <div>
+                      <dt>学分</dt>
+                      <dd>{section.units}</dd>
+                    </div>
+                    <div>
+                      <dt>时间</dt>
+                      <dd>
+                        {section.days && section.time
+                          ? `${section.days} ${section.time}`
+                          : "TBA"}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>容量</dt>
+                      <dd>
+                        {section.enrolled}/{section.capacity}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>教师</dt>
+                      <dd>{section.instructor}</dd>
+                    </div>
+                  </dl>
+                </article>
+              ))}
+            </div>
+          </section>
+          {sourceStrip}
+        </div>
+      );
+    }
+
+    if (state.stage === "feedback") {
+      return (
+        <div className="coach-public-course-layout">
+          <section className="coach-card coach-public-lock-panel">
+            <LockClosed24Regular aria-hidden="true" />
+            <span>{course.id} // NO ENROLLMENT, NO RATING</span>
+            <h2>没有修过，就不伪造“学生反馈”</h2>
+            <p>
+              公开课表只能支持课程发现和时间比较。南同学没有以本次 Demo
+              身份修读这门课，因此教师评价、作业清晰度、Office Hours
+              和工作量反馈保持空白。
+            </p>
+            <ul>
+              <li>允许：核对官方大纲、先修、班次与可访问性信息</li>
+              <li>不允许：从课程标题推断教师人格或教学质量</li>
+              <li>未来：只在真实修读且自愿同意后收集结构化反馈</li>
+            </ul>
+          </section>
+          {sourceStrip}
+        </div>
+      );
+    }
+
+    if (state.stage === "team") {
+      return (
+        <div className="coach-public-course-layout">
+          <section className="coach-card coach-public-team-plan">
+            <SectionHeading
+              eyebrow={`${course.id} // STUDY SQUAD PREVIEW`}
+              title="先描述合作缺口，再决定要不要组队"
+              detail="没有真实选课关系时只生成准备清单，不公开匹配任何同学。"
+            />
+            <div>
+              <article>
+                <span>我能带来</span>
+                <strong>{course.fitTags.slice(0, 2).join(" · ")}</strong>
+                <p>来自已核验课程与项目经历的可迁移背景。</p>
+              </article>
+              <article>
+                <span>我需要确认</span>
+                <strong>{course.unknowns.slice(0, 2).join(" · ")}</strong>
+                <p>先解决资格和任务边界，再发布组队意向。</p>
+              </article>
+              <article>
+                <span>建议沟通句</span>
+                <strong>“我们各自能承诺多少时间、负责什么证据？”</strong>
+                <p>不按 GPA、性别、健康、支付或家庭信息做匹配。</p>
+              </article>
+            </div>
+          </section>
+          {sourceStrip}
+        </div>
+      );
+    }
+
+    return (
+      <div className="coach-public-course-layout">
+        <section className="coach-card coach-public-governance">
+          <SectionHeading
+            eyebrow={`${course.id} // GOVERNANCE REPLAY`}
+            title="这张球探卡是怎样来的"
+            detail="官方字段、个人经历和系统推断分层保存。"
+          />
+          <ol>
+            <li>
+              <span>01</span>
+              <div>
+                <strong>官方公开课程目录</strong>
+                <p>标题、描述、开课学期与课程详情 URL。</p>
+              </div>
+            </li>
+            <li>
+              <span>02</span>
+              <div>
+                <strong>2026 开课快照</strong>
+                <p>班次、时间、容量、状态和公开教师名称。</p>
+              </div>
+            </li>
+            <li>
+              <span>03</span>
+              <div>
+                <strong>南同学已授权经历</strong>
+                <p>只用于生成可解释匹配，不改写官方课程字段。</p>
+              </div>
+            </li>
+            <li>
+              <span>04</span>
+              <div>
+                <strong>系统推断</strong>
+                <p>{course.fitNarrative}</p>
+              </div>
+            </li>
+          </ol>
+        </section>
+        {sourceStrip}
+      </div>
+    );
   };
 
   const renderProfile = () => (
@@ -1131,14 +1478,16 @@ export function CoachScoutingStudio({
     </>
   );
 
-  const stageContent = {
-    profile: renderProfile,
-    scouting: renderScouting,
-    versions: renderVersions,
-    feedback: renderFeedback,
-    team: renderTeam,
-    governance: renderGovernance,
-  }[state.stage]();
+  const stageContent = selectedCatalogCourse
+    ? renderPublicCatalogCourse()
+    : {
+        profile: renderProfile,
+        scouting: renderScouting,
+        versions: renderVersions,
+        feedback: renderFeedback,
+        team: renderTeam,
+        governance: renderGovernance,
+      }[state.stage]();
 
   return (
     <div
@@ -1245,6 +1594,46 @@ export function CoachScoutingStudio({
           ? "离线只读 · 使用上次 Coach Fixture；纠错、反馈、授权与举报均已锁定"
           : "DEMO FIXTURE · 不评价教师人格，不自动沿用旧反馈，不替代选课、导师或机构决定"}
       </div>
+
+      <section className="coach-course-switcher" aria-label="课程球探切换">
+        <header>
+          <div>
+            <span>SCOUT BOARD // SELECT A COURSE</span>
+            <strong>课程球探阵容</strong>
+          </div>
+          <p>
+            已修 Demo 课程与 UArizona 2026
+            公开候选课分开标记；切换后整套球探页面会同步更新。
+          </p>
+        </header>
+        <div role="listbox" aria-label="选择要球探的课程">
+          <button
+            type="button"
+            role="option"
+            aria-selected={selectedCourseId === "SLS201"}
+            className={selectedCourseId === "SLS201" ? "is-active" : ""}
+            onClick={() => setSelectedCourseId("SLS201")}
+          >
+            <span>SLS201</span>
+            <strong>信号与线性系统</strong>
+            <small>完整课程 Fixture · 可体验反馈与组队</small>
+          </button>
+          {UARIZONA_2026_COURSES.map((course) => (
+            <button
+              type="button"
+              role="option"
+              aria-selected={selectedCourseId === course.id}
+              className={selectedCourseId === course.id ? "is-active" : ""}
+              onClick={() => setSelectedCourseId(course.id)}
+              key={course.id}
+            >
+              <span>{course.id}</span>
+              <strong>{course.titleZh}</strong>
+              <small>{course.offeredTerms.join(" · ")} · 公开目录快照</small>
+            </button>
+          ))}
+        </div>
+      </section>
 
       <main id="coach-main" className="coach-main">
         <h1 className="sr-only">

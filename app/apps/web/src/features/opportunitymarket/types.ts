@@ -76,7 +76,7 @@ export interface EligibilityRule {
   id: string;
   opportunityId: string;
   fieldId: string;
-  operator: "eq" | "gte" | "contains" | "includes";
+  operator: "eq" | "gte" | "lte" | "contains" | "includes";
   expectedValue: string | number;
   description: string;
   sourceRef: string;

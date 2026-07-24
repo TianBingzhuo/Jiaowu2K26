@@ -308,7 +308,7 @@
         "id": { "type": "string", "pattern": "^rule-" },
         "opportunity_id": { "type": "string", "pattern": "^opp-" },
         "field_id": { "type": "string", "pattern": "^field-" },
-        "operator": { "enum": ["eq", "gte", "contains", "includes"] },
+        "operator": { "enum": ["eq", "gte", "lte", "contains", "includes"] },
         "expected_value": { "$ref": "#/$defs/profileValue" },
         "description": { "type": "string", "minLength": 1 },
         "source_ref": { "type": "string", "pattern": "^https://" },

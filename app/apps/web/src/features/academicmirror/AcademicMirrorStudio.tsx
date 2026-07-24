@@ -16,6 +16,7 @@ import {
   Info24Regular,
   LockClosed24Regular,
   PersonFeedback24Regular,
+  Person24Regular,
   Settings24Regular,
   ShieldCheckmark24Regular,
   ShieldError24Regular,
@@ -53,6 +54,15 @@ import type {
   SourceRegistrationDraft,
 } from "./types";
 import { useI18n } from "../../i18n/I18nProvider";
+import {
+  ACADEMIC_DEMO_PROFILE,
+  ACADEMIC_EVIDENCE_MOMENTS,
+  ACADEMIC_TERM_SNAPSHOTS,
+} from "../../data/academicDemoProfile";
+import {
+  UARIZONA_2026_CATALOG_SOURCE,
+  UARIZONA_2026_COURSES,
+} from "../../data/uarizona2026Catalog";
 import "./academicmirror.css";
 
 type AcademicMirrorStudioProps = {
@@ -66,6 +76,12 @@ const STEP_LABELS: Array<{
   traditional: string;
   icon: typeof Database24Regular;
 }> = [
+  {
+    id: "passport",
+    immersive: "My Record",
+    traditional: "我的学术档案",
+    icon: Person24Regular,
+  },
   {
     id: "sources",
     immersive: "Source Dock",
@@ -296,6 +312,12 @@ export function AcademicMirrorStudio({
     }
   });
   const [traditional, setTraditional] = useState(false);
+  const [selectedAcademicTermId, setSelectedAcademicTermId] = useState(
+    "hebut-2025-fall",
+  );
+  const [academicInstitution, setAcademicInstitution] = useState<
+    "ALL" | "HEBUT" | "UArizona"
+  >("ALL");
   const [registrationOpen, setRegistrationOpen] = useState(false);
   const [registrationDraft, setRegistrationDraft] =
     useState<SourceRegistrationDraft>({
@@ -337,6 +359,21 @@ export function AcademicMirrorStudio({
       null,
     [state.records, state.selectedRecordId],
   );
+  const visibleAcademicTerms = useMemo(
+    () =>
+      ACADEMIC_TERM_SNAPSHOTS.filter(
+        (term) =>
+          academicInstitution === "ALL" ||
+          term.institution === academicInstitution,
+      ),
+    [academicInstitution],
+  );
+  const selectedAcademicTerm =
+    ACADEMIC_TERM_SNAPSHOTS.find(
+      (term) => term.id === selectedAcademicTermId,
+    ) ??
+    visibleAcademicTerms[0] ??
+    ACADEMIC_TERM_SNAPSHOTS[0];
   const accessPreview = useMemo(
     () => buildModuleAccessPreview(state),
     [state],
@@ -519,18 +556,39 @@ export function AcademicMirrorStudio({
             </h1>
           </div>
           <div className="mirror-heading-metrics">
-            <span>
-              <b>{state.sources.length}</b> SOURCES
-            </span>
-            <span>
-              <b>{state.snapshots.length}</b> SNAPSHOTS
-            </span>
-            <span>
-              <b>{unresolvedCount}</b> REVIEW
-            </span>
-            <span>
-              <b>{activeConsentCount}</b> CONSENTS
-            </span>
+            {state.step === "passport" ? (
+              <>
+                <span>
+                  <b>{ACADEMIC_DEMO_PROFILE.totals.hebutCredits}</b> HEBUT
+                  CREDITS
+                </span>
+                <span>
+                  <b>{ACADEMIC_DEMO_PROFILE.totals.hebutGpa}</b> HEBUT GPA
+                </span>
+                <span>
+                  <b>{ACADEMIC_DEMO_PROFILE.totals.uArizonaCredits}</b> UA
+                  CREDITS
+                </span>
+                <span>
+                  <b>{ACADEMIC_DEMO_PROFILE.totals.uArizonaGpa}</b> UA GPA
+                </span>
+              </>
+            ) : (
+              <>
+                <span>
+                  <b>{state.sources.length}</b> SOURCES
+                </span>
+                <span>
+                  <b>{state.snapshots.length}</b> SNAPSHOTS
+                </span>
+                <span>
+                  <b>{unresolvedCount}</b> REVIEW
+                </span>
+                <span>
+                  <b>{activeConsentCount}</b> CONSENTS
+                </span>
+              </>
+            )}
           </div>
         </header>
 
@@ -538,6 +596,273 @@ export function AcademicMirrorStudio({
           <Info24Regular aria-hidden="true" />
           <span>{state.message}</span>
         </div>
+
+        {state.step === "passport" ? (
+          <div className="mirror-passport-stage">
+            <section className="mirror-passport-hero">
+              <div className="mirror-passport-identity">
+                <span className="mirror-passport-identity__avatar">NAN</span>
+                <div>
+                  <span>{ACADEMIC_DEMO_PROFILE.identityLine}</span>
+                  <h2>{ACADEMIC_DEMO_PROFILE.displayName}的学术赛季档案</h2>
+                  <p>{ACADEMIC_DEMO_PROFILE.identityNote}</p>
+                </div>
+              </div>
+              <div className="mirror-passport-hero__route">
+                <span>MAJOR // {ACADEMIC_DEMO_PROFILE.major}</span>
+                <strong>{ACADEMIC_DEMO_PROFILE.focus}</strong>
+                <small>{ACADEMIC_DEMO_PROFILE.programWindow}</small>
+              </div>
+              <div className="mirror-passport-scoreboard">
+                <article>
+                  <span>HEBUT 学分</span>
+                  <strong>{ACADEMIC_DEMO_PROFILE.totals.hebutCredits}</strong>
+                  <small>GPA {ACADEMIC_DEMO_PROFILE.totals.hebutGpa}</small>
+                </article>
+                <article>
+                  <span>UArizona 学分</span>
+                  <strong>
+                    {ACADEMIC_DEMO_PROFILE.totals.uArizonaCredits}
+                  </strong>
+                  <small>GPA {ACADEMIC_DEMO_PROFILE.totals.uArizonaGpa}</small>
+                </article>
+                <article>
+                  <span>UA 转入认定</span>
+                  <strong>
+                    {ACADEMIC_DEMO_PROFILE.totals.uArizonaTransferCredits}
+                  </strong>
+                  <small>与 HEBUT 已获学分不是同一字段</small>
+                </article>
+                <article>
+                  <span>已核验经历</span>
+                  <strong>
+                    {ACADEMIC_DEMO_PROFILE.totals.verifiedExperiences}
+                  </strong>
+                  <small>只展示有证据边界的条目</small>
+                </article>
+              </div>
+              <div className="mirror-passport-privacy">
+                <LockClosed24Regular aria-hidden="true" />
+                <span>{ACADEMIC_DEMO_PROFILE.sourceBoundary}</span>
+              </div>
+            </section>
+
+            <section className="mirror-panel mirror-transcript-panel">
+              <header className="mirror-panel__header">
+                <div>
+                  <span>SEASON TRANSCRIPT // ACTUAL HISTORY</span>
+                  <h2>确实修过的课</h2>
+                  <p>
+                    学校与计分体系分开显示；定性等级、字母成绩和百分制不会被硬换算。
+                  </p>
+                </div>
+                <div className="mirror-institution-switch" role="group">
+                  {(["ALL", "HEBUT", "UArizona"] as const).map(
+                    (institution) => (
+                      <button
+                        type="button"
+                        key={institution}
+                        className={
+                          academicInstitution === institution
+                            ? "is-active"
+                            : undefined
+                        }
+                        onClick={() => {
+                          setAcademicInstitution(institution);
+                          const first = ACADEMIC_TERM_SNAPSHOTS.find(
+                            (term) =>
+                              institution === "ALL" ||
+                              term.institution === institution,
+                          );
+                          if (first) setSelectedAcademicTermId(first.id);
+                        }}
+                        data-focusable="true"
+                      >
+                        {institution === "ALL" ? "全部记录" : institution}
+                      </button>
+                    ),
+                  )}
+                </div>
+              </header>
+
+              <div className="mirror-term-tabs" role="tablist">
+                {visibleAcademicTerms.map((term) => (
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={selectedAcademicTerm.id === term.id}
+                    className={
+                      selectedAcademicTerm.id === term.id
+                        ? "is-active"
+                        : undefined
+                    }
+                    key={term.id}
+                    onClick={() => setSelectedAcademicTermId(term.id)}
+                    data-focusable="true"
+                  >
+                    <span>{term.institution}</span>
+                    <strong>{term.label}</strong>
+                    <small>{term.season}</small>
+                  </button>
+                ))}
+              </div>
+
+              <div className="mirror-term-summary">
+                <div>
+                  <span>{selectedAcademicTerm.season}</span>
+                  <h3>
+                    {selectedAcademicTerm.institution} ·{" "}
+                    {selectedAcademicTerm.label}
+                  </h3>
+                  <p>{selectedAcademicTerm.sourceLabel}</p>
+                </div>
+                <dl>
+                  <div>
+                    <dt>已获学分</dt>
+                    <dd>{selectedAcademicTerm.earnedCredits}</dd>
+                  </div>
+                  <div>
+                    <dt>课程数</dt>
+                    <dd>{selectedAcademicTerm.courses.length}</dd>
+                  </div>
+                  <div>
+                    <dt>学期 GPA</dt>
+                    <dd>{selectedAcademicTerm.termGpa ?? "学校总表未逐期提供"}</dd>
+                  </div>
+                </dl>
+              </div>
+
+              <div className="mirror-course-table" role="table">
+                <div className="mirror-course-table__head" role="row">
+                  <span role="columnheader">课程</span>
+                  <span role="columnheader">学分</span>
+                  <span role="columnheader">成绩</span>
+                  <span role="columnheader">证据标签</span>
+                </div>
+                {selectedAcademicTerm.courses.map((course) => (
+                  <article role="row" key={course.id}>
+                    <div role="cell">
+                      <span>{course.id}</span>
+                      <strong>{course.title}</strong>
+                    </div>
+                    <span role="cell">{course.credits}</span>
+                    <strong role="cell" className={`is-${course.kind}`}>
+                      {course.result}
+                    </strong>
+                    <span role="cell">
+                      {course.tags?.join(" · ") ?? "通识 / 基础"}
+                    </span>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section className="mirror-panel mirror-evidence-timeline">
+              <header className="mirror-panel__header">
+                <div>
+                  <span>ACADEMIC EVIDENCE // MORE THAN GPA</span>
+                  <h2>课程之外的可核验经历</h2>
+                  <p>角色、团队边界和进行中状态都会原样保留。</p>
+                </div>
+                <ShieldCheckmark24Regular aria-hidden="true" />
+              </header>
+              <div>
+                {ACADEMIC_EVIDENCE_MOMENTS.map((moment) => (
+                  <article key={moment.id}>
+                    <span>{moment.period}</span>
+                    <div>
+                      <header>
+                        <h3>{moment.title}</h3>
+                        <strong className={`is-${moment.status}`}>
+                          {moment.status === "verified"
+                            ? "已核验"
+                            : "进行中"}
+                        </strong>
+                      </header>
+                      <p>{moment.role}</p>
+                      <small>{moment.evidence}</small>
+                      <div>
+                        {moment.skills.map((skill) => (
+                          <span key={skill}>{skill}</span>
+                        ))}
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section className="mirror-panel mirror-catalog-deck">
+              <header className="mirror-panel__header">
+                <div>
+                  <span>PUBLIC CATALOG // POSSIBLE FUTURES</span>
+                  <h2>UArizona 2026 公开课程镜像</h2>
+                  <p>
+                    这些是候选课程，不是已修课程；进入 Course Scouting
+                    后可以逐门切换比较。
+                  </p>
+                </div>
+                <Database24Regular aria-hidden="true" />
+              </header>
+              <div className="mirror-catalog-source">
+                <strong>{UARIZONA_2026_CATALOG_SOURCE.label}</strong>
+                <span>
+                  {UARIZONA_2026_CATALOG_SOURCE.workbookRows.toLocaleString()}
+                  条课表 ·{" "}
+                  {UARIZONA_2026_CATALOG_SOURCE.uniqueCourses.toLocaleString()}
+                  门课程
+                </span>
+                <small>{UARIZONA_2026_CATALOG_SOURCE.boundary}</small>
+              </div>
+              <div className="mirror-catalog-grid">
+                {UARIZONA_2026_COURSES.map((course) => (
+                  <article key={course.id}>
+                    <header>
+                      <span>{course.id}</span>
+                      <AuthorityBadge
+                        level="official_reference"
+                        effectiveFixture
+                      />
+                    </header>
+                    <h3>{course.titleZh}</h3>
+                    <p>{course.title}</p>
+                    <small>{course.summaryZh}</small>
+                    <div>
+                      {course.fitTags.map((tag) => (
+                        <span key={tag}>{tag}</span>
+                      ))}
+                    </div>
+                    <footer>
+                      {course.offeredTerms.join(" · ")} ·{" "}
+                      {course.sections.length} 个公开班次
+                    </footer>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section className="mirror-panel mirror-next-moves">
+              <header className="mirror-panel__header">
+                <div>
+                  <span>EXPLAINABLE NEXT MOVES // NOT A VERDICT</span>
+                  <h2>基于证据的下一步</h2>
+                </div>
+                <Info24Regular aria-hidden="true" />
+              </header>
+              <ol>
+                {ACADEMIC_DEMO_PROFILE.nextMoves.map((move, index) => (
+                  <li key={move}>
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <p>{move}</p>
+                  </li>
+                ))}
+              </ol>
+              <p>
+                AI 建议不会写回成绩、学籍或选课，也不会把一次成绩解释成能力上限。
+              </p>
+            </section>
+          </div>
+        ) : null}
 
         {state.step === "sources" ? (
           <div className="mirror-source-stage">

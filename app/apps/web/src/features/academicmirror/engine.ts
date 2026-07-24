@@ -137,7 +137,7 @@ export function createAcademicMirrorState(): MirrorState {
   }
   return {
     ...fixture,
-    step: "sources",
+    step: "passport",
     selectedRecordId: fixture.records[0]?.id ?? "",
     selectedConflictId: fixture.conflicts[0]?.id ?? null,
     offline: false,
@@ -145,7 +145,8 @@ export function createAcademicMirrorState(): MirrorState {
       .map((snapshot) => snapshot.fetchedAt)
       .sort()
       .at(-1) ?? fixture.referenceTime,
-    message: "六级权威语义已加载；当前所有有效权威仍被 Fixture 边界降为演示。",
+    message:
+      "南同学的去标识学术档案已加载；个人记录、公开课程目录与 AI 建议已分层展示。",
   };
 }
 

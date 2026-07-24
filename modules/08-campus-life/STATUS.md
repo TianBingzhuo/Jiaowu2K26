@@ -4,7 +4,7 @@ module_ids: ["F-008"]
 module_status: technical_review
 owner: null
 active_slice: "F-008 Fixture vertical slice"
-updated_at: "2026-07-24"
+updated_at: "2026-07-25"
 task_router: "../../PROJECT-MANIFEST.json#current_work"
 ---
 
@@ -36,21 +36,25 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
   - [x] 通知治理
   - [x] 来源与纠错
   - [x] 线下回执
+  - [x] 意图优先 Concourse：首页先让学生选择“安静学习 / 拓展赛程 / 组建阵容 / 需要支援”，再显示来源、边界和理由完整的行动卡
+  - [x] 可见筛选驱动推荐：输入 Research 等目标会真正重算行动卡；无命中时显式回退，不使用位置、门禁、支付、健康或隐形画像
+  - [x] 完整目录作为高级入口保留，支持从精简首页进入并返回，不损失原有服务、活动、地图、MyCOURT、组队和支援能力
   - [x] 稳定功能 ID 与 SPEC.md 对账
 - **自动化证据:**
-  - 前端：`campusLifeEngine.test.ts` 13 项通过；全 Web 120/120 通过；TypeScript 与 Vite 生产构建通过。
+  - 前端：`campusLifeEngine.test.ts` 14 项通过；全 Web 157/157 通过；TypeScript 与 Vite 生产构建通过。
   - 领域：F-008 4 项 Rust 状态机测试纳入 domain 全套 32 项。
   - API：F-008 3 项端到端路由测试纳入 API 全套 23 项。
-  - 合同：26 个 JSON Schema、9 个 Golden Fixture、OpenAPI 3.1 与 manifest 确定性校验通过。
-  - 浏览器：当前 Edge / Chromium 实际走通六阶段、检索与画像关闭、日历冲突、无障碍静态路线、MyCOURT 私有导出、非权威 Journey Mirror、双向组队、无伪造回复的 Mentor Handoff、通知治理、纠错、私有线下回执、Replay、重置与站内浏览器返回。
+  - 合同：35 个 JSON Schema、10 个 Golden Fixture、OpenAPI 3.1 与 manifest 确定性校验通过。
+  - 浏览器：当前 Edge / Chromium 实际走通意图首页、Research 目标筛选、完整目录往返、保存到 MyCOURT，以及六阶段、画像关闭、日历冲突、无障碍静态路线、私有导出、非权威 Journey Mirror、双向组队、无伪造回复的 Mentor Handoff、通知治理、纠错、私有线下回执、Replay、重置与站内浏览器返回。
 - **浏览器证据:**
   - `reference/audit/2026-07-24-gameplay-navigation/11-campus-life-concourse.png`
   - `reference/audit/2026-07-24-gameplay-navigation/12-campus-life-map.png`
   - `reference/audit/2026-07-24-gameplay-navigation/13-campus-life-replay.png`
+  - `reference/audit/2026-07-25-personal-mirror-course-campus/06-campus-life-after.png`
 - **阻塞 / 未形成证据:**
   - 没有真实校园服务、活动、地图、无障碍、社团、导师、通知或紧急渠道数据；所有入口、时间、路线与身份均为 Fixture。
   - 没有真实机构日历、报名、审批、危机服务、身份、定位或第三方地图接入；体验层没有声称完成这些正式动作。
   - 没有真实参与者研究、校园无障碍审查、危机升级 SLA、Firefox/Safari、实体触屏、读屏器或第二台机器证据。
   - 后端 Session 暂存进程内存；没有持久数据库、真实 Campus/SIS 适配器或机构身份接入。
 - **裁剪决策:** 保留技术候选；仍不进入 P0 展示主路径，除非产品总集成人员选择为加分支线。
-- **最后更新:** 2026-07-24
+- **最后更新:** 2026-07-25

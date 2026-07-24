@@ -47,6 +47,7 @@ import {
   getReplay,
   summarizeObject,
 } from "../../lib/smartCourseApi";
+import { FREQUENCY_RESPONSE_MODEL } from "./frequencyResponse";
 import type {
   ReviewStatus,
   SmartCourseState,
@@ -133,6 +134,96 @@ function StepIcon({
   if (complete) return <CheckmarkCircle24Filled aria-hidden="true" />;
   if (current) return <Play24Filled aria-hidden="true" />;
   return <LockClosed24Regular aria-hidden="true" />;
+}
+
+function FrequencyResponseCourt() {
+  const model = FREQUENCY_RESPONSE_MODEL;
+  const {
+    resistanceOhm,
+    capacitanceFarad,
+    capacitanceTolerancePercent,
+    inputResistanceOhm,
+  } = model.parameters;
+
+  return (
+    <section
+      className="frequency-model-court"
+      aria-labelledby="frequency-model-heading"
+    >
+      <header>
+        <div>
+          <span>MODEL COURT · REPRODUCIBLE</span>
+          <h3 id="frequency-model-heading">RC 低通频率响应核验台</h3>
+          <p>
+            每个数值由固定公式和参数现场计算；这是教学模型，不是采集结果。
+          </p>
+        </div>
+        <strong>非实测</strong>
+      </header>
+
+      <dl className="frequency-model-court__parameters">
+        <div>
+          <dt>R</dt>
+          <dd>{resistanceOhm.toLocaleString()} Ω</dd>
+        </div>
+        <div>
+          <dt>C</dt>
+          <dd>{(capacitanceFarad * 1e9).toFixed(0)} nF</dd>
+        </div>
+        <div>
+          <dt>公差情景</dt>
+          <dd>C +{capacitanceTolerancePercent}%</dd>
+        </div>
+        <div>
+          <dt>输入负载</dt>
+          <dd>{(inputResistanceOhm / 1e6).toFixed(0)} MΩ</dd>
+        </div>
+        <div>
+          <dt>理论 fc</dt>
+          <dd>{model.nominalCutoffHz.toLocaleString()} Hz</dd>
+        </div>
+        <div>
+          <dt>公差 fc</dt>
+          <dd>{model.toleranceCutoffHz.toLocaleString()} Hz</dd>
+        </div>
+      </dl>
+
+      <div className="frequency-model-court__table">
+        <table>
+          <caption>
+            六个对数频点的可复算幅值；相位只展示理想模型，单位为度。
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">频率</th>
+              <th scope="col">理想 / dB</th>
+              <th scope="col">C +10% / dB</th>
+              <th scope="col">1 MΩ / dB</th>
+              <th scope="col">理想相位</th>
+            </tr>
+          </thead>
+          <tbody>
+            {model.points.map((point) => (
+              <tr key={point.frequencyHz}>
+                <th scope="row">{point.frequencyHz.toLocaleString()} Hz</th>
+                <td>{point.idealMagnitudeDb.toFixed(2)}</td>
+                <td>{point.capacitanceToleranceMagnitudeDb.toFixed(2)}</td>
+                <td>{point.inputLoadMagnitudeDb.toFixed(2)}</td>
+                <td>{point.idealPhaseDeg.toFixed(1)}°</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <footer>
+        <code>|H(jω)| = 1 / √(1 + (ωRC)²)</code>
+        <span>
+          {model.modelId} · v{model.modelVersion} · {model.sourceIds.length} 条来源
+        </span>
+      </footer>
+    </section>
+  );
 }
 
 export function SmartCourseStudio({
@@ -932,6 +1023,10 @@ export function SmartCourseStudio({
                   </div>
                 ) : (
                   <p className="review-editor__body">{selectedObject.body}</p>
+                )}
+
+                {selectedObject.id === "generated-sls-scene-001" && (
+                  <FrequencyResponseCourt />
                 )}
 
                 {selectedObject.unknowns.length > 0 && (

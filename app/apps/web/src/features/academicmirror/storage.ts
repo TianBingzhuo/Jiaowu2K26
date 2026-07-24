@@ -1,6 +1,6 @@
 import type { MirrorState } from "./types";
 
-const STORAGE_KEY = "university2k26.academic-mirror.fixture.v1";
+const STORAGE_KEY = "university2k26.academic-mirror.fixture.v2";
 
 export function isStoredMirrorState(value: unknown): value is MirrorState {
   if (!value || typeof value !== "object") return false;

@@ -4,7 +4,7 @@ module_ids: ["F-001"]
 module_status: technical_review
 owner: null
 active_slice: "F-001 fixture vertical slice"
-updated_at: "2026-07-24"
+updated_at: "2026-07-25"
 task_router: "../../PROJECT-MANIFEST.json#current_work"
 ---
 
@@ -41,6 +41,7 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 - [x] Replay / Box Score UI（本人互动、人工决定、版本与来源时间线）
 - [x] 考试信号 S/A/B Badge
 - [x] Fixture 回退数据准备（虚构的信号与线性系统 Demo）
+- [x] RC Model Court（理想 / C +10% / 1 MΩ 输入负载六频点可复算表；公式、参数、版本、来源与“非实测”边界）
 - [x] Demo Mode 7/7 链路浏览器验证
 - [ ] 端到端验收通过
 
@@ -53,7 +54,7 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 | F001-01 材料登记 | pass-local | Fixture 显示完整来源元数据；Test Court 实际执行文件选择、权利/格式/50MB 阻断与浏览器 SHA-256 | 服务端授权范围与持久化 |
 | F001-02 来源片段 | pass-fixture | 3 个稳定 ID、页码/时间戳/章节定位，可从对象回看 | 真实解析器输出 |
 | F001-03 解析状态 | pass-fallback | ready Fixture；本地路径有 idle/hashing/partial/failed、原因、重复执行重试与手工来源接管 | Live ASR/PPTX/PDF 解析成功证据 |
-| F001-04 草稿合同 | pass | 5 类对象；Rust/TypeScript 均保留 source IDs、未知、生成与审核状态 | Live 模型输出兼容测试 |
+| F001-04 草稿合同 | pass | 5 类对象；Rust/TypeScript 均保留 source IDs、未知、生成与审核状态；互动场景已从“曲线占位”升级为确定性 RC Model Court | Live 模型输出兼容测试 |
 | F001-05 来源约束生成 | pass-fixture | Provider-neutral adapter 合同、显式 Fixture fallback reason 与越界来源拒绝测试 | Live 模型 adapter 与证据不足评测 |
 | F001-06 结构校验 | pass | Rust 不变量、机器可读 409/422、Golden Fixture/Schema 检查 | 新对象类型兼容样例 |
 | F001-07 教师审核队列 | pass-fixture | 同屏草稿/来源/未知；类型、状态、风险筛选 | 多课程与真实风险排序 |
@@ -66,7 +67,7 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 
 ## 自动化与可视证据
 
-- Web：严格 TypeScript、全站 16 个测试文件 / 120 项 Vitest（其中 SmartCourse 9 项，含 F-002 跨模块回归）、Vite 6.4.3 生产构建通过。
+- Web：严格 TypeScript、SmartCourse 11 项 Vitest（含两项 RC Model Court 数值/单调性回归）；全站数量以根级 `scripts/verify.ps1` 最新回执为准。
 - Rust：11 项测试通过（含 F-002 路由回归）；Live API 已实测 `review → approve → publish → interaction → replay`，随后重启恢复干净 Fixture。
 - 浏览器：1440×1024 完整流程 7/7；390×844 Replay 可用；键盘语义按钮与 Reduced Motion 继承统一基座。
 - 截图：`app/apps/web/qa-f001-source-1440x1024.jpg`、`qa-f001-review-1440x1024.jpg`、`qa-f001-release-gate-1440x1024.jpg`、`qa-f001-replay-1440x1024.jpg`、`qa-f001-replay-mobile-390x844.jpg`。
@@ -94,4 +95,4 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 
 ## 最后更新
 
-2026-07-24
+2026-07-25

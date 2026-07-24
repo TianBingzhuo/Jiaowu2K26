@@ -4,7 +4,7 @@ module_ids: ["F-003"]
 module_status: technical_review
 owner: product_integrator
 active_slice: "F-003-fixture-vertical-slice"
-updated_at: "2026-07-24"
+updated_at: "2026-07-25"
 task_router: "../../PROJECT-MANIFEST.json#current_work"
 ---
 
@@ -35,6 +35,8 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 - [x] Rust domain + Axum API：来源、同步、快照、记录、字段来源、冲突、同意、更正、删除、导出、审计、Demo 与 Reset
 - [x] 三份 F-003 JSON Schema、OpenAPI 3.1、第五份 Golden Fixture 与合同不变量
 - [x] Web Source Dock、Truth Lens、Review Queue、Access Draft、Replay Ledger 五步体验
+- [x] My Record 首屏：以“南同学 / NAN”去标识身份展示两校成绩季、128.5 HEBUT 已获学分、16 UArizona 已获学分、课程明细与 6 条边界明确的经历证据；直接标识符不进入公开 Fixture
+- [x] 将 UArizona 2026 全年公开课程快照与个人已修记录分层展示：公开目录只作为候选路线，不冒充已修课、先修核验或正式选课结果
 - [x] 键盘、鼠标、触控与 Gamepad API 复用统一语义焦点路径；传统模式、离线缓存和 Reduced Motion 保留完整信息
 
 ## 功能点验收矩阵
@@ -55,16 +57,16 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 | F003-12 同意与用途 | 通过 | 5 项用途同意可授予/撤回/到期；撤回后 F-004 等下游预览即时显示缺失来源并拒绝读取 |
 | F003-13 导出 / 删除 / 更正 | 部分通过 | 可导出个人 JSON、申请修正、删除可移除副本；真实签名加密归档与正式系统纠错未实现 |
 | F003-14 审计 | 通过（技术候选） | 关键动作进入追加式哈希链；当前不是 WORM、数字签名或受硬件保护的生产审计账本 |
-| F003-15 演示夹具 | 通过 | Golden Fixture 覆盖来源→同步→映射→冲突→同意→导出→审计；界面和合同均显式标记演示边界 |
+| F003-15 演示夹具 | 通过 | Golden Fixture 覆盖来源→同步→映射→冲突→同意→导出→审计；My Record 另以去标识授权成绩与经历提供可读首屏，界面和合同均显式标记演示边界 |
 
 ## 自动与人工证据
 
-- Web：9 个测试文件、50 项 Vitest 测试、strict TypeScript 与 Vite 6.4.3 生产构建通过；其中 F-003 引擎测试 10 项。
+- Web：20 个测试文件、157 项 Vitest 测试、strict TypeScript 与 Vite 6.4.3 生产构建通过；其中 F-003 引擎测试 10 项，个人学术数据一致性与去标识边界测试 4 项。
 - Rust：domain / API / SQLite adapter 合计 28 项测试；`fmt`、`check`、`test`、`clippy -D warnings` 通过。
-- 合同：15 份 JSON Schema、5 份 Golden Fixture、OpenAPI 3.1 与 Manifest 校验通过。
+- 合同：35 份 JSON Schema、10 份 Golden Fixture、OpenAPI 3.1 与 Manifest 校验通过。
 - 实时 API：Reset、Fixture、来源登记、不可变快照、字段来源、全量同步、增量回退、冲突、同意、更正、两类归档、删除门禁与审计共 18 个检查通过。
-- 浏览器：390×844 移动窄窗完整操作 Source Dock → 离线缓存 → 全量同步 → Truth Lens → Review Queue → Access Draft → Replay Ledger；Esc 返回通过。
-- 截图：`app/apps/web/qa-f003-source-dock-mobile.png`、`app/apps/web/qa-f003-access-draft-mobile.png`。
+- 浏览器：Edge / Chromium 桌面宽屏走通 My Record → 两校学期切换 → Source Dock → Truth Lens → Review Queue → Access Draft → Replay Ledger；既有 390×844 移动窄窗证据继续保留。
+- 截图：`reference/audit/2026-07-25-personal-mirror-course-campus/04-academic-mirror-after.png`、`app/apps/web/qa-f003-source-dock-mobile.png`、`app/apps/web/qa-f003-access-draft-mobile.png`。
 
 ## 已知限制与待人验收
 
@@ -75,7 +77,7 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 - 原始敏感内容不进入公开仓；当前只保存虚构引用、哈希与大小回执，未验证真实密钥管理、字段加密和数据保留作业。
 - “可信归档”仅冻结了导入隔离合同，明确为未签名、未加密、不可恢复信任；真实发行方签名、加密、撤销和重新导入尚未实现。
 - 审计链是确定性的追加式技术切片，不是不可篡改 WORM、可信时间戳或密码学签名账本。
-- 本轮浏览器面板固定为 390×844；没有新的桌面宽屏 F-003 人工截图、实体手柄、真实触屏或真实参与者人因证据。
+- 已增加桌面宽屏人工截图；仍没有本轮实体手柄、真实触屏或真实参与者人因证据。
 - 产品总集成人员尚未作出接受、合并、公开展示或发布决定。
 
 ## 下一决策

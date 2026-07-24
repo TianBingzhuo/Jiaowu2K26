@@ -1571,7 +1571,7 @@ export function OpportunityMarketStudio({
         )}
         <strong>{state.offline ? "离线只读" : "透明 Fixture"}</strong>
         <span>
-          8 条机会均为虚构演示数据；不自动申请、不预测录取、不付费排序、不随机资格、不拍卖人。
+          1 条 AdventureX 官方规则核验快照 + 7 条虚构机会；个人状态、匹配与回应仍为 Fixture，不自动申请、不预测录取、不付费排序、不随机资格、不拍卖人。
         </span>
       </div>
 

@@ -67,7 +67,7 @@ describe("F-009 Opportunity Market transparent consent-aware fixture", () => {
     expect(state.notifications[0].kind).toBe("expiry");
   });
 
-  it("finds the AdventureX event and keeps visual use behind a pending Rights Gate", () => {
+  it("turns the AdventureX guide snapshot into an actionable readiness check while keeping visual rights gated", () => {
     const base = createOpportunityMarketState();
     const state = {
       ...base,
@@ -80,23 +80,36 @@ describe("F-009 Opportunity Market transparent consent-aware fixture", () => {
       "pending_official_confirmation",
     );
     expect(results[0]?.rightsGate?.allowedScope).toEqual([]);
+    expect(results[0]?.verifiedAt).toBe("2026-07-23T23:00:00+08:00");
+    expect(results[0]?.deadline).toBe("2026-07-26T01:00:00+08:00");
     const rules = base.rules.filter(
       (rule) => rule.opportunityId === "opp-adventurex",
     );
-    expect(rules).toHaveLength(3);
+    expect(rules).toHaveLength(4);
     expect(
       rules.every(
         (rule) =>
           rule.sourceRef ===
-            "https://adventurex.feishu.cn/docx/FOhLdr0Y3okbATxWvBQcoFx0nEd" &&
-          rule.fieldId === "field-adventurex-official-eligibility",
+          "https://adventurex.feishu.cn/docx/FOhLdr0Y3okbATxWvBQcoFx0nEd",
       ),
     ).toBe(true);
-    expect(
-      buildEligibilityCheck(base, "opp-adventurex").results.every(
-        (result) => result.status === "unknown",
-      ),
-    ).toBe(true);
+    expect(rules.map((rule) => rule.operator)).toEqual([
+      "gte",
+      "lte",
+      "eq",
+      "eq",
+    ]);
+
+    const readiness = buildEligibilityCheck(base, "opp-adventurex");
+    expect(readiness.results.map((result) => result.status)).toEqual([
+      "not_met",
+      "possibly_met",
+      "possibly_met",
+      "not_met",
+    ]);
+    expect(readiness.summary).toBe(
+      "已满足 0 · 可能满足 2 · 未满足 2 · 未知 0",
+    );
   });
 
   it("produces all four eligibility states with evidence and next steps", () => {

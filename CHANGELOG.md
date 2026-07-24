@@ -55,8 +55,14 @@
 - Rust API 新增四个 Career 端点与两个 Demo Mode 端点；`career-fixture` / `career-course-detail` Schema、第二份 Golden Fixture 与 OpenAPI 3.1 路径同步落地。
 - Rust API 新增 StudentInteraction 追加式持久化、`POST /api/v1/generated-objects/{object_id}/interactions`、SQLite migration 与 OpenAPI/JSON Schema 合同。
 - 六门公开安全 Demo 课程阵容与可切换 Film Room 分析：仅复用已审核本地课程 README / 索引中的课程名称、主题摘要、证据边界和来源引用；问题、分析路径与建议明确标记为 Fixture，不复制课件、真实身份、成绩或考试内容。
+- F-003 My Record 首屏以“南同学 / NAN”去标识身份承载两校成绩季、逐课结果与已核验经历；直接标识符不进入公开 Fixture，个人已修记录、UArizona 2026 公开目录候选和 AI 路线建议保持三层分离。
+- F-007 课程球探增加 SLS201 + 6 门 UArizona 2026 候选课的整页切换，公开班次、容量、教师与候补状态保留抓取时点边界；未修候选课不生成教师评价或学生反馈。
+- F-008 Campus Concourse 改为意图优先首页，可见目标筛选真正重算三张行动卡，完整服务目录作为高级入口保留；推荐仍不读取位置、门禁、支付、健康或参与度画像。
 - 桌面“学科”43 个快捷方式的只读发现快照：映射到 40 个唯一来源，10 个已有根 README；全部学科池可在课程抽屉中展开，但不冒充选课记录或完成分析。
 - 首页动效升级为可审计的有限编排：开场层级、任务进度、Box Score 数字计分、课程卡/分析切换、按压反馈与轻量指针视差；Reduced Motion 与仅加载旋转的循环预算由自动测试守卫。
+- F-001 移除“示例曲线占位”：新增可复算 RC 低通 Model Court，固定展示理想参数、C +10% 公差与 1 MΩ 输入负载的六个频点、公式、参数、模型版本和来源；真实仪器通道未接入时明确禁止把模型称为实测。
+- F-009 将已有的 AdventureX 2026 终极指南核验回执转成可行动的参赛准备检查：登记 07-25 12:00 提交开放、07-26 01:00 截止、2–4 人、GitHub / 16:9 首图 / 小红书等要求；团队上下限、现场时段和提交包分别计算，视觉素材 Rights Gate 仍保持待官方确认。
+- Opportunity Market 资格算子增加 `lte`，TypeScript、Rust 领域层、JSON Schema、Golden Fixture 与测试同步，团队人数上限不再依赖文案提醒。
 
 ### Changed
 

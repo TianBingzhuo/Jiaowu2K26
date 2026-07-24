@@ -79,16 +79,21 @@ describe("F-003 Academic Mirror evidence-aware read-only layer", () => {
   it("keeps conflicts visible until a human selects a source and gives a reason", () => {
     const state = createAcademicMirrorState();
     expect(() =>
-      resolveConflict(state, "conf-sls-credits", "opt-catalog-3", ""),
+      resolveConflict(
+        state,
+        "conf-credit-semantics",
+        "opt-hebut-earned-credits",
+        "",
+      ),
     ).toThrow(/理由/);
     const next = resolveConflict(
       state,
-      "conf-sls-credits",
-      "opt-catalog-3",
-      "以当前课程目录版本为镜像基线，并保留导出文件差异。",
+      "conf-credit-semantics",
+      "opt-hebut-earned-credits",
+      "保留 HEBUT 已获学分与 UArizona Transfer Credits 两个字段，禁止相加或互相覆盖。",
     );
     expect(next.conflicts[0].status).toBe("resolved");
-    expect(next.conflicts[0].resolution?.chosenValue).toBe(3);
+    expect(next.conflicts[0].resolution?.chosenValue).toContain("128.5");
     expect(next.audit.at(-1)?.action).toBe("conflict_resolve");
   });
 
@@ -129,8 +134,8 @@ describe("F-003 Academic Mirror evidence-aware read-only layer", () => {
     );
     const corrected = requestCorrection(
       state,
-      "nr-course-sls201",
-      "请核对导出文件中的 4 学分差异。",
+      "nr-uarizona-academic-summary",
+      "请核对 UArizona Transfer Credits 与 HEBUT 已获学分的字段语义。",
     );
     expect(corrected.audit.at(-1)?.action).toBe("correction_request");
   });

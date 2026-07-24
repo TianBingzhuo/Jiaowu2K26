@@ -113,17 +113,19 @@ export const SMARTCOURSE_FIXTURE: SmartCourseState = {
     {
       id: "generated-sls-scene-001",
       kind: "scene",
-      title: "场景 · Film Room 对照",
+      title: "场景 · RC Model Court",
       body:
-        "同屏查看解析曲线、仿真曲线与测量曲线，并逐项点亮误差来源。",
+        "用一阶 RC 低通公式同屏比较理想参数、C +10% 公差和 1 MΩ 输入负载；实测通道接入前只显示可复算的模型结果。",
       sourceIds: [
         "source-sls-transcript-004",
         "source-sls-handout-003",
       ],
       evidenceStatus: "partial",
-      unknowns: ["三条示例曲线为演示占位，不是实验实测数据"],
+      unknowns: [
+        "真实仪器型号、采样率与校准回执尚未接入；系统不会把模型结果冒充实测数据",
+      ],
       generationMode: "fixture",
-      generatorVersion: "smartcourse-fixture-v1",
+      generatorVersion: "smartcourse-model-court-v1",
       status: "review",
       revision: 1,
     },

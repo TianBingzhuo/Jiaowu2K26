@@ -168,6 +168,9 @@ export function CampusLifeStudio({
       hour12: false,
     });
   const [state, setState] = useState(loadCampusLifeState);
+  const [concourseMode, setConcourseMode] = useState<"focus" | "catalog">(
+    "focus",
+  );
   const [toast, setToast] = useState("");
   const [mentorQuestion, setMentorQuestion] = useState(
     "参加这个项目之前，我应当先核对哪一个正式入口和时间承诺？",
@@ -217,6 +220,7 @@ export function CampusLifeStudio({
   const reset = () => {
     clearCampusLifeState();
     setState(createCampusLifeState());
+    setConcourseMode("focus");
     setToast("F-008 Fixture 已重置；未触碰任何学校正式系统。");
   };
 
@@ -243,11 +247,255 @@ export function CampusLifeStudio({
     setToast("已导出本人可读、不可信、私有的 MyCOURT Fixture 归档。");
   };
 
+  const renderFocusedConcourse = () => (
+    <div className="campus-focus-layout">
+      <section className="campus-card campus-focus-hero">
+        <div>
+          <span className="campus-card__kicker">
+            CAMPUS TODAY // NAN&apos;S HOME COURT
+          </span>
+          <p>校园生活不是第二张教务表。</p>
+          <h1>你现在最想解决什么？</h1>
+          <small>
+            先选意图，再给下一步；位置、门禁、支付、健康和参与度不会被偷偷拿来画像。
+          </small>
+        </div>
+        <div className="campus-focus-hero__score">
+          <article>
+            <strong>{state.saved_items.length}</strong>
+            <span>MyCOURT</span>
+          </article>
+          <article>
+            <strong>{state.calendar_entries.length}</strong>
+            <span>日历镜像</span>
+          </article>
+          <article>
+            <strong>0</strong>
+            <span>位置追踪</span>
+          </article>
+        </div>
+      </section>
+
+      <section className="campus-card campus-intent-board">
+        <SectionHeading
+          eyebrow="CALL THE PLAY // ONE INTENT AT A TIME"
+          title="选择本轮战术"
+          detail="四个入口对应最常见的校园任务；完整目录仍可随时展开。"
+        />
+        <div>
+          <button
+            type="button"
+            onClick={() => setState(setCampusStage(state, "map"))}
+          >
+            <Building24Regular aria-hidden="true" />
+            <span>安静学习</span>
+            <strong>找空间与开放服务</strong>
+            <small>图书馆 · 自习 · 无障碍</small>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              const query = {
+                ...state.search_query,
+                text: "Research",
+              };
+              apply(
+                (current) => searchCampusLife(current, query),
+                "已扫描研究与创作活动；仍需正式入口报名。",
+              );
+            }}
+          >
+            <Sparkle24Regular aria-hidden="true" />
+            <span>拓展赛程</span>
+            <strong>找活动与机会</strong>
+            <small>研究 · 创作 · 竞赛</small>
+          </button>
+          <button
+            type="button"
+            onClick={() => setState(setCampusStage(state, "squad"))}
+          >
+            <PeopleTeam24Regular aria-hidden="true" />
+            <span>组建阵容</span>
+            <strong>找同伴与导师</strong>
+            <small>先看承诺 · 再发意向</small>
+          </button>
+          <button
+            type="button"
+            onClick={() => setState(setCampusStage(state, "support"))}
+          >
+            <PersonSupport24Regular aria-hidden="true" />
+            <span>需要支援</span>
+            <strong>找帮助与正式路径</strong>
+            <small>无障碍 · 心理 · 紧急支持</small>
+          </button>
+        </div>
+      </section>
+
+      <section className="campus-card campus-focus-next">
+        <SectionHeading
+          eyebrow="NEXT MOVES // EXPLAINED"
+          title="本轮三张行动卡"
+          detail="推荐只使用你主动输入的意图与显式偏好；每张卡都保留来源和正式边界。"
+        />
+        <div>
+          {recommendations.slice(0, 3).map((recommendation, index) => {
+            const event = state.fixture.events.find(
+              (item) => item.id === recommendation.id,
+            );
+            if (!event) return null;
+            return (
+              <article key={event.id}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <small>{formatTime(event.starts_at)}</small>
+                  <h3>{event.title}</h3>
+                  <p>{recommendation.explanation}</p>
+                  <footer>
+                    <strong>{event.cost_label}</strong>
+                    <SourceBadge state={state} sourceId={event.source_id} />
+                  </footer>
+                </div>
+                <button
+                  type="button"
+                  aria-label={`保存 ${event.title} 到 MyCOURT`}
+                  onClick={() =>
+                    apply(
+                      (current) =>
+                        saveToMyCourt(current, event.id, "event"),
+                      "已保存到 MyCOURT；没有执行报名。",
+                    )
+                  }
+                >
+                  <Bookmark24Regular aria-hidden="true" />
+                </button>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="campus-card campus-focus-control">
+        <details>
+          <summary>
+            <Search24Regular aria-hidden="true" />
+            <span>
+              <strong>调整推荐条件</strong>
+              <small>输入目标、形式与无障碍需要</small>
+            </span>
+          </summary>
+          <form
+            className="campus-search-form"
+            onSubmit={(event) => {
+              event.preventDefault();
+              apply(
+                (current) =>
+                  searchCampusLife(current, current.search_query),
+                "条件已更新；解释与来源保持可见。",
+              );
+            }}
+          >
+            <label>
+              我想完成
+              <input
+                value={state.search_query.text}
+                onChange={(event) =>
+                  setState({
+                    ...state,
+                    search_query: {
+                      ...state.search_query,
+                      text: event.target.value,
+                    },
+                  })
+                }
+                placeholder="例如：实验、写作、安静空间"
+              />
+            </label>
+            <label>
+              形式
+              <select
+                value={state.search_query.delivery_mode ?? ""}
+                onChange={(event) =>
+                  setState({
+                    ...state,
+                    search_query: {
+                      ...state.search_query,
+                      delivery_mode:
+                        (event.target.value as
+                          | "online"
+                          | "in_person"
+                          | "hybrid") || null,
+                    },
+                  })
+                }
+              >
+                <option value="">全部</option>
+                <option value="online">线上</option>
+                <option value="in_person">线下</option>
+                <option value="hybrid">混合</option>
+              </select>
+            </label>
+            <label className="campus-check-row">
+              <input
+                type="checkbox"
+                checked={state.search_query.accessibility_required}
+                onChange={(event) =>
+                  setState({
+                    ...state,
+                    search_query: {
+                      ...state.search_query,
+                      accessibility_required: event.target.checked,
+                    },
+                  })
+                }
+              />
+              需要无障碍信息
+            </label>
+            <button type="submit">
+              <Search24Regular aria-hidden="true" />
+              更新行动卡
+            </button>
+          </form>
+          <p className="campus-explanation">
+            <Info24Regular aria-hidden="true" />
+            {state.search_result.explanation}
+          </p>
+        </details>
+
+        <div className="campus-focus-shortcuts">
+          <button
+            type="button"
+            onClick={() => setState(setCampusStage(state, "map"))}
+          >
+            <Navigation24Regular aria-hidden="true" />
+            <span>校园地图</span>
+            <small>静态路线 · 不追踪</small>
+          </button>
+          <button
+            type="button"
+            onClick={() => setState(setCampusStage(state, "mycourt"))}
+          >
+            <Bookmark24Regular aria-hidden="true" />
+            <span>MyCOURT</span>
+            <small>收藏与办理镜像</small>
+          </button>
+          <button
+            type="button"
+            onClick={() => setConcourseMode("catalog")}
+          >
+            <City24Regular aria-hidden="true" />
+            <span>完整目录</span>
+            <small>查看全部服务与活动</small>
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+
   const renderConcourse = () => (
     <div className="campus-concourse-layout">
       <section className="campus-card campus-hero-card">
         <span className="campus-card__kicker">F008 · CAMPUS LIFE HUB</span>
-        <p className="campus-hero-card__season">第 4 / 8 赛季 · 校园主场</p>
+        <p className="campus-hero-card__season">本科赛程 · 校园主场</p>
         <h1>下一站，由你叫战术。</h1>
         <p>
           把校园服务、活动、空间与协作放进一个可检索、可解释、可回放的
@@ -557,6 +805,22 @@ export function CampusLifeStudio({
           })}
       </section>
     </div>
+  );
+
+  const renderCatalogConcourse = () => (
+    <>
+      <section className="campus-catalog-return">
+        <div>
+          <span>FULL CATALOG // ADVANCED VIEW</span>
+          <strong>全部服务、活动与偏好设置</strong>
+        </div>
+        <button type="button" onClick={() => setConcourseMode("focus")}>
+          <ArrowLeft24Regular aria-hidden="true" />
+          返回“本轮战术”
+        </button>
+      </section>
+      {renderConcourse()}
+    </>
   );
 
   const renderMap = () => (
@@ -1183,7 +1447,10 @@ export function CampusLifeStudio({
   );
 
   const stageContent = {
-    concourse: renderConcourse,
+    concourse:
+      concourseMode === "focus"
+        ? renderFocusedConcourse
+        : renderCatalogConcourse,
     map: renderMap,
     mycourt: renderMyCourt,
     squad: renderSquad,
@@ -1214,7 +1481,7 @@ export function CampusLifeStudio({
           data-focusable="true"
         >
           <ArrowLeft24Regular aria-hidden="true" />
-          返回 MyCareer
+          <span>返回 MyCareer</span>
         </button>
         <div className="campus-brand">
           <strong>

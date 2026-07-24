@@ -1,4 +1,5 @@
 export type MirrorStep =
+  | "passport"
   | "sources"
   | "browse"
   | "conflicts"

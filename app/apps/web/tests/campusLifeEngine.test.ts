@@ -156,6 +156,25 @@ describe("F-008 Campus Life Hub engine", () => {
     );
   });
 
+  it("rebuilds the action cards from the user's visible intent filters", () => {
+    const searched = searchCampusLife(createCampusLifeState(), {
+      text: "Research",
+      category: null,
+      location_id: null,
+      delivery_mode: null,
+      accessibility_required: false,
+      include_expired: false,
+    });
+    const recommendations = campusRecommendations(searched);
+
+    expect(recommendations.map((item) => item.id)).toEqual([
+      "event-writing-sprint",
+    ]);
+    expect(recommendations[0].explanation).toMatch(
+      /匹配可见筛选（目标：Research）/,
+    );
+  });
+
   it("blocks writes offline and reports zero official-result claims", () => {
     const offline = setCampusOffline(createCampusLifeState(), true);
     expect(() =>

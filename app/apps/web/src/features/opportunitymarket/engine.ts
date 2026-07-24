@@ -82,11 +82,13 @@ function valueMatches(
   value: ProfileField["value"],
   rule: EligibilityRule,
 ): boolean {
-  if (rule.operator === "gte") {
+  if (rule.operator === "gte" || rule.operator === "lte") {
     return (
       typeof value === "number" &&
       typeof rule.expectedValue === "number" &&
-      value >= rule.expectedValue
+      (rule.operator === "gte"
+        ? value >= rule.expectedValue
+        : value <= rule.expectedValue)
     );
   }
   if (rule.operator === "contains" || rule.operator === "includes") {
@@ -150,8 +152,8 @@ function eligibilityResult(
       evidenceFieldId: field.id,
       evidenceLabel: `${field.label} · ${field.valueLabel}`,
       nextStep:
-        rule.operator === "gte"
-          ? `当前为 ${field.valueLabel}；可调整计划或选择时间要求更低的机会。`
+        rule.operator === "gte" || rule.operator === "lte"
+          ? `当前为 ${field.valueLabel}；请按官方允许范围调整，并在提交前重新核对。`
           : "查看官方规则并补充材料；系统不会代替提供方豁免要求。",
     };
   }

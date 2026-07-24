@@ -4,7 +4,7 @@ module_ids: ["F-009"]
 module_status: technical_review
 owner: null
 active_slice: "transparent Opportunity Exchange fixture"
-updated_at: "2026-07-24"
+updated_at: "2026-07-25"
 task_router: "../../PROJECT-MANIFEST.json#current_work"
 ---
 
@@ -13,7 +13,7 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 > 即时派单与 owner 以 `PROJECT-MANIFEST.json.current_work` 为唯一事实源；本文件记录 F-009 的可复验技术证据。`technical_review` 不等于产品负责人接受，也不等于已接入真实学校、雇主或机会提供方。
 
 - **状态：** `technical_review`
-- **演示边界：** 8 条机会、所有来源 URL、提供方回应、权益与申请结果均为 `demo_fixture`
+- **演示边界：** 1 条 AdventureX 官方规则核验快照 + 7 条虚构机会；学生 Profile、匹配结果、提供方回应、权益与申请结果均为 `demo_fixture`
 - **负责人：** 待产品负责人认领并作接受/返工决定
 - **公开数据边界：** 不包含真实学生资料、真实招聘数据、真实课程材料或机构凭证
 - **核心依赖：**
@@ -25,12 +25,12 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 
 | 功能 | Fixture 技术候选 | 可复验证据 | 真实集成状态 |
 |---|---|---|---|
-| F009-01 官方机会采集 | ✅ | 8 条机会包含来源 URL、版本、抓取/核对时间、截止、成本、纠错渠道 | 未连接真实采集器 |
+| F009-01 官方机会采集 | ✅ | 8 条机会包含来源 URL、版本、抓取/核对时间、截止、成本、纠错渠道；AdventureX 条目使用 2026-07-23 终极指南核验快照 | 未连接真实采集器；动态 Portal 字段仍需提交前复核 |
 | F009-02 透明机会卡 | ✅ | Market Board 在打开详情前显示资格、收益、义务、成本与风险 | 等待真人文案/密度评审 |
 | F009-03 透明机会包 | ✅ | 2 个包、8 项全部公开；无概率、稀有度、付费解锁或倒计时 | 无真实运营集合 |
-| F009-04 资格规则 | ✅ | 20 条结构化规则均保留官方原文 Fixture 链接 | 未接真实规则版本监控 |
+| F009-04 资格规则 | ✅ | 21 条结构化规则均保留来源链接；新增 `lte` 使 AdventureX 2–4 人上下限可分别计算 | 未接真实规则版本监控 |
 | F009-05 四态解释 | ✅ | 同一研究机会可同时显示 met / possibly_met / not_met / unknown；无综合分 | 真实规则准确性未验证 |
-| F009-06 本人控制 Profile | ✅ | 11 个私密可选字段；默认仅选择 4 个；敏感代理字段进入禁止清单 | 未接真实身份或凭证 |
+| F009-06 本人控制 Profile | ✅ | 12 个私密可选字段；当前参赛 Fixture 默认选择 7 个，其中团队、现场时段与提交包均可单独撤回；敏感代理字段进入禁止清单 | 未接真实身份或凭证 |
 | F009-07 选择性匹配 | ✅ | 本人逐项选择字段，结果显示理由、冲突与未知；资格四态→截止时间确定性排序 | 未做真实公平样本评估 |
 | F009-08 双向意向 | ✅ | save → student intent → provider Fixture ack；扩大披露前保持阻断 | 提供方回应为 Fixture |
 | F009-09 最小披露 | ✅ | 披露前预览、用途、1–30 天期限、即时撤回、Box Score 字段回执 | 未接真实授权网关 |
@@ -62,7 +62,7 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 ## 已通过的技术验收
 
 - [x] 8 条透明机会与 2 个透明机会包
-- [x] 20 条来源可追溯资格规则
+- [x] 21 条来源可追溯资格规则（含数值上下限）
 - [x] 四态同屏与无综合分
 - [x] 私密、选择性 Profile；5 类禁止字段
 - [x] 7 条确定性匹配解释
@@ -75,7 +75,8 @@ task_router: "../../PROJECT-MANIFEST.json#current_work"
 - [x] 5/5 反操纵审计
 - [x] 离线只读、简化视图、减少动效
 - [x] 浏览器逐步实机验收并重置为干净状态
-- [x] 13 项 Web 引擎测试、4 项领域测试、3 项 API 流程测试
+- [x] 14 项 Web 引擎测试、4 项领域测试、3 项 API 流程测试
+- [x] AdventureX 终极指南核验快照转为团队 / 时段 / 提交包四项准备检查；动态 Portal 与视觉许可保持人工 Gate
 
 ## 仍需真人完成
 

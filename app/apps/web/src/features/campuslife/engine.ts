@@ -131,7 +131,7 @@ export const createCampusLifeState = (
   const profile = {
     profiling_enabled: true,
     interests: ["研究", "创作"],
-    academic_stage: "本科 · 第 4 / 8 赛季",
+    academic_stage: "本科 · 记录覆盖 5 个学期",
     purpose: "只用于本次 Campus Life 推荐，可随时关闭。",
     expires_at: "2026-08-31T23:59:00+08:00",
   };
@@ -555,16 +555,30 @@ export const recordCampusReceipt = (
 
 export const campusRecommendations = (
   state: CampusLifeState,
-): Array<{ id: string; explanation: string }> =>
-  state.fixture.events
-    .filter((event) => event.status === "active")
-    .slice(0, 3)
-    .map((event) => ({
-      id: event.id,
-      explanation: state.profile.profiling_enabled
-        ? `基于本人选择的兴趣（${state.profile.interests.join("、")}）；未使用位置、门禁、支付或健康数据。`
-        : "画像关闭：按时间与有效状态排列。",
-    }));
+): Array<{ id: string; explanation: string }> => {
+  const activeEvents = state.fixture.events.filter(
+    (event) => event.status === "active",
+  );
+  const hasVisibleFilter = state.search_result.active_filters.length > 0;
+  const filteredEvents = hasVisibleFilter
+    ? activeEvents.filter((event) =>
+        state.search_result.event_ids.includes(event.id),
+      )
+    : activeEvents;
+  const fallbackUsed = hasVisibleFilter && filteredEvents.length === 0;
+  const candidates = fallbackUsed ? activeEvents : filteredEvents;
+
+  return candidates.slice(0, 3).map((event) => ({
+    id: event.id,
+    explanation: fallbackUsed
+      ? "当前筛选没有直接命中活动；回退到最近的有效活动，未使用隐形画像。"
+      : hasVisibleFilter
+        ? `匹配可见筛选（${state.search_result.active_filters.join("、")}）；未使用位置、门禁、支付或健康数据。`
+        : state.profile.profiling_enabled
+          ? `基于本人选择的兴趣（${state.profile.interests.join("、")}）；未使用位置、门禁、支付或健康数据。`
+          : "画像关闭：按时间与有效状态排列。",
+  }));
+};
 
 export const campusSource = (state: CampusLifeState, sourceId: string) => {
   const source = state.fixture.sources.find((item) => item.id === sourceId);

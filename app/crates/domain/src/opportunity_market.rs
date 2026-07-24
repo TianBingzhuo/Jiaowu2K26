@@ -80,6 +80,7 @@ impl OpportunityProfileValue {
     fn matches(&self, operator: &str, expected: &Self) -> bool {
         match (operator, self, expected) {
             ("gte", Self::Number(actual), Self::Number(minimum)) => actual >= minimum,
+            ("lte", Self::Number(actual), Self::Number(maximum)) => actual <= maximum,
             ("contains" | "includes", Self::Text(actual), Self::Text(needle)) => {
                 actual.to_lowercase().contains(&needle.to_lowercase())
             }
@@ -355,7 +356,7 @@ impl OpportunityMarketFixture {
                 || !field_ids.contains(rule.field_id.as_str())
                 || !matches!(
                     rule.operator.as_str(),
-                    "eq" | "gte" | "contains" | "includes"
+                    "eq" | "gte" | "lte" | "contains" | "includes"
                 )
                 || !rule.source_ref.starts_with("https://")
         }) {
@@ -1438,9 +1439,9 @@ fn eligibility_result(
             status: "not_met".to_owned(),
             evidence_field_id: Some(field.id.clone()),
             evidence_label: format!("{} · {}", field.label, field.value_label),
-            next_step: if rule.operator == "gte" {
+            next_step: if matches!(rule.operator.as_str(), "gte" | "lte") {
                 format!(
-                    "当前为 {}；可调整计划或选择要求更低的机会。",
+                    "当前为 {}；请按官方允许范围调整，并在提交前重新核对。",
                     field.value_label
                 )
             } else {

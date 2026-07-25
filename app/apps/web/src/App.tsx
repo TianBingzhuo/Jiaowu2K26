@@ -203,14 +203,14 @@ const EVIDENCE_ITEMS = [
     detail: HERO_COURSE.sourceRef,
   },
   {
-    title: "当前权威级别",
+    title: "这条信息有多可靠",
     value: "演示数据 · 非学校正式记录",
     detail: "不会写入成绩、选课、消费或学籍系统",
   },
   {
     title: "更新时间",
     value: "2026-07-24 10:30 CST",
-    detail: "固定 Demo 时间，便于多人重复验收",
+    detail: "固定演示时间，方便每次验收看到同一赛况",
   },
   {
     title: "使用范围",
@@ -346,7 +346,7 @@ function FeatureLoading({ label }: { label: string }) {
     <main className="feature-loading" aria-live="polite" aria-busy="true">
       <DataTrending24Regular aria-hidden="true" />
       <strong>正在载入 {label}</strong>
-      <span>模块代码按需加载；来源与 Fixture 边界不会改变。</span>
+      <span>赛场正在就位，你的当前页面和进度会留在原处。</span>
     </main>
   );
 }
@@ -384,8 +384,8 @@ export function App() {
   const [toast, setToast] = useState("");
   const [backend, setBackend] = useState<BackendStatus>({
     state: "checking",
-    label: "连接检查中",
-    detail: "正在确认 /api/v1 健康合同。",
+    label: "正在连接",
+    detail: "正在确认后台服务是否在线。",
   });
 
   const panelRef = useRef<HTMLElement | null>(null);
@@ -617,7 +617,7 @@ export function App() {
     actionTimerRef.current = window.setTimeout(() => {
       if (simulateError) {
         setActionState("error");
-        showToast("赛程加载失败，已保留当前页面与焦点。");
+        showToast("这次没载入成功，但页面和焦点都还在。");
         return;
       }
 
@@ -690,13 +690,13 @@ export function App() {
     }
 
     if (destination.type === "planned") {
-      showToast(`${destination.label}已进入路线图，本轮保持为诚实的 Vision 入口。`);
+      showToast(`${destination.label}还在候场。本版先把入口和边界留给你看。`);
       return;
     }
 
     if (destination.type === "workspace") {
       if (activeRole === "student") {
-        showToast("学生角色没有机构工作台权限。");
+        showToast("这里是学校工作人员的工作台；学生视角不能代替他们操作。");
         return;
       }
       setInstitutionalView(destination.view);
@@ -740,7 +740,7 @@ export function App() {
     setActiveRole(roleId);
     setActionState("idle");
     applyRoute({ experience: "career", panel: null }, "replace");
-    showToast(`已进入 ${nextProfile.formalRole} Demo 身份；正式权限仍需学校 SSO。`);
+    showToast(`已切到${nextProfile.formalRole}视角。这里只是演示，正式权限仍由学校账号确认。`);
     window.setTimeout(() => lastFocusRef.current?.focus?.(), 0);
   };
 
@@ -872,8 +872,8 @@ export function App() {
         if (!(error instanceof DOMException && error.name === "AbortError")) {
           setBackend({
             state: "fallback",
-            label: "本地 Fixture",
-            detail: "API 检查异常；演示继续使用只读 Fixture。",
+            label: "本地演示",
+            detail: "后台检查没有完成；先用只读存档继续。",
           });
         }
       });
@@ -1248,14 +1248,14 @@ export function App() {
             title={backend.detail}
           >
             <DataTrending24Regular aria-hidden="true" />
-            <span>{backend.label} · Fixture</span>
+            <span>{backend.label}</span>
           </div>
           <button
             className="role-switch-action"
             type="button"
             onClick={() => openPanel("roles")}
             data-focusable="true"
-            aria-label={`切换 Demo 角色；当前为${activeProfile.formalRole}`}
+            aria-label={`切换体验角色；当前为${activeProfile.formalRole}`}
           >
             <span className={`role-switch-action__avatar is-${activeProfile.accent}`}>
               <Person24Regular aria-hidden="true" />
@@ -1325,7 +1325,7 @@ export function App() {
               <small>COACH'S NOTE · 今日战术板</small>
               <strong>{dailyCoachNote}</strong>
             </span>
-            <em>本地 Fixture</em>
+            <em>演示赛档</em>
           </aside>
           <h1 id="page-heading">{copy.headline}</h1>
 
@@ -1388,8 +1388,8 @@ export function App() {
             <div className="action-error" role="alert">
               <Warning24Regular aria-hidden="true" />
               <div>
-                <strong>无法载入演示赛程</strong>
-                <span>模拟错误已开启；你的焦点和当前页面均已保留。</span>
+                <strong>这一回合没载入成功</strong>
+                <span>你的页面和焦点都还在，可以直接再试一次。</span>
               </div>
               <button
                 type="button"
@@ -1399,7 +1399,7 @@ export function App() {
                 }}
                 data-focusable="true"
               >
-                恢复
+                再试一次
               </button>
             </div>
           )}
@@ -1413,7 +1413,7 @@ export function App() {
             </div>
             <span className="fixture-badge">
               <Info24Regular aria-hidden="true" />
-              Fixture
+              演示
             </span>
           </div>
 
@@ -1587,16 +1587,16 @@ export function App() {
                     : panel === "courses"
                       ? "2026 SPRING ROSTER"
                       : panel === "roles"
-                        ? "IDENTITY BAY"
+                        ? "ROLE SELECT"
                         : "CONTROL CENTER"}
                 </span>
                 <h2 id="drawer-heading">
                   {panel === "evidence"
                     ? "依据与数据状态"
                     : panel === "courses"
-                      ? "Demo 课程阵容"
+                      ? "演示课程阵容"
                       : panel === "roles"
-                        ? "选择 Demo 角色"
+                        ? "换个视角体验"
                         : "体验设置"}
                 </h2>
               </div>
@@ -1616,7 +1616,7 @@ export function App() {
                 <div className="evidence-callout">
                   <DocumentSearch24Regular aria-hidden="true" />
                   <p>
-                    课程主题可追溯，但人物、进度和建议均为 Fixture；不代表学校实时成绩、选课或学籍记录。
+                    课程主题可以查到来源；人物、进度和建议来自演示赛档，不是学校实时记录。
                   </p>
                 </div>
                 <article className="evidence-item">
@@ -1630,7 +1630,7 @@ export function App() {
                     {activeProfile.formalRole} · {activeProfile.gameMode}
                   </strong>
                   <small>
-                    Demo Fixture 权限预览；生产环境必须接学校 SSO，并由服务端重新授权
+                    这里只预览角色能做什么；正式版会由学校账号和后台权限重新确认
                   </small>
                 </article>
                 {EVIDENCE_ITEMS.map((item) => (
@@ -1696,7 +1696,7 @@ export function App() {
                     </div>
                     <span className="fixture-badge">
                       <Info24Regular aria-hidden="true" />
-                      Fixture 分析
+                      演示分析
                     </span>
                   </div>
                   <div className="course-analysis__question">
@@ -1726,7 +1726,7 @@ export function App() {
                   </div>
                   <small className="course-analysis__source">
                     来源引用：{selectedCourse.sourceRef} ·
-                    分析路径与建议均为可替换 Fixture，不是学校正式判断
+                    这条分析可以修改，不代表学校的正式判断
                   </small>
                 </section>
                 <div className="course-roster__grid">
@@ -1858,7 +1858,7 @@ export function App() {
             ) : (
               <div className="settings-list">
                 <p className="settings-intro">
-                  这些开关用于现场验证降级状态，不会保存，也不会修改正式系统。
+                  这些开关只用来体验不同状态；刷新后会复原，也不会改动学校系统。
                 </p>
                 <button
                   className="setting-row"
@@ -1874,7 +1874,7 @@ export function App() {
                   <PlugDisconnected24Regular aria-hidden="true" />
                   <span>
                     <strong>离线模式</strong>
-                    <small>验证缓存标识与可用操作</small>
+                    <small>看看断网时还能做什么</small>
                   </span>
                   <b>{offline ? "开启" : "关闭"}</b>
                 </button>
@@ -1892,7 +1892,7 @@ export function App() {
                   <Warning24Regular aria-hidden="true" />
                   <span>
                     <strong>模拟加载错误</strong>
-                    <small>下一次主要行动进入可恢复错误态</small>
+                    <small>让下一次操作失败一次，检查能否顺利恢复</small>
                   </span>
                   <b>{simulateError ? "开启" : "关闭"}</b>
                 </button>

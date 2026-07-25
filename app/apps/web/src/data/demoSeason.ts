@@ -15,7 +15,7 @@ export const DEMO_SEASON: DemoSeason = {
   endDate: "2026-07-31",
   authority: "fixture",
   sourceBoundary:
-    "课程名称与知识主题来自本地课程索引摘要；身份、日期、进度、等级和建议均为公开演示 Fixture。",
+    "课程名和知识主题来自本地课程索引；人物、日期、进度、等级和建议都是公开演示数据。",
   updatedAt: "2026-07-24T10:30:00+08:00",
   heroCourseId: "signal-linear-systems",
   courses: [

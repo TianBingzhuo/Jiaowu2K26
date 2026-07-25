@@ -32,7 +32,7 @@ describe("backend health handshake", () => {
 
     await expect(checkBackend(undefined, fetcher)).resolves.toMatchObject({
       state: "fallback",
-      label: "本地 Fixture",
+      label: "本地演示",
     });
   });
 });

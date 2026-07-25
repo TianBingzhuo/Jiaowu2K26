@@ -156,7 +156,7 @@ export function SeasonSideboard({
         </div>
         <span className="fixture-badge">
           <Info24Regular aria-hidden="true" />
-          Fixture
+          演示
         </span>
       </header>
 

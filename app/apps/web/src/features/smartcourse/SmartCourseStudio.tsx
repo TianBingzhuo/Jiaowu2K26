@@ -112,6 +112,24 @@ const KIND_LABEL = {
   scene: "互动场景",
 } as const;
 
+const GENERATION_LABEL: Record<TeachingObject["generationMode"], string> = {
+  fixture: "本地演示草稿",
+  model: "AI 草稿",
+  rule: "规则生成草稿",
+};
+
+const EVIDENCE_LABEL: Record<TeachingObject["evidenceStatus"], string> = {
+  supported: "依据完整",
+  partial: "部分有据",
+  insufficient: "依据不足",
+};
+
+function actorLabel(actor: string) {
+  if (actor === "teacher-fixture") return "林老师（演示）";
+  if (actor === "student-nan-fixture") return "南同学（演示）";
+  return "本地演示记录";
+}
+
 function canOpenStep(state: SmartCourseState, step: SmartCourseStep) {
   if (step === "source") return true;
   if (step === "review") return state.materialLoaded;
@@ -263,18 +281,18 @@ export function SmartCourseStudio({
   const [manualSourceSaved, setManualSourceSaved] = useState(false);
   const [apiReceipt, setApiReceipt] = useState<ApiEvidenceReceipt>({
     state: "checking",
-    message: "正在核验 F-001 后端回执；本地演示不会因此被阻塞。",
+    message: "正在确认后台记录；没接上也不耽误本地演示。",
   });
   const [message, setMessage] = useState(
     entryPoint === "authoring"
-      ? "当前为明确标注的本地 Fixture；所有动作可重置，不写入学校系统。"
+      ? "当前使用本地演示存档；随时可以重置，也不会写入学校系统。"
       : entryPoint === "review"
-        ? "已从 Coach Studio 进入教师审核席；所有来源、修改和决定均保留 Replay。"
+        ? "教师审核席已就位；每次修改和决定都能回看。"
         : entryPoint === "publish"
-          ? "已从 Coach Studio 进入发布门禁；只有教师已通过且来源有效的对象可发布。"
+          ? "已经来到发布前的最后一关；只放行教师通过且来源有效的内容。"
       : entryPoint === "student"
-          ? "已从 MyCareer 赛季中心进入教师审核后的发布版本；返回路径始终可见。"
-          : "已从 MyCareer 课程 Box Score 进入完整证据回放；这是可重复的 Fixture 记录。",
+          ? "这是教师审核后的学习版本；返回赛季中心的路一直都在。"
+          : "这局从材料到作答都能回看；当前记录来自演示赛档。",
   );
 
   const filteredObjects = useMemo(
@@ -375,7 +393,7 @@ export function SmartCourseStudio({
         if (active) {
           setApiReceipt({
             state: "fixture",
-            message: "后端回执暂时不可用；本地 Fixture 主线仍可完整验收。",
+            message: "后台记录暂时没接上；本地演示仍可完整体验。",
           });
         }
       });
@@ -388,7 +406,7 @@ export function SmartCourseStudio({
 
   const goToStep = (step: SmartCourseStep) => {
     if (!canOpenStep(state, step)) {
-      setMessage("这一步仍被前置证据门禁锁定。先完成左侧当前任务。");
+      setMessage("这一步还没解锁。先完成左侧亮起的任务。");
       return;
     }
     setState((current) => ({ ...current, step }));
@@ -396,7 +414,7 @@ export function SmartCourseStudio({
 
   const loadFixture = () => {
     setState((current) => loadAuthorizedFixture(current));
-    setMessage("已登记 1 份授权 Demo 材料，提取 3 个来源片段和 5 个结构化草稿。");
+    setMessage("材料已就位：3 段可定位原文，5 份待审核草稿。");
   };
 
   const registerLocalMaterial = async () => {
@@ -431,30 +449,30 @@ export function SmartCourseStudio({
       setLocalIntake({
         status: "partial",
         message:
-          "元数据与哈希已登记；V0.9 未启用通用解析器，因此明确停在 partial。可手工录入来源，或切换授权 Fixture 完成闭环。",
+          "文件信息和哈希已经记下，但本版还读不了全部内容。你可以手工摘录一段原文，或改用内置演示材料。",
         hash,
         format: validation.format,
         sizeLabel: validation.sizeLabel,
       });
       setMessage(
-        "本地材料登记完成；解析适配器未启用，系统没有伪装成功。",
+        "文件已经登记。内容解析还没开放，所以没有把它假装成“处理完成”。",
       );
     } catch {
       setLocalIntake({
         status: "failed",
-        message: "浏览器无法读取该文件；请重试或改用授权 Fixture。",
+        message: "浏览器没能读到这个文件。可以重试，或改用内置演示材料。",
       });
     }
   };
 
   const saveManualSource = () => {
     if (!manualLocator.trim() || !manualQuote.trim()) {
-      setMessage("手工来源必须同时填写定位器与原文片段。");
+      setMessage("还差两项：原文位置和原文片段。填好后就能保存。");
       return;
     }
     setManualSourceSaved(true);
     setMessage(
-      "手工来源已留在当前浏览器会话；它不会与 Fixture 或学校权威数据混用。",
+      "这段原文只留在当前浏览器里，不会混进学校记录。",
     );
   };
 
@@ -468,7 +486,7 @@ export function SmartCourseStudio({
     });
     setManualQuote("");
     setManualSourceSaved(false);
-    setMessage("本地材料测试场已清空；Fixture 主链不受影响。");
+    setMessage("本地材料已经清空；内置演示内容还在。");
   };
 
   const saveEdit = () => {
@@ -477,7 +495,7 @@ export function SmartCourseStudio({
         editTeachingObject(current, selectedObject.id, editValue),
       );
       setEditing(false);
-      setMessage("修改已保存；前后文本作为追加式 ReviewEvent 保留。");
+      setMessage("修改已保存。改前和改后的版本都能在回放里找到。");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "无法保存修改。");
     }
@@ -501,7 +519,7 @@ export function SmartCourseStudio({
         removeTeachingObject(current, removeTargetId, removeReason),
       );
       setRemoveTargetId(null);
-      setMessage("对象已移除并保留原因；不会进入发布版本。");
+      setMessage("这份草稿已移出发布队列，原因也记下了。");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "无法移除对象。");
     }
@@ -510,7 +528,7 @@ export function SmartCourseStudio({
   const publish = () => {
     try {
       setState((current) => publishApprovedObjects(current));
-      setMessage("不可变发布版本 v1 已形成；学生端只能看到已通过对象。");
+      setMessage("v1 已发布。学生端只会看到教师确认过的内容。");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "无法发布。");
     }
@@ -540,7 +558,7 @@ export function SmartCourseStudio({
     setStatusFilter("all");
     setRiskFilter("all");
     clearLocalIntake();
-    setMessage("Demo 已重置；所有 Fixture 动作均可从头重复验收。");
+    setMessage("演示已经重置，可以从第一回合重新体验。");
   };
 
   const toggleFirstSourceValidity = () => {
@@ -550,8 +568,8 @@ export function SmartCourseStudio({
     );
     setMessage(
       source.valid
-        ? "已模拟来源失效：依赖它的已通过草稿会立即被发布门禁排除。"
-        : "来源已恢复：发布候选会重新计算，但不会覆盖既有审计事件。",
+        ? "已把这条来源标为失效；依赖它的草稿不会进入发布队列。"
+        : "来源已经恢复；发布候选会重新计算，过去的操作记录仍保留。",
     );
   };
 
@@ -571,7 +589,7 @@ export function SmartCourseStudio({
           className={`smartcourse-runtime is-${apiReceipt.state}`}
           title={
             apiReceipt.state === "live"
-              ? `F-001 API 回执已核验 · revision ${apiReceipt.revision}`
+              ? `F-001 后台记录已核对 · 第 ${apiReceipt.revision} 版`
               : apiReceipt.message
           }
         >
@@ -579,10 +597,10 @@ export function SmartCourseStudio({
           <span>{backendLabel}</span>
           <b>
             {apiReceipt.state === "live"
-              ? "API PROOF"
+              ? "后台记录"
               : apiReceipt.state === "checking"
-                ? "VERIFYING"
-                : "FIXTURE"}
+                ? "确认中"
+                : "本地演示"}
           </b>
         </div>
       </header>
@@ -591,7 +609,7 @@ export function SmartCourseStudio({
         <div className="smartcourse-steps__heading">
           <span>F-001</span>
           <strong>来源到 Replay</strong>
-          <small>一条完整纵向闭环</small>
+          <small>从材料到学习，一路都能回看</small>
         </div>
         <ol>
           {STEP_META.map((step, index) => {
@@ -644,8 +662,8 @@ export function SmartCourseStudio({
             <div className="studio-heading">
               <div>
                 <span>01 · SOURCE INTAKE</span>
-                <h1 id="source-heading">先确认“有权使用”，再让 AI 开口</h1>
-                <p>材料、版本、哈希、权利状态和保留期均进入同一来源链。</p>
+                <h1 id="source-heading">这份材料，AI 可以读吗？</h1>
+                <p>先确认使用权和出处，再把内容交给 AI。</p>
               </div>
               <ShieldCheckmark24Regular aria-hidden="true" />
             </div>
@@ -669,7 +687,11 @@ export function SmartCourseStudio({
                   </div>
                   <div>
                     <dt>登记人</dt>
-                    <dd>{state.material.uploadedBy}</dd>
+                    <dd>
+                      {state.material.uploadedBy === "teacher-fixture"
+                        ? "林老师（演示）"
+                        : state.material.uploadedBy}
+                    </dd>
                   </div>
                   <div>
                     <dt>保留期</dt>
@@ -679,7 +701,7 @@ export function SmartCourseStudio({
               </div>
               <div className="material-card__status">
                 <CheckmarkCircle24Filled aria-hidden="true" />
-                可进入生成链
+                可以生成草稿
               </div>
             </article>
 
@@ -688,7 +710,7 @@ export function SmartCourseStudio({
                 <DocumentSearch24Regular aria-hidden="true" />
                 <span>
                   <strong>LOCAL INTAKE TEST COURT</strong>
-                  <small>真实选择文件 · 权利阻断 · SHA-256 · partial / failed 回退</small>
+                  <small>选择本地文件 · 权利确认 · SHA-256 · 失败可重试</small>
                 </span>
                 <ArrowRight24Regular aria-hidden="true" />
               </summary>
@@ -786,7 +808,7 @@ export function SmartCourseStudio({
                   <section className="manual-source-form">
                     <div>
                       <span>MANUAL OVERRIDE</span>
-                      <strong>解析器不可用时，教师可手工登记可定位原文</strong>
+                      <strong>自动读取没成功？可以手工记下一段原文</strong>
                     </div>
                     <label htmlFor="manual-source-locator">
                       定位器
@@ -820,7 +842,7 @@ export function SmartCourseStudio({
                         <div>
                           <small>{manualLocator}</small>
                           <strong>{manualQuote}</strong>
-                          <em>LOCAL SESSION ONLY · 未进入 Fixture / 学校数据</em>
+                          <em>只留在本次浏览器会话 · 未写入学校数据</em>
                         </div>
                       </article>
                     )}
@@ -866,8 +888,8 @@ export function SmartCourseStudio({
             >
               <Sparkle24Regular aria-hidden="true" />
               {state.materialLoaded
-                ? "Fixture 已载入"
-                : "载入 5 项结构化 Demo 草稿"}
+                ? "演示材料已载入"
+                : "载入 5 份待审核草稿"}
               <ArrowRight24Regular aria-hidden="true" />
             </button>
           </section>
@@ -879,7 +901,7 @@ export function SmartCourseStudio({
               <div>
                 <span>02 · COACH REVIEW</span>
                 <h1 id="review-heading">AI 交草稿，教师保留最后一票</h1>
-                <p>完成至少一次修改、通过和移除，发布门禁才有完整证据。</p>
+                <p>挑一份草稿，修改、通过或退回；每次决定都会留下理由。</p>
               </div>
               <ClipboardBulletListLtrRegular aria-hidden="true" />
             </div>
@@ -991,7 +1013,7 @@ export function SmartCourseStudio({
               <article className="review-editor">
                 <div className="workbench-label">
                   <span>草稿与人工决定</span>
-                  <b>{selectedObject.generationMode} · {selectedObject.generatorVersion}</b>
+                  <b>{GENERATION_LABEL[selectedObject.generationMode]}</b>
                 </div>
                 <div className="review-editor__title">
                   <div>
@@ -1076,8 +1098,8 @@ export function SmartCourseStudio({
 
               <aside className="review-evidence" aria-label="当前草稿依据">
                 <div className="workbench-label">
-                  <span>SHOW YOUR WORK</span>
-                  <b>{selectedObject.evidenceStatus}</b>
+                  <span>这份草稿依据什么</span>
+                  <b>{EVIDENCE_LABEL[selectedObject.evidenceStatus]}</b>
                 </div>
                 {selectedSources.map((source) => (
                   <article key={source.id}>
@@ -1119,7 +1141,7 @@ export function SmartCourseStudio({
               <div>
                 <span>03 · RELEASE GATE</span>
                 <h1 id="publish-heading">发布的不是“AI 结果”，而是教师批准版本</h1>
-                <p>已移除与仍待审核的对象不会进入学生可见范围。</p>
+                <p>退回和待审核的内容不会出现在学生端。</p>
               </div>
               <DocumentCheckmark24Regular aria-hidden="true" />
             </div>
@@ -1128,7 +1150,7 @@ export function SmartCourseStudio({
               <article className="release-card">
                 <div className="release-card__header">
                   <span>RELEASE CANDIDATE</span>
-                  <b>v1 · IMMUTABLE</b>
+                  <b>v1 · 已锁定</b>
                 </div>
                 <h2>信号与线性系统 · 综合演练包</h2>
                 <ul>
@@ -1166,7 +1188,7 @@ export function SmartCourseStudio({
                 </dl>
                 <div className="release-boundary">
                   <ShieldCheckmark24Regular aria-hidden="true" />
-                  仅包含 `approved` 且来源有效的具体修订。
+                  只有教师已经通过、来源仍然有效的内容，才能进入学生端。
                 </div>
                 <button
                   className="release-drill"
@@ -1216,7 +1238,7 @@ export function SmartCourseStudio({
                     <small>大二 · 工程基础赛季 · UNRATED</small>
                   </div>
                 </div>
-                <span className="fixture-badge">FIXTURE PLAYER</span>
+                <span className="fixture-badge">演示学生</span>
               </header>
               <div className="question-block">
                 <span>理解检查 · 1 / 1</span>
@@ -1227,7 +1249,12 @@ export function SmartCourseStudio({
                       type="button"
                       className={selectedAnswer === option.id ? "is-selected" : ""}
                       aria-pressed={selectedAnswer === option.id}
-                      onClick={() => setSelectedAnswer(option.id)}
+                      onClick={() => {
+                        setSelectedAnswer(option.id);
+                        if (message === "请先选择一个答案。") {
+                          setMessage("答案已选好；现在可以提交并查看依据。");
+                        }
+                      }}
                       key={option.id}
                     >
                       <span>{String.fromCharCode(65 + index)}</span>
@@ -1282,11 +1309,11 @@ export function SmartCourseStudio({
                 </header>
                 <div>
                   <span>
-                    <small>闭环完成</small>
-                    <strong>100%</strong>
+                    <small>回合状态</small>
+                    <strong>已完成 ✓</strong>
                   </span>
                   <span>
-                    <small>理解检查</small>
+                    <small>本次答对</small>
                     <strong>{state.interaction?.correct ? "1 / 1" : "0 / 1"}</strong>
                   </span>
                   <span>
@@ -1299,14 +1326,16 @@ export function SmartCourseStudio({
                   </span>
                 </div>
                 <footer>
-                  不含班级排名、他人成绩或公开 GPA 天梯。
+                  {state.interaction?.correct
+                    ? "命中这一题；来源和教师修改仍可回看。"
+                    : "这题没命中也不判负：先回看来源，再打一回合。"}
                 </footer>
               </article>
 
               <article className="replay-timeline">
                 <div className="workbench-label">
                   <span>追加式事件时间线</span>
-                  <b>{state.events.length} events</b>
+                  <b>{state.events.length} 条记录</b>
                 </div>
                 <ol>
                   {state.events.map((event) => (
@@ -1314,10 +1343,12 @@ export function SmartCourseStudio({
                       <History24Regular aria-hidden="true" />
                       <div>
                         <strong>{event.label}</strong>
-                        <span>{event.actor} · {event.occurredAt}</span>
+                        <span>
+                          {actorLabel(event.actor)} · {event.occurredAt}
+                        </span>
                         {event.reason && <small>原因：{event.reason}</small>}
                         {event.before && event.after && (
-                          <small>已保留修改前后正文 · ReviewEvent {event.id}</small>
+                          <small>修改前后都已保留，可以随时比较。</small>
                         )}
                       </div>
                     </li>
@@ -1331,21 +1362,21 @@ export function SmartCourseStudio({
               aria-live="polite"
             >
               <header>
-                <span>LIVE CONTRACT RECEIPT // API 契约回执</span>
+                <span>后台回放记录</span>
                 <b>
                   {apiReceipt.state === "live"
-                    ? "VERIFIED"
+                    ? "已核对"
                     : apiReceipt.state === "checking"
-                      ? "CHECKING"
-                      : "LOCAL FALLBACK"}
+                      ? "核对中"
+                      : "本地记录"}
                 </b>
               </header>
               {apiReceipt.state === "live" ? (
                 <>
                   <div>
                     <span>
-                      <small>对象修订</small>
-                      <strong>r{apiReceipt.revision}</strong>
+                      <small>草稿版本</small>
+                      <strong>第 {apiReceipt.revision} 版</strong>
                     </span>
                     <span>
                       <small>来源 / 证据</small>
@@ -1365,15 +1396,14 @@ export function SmartCourseStudio({
                     </span>
                   </div>
                   <footer>
-                    已从 Rust API 读取并通过 v1 嵌套契约校验；当前 Studio
-                    的可编辑演练仍留在本地，不会暗中改写后端记录。
+                    后台记录已经读取并通过格式检查；当前工作台里的演练仍只保存在本地。
                   </footer>
                 </>
               ) : (
                 <p>
                   {apiReceipt.message}
                   <small>
-                    这是显式降级，不会伪装成在线数据，也不影响完整 Demo。
+                    页面会清楚标出本地状态，不会把演示数据冒充成在线记录。
                   </small>
                 </p>
               )}
@@ -1430,7 +1460,7 @@ export function SmartCourseStudio({
                 <Dismiss24Regular aria-hidden="true" />
               </button>
             </header>
-            <p>移除对象不会发布，但审计记录与原因会保留。</p>
+            <p>移除后不会发布；操作时间和原因仍可以回看。</p>
             <label htmlFor="remove-reason">移除原因</label>
             <textarea
               id="remove-reason"

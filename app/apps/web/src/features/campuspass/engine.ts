@@ -48,7 +48,7 @@ export const createCampusPassState = (
 ): CampusPassState => {
   const cloned = structuredClone(fixture);
   const selected = cloned.credentials[0];
-  if (!selected) throw new Error("Campus Pass Fixture 缺少演示凭证。");
+  if (!selected) throw new Error("校园通行演示缺少可用凭证。");
 
   return {
     stage: "wallet",
@@ -99,7 +99,7 @@ export const selectCredential = (
   const credential = state.fixture.credentials.find(
     (item) => item.id === credentialId,
   );
-  if (!credential) throw new Error("只能选择已登记的 Fixture 凭证。");
+  if (!credential) throw new Error("请选择已经登记的演示凭证。");
 
   return appendAudit(
     {
@@ -151,7 +151,7 @@ export const presentCredential = (
       ? "静态截图不能冒充动态凭证；请回到正式凭证载体或人工核验。"
       : credential.state !== "active"
         ? `凭证状态为 ${credential.state}；Demo Reader 拒绝继续。`
-        : "仅完成本地 Fixture Reader 校验；没有向门锁发送指令。",
+        : "本地读卡演练已经完成；没有向门锁发送指令。",
     occurred_at: eventTime(state.audit.length + 1),
   };
 
@@ -366,7 +366,7 @@ export const checkOffline = (
         ? "凭证的最小权限范围不包含该区域。"
         : credential.state !== "active"
           ? `凭证状态为 ${credential.state}，离线校验拒绝。`
-          : `Fixture 仅模拟期限与范围检查；${state.fixture.offline_policy.cryptographic_verification}。`,
+          : `当前只演示期限与范围检查；${state.fixture.offline_policy.cryptographic_verification}。`,
     checked_at: eventTime(state.audit.length + 1),
   };
 

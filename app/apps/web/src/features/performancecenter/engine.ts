@@ -187,7 +187,7 @@ export function createShareGrant(
     throw new Error("至少选择一个要分享的维度。");
   }
   if (draft.durationDays < 1 || draft.durationDays > 30) {
-    throw new Error("Fixture 分享期限必须在 1–30 天。");
+    throw new Error("分享期限可以设为 1–30 天。");
   }
   const sequence = state.shareGrants.length + 1;
   const grant: ShareGrant = {
@@ -202,7 +202,7 @@ export function createShareGrant(
   const next = {
     ...state,
     shareGrants: [...state.shareGrants, grant],
-    message: `已创建 ${draft.durationDays} 天的 Fixture 分享授权，可随时撤回。`,
+    message: `已同意分享 ${draft.durationDays} 天，可以随时撤回。`,
   };
   return appendAudit(
     next,
@@ -315,8 +315,8 @@ export function toggleOffline(state: PerformanceState): PerformanceState {
     ...state,
     offline,
     message: offline
-      ? `已离线：使用 ${state.lastUpdatedAt} 的私密 Fixture 缓存；不生成新推断。`
-      : "已恢复本地服务；Fixture 来源与时间保持可见。",
+      ? `已经离线，正在使用 ${state.lastUpdatedAt} 的私密缓存；不会生成新建议。`
+      : "本地服务已经恢复；资料出处和时间仍然可见。",
   };
   return appendAudit(
     next,
@@ -330,7 +330,7 @@ export function recordExport(state: PerformanceState): PerformanceState {
   const next = {
     ...state,
     message:
-      "已导出可阅读、不可信的私密 Fixture 副本；它不是成绩、医疗记录或学校凭证。",
+      "私密个人副本已经导出；它可以阅读，但不是成绩、医疗记录或学校证明。",
   };
   return appendAudit(
     next,
@@ -362,6 +362,6 @@ export function buildPrivateArchive(state: PerformanceState) {
       latest_event_hash: state.audit.at(-1)?.eventHash ?? null,
     },
     warning:
-      "Fixture personal copy; not a grade, medical record, school credential or trusted archive.",
+      "Demo personal copy; not a grade, medical record, school credential, or trusted archive.",
   };
 }

@@ -176,7 +176,7 @@ export function CampusLifeStudio({
     "参加这个项目之前，我应当先核对哪一个正式入口和时间承诺？",
   );
   const [correctionReason, setCorrectionReason] = useState(
-    "Fixture 开放时间需要人工核对新的来源版本。",
+    "这项活动的开放时间可能有变，请帮忙核对最新来源。",
   );
   const [receiptReflection, setReceiptReflection] = useState(
     "我完成了一次体验，并记录下一步要核对的来源。",
@@ -221,7 +221,7 @@ export function CampusLifeStudio({
     clearCampusLifeState();
     setState(createCampusLifeState());
     setConcourseMode("focus");
-    setToast("F-008 Fixture 已重置；未触碰任何学校正式系统。");
+    setToast("校园生活演示已重置；学校系统没有发生变化。");
   };
 
   const exportMyCourt = () => {
@@ -244,7 +244,7 @@ export function CampusLifeStudio({
     anchor.download = "university2k26-mycourt-untrusted.json";
     anchor.click();
     URL.revokeObjectURL(url);
-    setToast("已导出本人可读、不可信、私有的 MyCOURT Fixture 归档。");
+    setToast("MyCOURT 个人副本已导出；它可以阅读，但不能代替学校证明。");
   };
 
   const renderFocusedConcourse = () => (
@@ -508,7 +508,7 @@ export function CampusLifeStudio({
           </article>
           <article>
             <strong>{boxScore.verified_sources}</strong>
-            <span>Fixture 来源</span>
+            <span>演示来源</span>
           </article>
           <article>
             <strong>0</strong>
@@ -830,7 +830,7 @@ export function CampusLifeStudio({
           <span>F008-06 · STATIC 2D CAMPUS MAP</span>
           <h1>选择目的地，跑一条不追踪你的路线。</h1>
           <p>
-            当前位置只是 Fixture 起点；页面不会读取 GPS、门禁或连续轨迹。
+            当前位置只是演示起点；页面不会读取 GPS、门禁或连续轨迹。
           </p>
         </div>
         <img
@@ -931,7 +931,7 @@ export function CampusLifeStudio({
           data-focusable="true"
         >
           <ArrowDownload24Regular aria-hidden="true" />
-          导出可读不可信归档
+          导出个人副本（非证明）
         </button>
       </section>
       <section className="campus-card campus-saved-panel">
@@ -1004,7 +1004,7 @@ export function CampusLifeStudio({
         <div>
           <strong>可信边界</strong>
           <p>
-            导出文件是本人可阅读的 Fixture 归档，明确标记 trusted=false；
+            导出文件是本人可阅读的演示副本，并明确标记 trusted=false；
             不能用作门禁、报名、学籍或支付凭证。
           </p>
         </div>
@@ -1055,12 +1055,12 @@ export function CampusLifeStudio({
                       apply(
                         (current) =>
                           confirmTeamCounterparty(current, listing.id),
-                        "Fixture 已模拟对方确认；只释放最少协作字段。",
+                        "已演示对方确认；只开放最少的协作资料。",
                       )
                     }
                     data-focusable="true"
                   >
-                    模拟对方确认（Fixture）
+                    演示对方确认
                   </button>
                 ) : (
                   <div className="campus-mutual-receipt">
@@ -1146,7 +1146,7 @@ export function CampusLifeStudio({
           <h1>需要真人时，不要等推荐系统。</h1>
           <p>
             紧急路径直接出现，不经过画像、排序或营销。所有链接都是
-            example.edu Fixture，现场必须替换并核实正式渠道。
+            example.edu 是演示地址；现场使用前要替换成核实过的正式渠道。
           </p>
         </div>
       </section>
@@ -1176,7 +1176,7 @@ export function CampusLifeStudio({
               rel="noreferrer"
               data-focusable="true"
             >
-              打开 Fixture 正式入口
+              打开演示入口
             </a>
             <SourceBadge state={state} sourceId={route.source_id} />
           </article>
@@ -1421,9 +1421,9 @@ export function CampusLifeStudio({
       </section>
       <section className="campus-card campus-ledger-panel">
         <SectionHeading
-          eyebrow="APPEND-ONLY LEDGER"
+          eyebrow="操作回放 · 旧记录不会被覆盖"
           title={`Campus Replay · ${state.audit.length} 事件`}
-          detail="每一步都有前序哈希与明确边界；重置只清理本地 Fixture Session。"
+          detail="每一步都能接回上一条记录；重置只清理本机演示会话。"
         />
         <ol>
           {state.audit
@@ -1433,11 +1433,9 @@ export function CampusLifeStudio({
               <li key={event.id}>
                 <span>{String(event.sequence).padStart(2, "0")}</span>
                 <div>
-                  <strong>{event.action}</strong>
+                  <strong>第 {event.sequence} 回合</strong>
                   <p>{event.detail}</p>
-                  <small>
-                    {event.target_id} · {event.event_hash}
-                  </small>
+                  <small>记录已串联校验，旧版本仍可回看。</small>
                 </div>
               </li>
             ))}
@@ -1526,7 +1524,7 @@ export function CampusLifeStudio({
               setState(setCampusOffline(state, !state.offline));
               setToast(
                 state.offline
-                  ? "已恢复在线 Fixture 修改能力。"
+                  ? "本地服务已经恢复。"
                   : "已进入离线只读模式。",
               );
             }}
@@ -1565,8 +1563,7 @@ export function CampusLifeStudio({
       <div className="campus-boundary-banner">
         <ShieldCheckmark24Regular aria-hidden="true" />
         <span>
-          DEMO FIXTURE · 全功能开放 · 不报名、不审批、不追踪、不评分 ·
-          正式动作必须回到学校权威入口
+          全功能演示 · 可以探索和规划；报名、审批与正式办理仍回到学校入口
         </span>
         <em>STAGE {stageIndex + 1} / {STAGES.length}</em>
       </div>
@@ -1595,7 +1592,7 @@ export function CampusLifeStudio({
         </div>
         <div>
           <Sparkle24Regular aria-hidden="true" />
-          全 14 项 Fixture 能力可体验
+          14 项校园能力均可体验
         </div>
       </footer>
       {toast && (

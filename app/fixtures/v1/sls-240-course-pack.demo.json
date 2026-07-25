@@ -7,7 +7,7 @@
     "title_zh": "信号与线性系统",
     "title_en": "Signals and Linear Systems",
     "goal": "从可观察现象出发，贯通信号表示、LTI 模型、时域与频域分析、采样以及仿真—测量证据，最终解释模型为什么成立、在哪里失效。",
-    "source_boundary": "只重组已审计课程索引中的知识主题与技术纠错，不复制原课件、旧答案、签名、身份或第三方受限内容。"
+    "source_boundary": "只重组已复核课程索引中的知识主题与技术纠错，不复制原课件、旧答案、签名、身份或第三方受限内容。"
   },
   "source_coverage": {
     "original_files": 6,
@@ -365,8 +365,8 @@
   "labs": [
     { "id": "lab-rc-rlc", "title": "RC/RLC 解析—仿真—实测三联赛", "deliverable": "参数冻结表、三条波形、误差归因与模型边界 Replay", "evidence": ["方程与单位", "Multisim/MATLAB/Python 设置", "仪器量程与重复测量"], "safety": "先检查供电、接地、量程和元件额定值；Demo 不直接控制真实设备。" },
     { "id": "lab-convolution", "title": "卷积滑动与区间口述", "deliverable": "分段卷积结果、重叠区间解释与一个反例", "evidence": ["关键点草图", "数值对照"], "safety": "纯软件练习；答案自动保存，可撤回重做。" },
-    { "id": "lab-bode", "title": "Bode 截止频率挑战", "deliverable": "手算渐近线、数值曲线、-3 dB 换算和带宽定义", "evidence": ["极点零点表", "幅相图来源"], "safety": "不得把 Fixture 曲线当成真实器件规格。" },
-    { "id": "lab-fft", "title": "采样与 FFT 证据法庭", "deliverable": "频率轴、窗、归一化、混叠与泄漏对照 Notebook", "evidence": ["可运行代码", "单位与参数", "错误版本对照"], "safety": "输入数据使用合成 Fixture，不上传私人录音或课程受限数据。" },
+    { "id": "lab-bode", "title": "Bode 截止频率挑战", "deliverable": "手算渐近线、数值曲线、-3 dB 换算和带宽定义", "evidence": ["极点零点表", "幅相图来源"], "safety": "演示曲线不能当作真实器件规格。" },
+    { "id": "lab-fft", "title": "采样与 FFT 证据法庭", "deliverable": "频率轴、窗、归一化、混叠与泄漏对照 Notebook", "evidence": ["可运行代码", "单位与参数", "错误版本对照"], "safety": "输入使用合成演示数据，不上传私人录音或受限课程材料。" },
     { "id": "lab-capstone", "title": "传感系统 World Final", "deliverable": "端到端模型、P50/P95/P99、辨识验证与可复现证据包", "evidence": ["时间戳与版本", "原始数据摘要", "回滚与失败记录"], "safety": "任何实体硬件动作都需独立设备安全清单与现场人员批准。" }
   ],
   "assessments": [

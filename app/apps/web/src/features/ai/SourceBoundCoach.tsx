@@ -48,7 +48,7 @@ export function SourceBoundCoach({
   >("checking");
   const [consented, setConsented] = useState(!consentRequired);
   const [advice, setAdvice] = useState<AiAdvice | null>(null);
-  const [message, setMessage] = useState("正在核对 AI 通路与回退状态。");
+  const [message, setMessage] = useState("正在看看 AI 助手是否在线。");
 
   useEffect(() => {
     let active = true;
@@ -59,14 +59,14 @@ export function SourceBoundCoach({
         setStatus("ready");
         setMessage(
           next.configured
-            ? `已配置 ${next.provider} / ${next.model}（尚未以本次请求证明可用）；只发送下方列出的来源事实。`
-            : "未配置模型；运行时将由服务端明确返回规则回退。",
+            ? `${next.provider} / ${next.model} 已就位。本次只会发送下方列出的资料。`
+            : "当前没有可用模型；仍可用本地规则整理下一步。",
         );
       })
       .catch(() => {
         if (!active) return;
         setStatus("error");
-        setMessage("AI API 当前不可用；本组件不会在浏览器里伪造模型结果。");
+        setMessage("AI 助手暂时没接上。这里不会拿模板冒充模型回答。");
       });
     return () => {
       active = false;
@@ -80,11 +80,11 @@ export function SourceBoundCoach({
   const run = async () => {
     if (disabled || facts.length === 0) return;
     if (consentRequired && !consented) {
-      setMessage("请先确认本次允许发送的脱敏事实范围。");
+      setMessage("先确认这次可以发送哪些资料，再让 AI 开始。");
       return;
     }
     setStatus("running");
-    setMessage("正在生成来源约束建议；格式失败或服务中断会明确回退。");
+    setMessage("AI 正在读这几条资料，不会翻你的其他档案。");
     try {
       const next = await requestAiAdvice({
         task,
@@ -97,12 +97,12 @@ export function SourceBoundCoach({
       setStatus("ready");
       setMessage(
         next.mode === "model"
-          ? "模型建议已返回；它仍不是正式决定。"
-          : "模型未被使用；当前结果是服务端规则回退。",
+          ? "建议回来了。先看依据，再决定要不要采用。"
+          : "模型这回没上场；下面是本地规则整理出的备选方案。",
       );
     } catch {
       setStatus("error");
-      setMessage("AI 请求未完成；没有生成或缓存假结果，请稍后重试。");
+      setMessage("这次没有拿到回答，也没有用模板顶替。可以稍后再试。");
     }
   };
 
@@ -122,7 +122,7 @@ export function SourceBoundCoach({
         </div>
         <b className={gateway?.configured ? "is-model" : "is-rules"}>
           <Bot24Regular aria-hidden="true" />
-          {gateway?.configured ? "MODEL CONFIGURED" : "RULES READY"}
+          {gateway?.configured ? "AI 在线" : "本地方案"}
         </b>
       </header>
 
@@ -136,7 +136,7 @@ export function SourceBoundCoach({
           <article key={fact.source_id}>
             <span>{fact.label}</span>
             <strong>{fact.value}</strong>
-            <small>{fact.source_id}</small>
+            <small>依据已关联</small>
           </article>
         ))}
       </div>
@@ -149,11 +149,11 @@ export function SourceBoundCoach({
             onChange={(event) => setConsented(event.target.checked)}
           />
           <span>
-            仅本次允许把上方脱敏事实发送到{" "}
+            我同意仅在这一次，把上方资料发送给{" "}
             {gateway?.configured
               ? `${gateway.provider} / ${gateway.model}`
-              : "本机规则回退（当前不会出站）"}
-            ；密钥不进入浏览器，规则回退也会保持来源引用。
+              : "本机规则（不会发到外部）"}
+            。密钥不会进入浏览器。
           </span>
         </label>
       )}
@@ -179,10 +179,10 @@ export function SourceBoundCoach({
         <div className="source-bound-coach__result">
           <header>
             <div>
-              <span>{advice.mode === "model" ? "MODEL" : "RULES FALLBACK"}</span>
+              <span>{advice.mode === "model" ? "AI 建议" : "本地备选"}</span>
               <h3>{advice.title}</h3>
             </div>
-            <b>FORMAL DECISION · NO</b>
+            <b>还需要你确认</b>
           </header>
           <p>{advice.summary}</p>
           <div>
@@ -190,8 +190,8 @@ export function SourceBoundCoach({
               <article key={`${suggestion.title}-${suggestion.next_step}`}>
                 <strong>{suggestion.title}</strong>
                 <p>{suggestion.rationale}</p>
-                <span>NEXT MOVE // {suggestion.next_step}</span>
-                <small>{suggestion.source_ids.join(" · ")}</small>
+                <span>下一步 · {suggestion.next_step}</span>
+                <small>{suggestion.source_ids.length} 条依据可回看</small>
               </article>
             ))}
           </div>

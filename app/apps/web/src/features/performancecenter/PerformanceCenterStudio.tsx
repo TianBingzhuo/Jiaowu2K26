@@ -95,7 +95,7 @@ const STEP_LABELS: Array<{
   {
     id: "privacy",
     immersive: "Privacy Replay",
-    traditional: "分享、纠错与审计",
+    traditional: "分享、纠错与回放",
     icon: ShieldCheckmark24Regular,
   },
 ];
@@ -250,7 +250,7 @@ export function PerformanceCenterStudio({
   });
   const [traditional, setTraditional] = useState(false);
   const [shareDraft, setShareDraft] = useState<ShareDraft>({
-    recipient: "学业导师（Fixture）",
+    recipient: "学业导师（演示）",
     purpose: "讨论本人下一周任务安排",
     durationDays: 7,
     dimensionIds: ["ability-knowledge"],
@@ -360,7 +360,7 @@ export function PerformanceCenterStudio({
         <div className="performance-topbar__status">
           <span>
             <DataBarVertical24Regular aria-hidden="true" />
-            {state.offline ? "本地缓存（只读）" : backendLabel} · Fixture
+            {state.offline ? "本地缓存（只读）" : backendLabel}
           </span>
           <button
             type="button"
@@ -449,7 +449,7 @@ export function PerformanceCenterStudio({
 
       <div className="performance-boundary-banner" role="status">
         <LockClosed24Regular aria-hidden="true" />
-        <strong>PRIVATE // SELF-ONLY // DEMO FIXTURE</strong>
+        <strong>只给本人看 · 演示</strong>
         <span>{state.sourceBoundary}</span>
       </div>
 
@@ -461,7 +461,7 @@ export function PerformanceCenterStudio({
         <header className="performance-page-heading">
           <div>
             <span className="performance-page-heading__kicker">
-              {currentStep.id.toUpperCase()} // STATE, NOT IDENTITY
+              {currentStep.id.toUpperCase()} · 看状态，不给人下定义
             </span>
             <h1>
               {traditional ? currentStep.traditional : currentStep.immersive}
@@ -530,7 +530,7 @@ export function PerformanceCenterStudio({
                   </div>
                   <div>
                     <dt>可见</dt>
-                    <dd>仅南同学（Fixture）</dd>
+                    <dd>仅南同学（演示）</dd>
                   </div>
                   <div>
                     <dt>影响</dt>
@@ -837,7 +837,7 @@ export function PerformanceCenterStudio({
               <header className="performance-panel__header">
                 <div>
                   <span>SUPPORT ROUTES // NO SHAME</span>
-                  <h2>高负荷必须同时给减压与人工通道</h2>
+                  <h2>先把压力降一点，再安排下一步</h2>
                 </div>
                 <PersonFeedback24Regular aria-hidden="true" />
               </header>
@@ -899,8 +899,8 @@ export function PerformanceCenterStudio({
             <section className="performance-panel performance-recommendations">
               <header className="performance-panel__header">
                 <div>
-                  <span>RULE FIXTURE // STUDENT DECIDES</span>
-                  <h2>建议必须说清成本、替代与未知</h2>
+                  <span>备选战术 · 由学生决定</span>
+                  <h2>每条建议都要把代价和退路讲明白</h2>
                 </div>
                 <TargetArrow24Regular aria-hidden="true" />
               </header>
@@ -1127,7 +1127,7 @@ export function PerformanceCenterStudio({
                     ))}
                   </ul>
                 ) : (
-                  <p>尚未选择任何维度；不会创建空白授权。</p>
+                  <p>还没选择分享内容。选好后才能继续。</p>
                 )}
                 <p>
                   用途：{shareDraft.purpose || "未填写"} ·{" "}
@@ -1143,7 +1143,7 @@ export function PerformanceCenterStudio({
                   data-focusable="true"
                 >
                   <ShieldCheckmark24Regular aria-hidden="true" />
-                  预览无误，创建 Fixture 授权
+                  确认这次分享
                 </button>
               </div>
               <div className="performance-share-grants">
@@ -1310,7 +1310,7 @@ export function PerformanceCenterStudio({
               <section className="performance-panel performance-replay-ledger">
               <header className="performance-panel__header">
                 <div>
-                  <span>PRIVATE REPLAY // APPEND-ONLY FIXTURE</span>
+                  <span>私密回放 · 旧记录不会被覆盖</span>
                   <h2>授权、纠错、建议与停损回执</h2>
                 </div>
                 <div className="performance-ledger-actions">
@@ -1358,11 +1358,11 @@ export function PerformanceCenterStudio({
           <DataTrending24Regular aria-hidden="true" />
           {state.offline
             ? `缓存截至 ${state.lastUpdatedAt}`
-            : "本地 Fixture · 可重复验收"}
+            : "本地演示 · 随时可重置"}
         </span>
         <span>
           <History24Regular aria-hidden="true" />
-          {state.audit.length} 条 Replay 事件
+          {state.audit.length} 条回放记录
         </span>
       </footer>
     </div>

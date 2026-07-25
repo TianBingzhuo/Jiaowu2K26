@@ -248,7 +248,7 @@ export function CoachScoutingStudio({
     clearCoachState();
     setState(createCoachScoutingState());
     setSelectedCourseId("SLS201");
-    setToast("F-007 Fixture 已重置；权威系统未发生变化。");
+    setToast("课程球探演示已重置；学校记录没有发生变化。");
   };
 
   const renderPublicCatalogCourse = () => {
@@ -608,7 +608,7 @@ export function CoachScoutingStudio({
         <div className="coach-profile-assignment">
           <Person24Regular aria-hidden="true" />
           <div>
-            <span>本学期任教关系 · Fixture</span>
+            <span>本学期任教关系 · 演示</span>
             <strong>{state.fixture.course.instructorDisplayName}</strong>
             <small>{state.fixture.course.instructorAssignmentId}</small>
           </div>
@@ -966,7 +966,7 @@ export function CoachScoutingStudio({
                         "补充说明：反馈方式随任务类型变化，不承诺统一返回日。",
                       evidenceIds: ["src-teacher-confirmed"],
                     }),
-                  "教师 Fixture 纠错已提交；公开字段尚未变更。",
+                  "教师纠错请求已提交；公开字段要等核对后才会变化。",
                 )
               }
             >
@@ -1040,8 +1040,8 @@ export function CoachScoutingStudio({
     <>
       <SectionHeading
         eyebrow="F007-09 / 10 · FEEDBACK HUDDLE"
-        title={state.traditional ? "结构化反馈与公平审计" : "Feedback Huddle"}
-        detail="反馈必须具体、可行动并经过阈值与治理；不公开匿名情绪排名。"
+        title={state.traditional ? "结构化反馈与公平复核" : "Feedback Huddle"}
+        detail="请说清具体情境和可改进之处；零散匿名情绪不会被做成公开排名。"
       />
       <div className="coach-feedback-layout">
         <section className="coach-card coach-aggregate-panel">
@@ -1149,7 +1149,7 @@ export function CoachScoutingStudio({
               ? "尚未运行"
               : state.fairnessAudit.status === "pass"
                 ? "5 / 5 通过"
-                : "已降级排序"}
+                : "排序已收紧"}
           </h2>
           {state.fairnessAudit.checks.length > 0 ? (
             <div className="coach-fairness-checks">
@@ -1177,12 +1177,12 @@ export function CoachScoutingStudio({
             onClick={() =>
               apply(
                 runCoachFairnessAudit,
-                "公平审计已完成；失败时会降级为时间/主题排序。",
+                "排序检查已完成；如果不通过，就只按时间和主题展示。",
               )
             }
           >
             <ShieldCheckmark24Regular aria-hidden="true" />
-            运行公平审计
+            检查排序
           </button>
           <small>当前排序 · {state.fairnessAudit.sortMode}</small>
         </section>
@@ -1452,7 +1452,7 @@ export function CoachScoutingStudio({
             </article>
           </div>
           <p>
-            非权威 Fixture · 公平状态 {boxScore.fairnessStatus} · 审计事件{" "}
+            演示数据 · 排序状态 {boxScore.fairnessStatus} · 操作记录{" "}
             {boxScore.auditEvents}
           </p>
         </section>
@@ -1515,7 +1515,7 @@ export function CoachScoutingStudio({
             {state.traditional ? "课程信息与咨询" : "COACH & SCOUTING"}
           </strong>
           <small>
-            课程特征与证据，不是教师评分 · {backendLabel} · Fixture
+            看课程怎么教，不给教师人格打分 · {backendLabel}
           </small>
         </div>
         <div className="coach-topbar__actions">
@@ -1591,8 +1591,8 @@ export function CoachScoutingStudio({
           <Info24Regular aria-hidden="true" />
         )}
         {state.offline
-          ? "离线只读 · 使用上次 Coach Fixture；纠错、反馈、授权与举报均已锁定"
-          : "DEMO FIXTURE · 不评价教师人格，不自动沿用旧反馈，不替代选课、导师或机构决定"}
+          ? "离线只读 · 使用上次缓存；纠错、反馈、分享与举报暂时不可用"
+          : "演示数据 · 不评价教师人格，不把旧反馈自动套到新学期，也不替你做选课决定"}
       </div>
 
       <section className="coach-course-switcher" aria-label="课程球探切换">
@@ -1602,7 +1602,7 @@ export function CoachScoutingStudio({
             <strong>课程球探阵容</strong>
           </div>
           <p>
-            已修 Demo 课程与 UArizona 2026
+            已修演示课程与 UArizona 2026
             公开候选课分开标记；切换后整套球探页面会同步更新。
           </p>
         </header>
@@ -1616,7 +1616,7 @@ export function CoachScoutingStudio({
           >
             <span>SLS201</span>
             <strong>信号与线性系统</strong>
-            <small>完整课程 Fixture · 可体验反馈与组队</small>
+            <small>完整演示课程 · 可体验反馈与组队</small>
           </button>
           {UARIZONA_2026_COURSES.map((course) => (
             <button

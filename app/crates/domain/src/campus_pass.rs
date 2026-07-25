@@ -501,7 +501,7 @@ impl CampusPassSession {
             } else if !active {
                 format!("凭证状态为 {}；Demo Reader 拒绝继续。", credential.state)
             } else {
-                "仅完成本地 Fixture Reader 校验；没有向门锁发送指令。".to_owned()
+                "本地演示检查已完成；没有向真实门锁发送任何指令。".to_owned()
             },
             occurred_at: self.next_time(),
         };
@@ -774,14 +774,14 @@ impl CampusPassSession {
             cryptographically_verified: false,
             official_access_granted: false,
             reason: if unavailable {
-                "该区域不接受离线凭证，必须走在线或人工核验。".to_owned()
+                "该区域不接受离线凭证，请改用在线或人工核验。".to_owned()
             } else if !in_scope {
                 "凭证的最小权限范围不包含该区域。".to_owned()
             } else if credential.state != "active" {
                 format!("凭证状态为 {}，离线校验拒绝。", credential.state)
             } else {
                 format!(
-                    "Fixture 仅模拟期限与范围检查；{}，未执行真实签名或门锁验证。",
+                    "演示模式只检查期限与适用范围；{}，没有执行真实签名或门锁验证。",
                     fixture.offline_policy.cryptographic_verification
                 )
             },

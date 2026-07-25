@@ -76,7 +76,7 @@ export const SMARTCOURSE_FIXTURE: SmartCourseState = {
         "source-sls-transcript-004",
       ],
       evidenceStatus: "supported",
-      unknowns: ["当前 Fixture 未包含实测仪器型号"],
+      unknowns: ["当前演示资料没有实测仪器型号"],
       generationMode: "fixture",
       generatorVersion: "smartcourse-fixture-v1",
       status: "review",

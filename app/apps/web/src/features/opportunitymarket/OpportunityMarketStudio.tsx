@@ -128,7 +128,7 @@ const STAGES: Array<{
   {
     id: "replay",
     label: "Fairness Replay",
-    traditional: "公平与审计",
+    traditional: "公平与回放",
     icon: History24Regular,
   },
 ];
@@ -330,7 +330,7 @@ export function OpportunityMarketStudio({
   const [reportType, setReportType] =
     useState<OpportunityReport["type"]>("wrong_info");
   const [reportReason, setReportReason] = useState(
-    "Fixture 机会的时间或规则需要人工重新核对。",
+    "这条机会的时间或规则可能有变，请帮忙重新核对。",
   );
   const [capacityHours, setCapacityHours] = useState(4);
   const [grantDays, setGrantDays] = useState(7);
@@ -426,7 +426,7 @@ export function OpportunityMarketStudio({
     clearOpportunityState();
     setState(createOpportunityMarketState());
     setReportType("wrong_info");
-    setReportReason("Fixture 机会的时间或规则需要人工重新核对。");
+    setReportReason("这条机会的时间或规则可能有变，请帮忙重新核对。");
     setCapacityHours(4);
     setGrantDays(7);
     setExternalConfirmed(false);
@@ -738,7 +738,7 @@ export function OpportunityMarketStudio({
               ) : (
                 <>
                   {selectedOpportunity.sourceUrl}
-                  <small>Fixture 地址，不发起外部访问</small>
+                  <small>演示地址，不会打开外部网站</small>
                 </>
               )}
             </dd>
@@ -847,7 +847,7 @@ export function OpportunityMarketStudio({
               )
             }
           >
-            提交 Fixture 报告
+            提交核对请求
           </button>
         </div>
       </section>
@@ -1045,7 +1045,7 @@ export function OpportunityMarketStudio({
           <span>CONSENT EXCHANGE</span>
           <h2>{selectedOpportunity.title}</h2>
           <p>
-            保存 → 本人意向 → 提供方 Fixture 回应 → 逐项授权 → 外部系统本人操作。
+            先收藏，再表达意向；双方都愿意继续时，才逐项分享资料并前往官方入口。
           </p>
         </div>
         <div className="opportunity-state-machine">
@@ -1133,7 +1133,7 @@ export function OpportunityMarketStudio({
               }
             >
               <PeopleTeam24Regular aria-hidden="true" />
-              03 · 记录提供方 Fixture 回应
+              03 · 演示对方回应
             </button>
           </div>
           <div className="opportunity-disclosure-preview">
@@ -1218,7 +1218,7 @@ export function OpportunityMarketStudio({
                 </a>
               ) : (
                 <p title={selectedOpportunity.externalApplicationUrl}>
-                  Fixture 外部入口尚未连接
+                  这条演示机会还没有官方入口
                 </p>
               )}
             </div>
@@ -1474,7 +1474,7 @@ export function OpportunityMarketStudio({
           onClick={exportPortfolio}
         >
           <ArrowDownload24Regular aria-hidden="true" />
-          导出可阅读、不可信作品包
+          导出个人作品副本（非证明）
         </button>
       </section>
     </>
@@ -1484,9 +1484,9 @@ export function OpportunityMarketStudio({
     <div className="opportunity-replay-grid">
       <section className="opportunity-fairness-panel">
         <header>
-          <div>
-            <span>ANTI-MANIPULATION</span>
-            <h2>公平审计</h2>
+            <div>
+              <span>ANTI-MANIPULATION</span>
+              <h2>看看排序有没有偷偷带节奏</h2>
           </div>
           <button
             type="button"
@@ -1494,7 +1494,7 @@ export function OpportunityMarketStudio({
             onClick={() => commit(runFairnessAudit)}
           >
             <ShieldCheckmark24Regular aria-hidden="true" />
-            运行审计
+            重新检查
           </button>
         </header>
         {latestFairness ? (
@@ -1517,7 +1517,7 @@ export function OpportunityMarketStudio({
         ) : (
           <div className="opportunity-empty opportunity-empty--compact">
             <ShieldCheckmark24Regular aria-hidden="true" />
-            <h3>等待运行反操纵审计</h3>
+            <h3>还没检查这轮排序</h3>
             <p>检查付费、随机、竞价、敏感代理字段与自动投递。</p>
           </div>
         )}
@@ -1552,7 +1552,7 @@ export function OpportunityMarketStudio({
             </div>
             <div>
               <dt>边界</dt>
-              <dd>无综合分 · 无自动申请 · Fixture</dd>
+              <dd>无综合分 · 不自动申请 · 演示</dd>
             </div>
           </dl>
         </div>
@@ -1561,7 +1561,7 @@ export function OpportunityMarketStudio({
       <section className="opportunity-replay-panel">
         <header>
           <div>
-            <span>APPEND-ONLY REPLAY</span>
+            <span>操作回放 · 旧记录不会被覆盖</span>
             <h2>机会与同意回放</h2>
           </div>
           <strong>{state.audit.length} 个事件</strong>
@@ -1651,9 +1651,9 @@ export function OpportunityMarketStudio({
           <small>{currentStage.traditional}</small>
         </div>
         <div className="opportunity-topbar__actions">
-          <span title="后端健康标签；本模块当前使用 Fixture 引擎">
+          <span title="当前服务状态；机会匹配使用本地演示数据">
             <DataTrending24Regular aria-hidden="true" />
-            {state.offline ? "本地缓存（只读）" : `${backendLabel} · Fixture`}
+            {state.offline ? "本地缓存（只读）" : backendLabel}
           </span>
           <button
             type="button"
@@ -1721,9 +1721,9 @@ export function OpportunityMarketStudio({
         ) : (
           <ShieldCheckmark24Regular aria-hidden="true" />
         )}
-        <strong>{state.offline ? "离线只读" : "透明 Fixture"}</strong>
+        <strong>{state.offline ? "离线只读" : "来源已标注"}</strong>
         <span>
-          UArizona Bear Down×6、AdventureX、CHI 2027×2 与 ICRA 2027 使用官方页面核验快照，其余为明确标注的 Fixture；不读取私人邮箱，个人状态、匹配与回应仍是演示数据，不自动申请、不预测录取、不付费排序、不随机资格、不拍卖人。
+          官方页面已经核对，演示条目也会明说。你的邮箱、申请和排序决定，不会在这里偷偷发生。
         </span>
       </div>
 
@@ -1761,7 +1761,7 @@ export function OpportunityMarketStudio({
       <footer className="opportunity-footer">
         <span>
           <LockClosed24Regular aria-hidden="true" />
-          Profile：本人私密 · Fixture
+          个人资料：默认私密 · 演示
         </span>
         <span>
           <ShieldCheckmark24Regular aria-hidden="true" />
@@ -1769,7 +1769,7 @@ export function OpportunityMarketStudio({
         </span>
         <span>
           <History24Regular aria-hidden="true" />
-          Replay：{state.audit.length} 个追加事件
+          回放：{state.audit.length} 条操作记录
         </span>
       </footer>
     </div>

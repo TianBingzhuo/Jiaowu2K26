@@ -276,7 +276,7 @@ describe("smartCourseApi 客户端 M2", () => {
     expect(result).toMatchObject({
       ok: false,
       code: "http_404",
-      message: "后端返回 HTTP 404，先用本地存档陪你继续～",
+      message: "后台返回 HTTP 404。先用本地存档继续，你刚才的操作还在。",
     });
   });
 

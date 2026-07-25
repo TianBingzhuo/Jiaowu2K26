@@ -9,7 +9,7 @@ const source = (
 ): EvidenceSource => ({
   ...value,
   correctionRoute:
-    "Fixture 信息可在 Coach Studio 提交纠错；正式课程信息请回到学校权威系统核对。",
+    "演示信息可以在课程工作台提交纠错；正式课程信息请回学校系统核对。",
   verified: value.tier !== "system_inference",
 });
 
@@ -37,7 +37,7 @@ export const COACH_SCOUTING_FIXTURE: CoachScoutingFixture = {
       id: "src-teacher-confirmed",
       tier: "teacher_confirmed",
       label: "教师确认",
-      owner: "林老师（Fixture）",
+      owner: "林老师（演示）",
       version: "teacher-note-r3",
       updatedAt: "2026-07-23T16:20:00+08:00",
       expiresAt: "2026-09-01T00:00:00+08:00",
@@ -55,7 +55,7 @@ export const COACH_SCOUTING_FIXTURE: CoachScoutingFixture = {
       id: "src-history-2025",
       tier: "historical_version",
       label: "历史版本",
-      owner: "2025 Spring 归档（Fixture）",
+      owner: "2025 Spring 归档（演示）",
       version: "SLS201-2025SP-v4",
       updatedAt: "2025-06-30T12:00:00+08:00",
       expiresAt: null,
@@ -64,7 +64,7 @@ export const COACH_SCOUTING_FIXTURE: CoachScoutingFixture = {
       id: "src-student-aggregate",
       tier: "student_aggregate",
       label: "学生自愿汇总",
-      owner: "8 份结构化反馈（Fixture）",
+      owner: "8 份结构化反馈（演示）",
       version: "aggregate-2026SP-r1",
       updatedAt: "2026-07-23T20:00:00+08:00",
       expiresAt: "2026-08-31T23:59:00+08:00",
@@ -87,7 +87,7 @@ export const COACH_SCOUTING_FIXTURE: CoachScoutingFixture = {
     title: "信号与线性系统",
     instructorId: "faculty-lin-fixture",
     instructorAssignmentId: "assignment-lin-sls201-2026sp",
-    instructorDisplayName: "林老师（Fixture）",
+    instructorDisplayName: "林老师（演示）",
     summary: field(
       "course-summary",
       "课程简介",
@@ -236,7 +236,7 @@ export const COACH_SCOUTING_FIXTURE: CoachScoutingFixture = {
       timeRange: "2026-03-01 至 2026-06-20",
       sourceId: "src-student-aggregate",
       publishable: true,
-      caveat: "仅代表 8 份结构化 Fixture 反馈，不代表全部学生。",
+      caveat: "只代表 8 份结构化演示反馈，不能代替全班意见。",
     },
     {
       id: "workload-insufficient",
@@ -471,7 +471,7 @@ export const COACH_SCOUTING_FIXTURE: CoachScoutingFixture = {
       offeringId: "offering-sls201-2026sp",
       type: "safety",
       title: "实验室安全说明",
-      detail: "首次进入实验室前完成正式安全说明；Fixture 不授予门禁。",
+      detail: "首次进入实验室前要完成正式安全说明；这张演示卡不会开门。",
       dueAt: "2026-09-03T08:00:00+08:00",
       sourceId: "src-official-syllabus",
       required: true,
@@ -484,7 +484,7 @@ export const COACH_SCOUTING_FIXTURE: CoachScoutingFixture = {
       action: "view",
       targetId: "course-profile-sls201-2026sp",
       detail:
-        "loaded course and instructor-assignment Fixture as separate records",
+        "课程与本学期任教关系已分开载入，避免把课程特征写成教师人格",
       occurredAt: "2026-07-24T08:45:00+08:00",
       previousEventHash: null,
       eventHash: "fnv1a-coach-event-001",

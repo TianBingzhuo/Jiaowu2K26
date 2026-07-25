@@ -21,7 +21,7 @@ describe("F-006 Performance Center private evidence-aware feedback", () => {
     expect(state.privateByDefault).toBe(true);
     expect(state.comparisonMode).toBe("self_only");
     expect(state.dataMode).toBe("fixture");
-    expect(state.sourceBoundary).toMatch(/不读取 GPA、排名、门禁、支付/);
+    expect(state.sourceBoundary).toMatch(/GPA、排名、门禁、消费/);
     expect(JSON.stringify(PERFORMANCE_FIXTURE)).not.toContain(
       "class_rank",
     );
@@ -178,7 +178,7 @@ describe("F-006 Performance Center private evidence-aware feedback", () => {
   it("keeps honest offline fallback, portable archive and audit chain", () => {
     const offline = toggleOffline(createPerformanceState());
     expect(offline.offline).toBe(true);
-    expect(offline.message).toContain("不生成新推断");
+    expect(offline.message).toContain("不会生成新建议");
     const archive = buildPrivateArchive(offline);
     expect(archive.authoritative).toBe(false);
     expect(archive.warning).toMatch(/not a grade, medical record/);

@@ -60,7 +60,7 @@ export function CourseDetail({
         }`}
       >
         <div className="course-detail__identity">
-          <span className="panel-label">COURSE CONTRACT</span>
+          <span className="panel-label">COURSE CARD · 课程卡</span>
           <p>{course.code}</p>
           <h3 id="course-detail-heading">{course.title}</h3>
           {hasFictionalCoach && (
@@ -220,7 +220,7 @@ export function CourseDetail({
           </div>
           <span className="fixture-badge">
             <Info24Regular aria-hidden="true" />
-            Fixture
+            演示
           </span>
         </div>
         {learning.state === "ready" ? (

@@ -3,7 +3,7 @@
   "data_mode": "fixture",
   "student_id": "student-nan-fixture",
   "course_id": "signal-linear-systems",
-  "source_boundary": "本模块只复用 F-001 已审核 Fixture 的对象与来源 ID；时间、准备状态、答题和建议均为本地演示，不是正式考试或成绩。",
+  "source_boundary": "本模块只复用 F-001 已审核的演示内容及来源；时间、准备状态、答题和建议都保存在本地，不是正式考试或成绩。",
   "event": {
     "id": "exam-sls-finals-fixture",
     "course_id": "signal-linear-systems",
@@ -50,7 +50,7 @@
         "仪器负载与元件公差"
       ],
       "unknown_areas": [
-        "当前 Fixture 未包含真实仪器型号"
+        "当前演示材料没有提供真实仪器型号"
       ]
     }
   },

@@ -24,7 +24,7 @@ describe("F-004 Roster Lab deterministic resolver", () => {
   it("keeps the fixture between 8 and 20 courses with valid references", () => {
     expect(ROSTER_FIXTURE.catalog).toHaveLength(12);
     expect(validateRosterFixture()).toEqual([]);
-    expect(ROSTER_FIXTURE.sourceBoundary).toContain("不连接学校选课系统");
+    expect(ROSTER_FIXTURE.sourceBoundary).toContain("不会连接学校选课系统");
   });
 
   it("generates three distinct feasible plans with explicit tradeoffs", () => {

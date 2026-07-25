@@ -11,7 +11,7 @@
     "title": "信号与线性系统",
     "instructor_id": "faculty-lin-fixture",
     "instructor_assignment_id": "assignment-lin-sls201-2026sp",
-    "instructor_display_name": "林老师（Fixture）",
+    "instructor_display_name": "林老师（演示）",
     "summary": {
       "id": "course-summary",
       "label": "课程简介",
@@ -82,11 +82,11 @@
       "id": "src-teacher-confirmed",
       "tier": "teacher_confirmed",
       "label": "教师确认",
-      "owner": "林老师（Fixture）",
+      "owner": "林老师（演示）",
       "version": "teacher-note-r3",
       "updated_at": "2026-07-23T16:20:00+08:00",
       "expires_at": "2026-09-01T00:00:00+08:00",
-      "correction_route": "Fixture 信息可在 Coach Studio 提交纠错；正式课程信息请回到学校权威系统核对。",
+      "correction_route": "演示信息可在 Coach Studio 提交纠错；正式课程信息请回到学校系统核对。",
       "verified": true
     },
     {
@@ -97,29 +97,29 @@
       "version": "SLS201-2026SP-v2",
       "updated_at": "2026-07-22T10:00:00+08:00",
       "expires_at": "2026-09-01T00:00:00+08:00",
-      "correction_route": "Fixture 信息可在 Coach Studio 提交纠错；正式课程信息请回到学校权威系统核对。",
+      "correction_route": "演示信息可在 Coach Studio 提交纠错；正式课程信息请回到学校系统核对。",
       "verified": true
     },
     {
       "id": "src-history-2025",
       "tier": "historical_version",
       "label": "历史版本",
-      "owner": "2025 Spring 归档（Fixture）",
+      "owner": "2025 春季演示归档",
       "version": "SLS201-2025SP-v4",
       "updated_at": "2025-06-30T12:00:00+08:00",
       "expires_at": null,
-      "correction_route": "Fixture 信息可在 Coach Studio 提交纠错；正式课程信息请回到学校权威系统核对。",
+      "correction_route": "演示信息可在 Coach Studio 提交纠错；正式课程信息请回到学校系统核对。",
       "verified": true
     },
     {
       "id": "src-student-aggregate",
       "tier": "student_aggregate",
       "label": "学生自愿汇总",
-      "owner": "8 份结构化反馈（Fixture）",
+      "owner": "8 份演示反馈",
       "version": "aggregate-2026SP-r1",
       "updated_at": "2026-07-23T20:00:00+08:00",
       "expires_at": "2026-08-31T23:59:00+08:00",
-      "correction_route": "Fixture 信息可在 Coach Studio 提交纠错；正式课程信息请回到学校权威系统核对。",
+      "correction_route": "演示信息可在 Coach Studio 提交纠错；正式课程信息请回到学校系统核对。",
       "verified": true
     },
     {
@@ -130,7 +130,7 @@
       "version": "rule-envelope-r1",
       "updated_at": "2026-07-24T08:30:00+08:00",
       "expires_at": "2026-07-31T23:59:00+08:00",
-      "correction_route": "Fixture 信息可在 Coach Studio 提交纠错；正式课程信息请回到学校权威系统核对。",
+      "correction_route": "演示信息可在 Coach Studio 提交纠错；正式课程信息请回到学校系统核对。",
       "verified": false
     }
   ],
@@ -253,7 +253,7 @@
       "time_range": "2026-03-01 至 2026-06-20",
       "source_id": "src-student-aggregate",
       "publishable": true,
-      "caveat": "仅代表 8 份结构化 Fixture 反馈，不代表全部学生。"
+      "caveat": "这里只汇总了 8 份演示反馈，不能代表全部学生。"
     },
     {
       "id": "workload-insufficient",
@@ -513,7 +513,7 @@
       "offering_id": "offering-sls201-2026sp",
       "reminder_type": "safety",
       "title": "实验室安全说明",
-      "detail": "首次进入实验室前完成正式安全说明；Fixture 不授予门禁。",
+      "detail": "首次进入实验室前需完成正式安全说明；演示页面不会授予真实门禁。",
       "due_at": "2026-09-03T08:00:00+08:00",
       "source_id": "src-official-syllabus",
       "required": true
@@ -525,7 +525,7 @@
       "sequence": 1,
       "action": "view",
       "target_id": "course-profile-sls201-2026sp",
-      "detail": "loaded course and instructor-assignment Fixture as separate records",
+      "detail": "课程信息与教师任课关系已分别载入，便于单独纠错",
       "occurred_at": "2026-07-24T08:45:00+08:00",
       "previous_event_hash": null,
       "event_hash": "fnv1a-coach-event-001"

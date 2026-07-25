@@ -6,7 +6,7 @@ export const WORLD_EXAM_FIXTURE: WorldExamFixture = {
   studentId: "student-nan-fixture",
   courseId: "signal-linear-systems",
   sourceBoundary:
-    "本模块只复用 F-001 已审核 Fixture 的对象与来源 ID；时间、准备状态、答题和建议均为本地演示，不是正式考试或成绩。",
+    "题目材料来自 F-001 已审核内容；时间、准备状态、作答和建议都是本地演示，不是正式考试或成绩。",
   event: {
     id: "exam-sls-finals-fixture",
     courseId: "signal-linear-systems",
@@ -48,7 +48,7 @@ export const WORLD_EXAM_FIXTURE: WorldExamFixture = {
     readiness: {
       coveragePct: 67,
       weakAreas: ["仪器负载与元件公差"],
-      unknownAreas: ["当前 Fixture 未包含真实仪器型号"],
+      unknownAreas: ["当前演示资料没有真实仪器型号"],
     },
   },
   warmup: {

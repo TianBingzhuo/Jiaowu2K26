@@ -68,7 +68,7 @@ const ROLE_COPY: Record<
   undergraduate_office: {
     mode: "LEAGUE OFFICE",
     title: "校级课程治理与政策影响台",
-    subtitle: "汇总责任链、受影响群体、未知项与回滚条件；AI 不做正式决定",
+    subtitle: "先看哪些人会受影响、还有什么不知道、出了问题怎样退回；AI 只递建议，不替学校拍板",
     accent: "violet",
   },
 };
@@ -113,7 +113,7 @@ function AdvisorDesk({
             <small>01 · ASSIGNED ROSTER</small>
             <h2 id="assigned-students-heading">管辖学生</h2>
           </span>
-          <b>{state.assignedStudents.length} 位 Fixture</b>
+          <b>{state.assignedStudents.length} 位演示学生</b>
         </header>
         <div className="institutional-student-grid">
           {state.assignedStudents.map((student) => (
@@ -194,7 +194,7 @@ function AdvisorDesk({
               <ul>{selected.permittedFields.map((item) => <li key={item}>{item}</li>)}</ul>
             </div>
             <div>
-              <strong><Warning24Regular aria-hidden="true" /> 禁止扩张</strong>
+              <strong><Warning24Regular aria-hidden="true" /> 不要越过这些范围</strong>
               <ul>{selected.prohibitedFields.map((item) => <li key={item}>{item}</li>)}</ul>
             </div>
           </div>
@@ -354,7 +354,7 @@ function CurriculumLab({
             >
               <span>{item.status.replaceAll("_", " ")}</span>
               <strong>{item.title}</strong>
-              <small>{item.affectedStudents} 条 Fixture 路径受影响</small>
+              <small>{item.affectedStudents} 条演示路径受影响</small>
             </button>
           ))}
         </div>
@@ -365,7 +365,7 @@ function CurriculumLab({
           <div className="institutional-change-table" role="table" aria-label="规则变更对照">
             <div role="row"><strong role="rowheader">当前规则</strong><span role="cell">{selected.currentRule}</span></div>
             <div role="row"><strong role="rowheader">候选规则</strong><span role="cell">{selected.proposedRule}</span></div>
-            <div role="row"><strong role="rowheader">路径影响</strong><span role="cell">{selected.affectedStudents} 名 Fixture 学生</span></div>
+            <div role="row"><strong role="rowheader">路径影响</strong><span role="cell">{selected.affectedStudents} 名演示学生</span></div>
             <div role="row"><strong role="rowheader">容量变化</strong><span role="cell">{selected.capacityDelta}</span></div>
             <div role="row"><strong role="rowheader">跨院依赖</strong><span role="cell">{selected.crossCollegeDependency}</span></div>
             <div role="row"><strong role="rowheader">回滚点</strong><span role="cell">{selected.rollbackPoint}</span></div>
@@ -394,7 +394,7 @@ function CurriculumLab({
         <header><span><small>03 · PROGRAM LOADOUT</small><h2>课程序列与资源检查</h2></span></header>
         <div className="institutional-card-grid">
           <article><strong>MATH 201 → SLS 240</strong><p>先修、并修支持与诊断替代三条路径分别建模。</p></article>
-          <article><strong>SLS 240 → Capstone</strong><p>知识节点覆盖、实验时段与课程版本必须对齐。</p></article>
+          <article><strong>SLS 240 → Capstone</strong><p>知识节点、实验时段和课程版本需要互相对得上。</p></article>
           <article><strong>跨院容量</strong><p>未知容量保持未知，不把历史均值伪装成未来承诺。</p></article>
         </div>
       </section>
@@ -487,12 +487,12 @@ function AiTacticsBoard({
           {gateway
             ? gateway.configured
               ? `${gateway.provider} · ${gateway.model}`
-              : "规则回退待命"
+              : "本地方案待命"
             : "检查中"}
         </b>
       </header>
       <p>
-        只发送当前 Fixture 工作项与来源 ID；密钥留在服务端环境。模型建议不能批准申请、改成绩、发政策或评价人员。
+        AI 只会看到当前演示工作项和列出的来源。密钥留在服务端；批准申请、改成绩和发布政策仍由责任人完成。
       </p>
       <button
         type="button"
@@ -507,7 +507,7 @@ function AiTacticsBoard({
         <div className="institutional-ai-result" aria-live="polite">
           <div>
             <small>
-              {state.advice.mode === "model" ? "MODEL OUTPUT" : "RULES FALLBACK"} ·{" "}
+              {state.advice.mode === "model" ? "AI 建议" : "本地备选"} ·{" "}
               {state.advice.provider} / {state.advice.model}
             </small>
             <h3>{state.advice.title}</h3>
@@ -567,7 +567,7 @@ export function InstitutionalStudio({
             model: "deterministic-v1",
             credential_source: "not_available",
             local_first_supported: true,
-            detail: "后端不可用；前端仅保留明确标注的规则回退。",
+            detail: "后台暂时没接上；先使用清楚标注的本地方案。",
           });
         }
       });
@@ -582,7 +582,7 @@ export function InstitutionalStudio({
       ...current,
       adviceState: "loading",
       advice: null,
-      message: "正在调用来源约束 AI 网关；若模型不可用会明确切换规则回退。",
+      message: "AI 正在阅读当前工作项；如果没接上，就改用本地备选。",
     }));
     try {
       const advice = await requestAiAdvice({
@@ -595,15 +595,15 @@ export function InstitutionalStudio({
         adviceState: "ready",
         message:
           advice.mode === "model"
-            ? "模型建议已返回并通过来源 ID 校验；仍需责任人审核。"
-            : "服务端已明确使用规则回退；没有伪装成模型建议。",
+            ? "AI 建议已经返回，列出的来源也核对过了；还需要责任人审核。"
+            : "这次使用的是本地备选，页面没有把它冒充成模型回答。",
       }));
     } catch {
       setState((current) => ({
         ...current,
         advice: buildClientRulesFallback(context),
         adviceState: "ready",
-        message: "API 不可用，已切换本地规则回退；没有伪装成模型建议。",
+        message: "AI 暂时没接上，已经换成本地备选；不会拿它冒充模型回答。",
       }));
     }
   };
@@ -627,7 +627,7 @@ export function InstitutionalStudio({
       <section className="institutional-hero">
         <RoleIcon aria-hidden="true" />
         <div>
-          <small>ROLE-SPECIFIC WORKSPACE · DEMO FIXTURE</small>
+          <small>当前角色工作台 · 演示</small>
           <h1 id="institutional-heading">{copy.title}</h1>
           <p>{copy.subtitle}</p>
         </div>
@@ -647,7 +647,7 @@ export function InstitutionalStudio({
       <footer className="institutional-status" role="status">
         <DocumentSearch24Regular aria-hidden="true" />
         <span>{state.message}</span>
-        <em>{state.audit.length} 条 Replay 事件</em>
+        <em>{state.audit.length} 条操作记录</em>
       </footer>
     </main>
   );

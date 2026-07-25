@@ -62,7 +62,7 @@ async function readError(response: Response): Promise<ApiResult<never>> {
   return {
     ok: false,
     code: `http_${response.status}`,
-    message: `后端返回 HTTP ${response.status}，先用本地存档陪你继续～`,
+    message: `后台返回 HTTP ${response.status}。先用本地存档继续，你刚才的操作还在。`,
     retryable: response.status >= 500,
   };
 }
@@ -92,7 +92,7 @@ async function requestJson<T>(
     ) {
       throw error;
     }
-    return softFail("后端这会儿连不上，我们先用本地存档继续，不影响你～");
+    return softFail("后台暂时没接上。先用本地存档继续，你刚才的操作还在。");
   }
 
   if (!response.ok) return readError(response);
@@ -101,10 +101,10 @@ async function requestJson<T>(
   try {
     body = await response.json();
   } catch {
-    return softFail("后端返回的内容读不出来，已安全降级到本地存档。", false);
+    return softFail("后台返回的内容暂时读不懂，已切回本地存档。", false);
   }
   if (!guard(body)) {
-    return softFail("后端返回的结构和我们的约定不一致，已安全降级。", false);
+    return softFail("后台返回的格式与当前版本对不上，已切回本地存档。", false);
   }
   return { ok: true, data: body };
 }

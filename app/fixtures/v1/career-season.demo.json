@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "data_mode": "fixture",
-  "source_boundary": "Course names and topic-level summaries come from reviewed local indexes. Identity, dates, progress, status, deadlines, and recommendations are public demo fixtures.",
+  "source_boundary": "课程名称和知识点摘要来自已复核的本地索引；身份、日期、进度、状态、截止日和建议均为公开演示数据。",
   "updated_at": "2026-07-24T10:30:00+08:00",
   "semester": {
     "id": "sem-2026-spring-demo",

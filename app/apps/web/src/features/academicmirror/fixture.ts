@@ -342,7 +342,7 @@ export const MIRROR_RECORDS: NormalizedRecord[] = [
         "2026-07-24T10:30:00+08:00",
       ),
       major: field(
-        "电子信息工程（Fixture）",
+        "电子信息工程（演示）",
         "ds-sis-demo",
         "student.major_name",
         "authoritative",
@@ -417,7 +417,7 @@ export const MIRROR_RECORDS: NormalizedRecord[] = [
     label: "SLS201 · 历史成绩样例",
     fields: {
       result: field(
-        "91.7 / A-（Fixture）",
+        "91.7 / A-（演示）",
         "ds-sis-demo",
         "grade.display_result",
         "authoritative",
@@ -438,7 +438,7 @@ export const MIRROR_RECORDS: NormalizedRecord[] = [
     effectiveAt: "2026-07-10T08:00:00+08:00",
     expiresAt: "2026-07-22T08:00:00+08:00",
     consentBasis: "consent-sis-read",
-    correctionRoute: "此为过期 Fixture；正式成绩必须回到学校成绩系统核对。",
+    correctionRoute: "这份演示记录已经过期；正式成绩请回学校成绩系统核对。",
     removable: false,
   }),
   record({
@@ -930,7 +930,7 @@ export const MIRROR_CONFLICTS: ConflictRecord[] = [
         id: "opt-sis-major",
         sourceSystem: "SIS 权威记录演示源",
         dataSourceId: "ds-sis-demo",
-        value: "电子信息工程（Fixture）",
+        value: "电子信息工程（演示）",
         declaredAuthority: "authoritative",
         fetchedAt: "2026-07-24T10:30:00+08:00",
         rawSnapshotId: "snap-sis-001",
@@ -1104,7 +1104,7 @@ export const MIRROR_AUDIT: AuditEvent[] = [
     "sync",
     "source:ds-sis-demo",
     "2026-07-24T10:30:00+08:00",
-    "DemoFixtureAdapter 生成不可变快照 snap-sis-001。",
+    "已生成演示快照 snap-sis-001；旧版本不会被覆盖。",
     null,
     "fnv1a-aud-001",
   ),
@@ -1122,7 +1122,7 @@ export const MIRROR_AUDIT: AuditEvent[] = [
     "sync",
     "source:ds-file-import",
     "2026-07-24T11:10:00+08:00",
-    "FileImportAdapter 读取已脱敏授权样例，未上传原文件。",
+    "已读取脱敏样例，原文件没有上传。",
     "fnv1a-aud-002",
     "fnv1a-aud-003",
   ),
@@ -1143,7 +1143,7 @@ export const ACADEMIC_MIRROR_FIXTURE: MirrorFixture = {
   studentId: "student-nan-fixture",
   referenceTime: REFERENCE_TIME,
   sourceBoundary:
-    "Academic Mirror 使用本人授权材料生成去标识 Fixture，并接入 UArizona 公开课程快照。它不是 SIS/URP/LMS，不写回成绩、学籍、选课或审批；去标识不等于绝对匿名。",
+    "这份镜像来自本人有权使用的材料和 UArizona 公开课表。它不是学校的 SIS、URP 或 LMS，也不会改成绩、学籍、选课和审批记录；去标识仍不等于绝对匿名。",
   readOnly: true,
   authorityCatalog: AUTHORITY_CATALOG,
   sources: MIRROR_SOURCES,

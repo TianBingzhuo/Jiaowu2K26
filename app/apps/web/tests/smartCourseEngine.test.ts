@@ -201,7 +201,7 @@ describe("SmartCourse provider-neutral generation contract", () => {
     });
     expect(result.mode).toBe("fixture");
     expect(result.adapterId).toBe("fixture.smartcourse.v1");
-    expect(result.fallbackReason).toContain("not configured");
+    expect(result.fallbackReason).toContain("AI 服务尚未连接");
     expect(result.objects).toHaveLength(5);
   });
 

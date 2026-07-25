@@ -134,7 +134,7 @@ export function DevelopmentPathCard() {
           <strong>本地私有发展档案未连接</strong>
           <small>
             {profile?.source_boundary ??
-              "API 不可用；不会用公开 Fixture 冒充你的真实经历。"}
+              "个人发展资料暂时没接上；这里不会拿公开演示数据冒充你的真实经历。"}
           </small>
         </div>
       </section>
@@ -257,14 +257,14 @@ export function DevelopmentPathCard() {
           ? "正在生成并核验来源…"
           : gateway?.configured
             ? "用 AI 生成所选方向的两周试训"
-            : "用规则回退生成所选方向试训"}
+            : "用本地方案生成方向试训"}
         <ArrowRight24Regular aria-hidden="true" />
       </button>
 
       {advice && (
         <div className="development-path-advice" aria-live="polite">
           <span>
-            {advice.mode === "model" ? "MODEL OUTPUT" : "RULES FALLBACK"} ·{" "}
+            {advice.mode === "model" ? "AI 建议" : "本地备选"} ·{" "}
             {advice.provider}/{advice.model}
           </span>
           <h3>{advice.title}</h3>

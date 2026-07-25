@@ -213,7 +213,7 @@ export const submitTeacherCorrection = (
       {
         status: "submitted",
         occurredAt: createdAt,
-        note: "Fixture 教师提交；公开字段尚未被静默覆盖。",
+        note: "教师通过演示入口提交；公开字段要等核对后才会变化。",
       },
     ],
   };

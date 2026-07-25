@@ -866,7 +866,7 @@ impl RosterSession {
                         old_offering: Some(current.offering_id.clone()),
                         new_offering: Some(selection.offering_id.clone()),
                         credit_change: 0,
-                        risk: Some("换班受实时容量影响；Fixture 不会预占名额".to_owned()),
+                        risk: Some("换班会受实时余量影响；演示方案不会替你占住名额".to_owned()),
                         formal_step: "在学校正式系统确认目标班次后由本人办理".to_owned(),
                     });
                 }
@@ -897,7 +897,9 @@ impl RosterSession {
                     old_offering: Some(current.offering_id.clone()),
                     new_offering: None,
                     credit_change: -i32::try_from(course.credits).unwrap_or(i32::MAX),
-                    risk: Some("退课可能影响先修、学费或培养方案；必须查看学校正式规则".to_owned()),
+                    risk: Some(
+                        "退课可能影响先修、学费或培养方案；提交前请查看学校正式规则".to_owned(),
+                    ),
                     formal_step: "查看正式退课截止和影响后由本人办理".to_owned(),
                 });
             }
@@ -3692,7 +3694,7 @@ mod tests {
             .create_share_grant(
                 &fixture,
                 PerformanceShareDraft {
-                    recipient: "学业导师（Fixture）".to_owned(),
+                    recipient: "学业导师（演示）".to_owned(),
                     purpose: "讨论本人下一周任务安排".to_owned(),
                     duration_days: 7,
                     dimension_ids: vec!["ability-knowledge".to_owned()],

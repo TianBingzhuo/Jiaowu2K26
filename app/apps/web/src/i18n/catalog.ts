@@ -59,8 +59,8 @@ export const EXPERIENCE_BRIEFS: Record<ExperienceKey, ExperienceBrief> = {
       "Choose “Continue today’s lineup” for one small learning possession, or switch roles to see how responsibility changes.",
     ),
     boundary: bilingual(
-      "所有人物、进度与建议都是 Fixture；正式成绩、学籍、支付和门禁仍由学校权威系统决定。",
-      "People, progress and recommendations are demo fixtures. Official grades, records, payments and access stay with the school’s systems of record.",
+      "人物、进度和建议都来自演示赛档；正式成绩、学籍、支付和门禁仍以学校系统为准。",
+      "People, progress, and recommendations come from a demo save. Official grades, records, payments, and access remain with the school’s systems of record.",
     ),
   },
   smartcourse: {
@@ -476,9 +476,9 @@ export const HUD_COPY = {
     safetyBoundary: "安全边界",
     formalName: "正式名称",
     currentLens: "当前角色 Lens",
-    fixtureTitle: "Fixture 不是“假功能”",
+    fixtureTitle: "这是演示赛档，不是假按钮",
     fixtureBody:
-      "Fixture 是可重复验收的安全演示数据；它明确不冒充学校实时记录。",
+      "演示赛档让每位评委看到同一套可操作流程；它不会冒充学校的实时记录。",
     glossaryTitle: "现场梗词典",
     glossary: [
       ["Roster", "课程阵容 / 学期选课组合"],
@@ -488,7 +488,7 @@ export const HUD_COPY = {
     ] as const,
     coverageTitle: "V0.9 双语边界",
     coverageBody:
-      "赛事解说层、角色概念、核心循环与安全边界已中英等价；深层 Fixture 字段仍以中文为主，不伪装成已完成翻译。",
+      "赛事导览、角色概念、核心循环和安全边界已提供中英双语；深层演示字段仍以中文为主，不冒充完整翻译。",
     announce: "已切换到中文赛事导览。",
   },
   "en-US": {
@@ -505,7 +505,7 @@ export const HUD_COPY = {
     safetyBoundary: "Safety boundary",
     formalName: "Plain product name",
     currentLens: "Current role lens",
-    fixtureTitle: "Fixture does not mean fake functionality",
+    fixtureTitle: "A demo save—not a wall of fake buttons",
     fixtureBody:
       "A fixture is safe, repeatable demo data. It never pretends to be a live school record.",
     glossaryTitle: "The joke, in plain English",

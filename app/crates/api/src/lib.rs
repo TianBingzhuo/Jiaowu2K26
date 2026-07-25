@@ -622,7 +622,7 @@ async fn post_ai_advice(
             rules_fallback_advice(&request, Some("模型服务暂时不可用"))
         }
         Err(AiGatewayError::InvalidResponse(_)) => {
-            rules_fallback_advice(&request, Some("模型响应未通过来源合同"))
+            rules_fallback_advice(&request, Some("模型返回的内容暂时读不懂"))
         }
         Err(error @ AiGatewayError::InvalidRequest(_)) => return Err(ai_request_error(error)),
     };
@@ -690,7 +690,7 @@ fn load_development_profile() -> DevelopmentProfileResponse {
         Ok(content) => content,
         Err(_) => {
             return unavailable_development_profile(
-                "未配置本地私有发展档案；公开 Demo 继续使用 NAN Fixture。",
+                "还没有连接本地个人档案；当前继续使用南同学的演示经历。",
             );
         }
     };
@@ -698,7 +698,7 @@ fn load_development_profile() -> DevelopmentProfileResponse {
         Ok(profile) => profile,
         Err(_) => {
             return unavailable_development_profile(
-                "本地私有发展档案未通过 JSON 合同；未载入任何字段。",
+                "本地个人档案格式不对，本次没有读取其中任何内容。",
             );
         }
     };
@@ -2046,7 +2046,7 @@ async fn post_performance_export(
             "event_count": session.audit.len(),
             "latest_event_hash": session.audit.last().map(|event| event.event_hash.clone())
         },
-        "warning": "Fixture personal copy; not a grade, medical record, school credential or trusted archive."
+        "warning": "这是个人演示副本，不是成绩单、医疗记录、学校凭证或可信归档。"
     })))
 }
 
@@ -2507,7 +2507,7 @@ async fn get_coach_scouting(
     Ok(Json(CoachScoutingResponse {
         schema_version: SCHEMA_VERSION.to_owned(),
         data_mode: "demo_fixture".to_owned(),
-        source_boundary: "Sanitized demo Fixture only; not a teacher rating or an institutional decision.",
+        source_boundary: "当前只使用脱敏演示数据；这里展示的是课程观察，不是教师评分或学校决定。",
         fixture: state.coach_scouting_fixture,
         session,
         box_score,
@@ -2811,7 +2811,7 @@ async fn get_campus_life(
     Ok(Json(CampusLifeResponse {
         schema_version: SCHEMA_VERSION.to_owned(),
         data_mode: "demo_fixture".to_owned(),
-        source_boundary: "Sanitized demo Fixture only; official actions stay on sourced external systems.",
+        source_boundary: "当前只使用脱敏演示数据；报名、缴费等正式操作仍要回到活动原页面完成。",
         fixture: state.campus_life_fixture,
         session,
         recommendations,
@@ -3093,7 +3093,7 @@ async fn get_campus_pass(
     Ok(Json(CampusPassResponse {
         schema_version: SCHEMA_VERSION.to_owned(),
         data_mode: "demo_fixture".to_owned(),
-        source_boundary: "Sanitized Fixture only; official credentials, doors, emergency actions and identity decisions stay external.",
+        source_boundary: "当前只使用脱敏演示数据；真实凭证、门锁、紧急处置和身份判断仍由学校系统负责。",
         fixture: state.campus_pass_fixture,
         session,
         box_score,

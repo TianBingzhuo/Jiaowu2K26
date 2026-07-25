@@ -52,7 +52,7 @@ describe("F-003 Academic Mirror evidence-aware read-only layer", () => {
     expect(next.snapshots).toHaveLength(state.snapshots.length + 1);
     expect(state.snapshots[0]).toEqual(before);
     expect(next.snapshots.at(-1)?.contentHash).toBe(before.contentHash);
-    expect(next.message).toContain("内容哈希未变化");
+    expect(next.message).toContain("内容没有变化");
     expect(next.message).toContain(next.snapshots.at(-1)?.id);
     expect(next.audit.slice(-2).map((event) => event.action)).toEqual([
       "sync",

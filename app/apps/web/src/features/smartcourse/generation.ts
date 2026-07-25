@@ -65,7 +65,7 @@ export const FIXTURE_GENERATION_ADAPTER: ContentGenerationAdapter = {
       generatorVersion: "smartcourse-fixture-v1",
       objects,
       fallbackReason:
-        "Live model adapter is not configured; using an explicitly labelled local fixture.",
+        "AI 服务尚未连接；本回合先使用有明确标注的本地演示内容。",
     };
   },
 };

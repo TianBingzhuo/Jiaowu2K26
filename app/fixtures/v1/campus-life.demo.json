@@ -6,17 +6,17 @@
   "sources": [
     {
       "id": "src-student-affairs",
-      "provider": "示例大学学生事务中心（Fixture）",
+      "provider": "示例大学学生事务中心（演示）",
       "official_url": "https://example.edu/student-affairs",
       "version": "student-affairs-2026-07-r2",
       "updated_at": "2026-07-23T09:00:00+08:00",
       "expires_at": "2026-08-31T23:59:00+08:00",
       "verification_status": "verified_fixture",
-      "correction_route": "在 Campus Replay 报告过期或差异；正式办理前必须回到学校权威入口复核。"
+      "correction_route": "在 Campus Replay 报告过期或差异；正式办理前请回到学校入口再核对一次。"
     },
     {
       "id": "src-library",
-      "provider": "示例大学图书馆（Fixture）",
+      "provider": "示例大学图书馆（演示）",
       "official_url": "https://example.edu/library",
       "version": "library-service-2026-07-r4",
       "updated_at": "2026-07-22T16:30:00+08:00",
@@ -26,7 +26,7 @@
     },
     {
       "id": "src-accessibility",
-      "provider": "示例大学无障碍支持办公室（Fixture）",
+      "provider": "示例大学无障碍支持办公室（演示）",
       "official_url": "https://example.edu/accessibility",
       "version": "access-2026-r1",
       "updated_at": "2026-07-20T10:00:00+08:00",
@@ -36,7 +36,7 @@
     },
     {
       "id": "src-club-union",
-      "provider": "示例大学社团联合会（Fixture）",
+      "provider": "示例大学社团联合会（演示）",
       "official_url": "https://example.edu/clubs",
       "version": "clubs-2026-summer-r3",
       "updated_at": "2026-07-21T18:00:00+08:00",
@@ -46,7 +46,7 @@
     },
     {
       "id": "src-health-safety",
-      "provider": "示例大学健康与安全中心（Fixture）",
+      "provider": "示例大学健康与安全中心（演示）",
       "official_url": "https://example.edu/health-safety",
       "version": "health-safety-2026-r5",
       "updated_at": "2026-07-24T08:00:00+08:00",
@@ -131,7 +131,7 @@
     {
       "id": "event-film-room",
       "title": "Signal Film Room · 实验复盘夜",
-      "host": "工程学习社群（Fixture）",
+      "host": "工程学习社群（演示）",
       "starts_at": "2026-07-29T14:30:00+08:00",
       "ends_at": "2026-07-29T16:30:00+08:00",
       "deadline_at": "2026-07-28T20:00:00+08:00",
@@ -146,7 +146,7 @@
     {
       "id": "event-maker-night",
       "title": "Maker Night · 3D 打印与机械臂开放体验",
-      "host": "创新实验室（Fixture）",
+      "host": "创新实验室（演示）",
       "starts_at": "2026-07-30T18:30:00+08:00",
       "ends_at": "2026-07-30T21:00:00+08:00",
       "deadline_at": "2026-07-29T18:00:00+08:00",
@@ -161,7 +161,7 @@
     {
       "id": "event-writing-sprint",
       "title": "Research Writing Sprint",
-      "host": "图书馆研究支持组（Fixture）",
+      "host": "图书馆研究支持组（演示）",
       "starts_at": "2026-08-01T09:30:00+08:00",
       "ends_at": "2026-08-01T11:30:00+08:00",
       "deadline_at": "2026-07-31T17:00:00+08:00",
@@ -176,7 +176,7 @@
     {
       "id": "event-expired-club-fair",
       "title": "春季社团招新日（已结束）",
-      "host": "社团联合会（Fixture）",
+      "host": "社团联合会（演示）",
       "starts_at": "2026-03-12T10:00:00+08:00",
       "ends_at": "2026-03-12T16:00:00+08:00",
       "deadline_at": "2026-03-10T18:00:00+08:00",
@@ -293,7 +293,7 @@
   "mentors": [
     {
       "id": "mentor-senior-fixture",
-      "display_name": "高年级同伴导师（Fixture）",
+      "display_name": "高年级同伴导师（演示）",
       "qualification": "完成同伴支持培训；不是学业审批人",
       "help_topics": ["校园入口导航", "学习资源发现", "项目组队准备"],
       "boundaries": ["不代替教师或专业顾问", "不索要成绩与健康隐私", "不承诺审批结果"],
@@ -311,7 +311,7 @@
       "official_url": "https://example.edu/health-safety/emergency",
       "scope": "正在发生或可能立即造成伤害的安全问题；不要等待应用内流程。",
       "emergency": true,
-      "available_label": "24/7（Fixture 说明，正式号码需现场核对）",
+      "available_label": "全天候演示入口；正式号码请到学校页面核对",
       "source_id": "src-health-safety"
     },
     {

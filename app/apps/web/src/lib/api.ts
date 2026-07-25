@@ -24,8 +24,8 @@ export async function checkBackend(
     if (!response.ok) {
       return {
         state: "fallback",
-        label: "本地 Fixture",
-        detail: `API 返回 HTTP ${response.status}，已安全降级。`,
+        label: "本地演示",
+        detail: `后台返回 HTTP ${response.status}；先用本地存档继续，未执行远端写入。`,
       };
     }
 
@@ -37,15 +37,15 @@ export async function checkBackend(
     ) {
       return {
         state: "fallback",
-        label: "本地 Fixture",
-        detail: "API 健康响应不符合合同，已安全降级。",
+        label: "本地演示",
+        detail: "后台返回的内容暂时读不懂；先用本地存档继续。",
       };
     }
 
     return {
       state: "live",
-      label: "API 已连接",
-      detail: `${String(payload.component ?? "university2k26-api")} · Schema ${payload.schema_version}`,
+      label: "服务在线",
+      detail: `${String(payload.component ?? "university2k26-api")} · 接口版本 ${payload.schema_version}`,
       dataMode: payload.data_mode,
     };
   } catch (error) {
@@ -54,8 +54,8 @@ export async function checkBackend(
     }
     return {
       state: "fallback",
-      label: "本地 Fixture",
-      detail: "API 当前不可用；演示继续使用只读 Fixture。",
+      label: "本地演示",
+      detail: "后台没接上，先用只读存档继续。你的操作不会写回学校系统。",
     };
   }
 }

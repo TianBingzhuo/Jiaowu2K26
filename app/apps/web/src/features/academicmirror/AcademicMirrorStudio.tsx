@@ -109,7 +109,7 @@ const STEP_LABELS: Array<{
   {
     id: "audit",
     immersive: "Replay Ledger",
-    traditional: "导出与审计",
+    traditional: "导出与回放",
     icon: History24Regular,
   },
 ];
@@ -169,7 +169,7 @@ function AuthorityBadge({
       title={AUTHORITY_LABELS[level].detail}
     >
       {AUTHORITY_LABELS[level].short}
-      {effectiveFixture ? <small>FIXTURE</small> : null}
+      {effectiveFixture ? <small>演示</small> : null}
     </span>
   );
 }
@@ -481,7 +481,7 @@ export function AcademicMirrorStudio({
         <div className="mirror-topbar__status">
           <span>
             <DocumentData24Regular aria-hidden="true" />
-            {backendLabel} · Fixture
+            {backendLabel}
           </span>
           <button
             type="button"
@@ -491,7 +491,7 @@ export function AcademicMirrorStudio({
                 ...current,
                 offline: !current.offline,
                 message: current.offline
-                  ? "已恢复在线 Fixture 模式。"
+                  ? "本地服务已经恢复。"
                   : `已切换离线；继续使用 ${formatMirrorTime(current.lastTrustedSnapshotAt)} 的镜像。`,
               }))
             }
@@ -541,7 +541,7 @@ export function AcademicMirrorStudio({
 
       <div className="mirror-boundary-banner" role="status">
         <LockClosed24Regular aria-hidden="true" />
-        <strong>READ-ONLY // DEMO FIXTURE</strong>
+        <strong>只读镜像 · 演示</strong>
         <span>{state.sourceBoundary}</span>
       </div>
 
@@ -549,7 +549,7 @@ export function AcademicMirrorStudio({
         <header className="mirror-page-heading">
           <div>
             <span className="mirror-page-heading__kicker">
-              {currentStep.id.toUpperCase()} // SOURCE BEFORE SCORE
+              {currentStep.id.toUpperCase()} · 先看出处，再看数字
             </span>
             <h1>
               {traditional ? currentStep.traditional : currentStep.immersive}
@@ -1030,7 +1030,7 @@ export function AcademicMirrorStudio({
             <section className="mirror-panel mirror-snapshot-ledger">
               <header className="mirror-panel__header">
                 <div>
-                  <span>IMMUTABLE RAW RECEIPTS</span>
+                  <span>原始记录 · 旧版本不会被覆盖</span>
                   <h2>原始快照收据</h2>
                 </div>
                 <LockClosed24Regular aria-hidden="true" />
@@ -1218,7 +1218,7 @@ export function AcademicMirrorStudio({
               <section className="mirror-record-empty">
                 <DocumentData24Regular aria-hidden="true" />
                 <h2>镜像中没有可显示的记录</h2>
-                <p>可重置 Fixture 或重新导入本人授权的文件。</p>
+                <p>可以重置演示，或重新导入本人有权使用的文件。</p>
               </section>
             )}
           </div>
@@ -1231,7 +1231,7 @@ export function AcademicMirrorStudio({
               <div>
                 <strong>冲突不会按“最新”或“看起来最权威”静默覆盖</strong>
                 <span>
-                  并排查看值、来源、版本与时间；选择后必须写下理由，原差异仍保留在审计链中。
+                  两边的值、出处、版本和时间会并排保留。选择采用哪一项时，请写下理由。
                 </span>
               </div>
               <b>{unresolvedCount} 待处理</b>
@@ -1348,7 +1348,7 @@ export function AcademicMirrorStudio({
               ))}
               <p>
                 <LockClosed24Regular aria-hidden="true" />
-                扩大用途必须重新同意；当前只有只读、导出或匹配范围，没有写回权限。
+                想把资料用于别的事情，需要重新征得同意。当前只有只读、导出和本地匹配。
               </p>
             </section>
           </div>
@@ -1362,7 +1362,7 @@ export function AcademicMirrorStudio({
                 <span>PORTABLE COPY</span>
                 <h2>可阅读个人副本</h2>
                 <p>
-                  JSON 可离线阅读，保留来源、版本、同意和审计收据；明确标记非权威。
+                  JSON 可以离线阅读，里面会保留出处、版本、同意状态和操作记录，并标明它不是学校证明。
                 </p>
                 <button
                   type="button"
@@ -1375,8 +1375,8 @@ export function AcademicMirrorStudio({
               </article>
               <article className="is-trusted-contract">
                 <Archive24Regular aria-hidden="true" />
-                <span>TRUSTED ARCHIVE CONTRACT</span>
-                <h2>可信归档合同样例</h2>
+                <span>未来可信归档</span>
+                <h2>未来可信归档的结构预览</h2>
                 <p>
                   仅展示未来签名、加密、隔离导入所需字段；当前没有发行方签名或密钥。
                 </p>
@@ -1386,7 +1386,7 @@ export function AcademicMirrorStudio({
                   data-focusable="true"
                 >
                   <ArrowDownload24Regular aria-hidden="true" />
-                  导出 UNSIGNED FIXTURE
+                  导出未签名样例
                 </button>
               </article>
             </section>
@@ -1394,8 +1394,8 @@ export function AcademicMirrorStudio({
             <section className="mirror-panel mirror-audit-ledger">
               <header className="mirror-panel__header">
                 <div>
-                  <span>APPEND-ONLY REPLAY</span>
-                  <h2>审计事件链</h2>
+                  <span>完整操作回放</span>
+                  <h2>操作回放</h2>
                 </div>
                 <strong>{state.audit.length} events</strong>
               </header>
@@ -1432,11 +1432,11 @@ export function AcademicMirrorStudio({
           <Database24Regular aria-hidden="true" />
           {state.offline
             ? `离线镜像 ${formatMirrorTime(state.lastTrustedSnapshotAt)}`
-            : "本地 Fixture · 可重复验收"}
+            : "本地演示 · 随时可重置"}
         </span>
         <span>
           <History24Regular aria-hidden="true" />
-          {state.audit.length} 条追加式事件
+          {state.audit.length} 条操作记录
         </span>
       </footer>
     </div>

@@ -1123,7 +1123,8 @@ impl OpportunityMarketSession {
             private: true,
             authoritative: false,
             artifacts,
-            warning: "Fixture export; contains source references and review states but no original course material and no institutional credential.".to_owned(),
+            warning: "这是演示副本：保留来源和审核状态，不包含原始课件，也不能作为学校凭证。"
+                .to_owned(),
         })
     }
 
@@ -1188,7 +1189,7 @@ impl OpportunityMarketSession {
                     .opportunities
                     .iter()
                     .all(|item| item.paid_ranking_factor == 0.0),
-                "所有机会 paid_ranking_factor 必须为 0。",
+                "付费不能影响任何机会的排序。",
             ),
             fairness_check(
                 "fair-random",
@@ -1210,7 +1211,7 @@ impl OpportunityMarketSession {
             ),
             fairness_check(
                 "fair-sensitive",
-                "零禁止字段",
+                "敏感字段未参与",
                 sensitive_fields_used.is_empty(),
                 "健康、家庭、财务、门禁与支付记录不得进入匹配。",
             ),
@@ -1465,7 +1466,7 @@ fn eligibility_result(
             format!(
                 "{} · 来源 {}",
                 field.label,
-                field.source_id.as_deref().unwrap_or("Fixture")
+                field.source_id.as_deref().unwrap_or("演示来源")
             )
         } else {
             format!("{} · {}", field.label, field.value_label)
@@ -1473,7 +1474,7 @@ fn eligibility_result(
         next_step: if verified {
             "正式申请前再次核对官方规则版本与有效期。".to_owned()
         } else {
-            "这是本人声明或 Fixture 信息；正式申请前向提供方确认。".to_owned()
+            "这项信息来自本人声明或演示资料；正式申请前请向提供方确认。".to_owned()
         },
     }
 }

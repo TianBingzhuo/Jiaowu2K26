@@ -53,7 +53,7 @@ describe("University2K26 demo season", () => {
 
   it("labels all progress as non-authoritative fixture data", () => {
     expect(DEMO_SEASON.authority).toBe("fixture");
-    expect(DEMO_SEASON.sourceBoundary).toContain("Fixture");
+    expect(DEMO_SEASON.sourceBoundary).toContain("演示数据");
     expect(validateDemoSeason(DEMO_SEASON)).toEqual([]);
   });
 

@@ -281,7 +281,7 @@ export function buildClientRulesFallback(
     model: "deterministic-v1",
     title: "先关掉未知项，再推进下一回合",
     summary:
-      "API 当前不可用，因此这里只运行本地规则回退：核对用途授权、来源版本、未知项与人工责任人。",
+      "AI 暂时没接上；这份本地备选只负责核对用途、资料版本、未知项和责任人。",
     suggestions: [
       {
         title: "最小可逆动作",

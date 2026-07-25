@@ -166,7 +166,7 @@ function eligibilityResult(
       status: "possibly_met",
       evidenceFieldId: field.id,
       evidenceLabel: `${field.label} · ${field.valueLabel}`,
-      nextStep: "这是一项本人声明或 Fixture 信息，请在正式申请前向提供方确认。",
+      nextStep: "这项资料来自本人填写或演示存档；正式申请前请向提供方确认。",
     };
   }
 
@@ -175,7 +175,7 @@ function eligibilityResult(
     ruleDescription: rule.description,
     status: "met",
     evidenceFieldId: field.id,
-    evidenceLabel: `${field.label} · 来源 ${field.sourceId ?? "Fixture"}`,
+    evidenceLabel: `${field.label} · 来源 ${field.sourceId ?? "演示资料"}`,
     nextStep: "正式申请前再次核对官方规则版本与有效期。",
   };
 }
@@ -367,7 +367,7 @@ export function toggleProfileField(
       : [...state.selectedProfileFieldIds, fieldId],
     message: selected
       ? "字段已从本次匹配移除；历史证据未被删除。"
-      : "字段只用于本次本地 Fixture 匹配，未向提供方分享。",
+      : "这个字段只用于本次本地匹配，还没有分享给提供方。",
   };
 }
 
@@ -556,7 +556,7 @@ export function acknowledgeProviderInterest(
     (item) => item.opportunityId === opportunityId,
   );
   if (!saved || saved.intentStatus !== "student_interested") {
-    throw new Error("只有本人先表达意向后，才能记录提供方 Fixture 回应。");
+    throw new Error("先表达本人意向，才能演示对方的回应。");
   }
   const next = {
     ...state,
@@ -570,7 +570,7 @@ export function acknowledgeProviderInterest(
         : item,
     ),
     message:
-      "已记录提供方 Fixture 回应；扩大资料共享仍需学生逐项确认。",
+      "对方的演示回应已记下；分享更多资料仍要由学生逐项确认。",
   };
   return appendAudit(
     next,
@@ -614,7 +614,7 @@ export function createDisclosureGrant(
     throw new Error("至少选择一个要披露的字段。");
   }
   if (durationDays < 1 || durationDays > 30) {
-    throw new Error("Fixture 授权期限必须为 1–30 天。");
+    throw new Error("分享期限可以设为 1–30 天。");
   }
   const opportunity = opportunityOrThrow(state, opportunityId);
   const sequence = state.disclosureGrants.length + 1;
@@ -643,7 +643,7 @@ export function createDisclosureGrant(
           }
         : mirror,
     ),
-    message: `已建立 ${durationDays} 天 Fixture 授权；可随时撤回，仍未正式申请。`,
+    message: `已同意分享 ${durationDays} 天；可以随时撤回，也还没有正式申请。`,
   };
   return appendAudit(
     next,
@@ -689,7 +689,7 @@ export function revokeDisclosureGrant(
         read: false,
       },
     ],
-    message: "授权已撤回；字段预览立即失效，正式外部系统不受本 Demo 控制。",
+    message: "分享已撤回，字段预览立即失效。外部网站上的操作需要另行处理。",
   };
   return appendAudit(
     next,
@@ -784,7 +784,7 @@ export function selectPathway(
   const next = {
     ...state,
     selectedPathwayId: pathwayId,
-    message: `${pathway.title} 仅作为 Scenario Draft；未提交任何正式审批。`,
+    message: `${pathway.title} 已打开为可撤销草案；还没有送进正式审批。`,
   };
   return appendAudit(
     next,
@@ -824,7 +824,7 @@ export function buildPortfolioExport(state: OpportunityMarketState) {
     authoritative: false,
     artifacts,
     warning:
-      "Fixture export; contains source references and review states but no original course material and no institutional credential.",
+      "Demo personal copy: includes source references and review states, but no original course files or institutional credentials.",
   };
 }
 
@@ -836,7 +836,7 @@ export function recordPortfolioExport(
   if (selected.length === 0) throw new Error("请至少选择一个作品证据。");
   const next = {
     ...state,
-    message: `已导出 ${selected.length} 个可阅读、不可信的 Fixture 作品证据。`,
+    message: `已导出 ${selected.length} 项可阅读的演示作品记录；文件不能代替学校证明。`,
   };
   return appendAudit(
     next,
@@ -987,8 +987,8 @@ export function toggleOpportunityOffline(
     ...state,
     offline,
     message: offline
-      ? `已离线：使用 ${state.lastUpdatedAt} 的 Fixture 缓存；不刷新规则、不生成新匹配。`
-      : "已恢复本地服务；Fixture 来源与核对时间保持可见。",
+      ? `已经离线，正在使用 ${state.lastUpdatedAt} 的缓存；规则和匹配不会刷新。`
+      : "本地服务已恢复；每条机会的来源和核对时间仍然可见。",
   };
   return appendAudit(
     next,

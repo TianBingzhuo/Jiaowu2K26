@@ -127,6 +127,11 @@ const STATE_LABEL: Record<string, string> = {
   appeal: "申诉中",
   draft_blocked_prerequisites: "前置条件阻塞",
   draft_blocked_credential: "凭证状态阻塞",
+  linked_fixture: "演示身份已关联",
+  verified_fixture: "演示资料已核对",
+  normal_fixture: "演示状态正常",
+  draft_ready_for_official_channel: "等待正式渠道确认",
+  handoff_ready: "人工交接已准备",
 };
 
 const SectionHeading = ({
@@ -167,7 +172,7 @@ export function CampusPassStudio({
   const [requestPurpose, setRequestPurpose] = useState("完成晚间课程复习");
   const [guestZone, setGuestZone] = useState("zone-library");
   const [guestPurpose, setGuestPurpose] = useState("参加公开讲座");
-  const [guestSponsor, setGuestSponsor] = useState("NAN Fixture");
+  const [guestSponsor, setGuestSponsor] = useState("南同学（演示）");
   const [guestHours, setGuestHours] = useState(2);
   const [offlineZone, setOfflineZone] = useState("zone-library");
   const [offlineCarrier, setOfflineCarrier] =
@@ -216,7 +221,7 @@ export function CampusPassStudio({
     clearCampusPassState();
     setState(createCampusPassState());
     setStaticCapture(false);
-    setToast("F-010 Fixture Session 已重置。");
+    setToast("校园通行演示已重置。");
   };
 
   const renderWallet = () => (
@@ -231,7 +236,8 @@ export function CampusPassStudio({
           </h1>
           <p>
             {state.fixture.identities[0]?.subject_label} ·{" "}
-            {state.fixture.identities[0]?.status}
+            {STATE_LABEL[state.fixture.identities[0]?.status ?? ""] ??
+              "身份状态待核对"}
           </p>
           <strong>
             密码存储 0 · 正式凭证签发 0 · 精细轨迹 0
@@ -255,7 +261,7 @@ export function CampusPassStudio({
         <SectionHeading
           eyebrow="F010-02 / 03 / 04 · PASS WALLET"
           title="每张卡都说明“谁签发、能去哪、何时失效”"
-          detail="这里选择的是本地 Fixture Loadout，不会激活校园卡、生成真实二维码或扩大权限。"
+          detail="这里选择的是本地演示通行包；不会激活校园卡、生成真实二维码或扩大权限。"
         />
         <div className="pass-credential-grid">
           {state.fixture.credentials.map((item, index) => {
@@ -309,7 +315,7 @@ export function CampusPassStudio({
         <SectionHeading
           eyebrow="ZONE MAP · EXPLAINABLE SCOPE"
           title={`${credential.title} 的最小范围`}
-          detail="区域与时段来自带版本的 Fixture 来源；敏感区域不会被一张普通卡静默解锁。"
+          detail="区域和时段来自带版本的演示资料；普通卡不会悄悄解锁敏感区域。"
         />
         <div className="pass-zone-grid">
           {state.fixture.zones.map((zone) => {
@@ -354,11 +360,12 @@ export function CampusPassStudio({
                 <span>
                   <strong>{source.provider}</strong>
                   <small>
-                    {source.version} ·{" "}
-                    {formatFixtureTime(source.updated_at)}
+                    演示资料 · {formatFixtureTime(source.updated_at)}
                   </small>
                 </span>
-                <em>{source.verification_status}</em>
+                <em>
+                  {STATE_LABEL[source.verification_status] ?? "来源待核对"}
+                </em>
               </article>
             );
           })}
@@ -371,9 +378,9 @@ export function CampusPassStudio({
     <div className="pass-reader-layout">
       <section className="pass-card pass-reader-hero">
         <SectionHeading
-          eyebrow="F010-03 · FIXTURE READER"
+          eyebrow="F010-03 · 本地读卡演练"
           title="先证明“不会误放行”，再谈顺滑通行"
-          detail="演练只返回本地读卡结果，official_access_granted 永远为 false。"
+          detail="演练只返回本地检查结果，不会向真实门锁发送放行指令。"
         />
         <div className="pass-reader-terminal">
           <div className="pass-reader-terminal__device">
@@ -460,8 +467,8 @@ export function CampusPassStudio({
           title={
             latestPresentation
               ? latestPresentation.accepted_by_demo_reader
-                ? "Fixture Reader：演练通过"
-                : "Fixture Reader：已拒绝"
+                ? "读卡演练：通过"
+                : "读卡演练：已拒绝"
               : "等待一次校验演练"
           }
           detail={
@@ -491,7 +498,7 @@ export function CampusPassStudio({
         <SectionHeading
           eyebrow="F010-10 · OFFLINE FRESHNESS"
           title="断网不是全区域万能通行证"
-          detail={`Fixture 新鲜度至 ${formatFixtureTime(state.fixture.offline_policy.valid_until)}；实验室明确禁止离线放行。`}
+          detail={`演示资料有效至 ${formatFixtureTime(state.fixture.offline_policy.valid_until)}；实验室断网时不会放行。`}
         />
         <div className="pass-form-grid">
           <label>
@@ -630,7 +637,7 @@ export function CampusPassStudio({
                 <strong>{item.label}</strong>
                 <small>{STATE_LABEL[item.status]}</small>
               </span>
-              <em>正式入口 Fixture</em>
+              <em>正式入口演示</em>
             </article>
           ))}
         </div>
@@ -673,10 +680,10 @@ export function CampusPassStudio({
                     </ul>
                   )}
                   <footer>
-                    <small>authoritative=false · access=false</small>
+                    <small>这里只同步申请状态，不会自动开门。</small>
                     {!item.status.startsWith("draft_blocked") && (
                       <select
-                        aria-label={`${item.id} Fixture 状态`}
+                        aria-label={`${item.id} 演示状态`}
                         value={item.status}
                         onChange={(event) =>
                           apply(
@@ -791,7 +798,7 @@ export function CampusPassStudio({
               <strong>
                 {state.guest_pass_drafts.at(-1)?.duration_hours} 小时草稿已就绪
               </strong>
-              <small>auto_expires=true · authoritative=false</small>
+              <small>到时自动失效 · 仍需正式渠道确认</small>
             </span>
           </div>
         )}
@@ -812,11 +819,12 @@ export function CampusPassStudio({
           <span>
             <strong>
               {state.fixture.emergency_modes[0]?.title} ·{" "}
-              {state.fixture.emergency_modes[0]?.status}
+              {STATE_LABEL[state.fixture.emergency_modes[0]?.status ?? ""] ??
+                "状态待核对"}
             </strong>
             <small>
-              权威方：{state.fixture.emergency_modes[0]?.authority} ·
-              Experience execute=false
+              负责方：{state.fixture.emergency_modes[0]?.authority} ·
+              本页不会执行应急动作
             </small>
           </span>
         </div>
@@ -858,8 +866,9 @@ export function CampusPassStudio({
             <span>
               <strong>等待正式渠道确认</strong>
               <small>
-                experience_executed_action=false ·{" "}
-                {state.loss_cases.at(-1)?.status}
+                本页没有改写凭证状态 ·{" "}
+                {STATE_LABEL[state.loss_cases.at(-1)?.status ?? ""] ??
+                  "等待确认"}
               </small>
             </span>
           </div>
@@ -868,7 +877,7 @@ export function CampusPassStudio({
 
       <section className="pass-card pass-fallback-panel">
         <SectionHeading
-          eyebrow="NO-PHONE FALLBACK"
+          eyebrow="NO-PHONE RECOVERY"
           title="手机不是通行权的唯一容器"
           detail="选择人工路径只生成可解释交接，不会直接开门。"
         />
@@ -1026,7 +1035,7 @@ export function CampusPassStudio({
         <SectionHeading
           eyebrow="SAFETY INVARIANTS · 9 / 9"
           title="这九条不是彩蛋，是模块存在的前提"
-          detail="任何一次技术调整破坏其中一条，F-010 都必须停止发布。"
+          detail="只要任何一条安全底线被破坏，F-010 就不能发布。"
         />
         <div className="pass-invariant-grid">
           {[
@@ -1050,9 +1059,9 @@ export function CampusPassStudio({
 
       <section className="pass-card pass-ledger-panel">
         <SectionHeading
-          eyebrow="APPEND-ONLY REPLAY"
+          eyebrow="操作回放 · 旧记录不会被覆盖"
           title={`事件时间线 · ${state.audit.length}`}
-          detail="每一步自动保存并串联前序哈希；重置只清理本机 Fixture Session。"
+          detail="每一步都会自动保存并接回上一条记录；重置只清理本机演示会话。"
         />
         <ol>
           {state.audit
@@ -1062,11 +1071,9 @@ export function CampusPassStudio({
               <li key={event.id}>
                 <span>{String(event.sequence).padStart(2, "0")}</span>
                 <div>
-                  <strong>{event.action}</strong>
+                  <strong>第 {event.sequence} 回合</strong>
                   <p>{event.detail}</p>
-                  <small>
-                    {event.target_id} · {event.event_hash}
-                  </small>
+                  <small>记录已串联校验，旧版本仍可回看。</small>
                 </div>
               </li>
             ))}
@@ -1177,7 +1184,7 @@ export function CampusPassStudio({
       <div className="pass-boundary-banner">
         <LockClosed24Regular aria-hidden="true" />
         <span>
-          SANITIZED FIXTURE · 全功能开放 · 不签发凭证、不连接门锁、不执行应急动作
+          安全演示 · 不签发真实凭证，不连接门锁，也不执行应急动作
         </span>
         <em>
           STAGE {stageIndex + 1} / {STAGES.length}
@@ -1203,7 +1210,7 @@ export function CampusPassStudio({
         </div>
         <div>
           <History24Regular aria-hidden="true" />
-          Replay {state.audit.length}
+          回放 {state.audit.length}
         </div>
       </footer>
 

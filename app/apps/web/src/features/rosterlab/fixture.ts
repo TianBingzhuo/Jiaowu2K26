@@ -23,7 +23,7 @@ export const ROSTER_FIXTURE: RosterFixture = {
   semester: "2026-Fall",
   catalogVersion: "catalog-2026-fall-fixture-r3",
   sourceBoundary:
-    "12 门课程、容量、班次、先修、偏好和方案均为脱敏 Fixture，只用于规划技术验证；不连接学校选课系统，也不代表正式学籍、容量或交易。",
+    "这 12 门课和它们的班次、容量、先修条件都是演示数据，只用来试排课；不会连接学校选课系统，也不代表真实名额。",
   creditRange: { min: 15, max: 18 },
   catalog: [
     course({
@@ -40,7 +40,7 @@ export const ROSTER_FIXTURE: RosterFixture = {
       offerings: [
         {
           id: "sls201-a",
-          instructor: "林老师（Fixture）",
+          instructor: "林老师（演示）",
           modality: "in_person",
           capacity: 64,
           enrolled: 51,
@@ -65,7 +65,7 @@ export const ROSTER_FIXTURE: RosterFixture = {
       offerings: [
         {
           id: "cir220-a",
-          instructor: "周老师（Fixture）",
+          instructor: "周老师（演示）",
           modality: "in_person",
           capacity: 56,
           enrolled: 48,
@@ -76,7 +76,7 @@ export const ROSTER_FIXTURE: RosterFixture = {
         },
         {
           id: "cir220-b",
-          instructor: "周老师（Fixture）",
+          instructor: "周老师（演示）",
           modality: "in_person",
           capacity: 56,
           enrolled: 37,
@@ -101,7 +101,7 @@ export const ROSTER_FIXTURE: RosterFixture = {
       offerings: [
         {
           id: "mat313-a",
-          instructor: "陈老师（Fixture）",
+          instructor: "陈老师（演示）",
           modality: "in_person",
           capacity: 72,
           enrolled: 59,
@@ -112,7 +112,7 @@ export const ROSTER_FIXTURE: RosterFixture = {
         },
         {
           id: "mat313-b",
-          instructor: "陈老师（Fixture）",
+          instructor: "陈老师（演示）",
           modality: "hybrid",
           capacity: 72,
           enrolled: 61,
@@ -137,7 +137,7 @@ export const ROSTER_FIXTURE: RosterFixture = {
       offerings: [
         {
           id: "opt210-a",
-          instructor: "许老师（Fixture）",
+          instructor: "许老师（演示）",
           modality: "in_person",
           capacity: 42,
           enrolled: 34,
@@ -162,7 +162,7 @@ export const ROSTER_FIXTURE: RosterFixture = {
       offerings: [
         {
           id: "eng210-a",
-          instructor: "Taylor（Fixture）",
+          instructor: "Taylor（演示）",
           modality: "hybrid",
           capacity: 36,
           enrolled: 29,
@@ -170,7 +170,7 @@ export const ROSTER_FIXTURE: RosterFixture = {
         },
         {
           id: "eng210-b",
-          instructor: "Taylor（Fixture）",
+          instructor: "Taylor（演示）",
           modality: "hybrid",
           capacity: 36,
           enrolled: 31,
@@ -192,7 +192,7 @@ export const ROSTER_FIXTURE: RosterFixture = {
       offerings: [
         {
           id: "egr201-a",
-          instructor: "工程中心（Fixture）",
+          instructor: "工程中心（演示）",
           modality: "in_person",
           capacity: 24,
           enrolled: 19,
@@ -214,7 +214,7 @@ export const ROSTER_FIXTURE: RosterFixture = {
       offerings: [
         {
           id: "dat210-a",
-          instructor: "高老师（Fixture）",
+          instructor: "高老师（演示）",
           modality: "hybrid",
           capacity: 80,
           enrolled: 63,
@@ -236,7 +236,7 @@ export const ROSTER_FIXTURE: RosterFixture = {
       offerings: [
         {
           id: "hci205-a",
-          instructor: "顾老师（Fixture）",
+          instructor: "顾老师（演示）",
           modality: "in_person",
           capacity: 32,
           enrolled: 24,
@@ -258,7 +258,7 @@ export const ROSTER_FIXTURE: RosterFixture = {
       offerings: [
         {
           id: "ai220-a",
-          instructor: "魏老师（Fixture）",
+          instructor: "魏老师（演示）",
           modality: "hybrid",
           capacity: 48,
           enrolled: 45,
@@ -280,7 +280,7 @@ export const ROSTER_FIXTURE: RosterFixture = {
       offerings: [
         {
           id: "res101-a",
-          instructor: "导师组（Fixture）",
+          instructor: "导师组（演示）",
           modality: "hybrid",
           capacity: 40,
           enrolled: 33,
@@ -302,7 +302,7 @@ export const ROSTER_FIXTURE: RosterFixture = {
       offerings: [
         {
           id: "phy240-a",
-          instructor: "赵老师（Fixture）",
+          instructor: "赵老师（演示）",
           modality: "in_person",
           capacity: 46,
           enrolled: 38,
@@ -324,7 +324,7 @@ export const ROSTER_FIXTURE: RosterFixture = {
       offerings: [
         {
           id: "wrt201-a",
-          instructor: "写作中心（Fixture）",
+          instructor: "写作中心（演示）",
           modality: "hybrid",
           capacity: 30,
           enrolled: 26,

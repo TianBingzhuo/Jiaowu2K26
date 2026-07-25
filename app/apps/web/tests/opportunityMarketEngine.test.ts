@@ -349,7 +349,7 @@ describe("F-009 Opportunity Market transparent consent-aware fixture", () => {
   it("makes offline fallback explicitly read-only while preserving browsing and replay", () => {
     const offline = toggleOpportunityOffline(createOpportunityMarketState());
     expect(offline.offline).toBe(true);
-    expect(offline.message).toContain("不生成新匹配");
+    expect(offline.message).toContain("匹配不会刷新");
     expect(visibleOpportunities(offline)).toHaveLength(14);
     expect(() => runSelectiveMatch(offline)).toThrow(/离线缓存为只读/);
     expect(() => saveOpportunity(offline, "opp-signal-lab")).toThrow(

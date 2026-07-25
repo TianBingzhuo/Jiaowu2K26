@@ -14,7 +14,7 @@ export const PERFORMANCE_FIXTURE: PerformanceState = {
   climateEnabled: false,
   climateVariant: "c_dimensions",
   sourceBoundary:
-    "只使用 F-001 / F-002 / F-003 脱敏 Fixture 与本人自报；不读取 GPA、排名、门禁、支付、夜间在线、健康或人气数据。",
+    "这里只看学习过程和本人主动填写的感受；GPA、排名、门禁、消费、深夜在线和健康数据不进场。",
   lastUpdatedAt: "2026-07-24T11:40:00+08:00",
   metrics: [
     {
@@ -259,7 +259,7 @@ export const PERFORMANCE_FIXTURE: PerformanceState = {
       label: "课程承诺",
       displayValue: "18 学分",
       severity: "watch",
-      textEquivalent: "课程承诺较高；学分来自 Fixture 课程阵容，不表示学校正式状态。",
+      textEquivalent: "这周课程安排偏满；学分来自演示课表，不代表学校正式状态。",
       sourceIds: ["ev-mirror-course-001"],
     },
     {
@@ -299,7 +299,7 @@ export const PERFORMANCE_FIXTURE: PerformanceState = {
       id: "support-office-hour",
       title: "带证据提问",
       action: "整理 1 个卷积来源冲突，预约信号与线性系统 Office Hours。",
-      availability: "Fixture 联系入口；真实预约仍需课程官方渠道。",
+      availability: "演示联系入口；真实预约请走课程官方渠道。",
       sourceId: "ev-support-001",
     },
     {
@@ -369,7 +369,7 @@ export const PERFORMANCE_FIXTURE: PerformanceState = {
       id: "rec-buffer",
       title: "先腾出 90 分钟缓冲",
       basisIds: ["obs-deadline-density", "obs-capacity", "obs-recovery"],
-      cost: "需要移动一个尚未开始的 Fixture 草稿任务。",
+      cost: "需要移动一个还没开始的演示任务。",
       expectedEffect: "减少 48 小时内的任务重叠；不保证成绩或效率提升。",
       alternative: "保留原计划，仅关闭非紧急提醒并寻求人工支持。",
       unknowns: ["临时通勤与照护时间尚未录入。"],
@@ -422,7 +422,7 @@ export const PERFORMANCE_FIXTURE: PerformanceState = {
       updatedAt: "2026-07-24T10:38:00+08:00",
       authority: "demo_fixture",
       freshness: "fresh",
-      detail: "只记录已发布 Fixture 对象中的修订行为，不复制原课程材料。",
+      detail: "只记录已发布演示内容中的修订行为，不复制原课程材料。",
     },
     {
       id: "ev-review-001",
@@ -433,7 +433,7 @@ export const PERFORMANCE_FIXTURE: PerformanceState = {
       updatedAt: "2026-07-24T10:35:00+08:00",
       authority: "demo_fixture",
       freshness: "fresh",
-      detail: "教师审核为 Fixture 流程证据，不代表真实教师评价。",
+      detail: "教师审核来自演示流程，不代表真实教师评价。",
     },
     {
       id: "ev-source-open-001",
@@ -466,13 +466,13 @@ export const PERFORMANCE_FIXTURE: PerformanceState = {
       updatedAt: "2026-07-23T16:00:00+08:00",
       authority: "demo_fixture",
       freshness: "warning",
-      detail: "声明来源为官方参考，但公开 Demo 的有效权威级别仍为 Fixture。",
+      detail: "来源标为官方参考，但当前公开演示仍不是学校正式记录。",
     },
     {
       id: "ev-season-deadline-001",
       type: "academic_mirror",
       sourceId: "F-002:season-deadlines",
-      label: "第 4 / 8 赛季截止日 Fixture",
+      label: "第 4 / 8 赛季截止日演示",
       locator: "career dashboard deadline deck",
       updatedAt: "2026-07-24T10:30:00+08:00",
       authority: "demo_fixture",
@@ -564,5 +564,5 @@ export const PERFORMANCE_FIXTURE: PerformanceState = {
     },
   ],
   message:
-    "私密 Fixture 已载入：所有数字都可钻取来源；协作数据不足，因此不显示精确值。",
+    "私密演示记录已载入：每个数字都能回看出处；协作资料不足的地方不会硬凑精确值。",
 };

@@ -160,7 +160,7 @@ export function UArizonaCatalogBrowser() {
         <Warning24Regular aria-hidden="true" />
         <div>
           <strong>公开目录快照没有载入</strong>
-          <span>排课 Fixture 仍可使用；请检查 public/data 构建产物。</span>
+          <span>本地排课演示仍可使用；请检查公开课表数据是否已经构建。</span>
         </div>
       </section>
     );
@@ -185,7 +185,7 @@ export function UArizonaCatalogBrowser() {
           <h2 id="ua-catalog-heading">UArizona · Summer 2026 全量课程池</h2>
           <p>
             官方公共 API 快照已接入课程发现；排课求解仍使用独立、
-            可回放的 Fixture，不会占座或写回 UAccess。
+            可以回放的演示方案，不会占座或写回 UAccess。
           </p>
         </div>
         <div className="ua-catalog__scoreboard" aria-label="目录统计">

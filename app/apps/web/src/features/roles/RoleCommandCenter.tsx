@@ -74,7 +74,7 @@ export function RoleCommandCenter({
           <div className="role-command-hero__scan" aria-hidden="true" />
           <div className="role-command-kicker">
             <span>{modeLabel}</span>
-            <em>DEMO ROLE LENS</em>
+            <em>当前视角 · 演示</em>
           </div>
           <div className="role-command-identity">
             <Person24Regular aria-hidden="true" />
@@ -92,7 +92,7 @@ export function RoleCommandCenter({
               <small>SIDELINE NOTE · 今日战术板</small>
               <strong>{profile.coachNote}</strong>
             </span>
-            <em>Fixture</em>
+            <em>演示赛档</em>
           </aside>
 
           <button
@@ -104,7 +104,7 @@ export function RoleCommandCenter({
             data-default-focus="true"
           >
             <span>
-              <small>NEXT POSSESSION</small>
+              <small>下一回合</small>
               <strong>{profile.primaryActionLabel}</strong>
             </span>
             <ArrowRight24Regular aria-hidden="true" />
@@ -157,9 +157,9 @@ export function RoleCommandCenter({
           <div className="role-section-heading">
             <span>
               <small>02 · ROLE BOX SCORE</small>
-              <h2 id="scoreboard-heading">工作状态，不是人员评分</h2>
+              <h2 id="scoreboard-heading">只看工作进度，不给人打总评</h2>
             </span>
-            <b>Fixture</b>
+            <b>演示</b>
           </div>
           <div className="role-metric-grid">
             {profile.metrics.map((metric) => (
@@ -179,7 +179,7 @@ export function RoleCommandCenter({
           <div className="role-section-heading">
             <span>
               <small>03 · SHARED GAME LOOP</small>
-              <h2 id="workflow-heading">所有角色共用一条责任链</h2>
+              <h2 id="workflow-heading">一件事怎样在五个角色之间接力</h2>
             </span>
           </div>
           <ol>
@@ -195,7 +195,7 @@ export function RoleCommandCenter({
             ))}
           </ol>
           <p>
-            角色改变权限、信息密度和主任务，不改变来源、版本、Replay、申诉和人工负责的底层合同。
+            换角色会改变任务和能看到的范围；资料出处、修改记录、申诉入口和最终责任人不会跟着变。
           </p>
         </section>
 
@@ -232,7 +232,7 @@ export function RoleCommandCenter({
             </div>
           </div>
           <small>
-            当前是前端 Fixture 权限预览。生产环境必须接学校 SSO，并由服务端按角色、组织范围、用途和时限重新授权。
+            当前只是在演示角色分工。正式版会由学校账号确认身份，并按职责、用途和时限开放权限。
           </small>
         </section>
       </div>
@@ -254,14 +254,14 @@ export function RoleSwitcherPanel({
       <div className="role-login__boundary">
         <ShieldCheckmark24Regular aria-hidden="true" />
         <div>
-          <strong>Demo 身份舱 · 非学校真实登录</strong>
+          <strong>先换个位置看看</strong>
           <p>
-            这里切换五种角色 Fixture，用来体验任务、导航和数据边界。生产版必须接学校统一身份认证，且权限由后端执行。
+            五个角色各有自己的任务和可见范围。这里不用学校账号；正式版会重新登录并核对权限。
           </p>
         </div>
       </div>
 
-      <div className="role-login__grid" aria-label="Demo 角色选择">
+      <div className="role-login__grid" aria-label="体验角色选择">
         {ROLE_FIXTURE.profiles.map((profile) => {
           const active = profile.id === activeRole;
           const firstIcon = profile.navigation[0]?.icon ?? "people";
@@ -288,7 +288,7 @@ export function RoleSwitcherPanel({
                 <em>{profile.organization}</em>
               </span>
               <span className="role-login-card__action">
-                {active ? "当前角色" : "登录此角色"}
+                {active ? "正在体验" : "切到这个视角"}
                 <ArrowRight24Regular aria-hidden="true" />
               </span>
             </button>
@@ -303,7 +303,7 @@ export function RoleSwitcherPanel({
         </div>
         <div>
           <DocumentSearch24Regular aria-hidden="true" />
-          <span>所有建议保留来源与 Replay</span>
+          <span>建议都能回看依据和修改记录</span>
         </div>
         <div>
           <ShieldCheckmark24Regular aria-hidden="true" />

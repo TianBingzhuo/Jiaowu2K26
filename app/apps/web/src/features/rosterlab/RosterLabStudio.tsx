@@ -219,7 +219,7 @@ export function RosterLabStudio({
   );
   const [traditional, setTraditional] = useState(false);
   const [message, setMessage] = useState(
-    "所有方案都是本地 Fixture 规划，不会提交正式选课。",
+    "这里先排演方案，不会替你提交正式选课。",
   );
   const [importCapabilities, setImportCapabilities] =
     useState<RosterImportCapabilities | null>(null);
@@ -309,7 +309,7 @@ export function RosterLabStudio({
   const runSimulation = () =>
     commit(
       (current) => runWhatIf(current, whatIfDraft),
-      "What-if 分支已解析；结果明确隔离，不会写回 Prefix。",
+      "这条假设分支已经算完；回到基线就能丢弃，不会改动培养方案。",
     );
 
   const saveLock = () => {
@@ -393,7 +393,7 @@ export function RosterLabStudio({
         <div className="roster-topbar__status">
           <span>
             <DocumentSearch24Regular aria-hidden="true" />
-            {backendLabel} · Fixture
+            {backendLabel}
           </span>
           <button
             type="button"
@@ -444,7 +444,7 @@ export function RosterLabStudio({
       <div className="roster-boundary-banner" role="status">
         <Info24Regular aria-hidden="true" />
         <span>
-          <strong>SIMULATION ONLY //</strong> {ROSTER_FIXTURE.sourceBoundary}
+          <strong>先排演，再决定 ·</strong> {ROSTER_FIXTURE.sourceBoundary}
         </span>
       </div>
 
@@ -458,7 +458,7 @@ export function RosterLabStudio({
               {state.step === "editor" && "把学期当成一个可解释环境"}
               {state.step === "compare" && "三套阵容，没有黑箱唯一答案"}
               {state.step === "whatif" && "开一条分支，再决定要不要改变"}
-              {state.step === "unsat" && "无解也必须说清楚为什么"}
+              {state.step === "unsat" && "排不出来，也要把卡点说清楚"}
               {state.step === "transaction" && "先看清变化，再去正式系统"}
             </h1>
           </div>
@@ -490,9 +490,9 @@ export function RosterLabStudio({
                   <h2>真实目录先过检录，再进入赛场</h2>
                 </div>
                 <span className="roster-version">
-                  {importCapabilityState === "checking" && "CHECKING"}
-                  {importCapabilityState === "live" && "API CONTRACT"}
-                  {importCapabilityState === "fallback" && "FIXTURE DOC"}
+                  {importCapabilityState === "checking" && "核对中"}
+                  {importCapabilityState === "live" && "服务在线"}
+                  {importCapabilityState === "fallback" && "本地说明"}
                 </span>
               </header>
               <div className="roster-import-grid">
@@ -518,7 +518,7 @@ export function RosterLabStudio({
                   </b>
                   <p>
                     依赖图 + 硬约束 + 软偏好 + 无解核心 + 可重放 lock；
-                    当前仍是确定性 Fixture 参考后端。
+                    当前由确定性的本地求解器演示。
                   </p>
                 </article>
               </div>
@@ -538,7 +538,7 @@ export function RosterLabStudio({
                 subject={`${ROSTER_FIXTURE.semester} 课程阵容`}
                 question="基于当前 Pin、偏好与学分范围，下一步应先验证什么？"
                 consentRequired={false}
-                boundary="仅发送公开 Demo Fixture 摘要；AI 不解锁 Pin、不占座、不提交选课，也不能覆盖无解核心。"
+                boundary="AI 只会看到下方的演示摘要；它不能解锁固定项、占座、提交选课或掩盖无解原因。"
                 facts={[
                   {
                     label: "硬约束",
@@ -552,7 +552,7 @@ export function RosterLabStudio({
                   },
                   {
                     label: "求解协议",
-                    value: `${importCapabilities?.solver_protocol ?? "conda_style_v1"} / deterministic fixture reference`,
+                    value: `${importCapabilities?.solver_protocol ?? "conda_style_v1"} / 本地确定性参考实现`,
                     source_id: "roster-capability:solver",
                   },
                 ]}
@@ -620,7 +620,7 @@ export function RosterLabStudio({
               <header className="roster-panel__header">
                 <div>
                   <span>PINS</span>
-                  <h2>不可悄悄移动</h2>
+                  <h2>你钉住的课，谁也不能偷偷挪</h2>
                 </div>
                 <LockClosed24Regular aria-hidden="true" />
               </header>
@@ -774,7 +774,7 @@ export function RosterLabStudio({
               data-focusable="true"
             >
               <span>
-                <small>DETERMINISTIC FALLBACK</small>
+                <small>本地确定性求解</small>
                 解析 2–3 套可行阵容
               </span>
               <ArrowRight24Regular aria-hidden="true" />
@@ -1136,7 +1136,7 @@ export function RosterLabStudio({
                 <h2>保存可重放输入，而不是录取结果</h2>
                 <p>
                   记录目录版本、Prefix、Pins、目标顺序、偏好、求解器与 fingerprint。
-                  同一输入必须产生同一候选。
+                  相同输入应当得到相同候选，方便复查。
                 </p>
               </div>
               <div className="roster-lock-actions">
@@ -1189,7 +1189,7 @@ export function RosterLabStudio({
                   </div>
                   <div>
                     <dt>Catalog</dt>
-                    <dd>{(state.savedLock ?? cachedLock)?.catalogVersion}</dd>
+                    <dd>2026 秋季演示目录 · 第 3 版</dd>
                   </div>
                   <div>
                     <dt>Fingerprint</dt>
@@ -1197,7 +1197,7 @@ export function RosterLabStudio({
                   </div>
                   <div>
                     <dt>Authority</dt>
-                    <dd>Fixture · 非正式选课</dd>
+                    <dd>演示方案 · 非正式选课</dd>
                   </div>
                 </dl>
               )}
@@ -1209,19 +1209,19 @@ export function RosterLabStudio({
       <footer className="roster-footer">
         <span>
           <CalendarLtr24Regular aria-hidden="true" />
-          {ROSTER_FIXTURE.semester} · {ROSTER_FIXTURE.catalogVersion}
+          2026 秋季 · 演示目录第 3 版
         </span>
         <span>
           <LockClosed24Regular aria-hidden="true" />
-          {state.activePinIds.length} Pins active
+          已固定 {state.activePinIds.length} 项
         </span>
         <span>
           <BranchFork24Regular aria-hidden="true" />
-          {state.simulation ? "1 What-if branch" : "No active branch"}
+          {state.simulation ? "1 个试排分支" : "暂无试排分支"}
         </span>
         <span>
           <DocumentSearch24Regular aria-hidden="true" />
-          {state.timeline.length} Replay events
+          {state.timeline.length} 条回放记录
         </span>
       </footer>
     </div>

@@ -4,7 +4,7 @@ export const INSTITUTIONAL_FIXTURE: InstitutionalState = {
   assignedStudents: [
     {
       id: "student-nan-fixture",
-      displayName: "南同学 NAN（Fixture）",
+      displayName: "南同学 NAN（演示）",
       program: "电子信息工程",
       season: "本科第 4 / 8 赛季",
       consentScope: "学业路径 + 本人提交申请",
@@ -12,7 +12,7 @@ export const INSTITUTIONAL_FIXTURE: InstitutionalState = {
     },
     {
       id: "student-lin-fixture",
-      displayName: "林同学（Fixture）",
+      displayName: "林同学（演示）",
       program: "自动化",
       season: "本科第 6 / 8 赛季",
       consentScope: "超修申请材料",
@@ -20,7 +20,7 @@ export const INSTITUTIONAL_FIXTURE: InstitutionalState = {
     },
     {
       id: "student-xu-fixture",
-      displayName: "徐同学（Fixture）",
+      displayName: "徐同学（演示）",
       program: "通信工程",
       season: "本科第 2 / 8 赛季",
       consentScope: "学习支持转介状态",
@@ -101,7 +101,7 @@ export const INSTITUTIONAL_FIXTURE: InstitutionalState = {
       evidence: [
         "两道自动保存练习出现同类解释错误",
         "课程 Film Room 显示单位换算错误集中",
-        "样本仍是 Fixture，不能推断真实班级效果",
+        "样本仍是演示数据，不能推断真实班级效果",
       ],
       sourceIds: ["sls240-node-frequency-response", "exam-fixture-f005-q1"],
     },
@@ -176,5 +176,5 @@ export const INSTITUTIONAL_FIXTURE: InstitutionalState = {
   audit: [],
   advice: null,
   adviceState: "idle",
-  message: "角色工作台已载入；所有对象均为脱敏 Fixture。",
+  message: "角色工作台已就位；当前人物和记录均为脱敏演示数据。",
 };

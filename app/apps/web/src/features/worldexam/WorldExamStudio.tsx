@@ -189,7 +189,7 @@ export function WorldExamStudio({
   const [state, setState] = useState(createWorldExamState);
   const [hydrated, setHydrated] = useState(false);
   const [message, setMessage] = useState(
-    "所有考试、进度与答题均为明确 Fixture；不计正式成绩，也不预测通过概率。",
+    "这是一场演示练习，不计正式成绩，也不拿一次作答预测你的未来。",
   );
   const [offlineDemo, setOfflineDemo] = useState(false);
   const [selectedQuestionId, setSelectedQuestionId] = useState(
@@ -355,7 +355,7 @@ export function WorldExamStudio({
       setMessage(
         includesChallenge
           ? "回答已自动保存；“挑战断言”选择同时记录了来源挑战，无需重复操作。"
-          : "回答已自动保存到本机 Fixture；可随时修改。",
+          : "回答已自动保存在本机，可以随时回来修改。",
       );
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "回答未能自动保存。");
@@ -386,7 +386,7 @@ export function WorldExamStudio({
     anchor.download = "university2k26-world-exam-reflection-fixture.json";
     anchor.click();
     URL.revokeObjectURL(url);
-    setMessage("已导出可阅读 JSON；文件明确标记 Fixture，不可冒充正式成绩。");
+    setMessage("复盘 JSON 已导出；文件标为演示记录，不能代替正式成绩。");
   };
 
   const resetDemo = () => {
@@ -471,7 +471,7 @@ export function WorldExamStudio({
 
       <aside className="world-exam__steps" aria-label="World Exam Finals 步骤">
         <div className="exam-step-summary">
-          <span>F-005 · FIXTURE</span>
+          <span>F-005 · 演示赛</span>
           <strong>{copy.event}</strong>
           <small>{STATUS_LABEL[state.eventStatus]} · 不计正式成绩</small>
         </div>
@@ -534,7 +534,7 @@ export function WorldExamStudio({
           <section className="exam-calendar" aria-labelledby="calendar-title">
             <article className="exam-featured-event">
               <div className="event-poster-copy">
-                <span>UPCOMING · 公开演示 Fixture</span>
+                <span>UPCOMING · 公开演示</span>
                 <h2 id="calendar-title">{WORLD_EXAM_FIXTURE.event.title}</h2>
                 <p>
                   这是一场低风险模拟练习：用于验证来源、复习和回放，不是学校正式考试，也不会写入成绩。
@@ -584,7 +584,7 @@ export function WorldExamStudio({
                   </p>
                 </div>
                 <span className="world-finals-stadium__fixture">
-                  50,000 是叙事容量 Fixture
+                  50,000 是舞台设定，不是实到人数
                 </span>
               </header>
               <div className="world-finals-stadium__grid">
@@ -1191,7 +1191,7 @@ export function WorldExamStudio({
               type="button"
               onClick={() => {
                 commit(openReflection);
-                setMessage("赛后复盘默认私密；分享必须逐次同意并设置到期日。");
+                setMessage("赛后复盘默认私密；每次分享都要单独确认并设置到期日。");
               }}
               data-focusable="true"
             >
@@ -1211,7 +1211,7 @@ export function WorldExamStudio({
                 <small>
                   {archived
                     ? "本次模拟已归档，复盘保持只读；既有分享同意仍按到期日自动失效。"
-                    : "导师不会自动看到；打开分享时必须设置到期日，可随时关闭。"}
+                    : "导师不会自动看到；分享时要设置到期日，也可以随时关闭。"}
                 </small>
               </span>
             </div>
@@ -1317,7 +1317,7 @@ export function WorldExamStudio({
                   data-focusable="true"
                 >
                   <ArrowDown24Regular aria-hidden="true" />
-                  导出 Fixture JSON
+                  导出演示 JSON
                 </button>
                 <button
                   type="button"
@@ -1414,7 +1414,7 @@ export function WorldExamStudio({
               })}
             </div>
             <small>
-              来源来自 F-001 已审核 Fixture；查看来源不会自动改变答案或正确率。
+              这些材料已经过教师审核；打开来源不会替你改答案或正确率。
             </small>
           </aside>
         </>

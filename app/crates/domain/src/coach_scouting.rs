@@ -789,7 +789,7 @@ impl CoachScoutingSession {
             history: vec![CoachCorrectionHistory {
                 status: "submitted".to_owned(),
                 occurred_at: created_at,
-                note: "Fixture 教师提交；公开字段尚未被静默覆盖。".to_owned(),
+                note: "演示教师已提交修改；公开页面还没有被悄悄改动。".to_owned(),
             }],
         };
         self.correction_cases.push(correction.clone());

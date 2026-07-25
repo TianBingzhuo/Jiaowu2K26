@@ -6,39 +6,39 @@
   "sources": [
     {
       "id": "src-identity-fixture",
-      "provider": "校园身份办公室（Fixture）",
+      "provider": "校园身份办公室（演示）",
       "official_url": "https://example.invalid/campus-pass/identity",
       "version": "fixture-2026.07",
       "updated_at": "2026-07-24T09:00:00+08:00",
       "verification_status": "verified_fixture",
-      "correction_route": "Fixture 身份来源纠错入口"
+      "correction_route": "演示身份来源纠错入口"
     },
     {
       "id": "src-security-fixture",
-      "provider": "校园安全与门禁中心（Fixture）",
+      "provider": "校园安全与门禁中心（演示）",
       "official_url": "https://example.invalid/campus-pass/security",
       "version": "fixture-2026.07",
       "updated_at": "2026-07-24T09:10:00+08:00",
       "verification_status": "verified_fixture",
-      "correction_route": "Fixture 门禁状态纠错入口"
+      "correction_route": "演示门禁状态纠错入口"
     },
     {
       "id": "src-lab-safety-fixture",
-      "provider": "实验室安全办公室（Fixture）",
+      "provider": "实验室安全办公室（演示）",
       "official_url": "https://example.invalid/campus-pass/lab-safety",
       "version": "fixture-2026.07",
       "updated_at": "2026-07-24T09:20:00+08:00",
       "verification_status": "verified_fixture",
-      "correction_route": "Fixture 培训与前置条件纠错入口"
+      "correction_route": "演示培训与前置条件纠错入口"
     },
     {
       "id": "src-accessibility-fixture",
-      "provider": "无障碍与综合服务台（Fixture）",
+      "provider": "无障碍与综合服务台（演示）",
       "official_url": "https://example.invalid/campus-pass/accessibility",
       "version": "fixture-2026.07",
       "updated_at": "2026-07-24T09:30:00+08:00",
       "verification_status": "verified_fixture",
-      "correction_route": "Fixture 人工核验路径纠错入口"
+      "correction_route": "演示人工核验路径纠错入口"
     }
   ],
   "identities": [
@@ -57,7 +57,7 @@
     {
       "id": "credential-student-active",
       "title": "Student Campus Pass",
-      "issuer": "校园身份办公室（Fixture）",
+      "issuer": "校园身份办公室（演示）",
       "credential_type": "student_pass",
       "supported_carriers": ["physical_card", "nfc", "dynamic_qr", "mobile"],
       "scope_zone_ids": ["zone-library", "zone-classroom", "zone-access-desk"],
@@ -72,7 +72,7 @@
     {
       "id": "credential-robotics-pending",
       "title": "Robotics Lab Entitlement",
-      "issuer": "实验室安全办公室（Fixture）",
+      "issuer": "实验室安全办公室（演示）",
       "credential_type": "lab_entitlement",
       "supported_carriers": ["physical_card", "nfc"],
       "scope_zone_ids": ["zone-robotics-lab"],
@@ -87,7 +87,7 @@
     {
       "id": "credential-visitor-expired",
       "title": "Visitor Session Pass",
-      "issuer": "综合服务台（Fixture）",
+      "issuer": "综合服务台（演示）",
       "credential_type": "visitor_pass",
       "supported_carriers": ["dynamic_qr", "physical_card"],
       "scope_zone_ids": ["zone-library", "zone-access-desk"],
@@ -179,7 +179,7 @@
     "accepted_carriers": ["physical_card", "nfc", "mobile"],
     "unavailable_zone_ids": ["zone-robotics-lab"],
     "screenshot_is_credential": false,
-    "cryptographic_verification": "真实部署必须验证受签凭证；Fixture 不执行密码学验证",
+    "cryptographic_verification": "真实部署需要验证签名凭证；演示模式不执行密码学验证",
     "source_id": "src-security-fixture"
   },
   "self_access_records": [
@@ -188,22 +188,22 @@
       "occurred_at": "2026-07-24T08:15:00+08:00",
       "zone_id": "zone-library",
       "result": "source_reported_allowed",
-      "purpose": "本人记录自查 Fixture",
+      "purpose": "本人演示记录自查",
       "source_id": "src-security-fixture",
       "retained_until": "2026-08-23T23:59:00+08:00",
       "precise_location_retained": false,
-      "correction_route": "Fixture 本人通行记录纠错入口"
+      "correction_route": "本人演示通行记录纠错入口"
     },
     {
       "id": "access-record-002",
       "occurred_at": "2026-07-24T09:40:00+08:00",
       "zone_id": "zone-robotics-lab",
       "result": "source_reported_denied",
-      "purpose": "缺少审批的拒绝状态 Fixture",
+      "purpose": "缺少审批时的拒绝状态演示",
       "source_id": "src-lab-safety-fixture",
       "retained_until": "2026-08-23T23:59:00+08:00",
       "precise_location_retained": false,
-      "correction_route": "Fixture 本人通行记录纠错入口"
+      "correction_route": "本人演示通行记录纠错入口"
     }
   ],
   "emergency_modes": [
@@ -211,7 +211,7 @@
       "id": "emergency-normal",
       "title": "Normal Operations",
       "status": "normal_fixture",
-      "authority": "校园安全与门禁中心（Fixture）",
+      "authority": "校园安全与门禁中心（演示）",
       "official_url": "https://example.invalid/campus-pass/emergency",
       "experience_layer_can_execute": false,
       "source_id": "src-security-fixture"
@@ -222,7 +222,7 @@
       "id": "fallback-access-desk",
       "label": "无手机 / 设备没电人工核验",
       "conditions": ["携带可接受的身份证明", "由正式服务台核验", "不要求智能手机"],
-      "channel": "Accessible Service Desk（Fixture）",
+      "channel": "无障碍综合服务台（演示）",
       "accessible": true,
       "requires_phone": false,
       "source_id": "src-accessibility-fixture"
@@ -231,7 +231,7 @@
       "id": "fallback-accompanied-entry",
       "label": "残障陪同与临时人工通道",
       "conditions": ["本人提出请求", "正式工作人员确认", "最小必要信息"],
-      "channel": "Accessibility Support（Fixture）",
+      "channel": "无障碍支持服务（演示）",
       "accessible": true,
       "requires_phone": false,
       "source_id": "src-accessibility-fixture"

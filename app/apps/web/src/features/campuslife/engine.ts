@@ -335,7 +335,7 @@ export const planCampusRoute = (
     .sort((a, b) => a.estimated_minutes - b.estimated_minutes);
   const selected = options[0];
   if (!selected) {
-    throw new Error("当前 Fixture 没有满足该无障碍边界的登记路线。");
+    throw new Error("当前演示中还没有满足这项无障碍需求的路线。");
   }
   return appendAudit(
     {

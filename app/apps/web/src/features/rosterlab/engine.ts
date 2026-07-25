@@ -131,7 +131,7 @@ export function validateSelections(
       violations.push({
         type: "capacity",
         courseIds: [course.code],
-        description: `${course.code} ${offering.id} 的 Fixture 容量已满。`,
+        description: `${course.code} ${offering.id} 的演示名额已经排满。`,
       });
     }
     for (const prerequisite of course.prerequisites) {
@@ -299,7 +299,7 @@ export function buildTransaction(
         oldOffering: current.offeringId,
         newOffering: course.offeringId,
         creditChange: 0,
-        risk: "换班可能受实时容量影响；本 Fixture 不占座。",
+        risk: "换班会受实时名额影响；当前演示不会占座。",
         formalStep: "在学校正式系统确认目标班次仍可选，再执行换班。",
       });
     }
@@ -545,7 +545,7 @@ const makePlan = (
     risks: [
       {
         severity: seats <= 3 ? "high" : seats <= 8 ? "medium" : "low",
-        description: `${lowSeatCourse.course.code} Fixture 剩余 ${seats} 个名额；真实容量必须回学校系统复核。`,
+        description: `${lowSeatCourse.course.code} 在演示中还剩 ${seats} 个名额；真实容量请回学校系统核对。`,
       },
     ],
   };

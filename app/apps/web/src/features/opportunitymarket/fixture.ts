@@ -50,7 +50,7 @@ export const OPPORTUNITY_MARKET_FIXTURE: OpportunityMarketFixture = {
       cost: {
         amount: 0,
         currency: "CNY",
-        description: "不收申请费；通勤成本自理，可申请 Fixture 差旅权益。",
+        description: "不收申请费；通勤成本自理，演示中提供差旅支持入口。",
       },
       benefits: ["研究导师反馈", "可公开作品证据", "实验室时段"],
       obligations: ["每周投入 8 小时", "遵守数据与实验室安全规范"],
@@ -63,7 +63,7 @@ export const OPPORTUNITY_MARKET_FIXTURE: OpportunityMarketFixture = {
       ],
       eligibilitySummary: "课程基础、研究兴趣、每周 8 小时与英文摘要阅读",
       status: "active",
-      correctionRoute: "opportunity-office@example.edu · Fixture 纠错入口",
+      correctionRoute: "opportunity-office@example.edu · 演示纠错入口",
       externalApplicationUrl:
         "https://apply.example.edu/opportunities/signal-lab-2026",
       paidRankingFactor: 0,
@@ -173,7 +173,7 @@ export const OPPORTUNITY_MARKET_FIXTURE: OpportunityMarketFixture = {
       ],
       eligibilitySummary: "HCI 兴趣与两日可用时间",
       status: "active",
-      correctionRoute: "hci-workshop@example.edu · Fixture 纠错入口",
+      correctionRoute: "hci-workshop@example.edu · 演示纠错入口",
       externalApplicationUrl:
         "https://apply.example.edu/workshops/hci-accessibility",
       paidRankingFactor: 0,
@@ -203,7 +203,7 @@ export const OPPORTUNITY_MARKET_FIXTURE: OpportunityMarketFixture = {
       },
       benefits: ["代码审查", "开源协作", "公开贡献记录"],
       obligations: ["每周至少 12 小时", "遵守开源行为准则"],
-      risks: ["Fixture 不承诺录取或薪酬"],
+      risks: ["演示信息不承诺录取或薪酬"],
       eligibilityRuleIds: [
         "rule-intern-portfolio",
         "rule-intern-language",
@@ -211,7 +211,7 @@ export const OPPORTUNITY_MARKET_FIXTURE: OpportunityMarketFixture = {
       ],
       eligibilitySummary: "公开作品、英文协作与每周 12 小时",
       status: "active",
-      correctionRoute: "internships@example.edu · Fixture 纠错入口",
+      correctionRoute: "internships@example.edu · 演示纠错入口",
       externalApplicationUrl:
         "https://apply.example.edu/internships/open-education",
       paidRankingFactor: 0,
@@ -248,7 +248,7 @@ export const OPPORTUNITY_MARKET_FIXTURE: OpportunityMarketFixture = {
       ],
       eligibilitySummary: "原型证据与透明预算",
       status: "active",
-      correctionRoute: "maker-fund@example.edu · Fixture 纠错入口",
+      correctionRoute: "maker-fund@example.edu · 演示纠错入口",
       externalApplicationUrl:
         "https://apply.example.edu/grants/maker-microgrant",
       paidRankingFactor: 0,
@@ -286,7 +286,7 @@ export const OPPORTUNITY_MARKET_FIXTURE: OpportunityMarketFixture = {
       ],
       eligibilitySummary: "服务设计兴趣、每周 5 小时与伦理培训",
       status: "active",
-      correctionRoute: "campus-data@example.edu · Fixture 纠错入口",
+      correctionRoute: "campus-data@example.edu · 演示纠错入口",
       externalApplicationUrl:
         "https://apply.example.edu/projects/campus-data",
       paidRankingFactor: 0,
@@ -739,7 +739,7 @@ export const OPPORTUNITY_MARKET_FIXTURE: OpportunityMarketFixture = {
       eligibilityRuleIds: ["rule-journal-abstract"],
       eligibilitySummary: "一页摘要",
       status: "expired",
-      correctionRoute: "journal@example.edu · Fixture 归档纠错入口",
+      correctionRoute: "journal@example.edu · 演示归档纠错入口",
       externalApplicationUrl:
         "https://apply.example.edu/archive/journal-clinic",
       paidRankingFactor: 0,
@@ -835,7 +835,7 @@ export const OPPORTUNITY_MARKET_FIXTURE: OpportunityMarketFixture = {
       fieldId: "field-review-rights",
       operator: "eq",
       expectedValue: "approved_fixture",
-      description: "公开内容完成素材权利与隐私审查；Fixture 结果仍需正式复核",
+      description: "公开内容已做素材权利与隐私检查；演示结果仍要正式复核",
       sourceRef:
         "https://chi2027.acm.org/authors/student-research-competition/",
       required: true,
@@ -1167,10 +1167,10 @@ export const OPPORTUNITY_MARKET_FIXTURE: OpportunityMarketFixture = {
   profileFields: [
     {
       id: "field-current-student",
-      label: "身份 · 当前本科在读（脱敏 Fixture）",
+      label: "身份 · 当前本科在读（脱敏演示）",
       kind: "verified_evidence",
       value: "undergraduate_enrolled",
-      valueLabel: "Academic Mirror Fixture · 正式投稿需学校证明",
+      valueLabel: "Academic Mirror 演示镜像 · 正式投稿需学校证明",
       authority: "verified_fixture",
       sourceId: "F-003:nr-profile-student-nan",
       verifiedAt: "2026-07-24T07:00:00+08:00",
@@ -1248,7 +1248,7 @@ export const OPPORTUNITY_MARKET_FIXTURE: OpportunityMarketFixture = {
       label: "课程 · 信号与线性系统",
       kind: "verified_evidence",
       value: "completed",
-      valueLabel: "Fixture 镜像 · 已完成",
+      valueLabel: "演示镜像 · 已完成",
       authority: "verified_fixture",
       sourceId: "F-003:nr-course-sls201",
       verifiedAt: "2026-07-23T16:00:00+08:00",
@@ -1261,7 +1261,7 @@ export const OPPORTUNITY_MARKET_FIXTURE: OpportunityMarketFixture = {
       label: "作品 · University2K26 信号课程 Demo",
       kind: "verified_evidence",
       value: "available",
-      valueLabel: "教师审核 Fixture · 可选导出",
+      valueLabel: "教师审核演示 · 可选导出",
       authority: "verified_fixture",
       sourceId: "F-001:publication-sls-001",
       verifiedAt: "2026-07-24T06:00:00+08:00",
@@ -1323,7 +1323,7 @@ export const OPPORTUNITY_MARKET_FIXTURE: OpportunityMarketFixture = {
     },
     {
       id: "field-review-rights",
-      label: "公开权利 · 仅 Fixture 教师审核",
+      label: "公开权利 · 仅演示教师审核",
       kind: "verified_evidence",
       value: "approved_fixture",
       valueLabel: "不等于真实公开许可",
@@ -1429,7 +1429,7 @@ export const OPPORTUNITY_MARKET_FIXTURE: OpportunityMarketFixture = {
       available: 2,
       committed: 0,
       unit: "小时",
-      sourceLabel: "Fixture 权益 · 需正式预约",
+      sourceLabel: "演示权益 · 需正式预约",
       canPurchaseEligibility: false,
     },
     {
@@ -1438,7 +1438,7 @@ export const OPPORTUNITY_MARKET_FIXTURE: OpportunityMarketFixture = {
       available: 300,
       committed: 0,
       unit: "CNY",
-      sourceLabel: "Fixture 政策候选 · 非现金余额",
+      sourceLabel: "演示政策候选 · 非现金余额",
       canPurchaseEligibility: false,
     },
   ],
@@ -1451,7 +1451,7 @@ export const OPPORTUNITY_MARKET_FIXTURE: OpportunityMarketFixture = {
       inheritedCredits: "预计保留 72–78 学分；6 学分需院系确认",
       estimatedTime: "可能增加 0–1 学期",
       estimatedCost: "仅展示学费与机会成本区间；当前无正式费率",
-      assumptions: ["当前课程 Fixture 可映射", "目标院系允许跨专业申请"],
+      assumptions: ["当前演示课程可以映射", "目标院系允许跨专业申请"],
       risks: ["学分映射未获批准", "容量与先修可能变化"],
       rollbackPoint: "提交正式转专业申请前可回到当前培养路径",
       approvalPath: ["学业顾问复核", "目标院系审核", "权威系统正式提交"],
@@ -1534,7 +1534,7 @@ export const OPPORTUNITY_MARKET_FIXTURE: OpportunityMarketFixture = {
   simplified: false,
   reducedMotion: false,
   message:
-    "已载入 10 条官方页面核验机会（UArizona×6、AdventureX、CHI 2027×2、ICRA 2027）与 6 条明确标注的 Fixture；不读取私人邮箱、不付费排序、不自动投递。",
+    "机会板已就位：10 个官方入口，6 个演示条目。条件全都摊开写，也没人能花钱插队。",
   invariants: {
     noPaidRanking: true,
     noRandomQualification: true,

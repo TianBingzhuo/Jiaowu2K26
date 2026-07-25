@@ -4,7 +4,7 @@
   "student_id": "student-nan-fixture",
   "semester": "2026-Fall",
   "catalog_version": "catalog-2026-fall-fixture-r3",
-  "source_boundary": "12 门课程、容量、班次、先修、偏好和方案均为脱敏 Fixture，只用于规划技术验证；不连接学校选课系统，也不代表正式学籍、容量或交易。",
+  "source_boundary": "这 12 门课程及其容量、班次、先修和方案均为脱敏演示数据，只用于试排；它不会连接学校选课系统，也不代表正式学籍或真实余量。",
   "credit_range": { "min": 15, "max": 18 },
   "catalog": [
     {

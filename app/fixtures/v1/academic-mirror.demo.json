@@ -3,13 +3,13 @@
   "data_mode": "fixture",
   "student_id": "student-nan-fixture",
   "reference_time": "2026-07-24T18:00:00+08:00",
-  "source_boundary": "Academic Mirror only uses fictional and sanitized Fixture data. It is a provenance-aware read-only copy, not SIS, URP or LMS, and it never writes grades, enrollment or student status.",
+  "source_boundary": "Academic Mirror 当前只使用虚构或脱敏的演示数据。它是能回看来源的只读镜像，不是 SIS、URP 或 LMS，也不会改写成绩、选课或学籍状态。",
   "read_only": true,
   "authority_catalog": [
     {
       "level": "authoritative",
       "title": "权威记录",
-      "description": "学校正式记录分类；当前值仍受 Fixture 边界约束。",
+      "description": "用于展示学校正式记录的分类；当前页面中的值仍是演示数据。",
       "high_risk_eligible": true
     },
     {
@@ -49,7 +49,7 @@
       "name": "SIS 权威记录演示源",
       "system_type": "sis",
       "adapter_kind": "demo_fixture",
-      "responsible_party": "教务处（Fixture）",
+      "responsible_party": "教务处（演示）",
       "auth_method": "manual",
       "field_scope": ["student.name", "student.major", "grade.result"],
       "refresh_method": "on_demand",
@@ -68,7 +68,7 @@
       "name": "课程目录演示源",
       "system_type": "sis",
       "adapter_kind": "demo_fixture",
-      "responsible_party": "本科生院（Fixture）",
+      "responsible_party": "本科生院（演示）",
       "auth_method": "manual",
       "field_scope": ["course.title", "course.credits"],
       "refresh_method": "on_demand",
@@ -395,7 +395,7 @@
       "snapshot_ids": ["snap-fixture-001"],
       "entity_type": "term",
       "entity_id": "2026-fall-fixture",
-      "label": "2026 Fall Season（Fixture）",
+      "label": "2026 秋季演示赛季",
       "student_id": "student-nan-fixture",
       "fields": {
         "season": {
@@ -460,7 +460,7 @@
           "id": "opt-sis-major",
           "source_system": "SIS 权威记录演示源",
           "data_source_id": "ds-sis-demo",
-          "value": "电子信息工程（Fixture）",
+          "value": "电子信息工程（演示）",
           "declared_authority": "authoritative",
           "fetched_at": "2026-07-24T10:30:00+08:00",
           "raw_snapshot_id": "snap-sis-001"
@@ -544,7 +544,7 @@
       "actor_id": "student-nan-fixture",
       "target_entity": "source:ds-sis-demo",
       "timestamp": "2026-07-24T10:30:00+08:00",
-      "detail": "DemoFixtureAdapter 生成不可变快照 snap-sis-001。",
+      "detail": "已生成只读快照 snap-sis-001；旧版本仍可回看。",
       "previous_event_hash": null,
       "event_hash": "fnv1a-aud-001",
       "append_only": true

@@ -20,7 +20,7 @@ export const AUTHORITY_LABELS: Record<
 > = {
   authoritative: {
     short: "权威记录",
-    detail: "学校正式记录分类；当前画面仍是 Fixture。",
+    detail: "学校正式记录分类；当前页面展示的是演示镜像。",
     highRiskEligible: true,
   },
   official_reference: {
@@ -325,7 +325,7 @@ export function syncSource(state: MirrorState, sourceId: string): MirrorState {
         : candidate,
     ),
     lastTrustedSnapshotAt: fetchedAt,
-    message: `同步检查完成：${source.name} 内容哈希未变化；已通过 ${source.adapterKind === "demo_fixture" ? "DemoFixtureAdapter" : "FileImportAdapter"} 追加审计收据 ${nextSnapshot.id}，旧快照未修改。`,
+    message: `${source.name} 已检查，内容没有变化。新快照 ${nextSnapshot.id} 已加入记录，旧版本仍保留。`,
   };
   next = appendAudit(
     next,
@@ -556,7 +556,7 @@ export function recordExport(
     },
     "export",
     `student:${state.studentId}`,
-    `导出类型 ${archiveType}；Fixture 边界和非权威标记已保留。`,
+    `已导出 ${archiveType}；文件仍清楚标明“演示、非学校证明”。`,
   );
 }
 

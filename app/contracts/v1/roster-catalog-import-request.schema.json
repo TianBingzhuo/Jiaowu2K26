@@ -49,7 +49,7 @@
         "properties": {
           "dataset_scope": { "const": "public_course_catalog" },
           "source_locator": {
-            "pattern": "^https://(catalog|uaccess\\.schedule)\\.arizona\\.edu/"
+            "pattern": "^https://(catalog\\.arizona\\.edu|uaccess\\.schedule\\.arizona\\.edu|uacourses-api\\.uaccess\\.arizona\\.edu)/"
           }
         }
       }

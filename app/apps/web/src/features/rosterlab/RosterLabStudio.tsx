@@ -54,6 +54,7 @@ import {
   type RosterImportCapabilities,
 } from "../../lib/api";
 import { SourceBoundCoach } from "../ai/SourceBoundCoach";
+import { UArizonaCatalogBrowser } from "./UArizonaCatalogBrowser";
 import "./rosterlab.css";
 
 type RosterLabStudioProps = {
@@ -526,6 +527,8 @@ export function RosterLabStudio({
                   "当前没有真实 UArizona / HEBUT 目录被提升；验证回执不等于导入、占座或正式选课。"}
               </p>
             </section>
+
+            <UArizonaCatalogBrowser />
 
             <div className="roster-import-gate">
               <SourceBoundCoach

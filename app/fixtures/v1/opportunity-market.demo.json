@@ -8,8 +8,11 @@
   "selected_profile_field_ids": [
     "field-goal-research",
     "field-interest-signal",
+    "field-interest-hci",
+    "field-current-student",
     "field-course-sls201",
     "field-portfolio-signal",
+    "field-review-rights",
     "field-team-size",
     "field-adventurex-attendance",
     "field-adventurex-submission"
@@ -27,6 +30,7 @@
       "title": "信号系统开放研究助理",
       "summary": "围绕传感与时序分析完成 6 周公开研究 Sprint。",
       "provider": "示例大学 · 开放信号实验室",
+      "scope": "campus",
       "category": "research",
       "pack_id": "pack-research-starter",
       "source_url": "https://opportunities.example.edu/signal-lab-2026",
@@ -64,6 +68,7 @@
       "title": "AdventureX 2026 · 大学生活 Reverse",
       "summary": "University2K26 当前参赛事件彩蛋：用 Reverse 把被动教务翻转为学生可解释、可回放的大学生涯。",
       "provider": "AdventureX · 2026 终极指南核验快照",
+      "scope": "external",
       "search_aliases": [
         "AdventureX",
         "Adventure X",
@@ -130,6 +135,7 @@
       "title": "包容性 HCI 设计工作坊",
       "summary": "两日可访问性与多输入原型工作坊，含可用性测试门诊。",
       "provider": "示例人机交互协会",
+      "scope": "external",
       "category": "workshop",
       "pack_id": "pack-build-and-show",
       "source_url": "https://opportunities.example.edu/hci-accessibility-workshop",
@@ -162,6 +168,7 @@
       "title": "教育开源工程实习",
       "summary": "参与跨平台学习工具的合同、测试与可访问性实现。",
       "provider": "示例开放软件基金会",
+      "scope": "external",
       "category": "internship",
       "pack_id": "pack-build-and-show",
       "source_url": "https://opportunities.example.edu/open-education-intern",
@@ -194,42 +201,11 @@
       "updated_at": "2026-07-24T07:00:00+08:00"
     },
     {
-      "id": "opp-student-conference",
-      "title": "本科生研究海报论坛",
-      "summary": "跨学科海报展示与公开同行反馈，不要求已有论文发表。",
-      "provider": "示例本科生研究办公室",
-      "category": "conference",
-      "pack_id": "pack-research-starter",
-      "source_url": "https://opportunities.example.edu/student-poster-forum",
-      "source_version": "2026-call-v2",
-      "fetched_at": "2026-07-20T14:00:00+08:00",
-      "verified_at": "2026-07-23T15:30:00+08:00",
-      "deadline": "2026-09-05T23:59:00+08:00",
-      "location": "线下 · 示例图书馆",
-      "cost": {
-        "amount": 0,
-        "currency": "CNY",
-        "description": "学生展示免费；差旅不适用。"
-      },
-      "benefits": ["海报反馈", "跨学科交流", "公开展示证明"],
-      "obligations": ["提交 300 字摘要", "本人确认素材公开权利"],
-      "risks": ["公开展示前需完成教师或导师审核"],
-      "eligibility_rule_ids": ["rule-poster-portfolio", "rule-poster-review"],
-      "eligibility_summary": "摘要作品与公开权利审核",
-      "status": "active",
-      "correction_route": "research-office@example.edu · Fixture 纠错入口",
-      "external_application_url": "https://apply.example.edu/conferences/student-poster",
-      "paid_ranking_factor": 0,
-      "random_allocation": false,
-      "auction_enabled": false,
-      "created_at": "2026-07-05T09:00:00+08:00",
-      "updated_at": "2026-07-23T15:30:00+08:00"
-    },
-    {
       "id": "opp-maker-scholarship",
       "title": "开放制造微型资助",
       "summary": "支持学生原型的材料费与开放文档成本，按规则人工审核。",
-      "provider": "示例工程教育基金",
+      "provider": "示例大学 · 工程教育基金",
+      "scope": "campus",
       "category": "scholarship",
       "pack_id": "pack-build-and-show",
       "source_url": "https://opportunities.example.edu/maker-microgrant",
@@ -262,6 +238,7 @@
       "title": "校园服务数据共创项目",
       "summary": "在匿名聚合边界内研究排队与服务可达性。",
       "provider": "示例校园服务办公室",
+      "scope": "campus",
       "category": "campus_project",
       "pack_id": "pack-research-starter",
       "source_url": "https://opportunities.example.edu/campus-data-cocreate",
@@ -294,10 +271,150 @@
       "updated_at": "2026-07-21T09:00:00+08:00"
     },
     {
+      "id": "opp-chi-2027-src",
+      "title": "ACM CHI 2027 · Student Research Competition",
+      "summary": "面向在校本科生与研究生的学生研究竞赛；University2K26 可从人因、学习体验与可访问性研究切入。",
+      "provider": "ACM SIGCHI · 官方征稿页",
+      "scope": "external",
+      "search_aliases": ["CHI 2027", "SRC", "HCI", "学生研究竞赛", "人机交互"],
+      "category": "conference",
+      "pack_id": "pack-research-starter",
+      "source_url": "https://chi2027.acm.org/authors/student-research-competition/",
+      "source_version": "CHI 2027 SRC · 2026-07-25 核验",
+      "fetched_at": "2026-07-25T17:20:00+08:00",
+      "verified_at": "2026-07-25T17:20:00+08:00",
+      "deadline": "2027-01-21T23:59:00-12:00",
+      "location": "Pittsburgh · 录取后须线下参赛",
+      "cost": {
+        "amount": null,
+        "currency": null,
+        "description": "Extended Abstract 不收开放获取 APC；注册、会员与差旅成本须在录取后按官方页面另行核验。"
+      },
+      "benefits": ["学生研究反馈", "海报展示", "ACM SRC 竞赛通道"],
+      "obligations": [
+        "初次提交截止时须为在校学生并提供证明",
+        "提交不超过 5 页的研究材料并遵守可访问性要求",
+        "录取后展示者须持有效 ACM 学生会员并线下注册参赛"
+      ],
+      "risks": [
+        "导师不可作为 SRC 共同作者；研究生项目须单作者",
+        "涉及人的研究须满足所在机构伦理审查要求",
+        "公开素材、隐私与 AI 使用政策需逐项人工复核"
+      ],
+      "eligibility_rule_ids": [
+        "rule-chi-src-student",
+        "rule-chi-src-portfolio",
+        "rule-chi-src-interest",
+        "rule-chi-src-rights"
+      ],
+      "eligibility_summary": "在校身份、可整理为学生研究的证据、HCI 相关性与公开权利；作者结构和伦理要求需人工核验",
+      "status": "active",
+      "correction_route": "CHI 2027 SRC 官方 Contact Us",
+      "external_application_url": "https://chi2027.acm.org/authors/student-research-competition/",
+      "paid_ranking_factor": 0,
+      "random_allocation": false,
+      "auction_enabled": false,
+      "created_at": "2026-07-25T17:20:00+08:00",
+      "updated_at": "2026-07-25T17:20:00+08:00"
+    },
+    {
+      "id": "opp-chi-2027-demo",
+      "title": "ACM CHI 2027 · Interactive Demos",
+      "summary": "面向可现场体验的交互系统、装置与设计；适合把 University2K26 打磨成多输入、可访问、可解释的现场体验。",
+      "provider": "ACM SIGCHI · 官方征稿页",
+      "scope": "external",
+      "search_aliases": ["CHI 2027", "Interactive Demos", "HCI", "交互演示"],
+      "category": "conference",
+      "pack_id": "pack-build-and-show",
+      "source_url": "https://chi2027.acm.org/authors/interactive-demos/",
+      "source_version": "CHI 2027 Interactive Demos · 2026-07-25 核验",
+      "fetched_at": "2026-07-25T17:20:00+08:00",
+      "verified_at": "2026-07-25T17:20:00+08:00",
+      "deadline": "2027-01-21T23:59:00-12:00",
+      "location": "Pittsburgh · 录取后须线下演示",
+      "cost": {
+        "amount": null,
+        "currency": null,
+        "description": "Extended Abstract 不收开放获取 APC；注册、差旅、设备运输与现场制作成本未知。"
+      },
+      "benefits": ["现场交互展示", "跨学科反馈", "ACM Digital Library 展示条目"],
+      "obligations": [
+        "提交不超过 6 页的 Proposal",
+        "提供不超过 5 分钟 Walkthrough 视频与宣传静帧",
+        "说明现场交互、展位平面和设备，并在录取后线下展示"
+      ],
+      "risks": [
+        "现场可行性、责任检查、空间和设备运输会影响方案",
+        "涉及人的研究须满足伦理要求",
+        "视频、人物与第三方素材权利由作者负责"
+      ],
+      "eligibility_rule_ids": [
+        "rule-chi-demo-portfolio",
+        "rule-chi-demo-interest",
+        "rule-chi-demo-rights"
+      ],
+      "eligibility_summary": "可运行原型、HCI/交互价值和可公开演示权利；现场物流与伦理要求需人工核验",
+      "status": "active",
+      "correction_route": "demos@chi2027.acm.org",
+      "external_application_url": "https://chi2027.acm.org/authors/interactive-demos/",
+      "paid_ranking_factor": 0,
+      "random_allocation": false,
+      "auction_enabled": false,
+      "created_at": "2026-07-25T17:20:00+08:00",
+      "updated_at": "2026-07-25T17:20:00+08:00"
+    },
+    {
+      "id": "opp-icra-2027-paper",
+      "title": "IEEE ICRA 2027 · Technical Papers",
+      "summary": "机器人与自动化旗舰会议技术论文通道；可承接机器人传感、实时系统与可解释学习工作台的工程研究线。",
+      "provider": "IEEE Robotics and Automation Society · 官方征稿页",
+      "scope": "external",
+      "search_aliases": ["ICRA 2027", "robotics", "机器人", "automation", "IEEE"],
+      "category": "conference",
+      "pack_id": "pack-research-starter",
+      "source_url": "https://2027.ieee-icra.org/contribute/call-for-icra-2027-papers-now-accepting-submissions/",
+      "source_version": "ICRA 2027 Call for Papers · 2026-07-25 核验",
+      "fetched_at": "2026-07-25T17:20:00+08:00",
+      "verified_at": "2026-07-25T17:20:00+08:00",
+      "deadline": "2026-09-15T23:59:00-08:00",
+      "location": "Seoul · 2027-05-24 至 05-28 · 线下",
+      "cost": {
+        "amount": null,
+        "currency": null,
+        "description": "投稿阶段费用与录取后的注册、差旅、开放获取选择均须以官方后续页面核验。"
+      },
+      "benefits": ["机器人研究同行评审", "论文与视频展示", "产业与学术交流"],
+      "obligations": [
+        "完整稿最多 8 页并使用 ICRA 双栏模板",
+        "遵守双匿名审稿与 IEEE-RAS AI 使用披露政策",
+        "录取后须有作者线下注册与报告"
+      ],
+      "risks": [
+        "当前原型不等于具备可投稿的原创研究贡献",
+        "审稿中的机密内容不得交给 AI 系统处理",
+        "视频有独立上传窗口与格式限制，需人工复核"
+      ],
+      "eligibility_rule_ids": [
+        "rule-icra-portfolio",
+        "rule-icra-interest",
+        "rule-icra-rights"
+      ],
+      "eligibility_summary": "机器人方向、可复现实验证据和公开权利；原创性、作者关系与双匿名合规需人工核验",
+      "status": "active",
+      "correction_route": "ICRA 2027 官方 Contact",
+      "external_application_url": "https://2027.ieee-icra.org/contribute/call-for-icra-2027-papers-now-accepting-submissions/",
+      "paid_ranking_factor": 0,
+      "random_allocation": false,
+      "auction_enabled": false,
+      "created_at": "2026-07-25T17:20:00+08:00",
+      "updated_at": "2026-07-25T17:20:00+08:00"
+    },
+    {
       "id": "opp-journal-clinic",
       "title": "学生期刊开放投稿门诊",
       "summary": "已结束的投稿准备门诊，保留为过期规则演示样例。",
-      "provider": "示例学生学术期刊",
+      "provider": "示例大学 · 学生学术期刊",
+      "scope": "campus",
       "category": "journal",
       "pack_id": "pack-research-starter",
       "source_url": "https://opportunities.example.edu/journal-clinic-archive",
@@ -330,10 +447,11 @@
     {
       "id": "pack-research-starter",
       "title": "研究起步 · 透明机会包",
-      "description": "完整列出 4 项研究与发表准备机会；没有抽取、稀有度或付费解锁。",
+      "description": "完整列出 5 项研究与发表准备机会；没有抽取、稀有度或付费解锁。",
       "opportunity_ids": [
         "opp-signal-lab",
-        "opp-student-conference",
+        "opp-chi-2027-src",
+        "opp-icra-2027-paper",
         "opp-campus-data-project",
         "opp-journal-clinic"
       ],
@@ -343,9 +461,10 @@
     {
       "id": "pack-build-and-show",
       "title": "建造与展示 · 透明机会包",
-      "description": "完整列出 4 项原型、实习、工作坊与资助机会；排序不受付费影响。",
+      "description": "完整列出 5 项原型、实习、工作坊与资助机会；排序不受付费影响。",
       "opportunity_ids": [
         "opp-adventurex",
+        "opp-chi-2027-demo",
         "opp-hci-workshop",
         "opp-open-source-intern",
         "opp-maker-scholarship"
@@ -355,6 +474,106 @@
     }
   ],
   "rules": [
+    {
+      "id": "rule-chi-src-student",
+      "opportunity_id": "opp-chi-2027-src",
+      "field_id": "field-current-student",
+      "operator": "eq",
+      "expected_value": "undergraduate_enrolled",
+      "description": "初次提交截止时仍为大学在校学生，并可提供证明",
+      "source_ref": "https://chi2027.acm.org/authors/student-research-competition/#eligibility-and-guidelines",
+      "required": true
+    },
+    {
+      "id": "rule-chi-src-portfolio",
+      "opportunity_id": "opp-chi-2027-src",
+      "field_id": "field-portfolio-signal",
+      "operator": "eq",
+      "expected_value": "available",
+      "description": "有可整理为本人学生研究贡献的证据",
+      "source_ref": "https://chi2027.acm.org/authors/student-research-competition/",
+      "required": true
+    },
+    {
+      "id": "rule-chi-src-interest",
+      "opportunity_id": "opp-chi-2027-src",
+      "field_id": "field-interest-hci",
+      "operator": "contains",
+      "expected_value": "HCI",
+      "description": "主题能与 HCI、人因或可访问性交叉",
+      "source_ref": "https://chi2027.acm.org/authors/student-research-competition/",
+      "required": false
+    },
+    {
+      "id": "rule-chi-src-rights",
+      "opportunity_id": "opp-chi-2027-src",
+      "field_id": "field-review-rights",
+      "operator": "eq",
+      "expected_value": "approved_fixture",
+      "description": "公开内容完成素材权利与隐私审查；Fixture 结果仍需正式复核",
+      "source_ref": "https://chi2027.acm.org/authors/student-research-competition/",
+      "required": true
+    },
+    {
+      "id": "rule-chi-demo-portfolio",
+      "opportunity_id": "opp-chi-2027-demo",
+      "field_id": "field-portfolio-signal",
+      "operator": "eq",
+      "expected_value": "available",
+      "description": "有可现场操作的交互原型与演示证据",
+      "source_ref": "https://chi2027.acm.org/authors/interactive-demos/",
+      "required": true
+    },
+    {
+      "id": "rule-chi-demo-interest",
+      "opportunity_id": "opp-chi-2027-demo",
+      "field_id": "field-interest-hci",
+      "operator": "contains",
+      "expected_value": "HCI",
+      "description": "原型能够说明清晰的 HCI 或交互体验贡献",
+      "source_ref": "https://chi2027.acm.org/authors/interactive-demos/",
+      "required": false
+    },
+    {
+      "id": "rule-chi-demo-rights",
+      "opportunity_id": "opp-chi-2027-demo",
+      "field_id": "field-review-rights",
+      "operator": "eq",
+      "expected_value": "approved_fixture",
+      "description": "视频、人物、第三方素材与公开演示权利完成复核",
+      "source_ref": "https://chi2027.acm.org/authors/interactive-demos/",
+      "required": true
+    },
+    {
+      "id": "rule-icra-portfolio",
+      "opportunity_id": "opp-icra-2027-paper",
+      "field_id": "field-portfolio-signal",
+      "operator": "eq",
+      "expected_value": "available",
+      "description": "有机器人或实时系统方向的可复现实验证据",
+      "source_ref": "https://2027.ieee-icra.org/contribute/call-for-icra-2027-papers-now-accepting-submissions/",
+      "required": true
+    },
+    {
+      "id": "rule-icra-interest",
+      "opportunity_id": "opp-icra-2027-paper",
+      "field_id": "field-interest-signal",
+      "operator": "contains",
+      "expected_value": "传感",
+      "description": "研究方向与机器人传感、控制或自动化相关",
+      "source_ref": "https://2027.ieee-icra.org/contribute/call-for-icra-2027-papers-now-accepting-submissions/",
+      "required": false
+    },
+    {
+      "id": "rule-icra-rights",
+      "opportunity_id": "opp-icra-2027-paper",
+      "field_id": "field-review-rights",
+      "operator": "eq",
+      "expected_value": "approved_fixture",
+      "description": "论文与视频素材具备投稿权利，且不向 AI 暴露审稿机密",
+      "source_ref": "https://2027.ieee-icra.org/contribute/call-for-icra-2027-papers-now-accepting-submissions/",
+      "required": true
+    },
     {
       "id": "rule-signal-course",
       "opportunity_id": "opp-signal-lab",
@@ -486,26 +705,6 @@
       "required": true
     },
     {
-      "id": "rule-poster-portfolio",
-      "opportunity_id": "opp-student-conference",
-      "field_id": "field-portfolio-signal",
-      "operator": "eq",
-      "expected_value": "available",
-      "description": "有可整理为 300 字摘要的项目证据",
-      "source_ref": "https://opportunities.example.edu/student-poster-forum#abstract",
-      "required": true
-    },
-    {
-      "id": "rule-poster-review",
-      "opportunity_id": "opp-student-conference",
-      "field_id": "field-review-rights",
-      "operator": "eq",
-      "expected_value": "approved_fixture",
-      "description": "公开素材已经完成人工审核与权利确认",
-      "source_ref": "https://opportunities.example.edu/student-poster-forum#rights",
-      "required": true
-    },
-    {
       "id": "rule-grant-portfolio",
       "opportunity_id": "opp-maker-scholarship",
       "field_id": "field-portfolio-signal",
@@ -567,6 +766,19 @@
     }
   ],
   "profile_fields": [
+    {
+      "id": "field-current-student",
+      "label": "身份 · 当前本科在读（脱敏 Fixture）",
+      "kind": "verified_evidence",
+      "value": "undergraduate_enrolled",
+      "value_label": "Academic Mirror Fixture · 正式投稿需学校证明",
+      "authority": "verified_fixture",
+      "source_id": "F-003:nr-profile-student-nan",
+      "verified_at": "2026-07-24T07:00:00+08:00",
+      "expires_at": "2027-01-21T23:59:00-12:00",
+      "private": true,
+      "selectable": true
+    },
     {
       "id": "field-goal-research",
       "label": "目标 · 尝试一段可回滚研究经历",
@@ -888,7 +1100,7 @@
       "sequence": 1,
       "action": "view",
       "target_id": "market",
-      "detail": "loaded eight transparent opportunities; one expired item excluded by default",
+      "detail": "loaded AdventureX, CHI 2027 and ICRA 2027 official snapshots plus seven transparent fixtures",
       "occurred_at": "2026-07-24T08:00:00+08:00",
       "previous_event_hash": null,
       "event_hash": "fnv1a-opp-event-001"

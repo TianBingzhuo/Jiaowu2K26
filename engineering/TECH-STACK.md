@@ -15,8 +15,8 @@
 | 领域合同 | 无框架 domain crate；OpenAPI 3.1、35 份 JSON Schema、10 份 Golden Fixture | **进入本地技术评审**；未知枚举保留并阻止高风险自动动作，F-003 固定来源/快照/字段血缘/同意/审计边界，F-004 固定 Prefix/Pins/Plan/Unsat/Transaction/Lock 与目录验证门，F-005 复用同一证据命名空间与状态机，F-006 固定私密指标/证据/授权/纠错/STOP，F-007 固定课程来源/版本/纠错/公平/治理边界，F-008 固定画像关闭/日历冲突/非权威镜像/最小披露/紧急升级/私有回执边界，F-009 固定透明来源/四态资格/选择性 Profile/双向意向/最小披露/零自动投递/公平 Replay 边界 |
 | SQLx 0.9.0 / SQLite | 写入、查询、乐观并发、审核/发布事务与 Replay 通过 | **当前已验证数据路径**，无云账号也能运行 |
 | OceanBase | 尚未做账号、TLS、migration、事务和 join 实验 | **未采用 / 未否定**；只是可选后续 adapter，不阻塞启动 |
-| React 19 / TypeScript 5.9 / Vite 6.4.3 | 用户已接受 Option 1 首页美术；`app/apps/web` V0.9 与 F-001～F-010 Fixture 纵向切片通过类型检查、152 项测试和生产构建；当前 Edge/Chromium 已复测四个机构工作台、角色切换、浏览器返回、AI 规则回退、SLS 蓝图、AdventureX、排课门、移动端与英文角色导览 | **本地技术评审**；五角色/四工作台、来源约束建议组件、SLS 完整课程蓝图、AdventureX 机会、目录导入门及既有十模块路径已落地，实体手柄、真实触屏、Firefox/Safari 运行时、动效 profile 和第二台机器仍待补证 |
-| AI Provider / GX10 | provider-neutral OpenAI-compatible adapter、Moonshot/Kimi K3 当前参数合同、服务端 BYOK、loopback 无凭据模式、严格来源校验与规则回退已通过本地测试；GX10 未实机运行 | **adapter 已实现 / 实时模型证据未形成**；Qwen3.6 35B 是首个 GX10 Spike，模型故障不得阻塞产品 |
+| React 19 / TypeScript 5.9 / Vite 6.4.3 | 用户已接受 Option 1 首页美术；`app/apps/web` V0.9 与 F-001～F-010 Fixture 纵向切片通过类型检查、161 项测试和生产构建；当前 Edge/Chromium 已复测四个机构工作台、角色切换、浏览器返回、AI 规则回退、SLS 16 周蓝图、机会市场校内/校外双联赛、AdventureX、UArizona Summer 2026 公开目录检索、排课门、移动端与英文角色导览 | **本地技术评审**；五角色/四工作台、来源约束建议组件、完整 SLS 课程、分区机会市场、公开目录浏览器及既有十模块路径已落地，实体手柄、真实触屏、Firefox/Safari 运行时、动效 profile、真实求解器和第二台机器仍待补证 |
+| AI Provider / GX10 | provider-neutral OpenAI-compatible adapter、Moonshot/Kimi K2.6 Fast 当前参数合同、Windows DPAPI 服务端 BYOK、loopback 无凭据模式、严格来源校验与规则回退已通过本地测试；GX10 未实机运行 | **adapter 已实现 / 实时模型证据未形成**；Qwen3.6 35B 是首个 GX10 Spike，模型故障不得阻塞产品 |
 | Unity / Unreal / Tauri / WinUI 3 | 未接入 | **不进入当前基座** |
 
 Windows 原生 Rust 失败的对照证据是 Code Integrity 3077/3033：Smart App Control 阻止 `rustc.exe` 加载本地生成的未签名 proc-macro DLL。同一工作树在 Ubuntu WSL2 编译和测试通过；项目没有关闭或修改安全策略，验证脚本会在该状态下自动选择 WSL。
@@ -135,14 +135,14 @@ OceanBase 云账号已确认，且以下条件全部通过？
 
 - 今晚只选一个本地主模型时使用 NVIDIA 已给出同类 GB10/128GB 单机配方的 `Qwen3.6-35B-A3B-NVFP4`；这表示“最适合当前硬件和交付约束”，不是通用能力排行榜第一；
 - Step 3.7 Flash 先作为赛事赞助 API 质量通道；其官方 GGUF 量化与运行开销接近 128GB 总统一内存上限，本地只允许停止其他模型后的独立 Spike；
-- DeepSeek V4 Flash、Kimi K2.5、GLM-5.2 与 MiniMax M3 的公开权重规模不适合单台 128GB 节点舒适常驻；Kimi K3 已作为 Moonshot 云端 BYOK 默认模型进入 adapter，但其官方完整权重截至 2026-07-24 仍声明在 7 月 27 日前发布，因此不把云端可调用误写成 GX10 可本地部署；Qwen 3.8 也不按名称猜选；
+- DeepSeek V4 Flash、Kimi K2.6、GLM-5.2 与 MiniMax M3 的云端可调用不等于适合单台 128GB 节点本地部署；Moonshot 云端 BYOK 默认使用 `kimi-k2.6` 并关闭深度思考降低交互成本，GX10 仍只采用经过本机 `/v1/models`、内存与延迟实测的公开权重；Qwen 3.8 也不按名称猜选；
 - 双模型只在 Fast Lane 能显著降低延迟/成本且不造成资源争用时启用；否则一个 Main 模型 + 确定性路由更简单可靠；
 - 要求结构化输出、可回指 `source_ids`、错误可区分；
 - 核心状态由本地服务决定，模型不能直接发布或修改权威记录；
 - 网络/额度/格式失败时切规则或 fixture，明确显示 `fallback_used`；
 - 不把密钥、课程材料或个人数据提交到代码仓库。
 
-Moonshot 当前官方依据：[Kimi API 快速开始](https://platform.kimi.com/docs/overview)、[Kimi K3 参数与结构化输出](https://platform.kimi.com/docs/guide/kimi-k3-quickstart)、[模型列表与下线计划](https://platform.kimi.com/docs/models)。本实现对 K3 不发送其固定的 `temperature`，使用 `reasoning_effort=low`、有界 `max_completion_tokens` 与严格 JSON Schema；真实账户权限、余额、延迟和结果质量仍必须由本机回执证明。
+Moonshot 当前官方依据：[Kimi K2.6 快速开始](https://platform.kimi.com/docs/guide/kimi-k2-6-quickstart)、[思考模式开关](https://platform.kimi.com/docs/guide/use-kimi-k2-thinking-model)、[模型列表与下线计划](https://platform.kimi.com/docs/models)。本实现对 K2.6 不发送其固定采样字段，默认使用 `thinking={"type":"disabled"}`、有界 `max_completion_tokens` 与严格 JSON Schema；真实账户权限、余额、延迟和结果质量仍必须由本机三任务回执证明。
 
 完整硬件事实、模型表、数据主权、安全边界和 30 分钟实机步骤见 [GX10 本地主权 AI 节点](LOCAL-AI-SOVEREIGN-NODE.md)。
 

@@ -12,6 +12,7 @@ import type {
   OpportunityCategory,
   OpportunityMarketState,
   OpportunityReport,
+  OpportunityScope,
   OpportunityStage,
   ProfileField,
   SavedOpportunity,
@@ -257,6 +258,11 @@ export function visibleOpportunities(
     )
     .filter(
       (opportunity) =>
+        state.scopeFilter === "all" ||
+        opportunity.scope === state.scopeFilter,
+    )
+    .filter(
+      (opportunity) =>
         state.categoryFilter === "all" ||
         opportunity.category === state.categoryFilter,
     )
@@ -266,6 +272,7 @@ export function visibleOpportunities(
         opportunity.title,
         opportunity.provider,
         opportunity.summary,
+        opportunity.scope,
         opportunity.category,
         ...(opportunity.searchAliases ?? []),
         ...opportunity.benefits,
@@ -313,6 +320,13 @@ export function setCategoryFilter(
   category: OpportunityCategory | "all",
 ): OpportunityMarketState {
   return { ...state, categoryFilter: category };
+}
+
+export function setScopeFilter(
+  state: OpportunityMarketState,
+  scope: OpportunityScope | "all",
+): OpportunityMarketState {
+  return { ...state, scopeFilter: scope };
 }
 
 export function setMarketQuery(

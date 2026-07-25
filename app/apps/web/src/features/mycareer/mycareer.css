@@ -130,13 +130,34 @@
 }
 
 .deadline-board li {
+  background: rgba(13, 20, 30, 0.78);
+  border-left: 2px solid var(--color-status-pending);
+}
+
+.deadline-board li > button {
   display: grid;
-  grid-template-columns: 82px minmax(0, 1fr);
+  width: 100%;
+  min-height: 52px;
+  grid-template-columns: 82px minmax(0, 1fr) auto;
   align-items: center;
   gap: 9px;
   padding: 8px 9px;
-  background: rgba(13, 20, 30, 0.78);
-  border-left: 2px solid var(--color-status-pending);
+  color: inherit;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.deadline-board li > button:hover,
+.deadline-board li > button:focus-visible {
+  background: rgb(88 166 255 / 10%);
+}
+
+.deadline-board li > button > svg {
+  width: 17px;
+  color: var(--color-accent-secondary);
 }
 
 .deadline-board time {
@@ -146,7 +167,7 @@
   font-weight: 800;
 }
 
-.deadline-board li > span {
+.deadline-board li > button > span {
   display: grid;
   min-width: 0;
   gap: 2px;
@@ -1093,6 +1114,203 @@
   line-height: 1.55;
 }
 
+.course-season {
+  overflow: hidden;
+  border: 1px solid rgb(247 140 26 / 42%);
+  background:
+    linear-gradient(105deg, rgb(247 140 26 / 10%), transparent 42%),
+    rgb(5 13 22 / 94%);
+}
+
+.course-season__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px;
+  border-bottom: 1px solid rgb(247 140 26 / 26%);
+}
+
+.course-season__header > div {
+  min-width: 0;
+}
+
+.course-season__header span,
+.course-season__summary small {
+  color: var(--color-accent-primary);
+  font: 800 9px/1 "Barlow Condensed", "Noto Sans SC Variable", sans-serif;
+  letter-spacing: 0.1em;
+}
+
+.course-season__header h5 {
+  margin: 5px 0 4px;
+  color: #f5f8fb;
+  font-size: 17px;
+}
+
+.course-season__header p {
+  max-width: 720px;
+  margin: 0;
+  color: #aebac7;
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.course-season__header button {
+  flex: 0 0 auto;
+  min-height: 36px;
+  padding: 0 12px;
+  color: #fff;
+  background: rgb(247 140 26 / 14%);
+  border: 1px solid rgb(247 140 26 / 62%);
+  font: inherit;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.course-season__weeks {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  background: #25364a;
+  list-style: none;
+}
+
+.course-season__weeks > li {
+  background: #08131f;
+}
+
+.course-season__weeks > li > button {
+  display: grid;
+  width: 100%;
+  min-height: 66px;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 12px;
+  color: #eef5fb;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.course-season__weeks > li > button:hover,
+.course-season__weeks > li > button:focus-visible {
+  background: rgb(88 166 255 / 9%);
+}
+
+.course-season__weeks > li[data-open] > button {
+  background: rgb(247 140 26 / 10%);
+  box-shadow: inset 3px 0 0 var(--color-accent-primary);
+}
+
+.course-season__weeks > li > button > svg {
+  color: #7ebdff;
+  transition: transform var(--motion-focus, 140ms) var(--easing-default, ease);
+}
+
+.course-season__weeks > li[data-open] > button > svg {
+  transform: rotate(90deg);
+}
+
+.course-season__number {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  color: #07111d;
+  background: #79bdff;
+  font: 900 12px/1 "Barlow Condensed", sans-serif;
+}
+
+.course-season__summary {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.course-season__summary strong {
+  font-size: 12px;
+}
+
+.course-season__summary em {
+  overflow: hidden;
+  color: #94a4b4;
+  font-size: 9px;
+  font-style: normal;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.course-season__detail {
+  display: none;
+  padding: 0 12px 14px 61px;
+}
+
+.course-season__weeks > li[data-open] .course-season__detail {
+  display: grid;
+  gap: 10px;
+}
+
+.course-season__detail > ol {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.course-season__detail > ol li {
+  display: grid;
+  gap: 4px;
+  padding: 9px;
+  background: rgb(88 166 255 / 7%);
+  border: 1px solid rgb(88 166 255 / 22%);
+}
+
+.course-season__detail > ol small {
+  color: #75baff;
+  font: 800 8px/1 "Barlow Condensed", sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.course-season__detail > ol strong {
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.course-season__detail > dl {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.course-season__detail > dl div {
+  padding: 9px;
+  background: rgb(255 255 255 / 3%);
+}
+
+.course-season__detail dt {
+  color: #f3aa40;
+  font-size: 8px;
+  font-weight: 800;
+}
+
+.course-season__detail dd {
+  margin: 4px 0 0;
+  color: #aebac7;
+  font-size: 9px;
+  line-height: 1.45;
+}
+
 .course-teaching-loop {
   display: grid;
   gap: 5px;
@@ -1407,7 +1625,26 @@
 
   .course-lesson-grid,
   .course-node > dl,
-  .course-capstone-grid {
+  .course-capstone-grid,
+  .course-season__detail > ol,
+  .course-season__detail > dl {
     grid-template-columns: 1fr;
+  }
+
+  .course-season__header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .course-season__header button {
+    width: 100%;
+  }
+
+  .course-season__summary em {
+    white-space: normal;
+  }
+
+  .course-season__detail {
+    padding-left: 12px;
   }
 }

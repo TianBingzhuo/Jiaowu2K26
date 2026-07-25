@@ -3,7 +3,8 @@
 > **状态：** `v0.2 adapter implemented / device unverified`；Provider-neutral OpenAI-compatible adapter、来源约束合同和规则回退已实现，尚未在借用设备上运行任何模型。
 > **目标：** 把 ASUS Ascent GX10 用作本地模型服务与“单校 Sovereign Node”演示节点，同时保持 Provider-neutral、Fixture 回退和学校数据主权。
 > **当前选择：** 今晚的可执行默认是 NVIDIA 已在同类 GB10 / 128GB 设备上给出配方的 `Qwen3.6-35B-A3B-NVFP4`；双模型只在实测后启用，Step 3.7 Flash 先作为赞助平台质量通道与极限本地 Spike，不作为 P0 启动依赖。
-> **更新时间：** 2026-07-23
+> **云端临时通道：** Moonshot BYOK 默认使用 `kimi-k2.6` 的非思考快速档；K3 仅保留为人工显式切换的高成本兼容项，不进入默认路由。
+> **更新时间：** 2026-07-25
 
 ---
 
@@ -73,7 +74,8 @@ flowchart LR
 | `Qwen3-8B-NVFP4` | NVIDIA Spark vLLM 支持矩阵列出 | **可行，需实测质量** | 条件 Fast Lane；若价值不足可只用 Main |
 | Step 3.7 Flash | 198B 稀疏 MoE、约 11B 激活、256k、Apache-2.0；官方 GGUF Q4_K_S 111.5GB + 视觉 projector 3.97GB + 约 7GB overhead，推荐 128GB 统一内存 | **能否稳定服务非常紧，必须实测** | 赞助 API 质量通道；本地只做独立极限 Spike |
 | DeepSeek V4 Flash | 284B 总参数、13B 激活、1M context、FP4+FP8 mixed、MIT | **权重/运行开销超过舒适单机预算** | 仅外部 opt-in overflow；不作本地主模型 |
-| Kimi K3 | 截至复核日未找到 Moonshot 官方公开权重/模型卡 | **不可选** | 等官方可验证发布 |
+| Kimi K3 | Moonshot 已提供官方云端 API 型号与 1M 上下文说明；截至复核日未找到可供 GX10 本地部署的公开权重 | **云端可用，本地不可选** | 不进默认路由；仅在明确批准高成本升级时人工选择 |
+| Kimi K2.6 | Moonshot 官方 API 支持 256K、文本/视觉、思考与非思考模式；可用 `thinking={"type":"disabled"}` 关闭思考 | **云端可用，本地权重未证实** | 当前 BYOK Fast 默认；只接收获准的最小化数据 |
 | Kimi K2.5 | 1T 总参数、32B 激活、原生 INT4 | **远超单机** | API/未来多节点研究，不进 P0 |
 | GLM-5.2 | 官方模型卡约 753B、BF16、1M | **远超单机** | API/未来集群，不进 P0 |
 | Qwen 3.7 / 3.8 | 已核验到托管的 3.7 Max 信号；未核验到适合本地的官方 3.8 权重 | **不以名字猜部署** | 等官方模型卡、许可证与 Spark 配方 |
@@ -91,7 +93,7 @@ flowchart LR
 - `Qwen3.6-35B-A3B-NVFP4`：主推理；
 - Step 3.7 Flash：先使用赛事赞助 API；本地 GGUF 只在独立进程、缩短 context、清空其他模型后测试，不与主服务同时承诺。
 
-“Kimi K3 + DeepSeek V4 Flash”当前不通过：K3 缺官方可核验公开型号，V4 Flash 又不适合在单台 128GB 节点舒适常驻。
+“Kimi K3 + DeepSeek V4 Flash”仍不作为默认组合：前者虽已是官方云端型号，但费用高且没有 GX10 本地权重证据；后者不适合在单台 128GB 节点舒适常驻。当前云端验证统一走 `kimi-k2.6` 非思考快速档，本地主权节点仍按实机证据选择公开权重。
 
 ## 4. 任务路由
 

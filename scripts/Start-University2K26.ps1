@@ -8,6 +8,7 @@ $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
 . (Join-Path $PSScriptRoot 'lib\ProjectPaths.ps1')
+. (Join-Path $PSScriptRoot 'lib\AiCredentials.ps1')
 
 $logicalRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $physicalRoot = Get-J2K26PhysicalRoot -LogicalRoot $logicalRoot
@@ -31,89 +32,123 @@ function Test-Url {
     }
 }
 
+$aiEnvironmentState = [pscustomobject]@{
+    Loaded = $false
+    Provider = $null
+    Model = $null
+    Thinking = $null
+    ImportedNames = @()
+}
+if (-not $FixtureOnly) {
+    $aiEnvironmentState = Import-J2K26AiRuntimeCredential -PhysicalRoot $physicalRoot
+}
+
 $apiProcess = $null
-if (-not $FixtureOnly -and -not (Test-Url -Url 'http://127.0.0.1:3000/api/v1/health')) {
-    if (-not (Test-J2K26UbuntuWsl)) {
-        throw 'The full-stack launcher currently requires Ubuntu WSL2. Use -FixtureOnly for the portable Web demo, or follow docs/GETTING-STARTED.md for a manual native backend launch.'
+try {
+    $apiHealthy = Test-Url -Url 'http://127.0.0.1:3000/api/v1/health'
+    $restartApiForAi = $false
+    if (-not $FixtureOnly -and $apiHealthy -and $aiEnvironmentState.Loaded) {
+        try {
+            $aiStatus = Invoke-RestMethod `
+                -Uri 'http://127.0.0.1:3000/api/v1/ai/status' `
+                -Method Get `
+                -TimeoutSec 5
+            $restartApiForAi = -not $aiStatus.configured -or
+                $aiStatus.provider -ne $aiEnvironmentState.Provider -or
+                $aiStatus.model -ne $aiEnvironmentState.Model
+        }
+        catch {
+            $restartApiForAi = $true
+        }
     }
 
-    $driveRoot = [IO.Path]::GetPathRoot($physicalRoot)
-    $drive = $driveRoot[0].ToString().ToLowerInvariant()
-    $relative = $physicalRoot.Substring($driveRoot.Length).Replace('\', '/')
-    $wslRoot = "/mnt/$drive/$relative"
-    # A WSL process can outlive its Windows wsl.exe wrapper after a host sleep
-    # or tool restart. If the Windows health probe failed, stop only the API
-    # whose scoped PID receipt belongs to this project before starting again.
-    & wsl.exe -d Ubuntu -- bash -lc "cd '$wslRoot' && bash scripts/stop-api-dev.sh"
-    if ($LASTEXITCODE -ne 0) {
-        throw 'Unable to clean up the previous University2K26 WSL API process.'
-    }
-    $apiStdout = Join-Path $runtimeRoot 'api.stdout.log'
-    $apiStderr = Join-Path $runtimeRoot 'api.stderr.log'
-    # WSL does not import arbitrary Windows environment variables unless they
-    # are listed in WSLENV. Pass only the runtime names the API understands;
-    # values (including credentials) stay in the child process environment and
-    # never enter the command line, runtime receipt, or log files.
-    $apiEnvironmentNames = @(
-        'J2K26_AI_PROVIDER',
-        'J2K26_AI_BASE_URL',
-        'J2K26_AI_MODEL',
-        'J2K26_AI_AUTH_MODE',
-        'J2K26_AI_API_KEY',
-        'MOONSHOT_API_KEY',
-        'J2K26_PRIVATE_PROFILE_PATH',
-        'RUST_LOG'
-    )
-    $previousWslEnv = $env:WSLENV
-    $wslEnvEntries = @()
-    if (-not [string]::IsNullOrWhiteSpace($previousWslEnv)) {
-        $wslEnvEntries += $previousWslEnv.Split(':', [StringSplitOptions]::RemoveEmptyEntries)
-    }
-    foreach ($name in $apiEnvironmentNames) {
-        if (Test-Path -LiteralPath "Env:$name") {
-            $alreadyIncluded = $wslEnvEntries | Where-Object {
-                $_.Split('/')[0] -eq $name
+    if (-not $FixtureOnly -and (-not $apiHealthy -or $restartApiForAi)) {
+        if (-not (Test-J2K26UbuntuWsl)) {
+            throw 'The full-stack launcher currently requires Ubuntu WSL2. Use -FixtureOnly for the portable Web demo, or follow docs/GETTING-STARTED.md for a manual native backend launch.'
+        }
+
+        $driveRoot = [IO.Path]::GetPathRoot($physicalRoot)
+        $drive = $driveRoot[0].ToString().ToLowerInvariant()
+        $relative = $physicalRoot.Substring($driveRoot.Length).Replace('\', '/')
+        $wslRoot = "/mnt/$drive/$relative"
+        # A WSL process can outlive its Windows wsl.exe wrapper after a host sleep
+        # or tool restart. If the Windows health probe failed, stop only the API
+        # whose scoped PID receipt belongs to this project before starting again.
+        & wsl.exe -d Ubuntu -- bash -lc "cd '$wslRoot' && bash scripts/stop-api-dev.sh"
+        if ($LASTEXITCODE -ne 0) {
+            throw 'Unable to clean up the previous University2K26 WSL API process.'
+        }
+        $apiStdout = Join-Path $runtimeRoot 'api.stdout.log'
+        $apiStderr = Join-Path $runtimeRoot 'api.stderr.log'
+        # WSL does not import arbitrary Windows environment variables unless they
+        # are listed in WSLENV. Pass only the runtime names the API understands;
+        # values (including credentials) stay in the child process environment and
+        # never enter the command line, runtime receipt, or log files.
+        $apiEnvironmentNames = @(
+            'J2K26_AI_PROVIDER',
+            'J2K26_AI_BASE_URL',
+            'J2K26_AI_MODEL',
+            'J2K26_AI_AUTH_MODE',
+            'J2K26_AI_THINKING',
+            'J2K26_AI_API_KEY',
+            'MOONSHOT_API_KEY',
+            'J2K26_PRIVATE_PROFILE_PATH',
+            'RUST_LOG'
+        )
+        $previousWslEnv = $env:WSLENV
+        $wslEnvEntries = @()
+        if (-not [string]::IsNullOrWhiteSpace($previousWslEnv)) {
+            $wslEnvEntries += $previousWslEnv.Split(':', [StringSplitOptions]::RemoveEmptyEntries)
+        }
+        foreach ($name in $apiEnvironmentNames) {
+            if (Test-Path -LiteralPath "Env:$name") {
+                $alreadyIncluded = $wslEnvEntries | Where-Object {
+                    $_.Split('/')[0] -eq $name
+                }
+                if (-not $alreadyIncluded) {
+                    $wslEnvEntries += $name
+                }
             }
-            if (-not $alreadyIncluded) {
-                $wslEnvEntries += $name
+        }
+
+        try {
+            if ($wslEnvEntries.Count -gt 0) {
+                $env:WSLENV = $wslEnvEntries -join ':'
+            }
+            $apiProcess = Start-Process -FilePath 'wsl.exe' `
+                -ArgumentList @('-d', 'Ubuntu', '--', 'bash', '-lc', "cd '$wslRoot' && bash scripts/run-api-dev.sh") `
+                -RedirectStandardOutput $apiStdout `
+                -RedirectStandardError $apiStderr `
+                -WindowStyle Hidden `
+                -PassThru
+        }
+        finally {
+            if ($null -eq $previousWslEnv) {
+                Remove-Item Env:WSLENV -ErrorAction SilentlyContinue
+            }
+            else {
+                $env:WSLENV = $previousWslEnv
             }
         }
-    }
 
-    try {
-        if ($wslEnvEntries.Count -gt 0) {
-            $env:WSLENV = $wslEnvEntries -join ':'
+        $apiReady = $false
+        for ($attempt = 0; $attempt -lt 120; $attempt++) {
+            if (Test-Url -Url 'http://127.0.0.1:3000/api/v1/health') {
+                $apiReady = $true
+                break
+            }
+            if ($apiProcess.HasExited) {
+                throw "University2K26 API exited before readiness. See $apiStderr"
+            }
+            Start-Sleep -Milliseconds 500
         }
-        $apiProcess = Start-Process -FilePath 'wsl.exe' `
-            -ArgumentList @('-d', 'Ubuntu', '--', 'bash', '-lc', "cd '$wslRoot' && bash scripts/run-api-dev.sh") `
-            -RedirectStandardOutput $apiStdout `
-            -RedirectStandardError $apiStderr `
-            -WindowStyle Hidden `
-            -PassThru
-    }
-    finally {
-        if ($null -eq $previousWslEnv) {
-            Remove-Item Env:WSLENV -ErrorAction SilentlyContinue
-        }
-        else {
-            $env:WSLENV = $previousWslEnv
+        if (-not $apiReady) {
+            throw "University2K26 API did not become ready. See $apiStderr"
         }
     }
-
-    $apiReady = $false
-    for ($attempt = 0; $attempt -lt 120; $attempt++) {
-        if (Test-Url -Url 'http://127.0.0.1:3000/api/v1/health') {
-            $apiReady = $true
-            break
-        }
-        if ($apiProcess.HasExited) {
-            throw "University2K26 API exited before readiness. See $apiStderr"
-        }
-        Start-Sleep -Milliseconds 500
-    }
-    if (-not $apiReady) {
-        throw "University2K26 API did not become ready. See $apiStderr"
-    }
+}
+finally {
+    Restore-J2K26AiRuntimeEnvironment -State $aiEnvironmentState
 }
 
 $webProcess = $null
@@ -157,6 +192,9 @@ if (-not (Test-Url -Url 'http://127.0.0.1:4173/')) {
     data_mode = if ($FixtureOnly) { 'fixture-only' } else { 'api-with-fixture-fallback' }
     logical_root = $logicalRoot
     physical_build_root = $physicalRoot
+    ai_provider = $aiEnvironmentState.Provider
+    ai_model = $aiEnvironmentState.Model
+    ai_thinking = $aiEnvironmentState.Thinking
 } | ConvertTo-Json | Set-Content -LiteralPath $runtimeFile -Encoding utf8
 
 $modeLabel = if ($FixtureOnly) { 'Fixture-only Web demo' } else { 'API + Web' }

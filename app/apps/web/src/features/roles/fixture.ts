@@ -94,7 +94,7 @@ const student: RoleProfile = {
   identityLine: "本科第 4 / 8 赛季 · SLS 240 必修",
   roleSummary: "学习、选课、成长、机会与校园生活的本人视角。",
   periodLabel: "第 4 / 8 赛季",
-  headline: "把大学四到八年变成可解释、可回放的生涯",
+  headline: "下一场，按你的节奏开打",
   briefing:
     "学生只看到与本人任务有关的镜像、建议和证据；正式成绩、学籍、支付与门禁决定仍留在学校权威系统。",
   coachNote: "先看来源，再做选择；卡住不是判负，换条路径继续。",
@@ -120,9 +120,9 @@ const teacher: RoleProfile = {
   identityLine: "课程负责人 · 信号与线性系统 · 2026 春季",
   roleSummary: "设计课程、审核 AI 内容、解释反馈并留下改进证据。",
   periodLabel: "2026 春季教学赛季",
-  headline: "把 3 条教学证据变成下一轮可审核改进",
+  headline: "课程 Film Room 已开席",
   briefing:
-    "今天先处理来源完整的内容审核，再检查一个学习难点。所有建议都只是候选，教师保留发布与课程调整决定权。",
+    "今天先把 3 条教学证据变成下一轮可审核改进，再检查一个学习难点。所有建议都只是候选，教师保留发布与课程调整决定权。",
   coachNote: "学生反馈描述的是学习体验，不是教师人格，也不是一张 OVR。",
   primaryActionLabel: "进入内容审核席",
   primaryDestination: workspace("course_studio"),
@@ -240,7 +240,7 @@ const advisor: RoleProfile = {
   identityLine: "授权 Case 视图 · 48 名学生 · 非诊断系统",
   roleSummary: "围绕预约、学业路径、转介和跟进提供人本支持。",
   periodLabel: "2026 春季支持周期",
-  headline: "先处理 3 个可解释、可退出的学生支持 Case",
+  headline: "先接住学生，再处理 Case",
   briefing:
     "每项提醒必须说明触发原因、数据时间和正式责任方。敏感健康、消费与门禁数据不会进入暗中画像。",
   coachNote: "提醒不是判决；先联系本人、核对情况，再决定是否需要支持。",
@@ -360,7 +360,7 @@ const programLead: RoleProfile = {
   identityLine: "专业版本 2026.1 · 课程依赖与资源 What-if",
   roleSummary: "管理培养方案、课程依赖、跨院协商与质量改进。",
   periodLabel: "2026 培养方案周期",
-  headline: "模拟先修课调整，先看影响再提交",
+  headline: "培养方案进入 What-if",
   briefing:
     "培养方案修改先进入沙盒：展示受影响学生路径、课程容量、跨院依赖和未知项，正式发布仍走学校审批。",
   coachNote: "课程不是孤岛；改一条前置规则，先把四年路径和受影响人群都看清。",
@@ -474,7 +474,7 @@ const undergraduateOffice: RoleProfile = {
   identityLine: "全校规则镜像 · 分级权限 · 政策 What-if",
   roleSummary: "处理课程治理、学籍服务、资源规划和政策影响模拟。",
   periodLabel: "2026 校级治理周期",
-  headline: "审阅一项课程规则变更及其全校影响",
+  headline: "校级规则，先模拟再发布",
   briefing:
     "本界面只汇总带来源的只读镜像和模拟结果。课程、学籍、人事、资助与处分的正式决定仍留在责任部门。",
   coachNote: "学校端看到更多，不代表可以看见一切；权限还要同时满足范围、目的和时限。",

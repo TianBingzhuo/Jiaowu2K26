@@ -22,6 +22,8 @@ export function CourseBlueprint() {
   const pack = SLS_240_COURSE_PACK;
   const [selectedUnitId, setSelectedUnitId] = useState(pack.units[0]?.id ?? "");
   const [showLabs, setShowLabs] = useState(false);
+  const [showSeason, setShowSeason] = useState(true);
+  const [openWeek, setOpenWeek] = useState<number | null>(1);
   const selectedUnit =
     pack.units.find((unit) => unit.id === selectedUnitId) ?? pack.units[0];
   const nodeCount = useMemo(
@@ -53,6 +55,84 @@ export function CourseBlueprint() {
         <DocumentSearch24Regular aria-hidden="true" />
         <p>{pack.course.source_boundary}</p>
       </div>
+
+      <section className="course-season" aria-labelledby="course-season-heading">
+        <header className="course-season__header">
+          <div>
+            <span>16-WEEK SEASON · 48 PLAYABLE SESSIONS</span>
+            <h5 id="course-season-heading">这是一门完整课程，不是一张 Demo 卡</h5>
+            <p>
+              每周固定为 Briefing、Workshop、Replay 三个回合；所有产物自动保存，
+              赛季末进入可选择退出公开直播的 World Exam Finals。
+            </p>
+          </div>
+          <button
+            type="button"
+            aria-expanded={showSeason}
+            onClick={() => setShowSeason((current) => !current)}
+            data-focusable="true"
+          >
+            {showSeason ? "收起赛季" : "展开赛季"}
+          </button>
+        </header>
+        {showSeason && (
+          <ol className="course-season__weeks">
+            {pack.season_plan.map((week) => (
+              <li
+                key={week.week}
+                data-open={openWeek === week.week ? "" : undefined}
+              >
+                <button
+                  type="button"
+                  aria-expanded={openWeek === week.week}
+                  onClick={() =>
+                    setOpenWeek((current) =>
+                      current === week.week ? null : week.week,
+                    )
+                  }
+                  aria-label={`第 ${week.week} 周：${week.title}`}
+                  data-focusable="true"
+                >
+                  <span className="course-season__number">
+                    W{String(week.week).padStart(2, "0")}
+                  </span>
+                  <span className="course-season__summary">
+                    <small>{week.phase}</small>
+                    <strong>{week.title}</strong>
+                    <em>{week.guiding_question}</em>
+                  </span>
+                  <ArrowRight24Regular aria-hidden="true" />
+                </button>
+                <div className="course-season__detail">
+                  <ol aria-label={`第 ${week.week} 周三个学习回合`}>
+                    {week.sessions.map((session, index) => (
+                      <li key={`${week.week}-${session.mode}-${index}`}>
+                        <small>{session.mode}</small>
+                        <strong>{session.title}</strong>
+                      </li>
+                    ))}
+                  </ol>
+                  <dl>
+                    <div>
+                      <dt>本周证据</dt>
+                      <dd>{week.evidence}</dd>
+                    </div>
+                    <div>
+                      <dt>过关条件</dt>
+                      <dd>{week.checkpoint}</dd>
+                    </div>
+                  </dl>
+                  <div className="course-node__sources">
+                    {week.source_refs.map((source) => (
+                      <code key={source}>{source}</code>
+                    ))}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ol>
+        )}
+      </section>
 
       <ol className="course-teaching-loop" aria-label="统一教学循环">
         {pack.teaching_loop.map((step, index) => (

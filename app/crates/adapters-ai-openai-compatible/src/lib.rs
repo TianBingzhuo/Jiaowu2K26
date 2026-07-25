@@ -12,7 +12,7 @@ use std::env;
 use std::time::Duration;
 
 const DEFAULT_MOONSHOT_BASE_URL: &str = "https://api.moonshot.cn/v1";
-const DEFAULT_MOONSHOT_MODEL: &str = "kimi-k3";
+const DEFAULT_MOONSHOT_MODEL: &str = "kimi-k2.6";
 const MAX_PROVIDER_RESPONSE_BYTES: usize = 256 * 1024;
 
 #[derive(Clone)]
@@ -25,6 +25,7 @@ pub struct OpenAiCompatibleGateway {
     authentication_required: bool,
     credential_source: String,
     configuration_detail: Option<String>,
+    thinking_mode: Option<KimiThinkingMode>,
 }
 
 impl OpenAiCompatibleGateway {
@@ -66,6 +67,18 @@ impl OpenAiCompatibleGateway {
                 "J2K26_AI_AUTH_MODE must be bearer or none".to_owned(),
             ));
         }
+        let thinking_mode = env::var("J2K26_AI_THINKING")
+            .ok()
+            .map(|value| value.trim().to_ascii_lowercase())
+            .filter(|value| !value.is_empty())
+            .map(|value| match value.as_str() {
+                "enabled" => Ok(KimiThinkingMode::Enabled),
+                "disabled" | "fast" => Ok(KimiThinkingMode::Disabled),
+                _ => Err(AiGatewayError::InvalidRequest(
+                    "J2K26_AI_THINKING must be enabled, disabled, or fast".to_owned(),
+                )),
+            })
+            .transpose()?;
         if auth_mode == "none" && !is_loopback_url(&base_url) {
             return Err(AiGatewayError::InvalidRequest(
                 "unauthenticated AI endpoints are allowed only on explicit loopback addresses"
@@ -95,6 +108,7 @@ impl OpenAiCompatibleGateway {
             authentication_required: auth_mode == "bearer",
             credential_source: credential_source.to_owned(),
             configuration_detail: None,
+            thinking_mode,
         })
     }
 
@@ -109,6 +123,7 @@ impl OpenAiCompatibleGateway {
             authentication_required: true,
             credential_source: "not_configured".to_owned(),
             configuration_detail: Some(detail.into()),
+            thinking_mode: Some(KimiThinkingMode::Disabled),
         }
     }
 }
@@ -161,7 +176,31 @@ struct ChatRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     reasoning_effort: Option<&'static str>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    thinking: Option<KimiThinkingConfig>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     response_format: Option<serde_json::Value>,
+}
+
+#[derive(Clone, Copy)]
+enum KimiThinkingMode {
+    Enabled,
+    Disabled,
+}
+
+#[derive(Serialize)]
+struct KimiThinkingConfig {
+    r#type: &'static str,
+}
+
+impl KimiThinkingMode {
+    const fn as_config(self) -> KimiThinkingConfig {
+        KimiThinkingConfig {
+            r#type: match self {
+                Self::Enabled => "enabled",
+                Self::Disabled => "disabled",
+            },
+        }
+    }
 }
 
 #[derive(Serialize)]
@@ -295,6 +334,16 @@ impl AiGateway for OpenAiCompatibleGateway {
         }
         let prompt = bounded_prompt(request)?;
         let is_moonshot = self.provider.eq_ignore_ascii_case("moonshot");
+        let is_k3 = is_moonshot && self.model.eq_ignore_ascii_case("kimi-k3");
+        let is_k26 = is_moonshot && self.model.eq_ignore_ascii_case("kimi-k2.6");
+        // K2.6 defaults to deep thinking. University2K26's interactive coach
+        // uses the cheaper, lower-latency non-thinking path unless an operator
+        // explicitly opts in with J2K26_AI_THINKING=enabled.
+        let kimi_thinking = is_k26.then(|| {
+            self.thinking_mode
+                .unwrap_or(KimiThinkingMode::Disabled)
+                .as_config()
+        });
         let mut request_builder = self
             .client
             .post(format!("{}/chat/completions", self.base_url))
@@ -313,15 +362,15 @@ impl AiGateway for OpenAiCompatibleGateway {
                         content: prompt,
                     },
                 ],
-                // Kimi K3 fixes temperature/top_p and uses
-                // max_completion_tokens. The provider-specific branch follows
-                // that contract; generic OpenAI-compatible endpoints retain
-                // the conventional bounded sampling fields.
+                // Kimi K3 and K2.6 both use max_completion_tokens and fixed
+                // sampling contracts. K3 accepts reasoning_effort; K2.6 uses
+                // the thinking object. Generic OpenAI-compatible endpoints
+                // retain conventional bounded sampling fields.
                 temperature: (!is_moonshot).then_some(0.2),
                 max_tokens: (!is_moonshot).then_some(2_048),
                 max_completion_tokens: is_moonshot.then_some(2_048),
-                reasoning_effort: (is_moonshot && self.model.eq_ignore_ascii_case("kimi-k3"))
-                    .then_some("low"),
+                reasoning_effort: is_k3.then_some("low"),
+                thinking: kimi_thinking,
                 response_format: is_moonshot.then(moonshot_advice_schema),
             });
         if let Some(api_key) = self.api_key.as_deref() {
@@ -451,6 +500,7 @@ mod tests {
             max_tokens: None,
             max_completion_tokens: Some(2_048),
             reasoning_effort: Some("low"),
+            thinking: None,
             response_format: Some(moonshot_advice_schema()),
         };
         let serialized = serde_json::to_value(request).expect("request serializes");
@@ -458,6 +508,31 @@ mod tests {
         assert!(serialized.get("max_tokens").is_none());
         assert_eq!(serialized["max_completion_tokens"], 2_048);
         assert_eq!(serialized["reasoning_effort"], "low");
+        assert!(serialized.get("thinking").is_none());
+        assert_eq!(serialized["response_format"]["type"], "json_schema");
+    }
+
+    #[test]
+    fn moonshot_request_uses_k26_fast_parameter_contract() {
+        let request = ChatRequest {
+            model: "kimi-k2.6".to_owned(),
+            messages: vec![ChatMessage {
+                role: "user",
+                content: "fixture".to_owned(),
+            }],
+            temperature: None,
+            max_tokens: None,
+            max_completion_tokens: Some(2_048),
+            reasoning_effort: None,
+            thinking: Some(KimiThinkingMode::Disabled.as_config()),
+            response_format: Some(moonshot_advice_schema()),
+        };
+        let serialized = serde_json::to_value(request).expect("request serializes");
+        assert!(serialized.get("temperature").is_none());
+        assert!(serialized.get("max_tokens").is_none());
+        assert_eq!(serialized["max_completion_tokens"], 2_048);
+        assert!(serialized.get("reasoning_effort").is_none());
+        assert_eq!(serialized["thinking"]["type"], "disabled");
         assert_eq!(serialized["response_format"]["type"], "json_schema");
     }
 }

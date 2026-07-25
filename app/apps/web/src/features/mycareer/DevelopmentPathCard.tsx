@@ -17,11 +17,47 @@ import {
 } from "../../lib/api";
 import "./development-path.css";
 
+const CAREER_TRACKS = [
+  {
+    id: "robotics-systems",
+    label: "机器人系统软件",
+    onetCode: "17-2199.08",
+    sourceUrl: "https://www.onetonline.org/link/details/17-2199.08",
+    focus: "传感信号、机器人程序调试、软硬件集成与系统验证",
+  },
+  {
+    id: "scientific-software",
+    label: "科学计算与平台软件",
+    onetCode: "15-1252.00",
+    sourceUrl: "https://www.onetonline.org/link/details/15-1252.00",
+    focus: "数学分析、跨平台软件、数据系统与工程可靠性",
+  },
+  {
+    id: "data-ai-science",
+    label: "数据与 AI 科学",
+    onetCode: "15-2051.00",
+    sourceUrl: "https://www.onetonline.org/link/details/15-2051.00",
+    focus: "科学数据、建模、机器学习与可解释结果表达",
+  },
+  {
+    id: "physics-research",
+    label: "物理与 AI4Science",
+    onetCode: "19-2012.00",
+    sourceUrl: "https://www.onetonline.org/link/details/19-2012.00",
+    focus: "物理现象研究、实验设计、理论建模与研究软件",
+  },
+] as const;
+
+type CareerTrackId = (typeof CAREER_TRACKS)[number]["id"];
+
 export function DevelopmentPathCard() {
   const [profile, setProfile] = useState<DevelopmentProfile | null>(null);
   const [gateway, setGateway] = useState<AiGatewayStatus | null>(null);
   const [consent, setConsent] = useState(false);
   const [advice, setAdvice] = useState<AiAdvice | null>(null);
+  const [selectedTrackId, setSelectedTrackId] = useState<CareerTrackId>(
+    CAREER_TRACKS[0].id,
+  );
   const [state, setState] = useState<"loading" | "ready" | "running" | "error">(
     "loading",
   );
@@ -52,17 +88,26 @@ export function DevelopmentPathCard() {
         ...profile.verified_experience.slice(0, 4),
         ...profile.learning_now.slice(0, 3),
       ];
+      const selectedTrack =
+        CAREER_TRACKS.find((track) => track.id === selectedTrackId) ??
+        CAREER_TRACKS[0];
       const result = await requestAiAdvice({
         task: "career_path",
-        subject: `${profile.display_alias ?? "本人"}的下一阶段发展路径`,
-        question:
-          "请严格区分已核验经历与正在学习，提出两个两周内可验证、可回滚的下一步，不做职业定论。",
+        subject: `${profile.display_alias ?? "本人"} · ${selectedTrack.label}探索路线`,
+        question: `请严格区分已核验经历与正在学习，对照 ${selectedTrack.label} 的公开职业任务，提出两个两周内可验证、可回滚的跨学科实验；说明证据缺口，不做职业定论。`,
         locale: "zh-CN",
-        facts: evidence.map((item) => ({
-          label: item.label,
-          value: item.detail,
-          source_id: item.source_id,
-        })),
+        facts: [
+          {
+            label: `职业方向 · ${selectedTrack.label}`,
+            value: `${selectedTrack.focus}；O*NET-SOC ${selectedTrack.onetCode}`,
+            source_id: `onet:${selectedTrack.onetCode}:2026`,
+          },
+          ...evidence.map((item) => ({
+            label: item.label,
+            value: item.detail,
+            source_id: item.source_id,
+          })),
+        ],
       });
       setAdvice(result);
       setState("ready");
@@ -144,6 +189,48 @@ export function DevelopmentPathCard() {
         </div>
       </div>
 
+      <section className="development-path-tracks" aria-labelledby="career-track-heading">
+        <header>
+          <div>
+            <span>CAREER SELECT // PUBLIC TAXONOMY</span>
+            <h3 id="career-track-heading">先选一条路线做两周试训</h3>
+          </div>
+          <small>来源：O*NET 2026 · 不是职位录取预测</small>
+        </header>
+        <div role="radiogroup" aria-label="职业探索方向">
+          {CAREER_TRACKS.map((track) => (
+            <button
+              type="button"
+              role="radio"
+              aria-checked={selectedTrackId === track.id}
+              className={selectedTrackId === track.id ? "is-selected" : ""}
+              key={track.id}
+              onClick={() => {
+                setSelectedTrackId(track.id);
+                setAdvice(null);
+              }}
+              data-focusable="true"
+            >
+              <strong>{track.label}</strong>
+              <span>{track.focus}</span>
+              <small>O*NET-SOC {track.onetCode}</small>
+            </button>
+          ))}
+        </div>
+        <a
+          href={
+            CAREER_TRACKS.find((track) => track.id === selectedTrackId)
+              ?.sourceUrl
+          }
+          target="_blank"
+          rel="noreferrer"
+          data-focusable="true"
+        >
+          查看所选方向的公开职业任务与技能来源
+          <ArrowRight24Regular aria-hidden="true" />
+        </a>
+      </section>
+
       {gateway?.configured && (
         <label className="development-path-consent">
           <input
@@ -169,8 +256,8 @@ export function DevelopmentPathCard() {
         {state === "running"
           ? "正在生成并核验来源…"
           : gateway?.configured
-            ? "用模型生成两周验证路线"
-            : "用规则回退生成两周验证路线"}
+            ? "用 AI 生成所选方向的两周试训"
+            : "用规则回退生成所选方向试训"}
         <ArrowRight24Regular aria-hidden="true" />
       </button>
 

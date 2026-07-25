@@ -27,6 +27,7 @@ type SourceBoundCoachProps = {
   disabled?: boolean;
   consentRequired?: boolean;
   boundary: string;
+  actionLabel?: string;
 };
 
 export function SourceBoundCoach({
@@ -39,6 +40,7 @@ export function SourceBoundCoach({
   disabled = false,
   consentRequired = true,
   boundary,
+  actionLabel = "生成下一回合建议",
 }: SourceBoundCoachProps) {
   const [gateway, setGateway] = useState<AiGatewayStatus | null>(null);
   const [status, setStatus] = useState<
@@ -159,7 +161,7 @@ export function SourceBoundCoach({
       <div className="source-bound-coach__command">
         <button type="button" disabled={actionDisabled} onClick={run}>
           <Play24Filled aria-hidden="true" />
-          {status === "running" ? "正在解析…" : "生成下一回合建议"}
+          {status === "running" ? "正在解析…" : actionLabel}
         </button>
         <span role="status" aria-live="polite">
           {status === "error" ? (

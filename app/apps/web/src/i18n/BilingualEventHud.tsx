@@ -30,6 +30,7 @@ export function BilingualEventHud({
 }: BilingualEventHudProps) {
   const { locale, toggleLocale } = useI18n();
   const [open, setOpen] = useState(false);
+  const [showNowPlaying, setShowNowPlaying] = useState(false);
   const guideId = useId();
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const copy = HUD_COPY[locale];
@@ -42,6 +43,17 @@ export function BilingualEventHud({
   useEffect(() => {
     if (open) closeButtonRef.current?.focus();
   }, [open]);
+
+  useEffect(() => {
+    if (locale !== "en-US" || open) {
+      setShowNowPlaying(false);
+      return;
+    }
+
+    setShowNowPlaying(true);
+    const timeout = window.setTimeout(() => setShowNowPlaying(false), 4800);
+    return () => window.clearTimeout(timeout);
+  }, [experience, locale, open, role]);
 
   const switchLanguage = () => {
     toggleLocale();
@@ -74,15 +86,30 @@ export function BilingualEventHud({
                 {brief.code} · {brief.title}
               </strong>
             </div>
-            <button
-              ref={closeButtonRef}
-              type="button"
-              aria-label={copy.close}
-              onClick={() => setOpen(false)}
-              data-focusable="true"
-            >
-              <Dismiss20Regular aria-hidden="true" />
-            </button>
+            <div className="bilingual-event-guide__header-actions">
+              <button
+                className="bilingual-event-hud__language"
+                type="button"
+                aria-label={copy.languageAction}
+                onClick={switchLanguage}
+                data-focusable="true"
+              >
+                <Globe20Regular aria-hidden="true" />
+                <span>
+                  <small>{copy.languageLabel}</small>
+                  <strong>{copy.languageButton}</strong>
+                </span>
+              </button>
+              <button
+                ref={closeButtonRef}
+                type="button"
+                aria-label={copy.close}
+                onClick={() => setOpen(false)}
+                data-focusable="true"
+              >
+                <Dismiss20Regular aria-hidden="true" />
+              </button>
+            </div>
           </header>
 
           <div className="bilingual-event-guide__hero">
@@ -155,10 +182,11 @@ export function BilingualEventHud({
         </section>
       )}
 
-      {!open && locale === "en-US" && (
+      {!open && locale === "en-US" && showNowPlaying && (
         <div
           className="bilingual-event-hud__now-playing"
           role="status"
+          aria-live="polite"
           aria-label={`Now playing ${brief.title}`}
         >
           <span>
@@ -168,33 +196,22 @@ export function BilingualEventHud({
         </div>
       )}
 
-      <div className="bilingual-event-hud__controls">
-        <button
-          className="bilingual-event-hud__language"
-          type="button"
-          aria-label={copy.languageAction}
-          onClick={switchLanguage}
-          data-focusable="true"
-        >
-          <Globe20Regular aria-hidden="true" />
-          <span>
-            <small>{copy.languageLabel}</small>
-            <strong>{copy.languageButton}</strong>
-          </span>
-        </button>
-        <button
-          className="bilingual-event-hud__guide"
-          type="button"
-          aria-expanded={open}
-          aria-controls={guideId}
-          aria-label={copy.guideAction}
-          onClick={() => setOpen((value) => !value)}
-          data-focusable="true"
-        >
-          <Sparkle20Regular aria-hidden="true" />
-          <strong>{copy.guideButton}</strong>
-        </button>
-      </div>
+      {!open && (
+        <div className="bilingual-event-hud__controls">
+          <button
+            className="bilingual-event-hud__guide"
+            type="button"
+            aria-expanded={false}
+            aria-controls={guideId}
+            aria-label={copy.guideAction}
+            onClick={() => setOpen(true)}
+            data-focusable="true"
+          >
+            <Sparkle20Regular aria-hidden="true" />
+            <strong>{copy.guideButton}</strong>
+          </button>
+        </div>
+      )}
     </aside>
   );
 }

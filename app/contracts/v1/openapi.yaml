@@ -942,8 +942,9 @@ paths:
       responses:
         '200':
           description: >-
-            All eight transparent Fixture opportunities, including the
-            explicitly expired replay example. No paid or random ordering.
+            All ten transparent Fixture opportunities with explicit campus or
+            external scope, including the expired replay example. No paid or
+            random ordering.
           content:
             application/json:
               schema:

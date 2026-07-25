@@ -8,6 +8,8 @@ export type OpportunityCategory =
   | "workshop"
   | "campus_project";
 
+export type OpportunityScope = "campus" | "external";
+
 export type OpportunityStatus =
   | "active"
   | "expired"
@@ -88,6 +90,7 @@ export interface Opportunity {
   title: string;
   summary: string;
   provider: string;
+  scope: OpportunityScope;
   searchAliases?: string[];
   category: OpportunityCategory;
   packId: string;
@@ -323,6 +326,7 @@ export interface OpportunityMarketFixture {
   profileVisibility: "private";
   selectedStage: OpportunityStage;
   selectedOpportunityId: string;
+  scopeFilter: OpportunityScope | "all";
   categoryFilter: OpportunityCategory | "all";
   query: string;
   showActiveOnly: boolean;

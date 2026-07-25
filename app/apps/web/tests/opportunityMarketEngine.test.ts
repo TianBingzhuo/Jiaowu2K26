@@ -17,6 +17,7 @@ import {
   runSelectiveMatch,
   saveOpportunity,
   selectPathway,
+  setScopeFilter,
   toggleOpportunityOffline,
   togglePortfolioArtifact,
   toggleProfileField,
@@ -24,16 +25,17 @@ import {
 } from "../src/features/opportunitymarket/engine";
 
 describe("F-009 Opportunity Market transparent consent-aware fixture", () => {
-  it("starts with eight complete opportunities and hard anti-manipulation invariants", () => {
+  it("starts with ten complete opportunities and hard anti-manipulation invariants", () => {
     const state = createOpportunityMarketState();
     expect(state.dataMode).toBe("demo_fixture");
     expect(state.profileVisibility).toBe("private");
-    expect(state.opportunities).toHaveLength(8);
+    expect(state.opportunities).toHaveLength(10);
     expect(state.packs).toHaveLength(2);
     expect(
       state.opportunities.every(
         (opportunity) =>
           opportunity.sourceUrl &&
+          ["campus", "external"].includes(opportunity.scope) &&
           opportunity.sourceVersion &&
           opportunity.cost.description &&
           opportunity.benefits.length > 0 &&
@@ -52,9 +54,26 @@ describe("F-009 Opportunity Market transparent consent-aware fixture", () => {
     });
   });
 
+  it("separates campus and external leagues before category filtering", () => {
+    const state = createOpportunityMarketState();
+    const campus = visibleOpportunities(setScopeFilter(state, "campus"));
+    const external = visibleOpportunities(setScopeFilter(state, "external"));
+    expect(campus).toHaveLength(3);
+    expect(external).toHaveLength(6);
+    expect(campus.every((opportunity) => opportunity.scope === "campus")).toBe(
+      true,
+    );
+    expect(
+      external.every((opportunity) => opportunity.scope === "external"),
+    ).toBe(true);
+    expect(
+      external.filter((opportunity) => opportunity.category === "conference"),
+    ).toHaveLength(3);
+  });
+
   it("filters expired opportunities by default without deleting their replay evidence", () => {
     const state = createOpportunityMarketState();
-    expect(visibleOpportunities(state)).toHaveLength(7);
+    expect(visibleOpportunities(state)).toHaveLength(9);
     expect(
       visibleOpportunities(state).some(
         (opportunity) => opportunity.id === "opp-journal-clinic",
@@ -112,6 +131,36 @@ describe("F-009 Opportunity Market transparent consent-aware fixture", () => {
     );
   });
 
+  it("includes current official CHI and ICRA calls as source-bound conference opportunities", () => {
+    const state = createOpportunityMarketState();
+    const officialConferenceIds = [
+      "opp-chi-2027-src",
+      "opp-chi-2027-demo",
+      "opp-icra-2027-paper",
+    ];
+    const officialConferences = state.opportunities.filter((item) =>
+      officialConferenceIds.includes(item.id),
+    );
+    expect(officialConferences).toHaveLength(3);
+    expect(
+      officialConferences.every(
+        (item) =>
+          item.category === "conference" &&
+          item.scope === "external" &&
+          item.status === "active" &&
+          item.sourceUrl.startsWith("https://") &&
+          !item.sourceUrl.includes("example."),
+      ),
+    ).toBe(true);
+    expect(
+      officialConferences.every((item) =>
+        item.eligibilityRuleIds.every((ruleId) =>
+          state.rules.some((rule) => rule.id === ruleId),
+        ),
+      ),
+    ).toBe(true);
+  });
+
   it("produces all four eligibility states with evidence and next steps", () => {
     let state = createOpportunityMarketState();
     state = toggleProfileField(state, "field-availability-hours");
@@ -152,7 +201,7 @@ describe("F-009 Opportunity Market transparent consent-aware fixture", () => {
 
   it("matches deterministically without paid influence, random allocation or a score", () => {
     const matched = runSelectiveMatch(createOpportunityMarketState());
-    expect(matched.matchResults).toHaveLength(7);
+    expect(matched.matchResults).toHaveLength(9);
     expect(
       matched.matchResults.every(
         (result) =>
@@ -284,7 +333,7 @@ describe("F-009 Opportunity Market transparent consent-aware fixture", () => {
     const offline = toggleOpportunityOffline(createOpportunityMarketState());
     expect(offline.offline).toBe(true);
     expect(offline.message).toContain("不生成新匹配");
-    expect(visibleOpportunities(offline)).toHaveLength(7);
+    expect(visibleOpportunities(offline)).toHaveLength(9);
     expect(() => runSelectiveMatch(offline)).toThrow(/离线缓存为只读/);
     expect(() => saveOpportunity(offline, "opp-signal-lab")).toThrow(
       /离线缓存为只读/,

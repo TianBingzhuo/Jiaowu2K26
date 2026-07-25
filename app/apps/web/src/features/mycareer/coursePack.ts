@@ -45,6 +45,20 @@ export type CoursePack = {
     }>;
     knowledge_nodes: CourseKnowledgeNode[];
   }>;
+  season_plan: Array<{
+    week: number;
+    phase: string;
+    title: string;
+    guiding_question: string;
+    sessions: [
+      { mode: "briefing" | "workshop" | "replay"; title: string },
+      { mode: "briefing" | "workshop" | "replay"; title: string },
+      { mode: "briefing" | "workshop" | "replay"; title: string },
+    ];
+    evidence: string;
+    checkpoint: string;
+    source_refs: string[];
+  }>;
   labs: Array<{
     id: string;
     title: string;

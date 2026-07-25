@@ -26,6 +26,7 @@ pub struct OpportunityRecord {
     pub title: String,
     pub summary: String,
     pub provider: String,
+    pub scope: String,
     #[serde(default)]
     pub search_aliases: Vec<String>,
     pub category: String,
@@ -275,6 +276,11 @@ impl OpportunityMarketFixture {
         for opportunity in &self.opportunities {
             require_non_empty("opportunity title", &opportunity.title)?;
             require_non_empty("opportunity source version", &opportunity.source_version)?;
+            if !matches!(opportunity.scope.as_str(), "campus" | "external") {
+                return Err(DomainError::InvariantViolation(
+                    "each Opportunity Market item must declare campus or external scope".to_owned(),
+                ));
+            }
             require_non_empty(
                 "opportunity correction route",
                 &opportunity.correction_route,
@@ -1549,14 +1555,11 @@ mod tests {
     fn fixture_enforces_transparency_privacy_and_non_manipulation() {
         let fixture = fixture();
         fixture.validate().expect("fixture must satisfy invariants");
-        assert_eq!(fixture.opportunities.len(), 8);
+        assert_eq!(fixture.opportunities.len(), 10);
         assert_eq!(fixture.packs.len(), 2);
-        assert!(
-            fixture
-                .opportunities
-                .iter()
-                .all(|item| item.paid_ranking_factor == 0.0)
-        );
+        assert!(fixture.opportunities.iter().all(|item| {
+            item.paid_ranking_factor == 0.0 && matches!(item.scope.as_str(), "campus" | "external")
+        }));
         assert!(
             fixture
                 .profile_fields
@@ -1599,7 +1602,7 @@ mod tests {
         let matches = session
             .run_selective_match(&fixture)
             .expect("matching should work");
-        assert_eq!(matches.len(), 7);
+        assert_eq!(matches.len(), 9);
         assert!(matches.iter().all(|item| !item.paid_influence));
     }
 

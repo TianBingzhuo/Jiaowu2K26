@@ -568,6 +568,60 @@ export function WorldExamStudio({
                 <ArrowRight24Regular aria-hidden="true" />
               </button>
             </article>
+            <section
+              className="world-finals-stadium"
+              aria-labelledby="world-finals-stadium-heading"
+            >
+              <header>
+                <div>
+                  <span>ACADEMIC STADIUM // OPT-IN BROADCAST</span>
+                  <h2 id="world-finals-stadium-heading">
+                    五万人学术体育场，不是五万人的公开排名
+                  </h2>
+                  <p>
+                    这是赛季终局的舞台设计：不同学科分区同步开卷挑战，主持人只解说题目、
+                    模型转折与匿名聚合趋势；个人答案、成绩、求助和复盘默认留在私密席。
+                  </p>
+                </div>
+                <span className="world-finals-stadium__fixture">
+                  50,000 是叙事容量 Fixture
+                </span>
+              </header>
+              <div className="world-finals-stadium__grid">
+                <article>
+                  <Trophy24Regular aria-hidden="true" />
+                  <span>
+                    <small>ARENA FORMAT</small>
+                    <strong>12 个学科赛区</strong>
+                    <p>同一开幕与收官，不同课程使用自己的来源、工具和作答形式。</p>
+                  </span>
+                </article>
+                <article>
+                  <DataTrending24Regular aria-hidden="true" />
+                  <span>
+                    <small>LIVE DESK</small>
+                    <strong>双语实时解说</strong>
+                    <p>只讲策略、证据核验与常见转折，不公开个人排名或制造羞辱。</p>
+                  </span>
+                </article>
+                <article>
+                  <Eye24Regular aria-hidden="true" />
+                  <span>
+                    <small>PUBLIC FEED</small>
+                    <strong>匿名聚合大屏</strong>
+                    <p>展示全场进度区间、来源挑战和协作里程碑；小样本自动隐藏。</p>
+                  </span>
+                </article>
+                <article>
+                  <ShieldCheckmark24Regular aria-hidden="true" />
+                  <span>
+                    <small>PLAYER CONTROL</small>
+                    <strong>本人决定是否登场</strong>
+                    <p>公开作品逐项预览与授权，随时退出直播；正式成绩不进入转播层。</p>
+                  </span>
+                </article>
+              </div>
+            </section>
             <div className="exam-calendar-strip" aria-label="其他考核节点">
               <article>
                 <CheckmarkCircle24Filled aria-hidden="true" />

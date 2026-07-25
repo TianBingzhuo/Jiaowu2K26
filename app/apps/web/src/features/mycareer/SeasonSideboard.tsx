@@ -195,15 +195,23 @@ export function SeasonSideboard({
               );
               return (
                 <li key={deadline.id}>
-                  <time dateTime={deadline.dueAt}>
-                    {formatDeadline(deadline.dueAt)}
-                  </time>
-                  <span>
-                    <strong>{deadline.title}</strong>
-                    <small>
-                      {course?.code ?? "课程"} · Fixture 日历
-                    </small>
-                  </span>
+                  <button
+                    type="button"
+                    onClick={() => onSelectCourse(deadline.courseId)}
+                    aria-label={`打开 ${course?.title ?? "课程"} 的截止任务：${deadline.title}`}
+                    data-focusable="true"
+                  >
+                    <time dateTime={deadline.dueAt}>
+                      {formatDeadline(deadline.dueAt)}
+                    </time>
+                    <span>
+                      <strong>{deadline.title}</strong>
+                      <small>
+                        {course?.code ?? "课程"} · 点击进入任务
+                      </small>
+                    </span>
+                    <ArrowRight24Regular aria-hidden="true" />
+                  </button>
                 </li>
               );
             })}

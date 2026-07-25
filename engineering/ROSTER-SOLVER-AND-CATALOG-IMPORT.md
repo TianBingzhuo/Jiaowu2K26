@@ -1,6 +1,6 @@
 # Roster Lab：Conda 式求解协议与真实目录导入边界
 
-> 状态：`conda_style_v1` 合同与 Fixture 参考实现已落地；真实 UArizona / HEBUT 目录均未导入、未持久化、未宣称可用。
+> 状态：`conda_style_v1` 合同与 Fixture 参考实现已落地；UArizona Summer 2026 公开目录快照已作为只读浏览数据接入前端（2,592 门课程、10,606 条 section 行、201 个学科代码），但尚未写入后端、培养方案约束或求解器。HEBUT 目录仍未导入。
 
 ## 1. “像 Conda”具体指什么
 
@@ -36,9 +36,11 @@ Roster Lab 借鉴的是 Conda 处理环境依赖的语义，不冒充 Conda 本�
 
 - `institution=uarizona`
 - `dataset_scope=public_course_catalog`
-- 来源以 `https://catalog.arizona.edu/` 或 `https://uaccess.schedule.arizona.edu/` 开头
+- 来源以 `https://catalog.arizona.edu/`、`https://uaccess.schedule.arizona.edu/` 或经核验的 `https://uacourses-api.uaccess.arizona.edu/` 开头
 
 明确拒绝：学生选课记录、成绩、hold、支付、身份和需要登录的 SIS 数据。公开页面可访问不自动等于获得再发布许可；每批仍要记录 `terms_version` 与 `use_basis` 并人工审核。
+
+当前前端快照只保存公开课程与 section 元数据、来源 URL、抓取时间和工作簿校验和；容量与选课人数是非原子快照，教室权限仍归 UAccess。它只支持发现和检索，不代表已完成可再发布许可审核，也不进入正式选课动作。
 
 ### HEBUT
 

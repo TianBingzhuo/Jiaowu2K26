@@ -54,6 +54,7 @@ import {
   setMarketQuery,
   setMarketStage,
   setOpportunityPreferences,
+  setScopeFilter,
   toggleActiveOnly,
   toggleOpportunityOffline,
   togglePortfolioArtifact,
@@ -72,6 +73,7 @@ import type {
   OpportunityCategory,
   OpportunityMarketState,
   OpportunityReport,
+  OpportunityScope,
   OpportunityStage,
 } from "./types";
 import { SourceBoundCoach } from "../ai/SourceBoundCoach";
@@ -81,6 +83,11 @@ type OpportunityMarketStudioProps = {
   backendLabel: string;
   onExit: () => void;
 };
+
+const isLiveOpportunityUrl = (value: string) =>
+  /^https:\/\//i.test(value) &&
+  !value.includes("example.edu") &&
+  !value.includes("example.invalid");
 
 const STAGES: Array<{
   id: OpportunityStage;
@@ -135,6 +142,22 @@ const CATEGORY_LABEL: Record<OpportunityCategory, string> = {
   scholarship: "资助",
   workshop: "工作坊",
   campus_project: "校园项目",
+};
+
+const SCOPE_META: Record<
+  OpportunityScope,
+  { label: string; english: string; description: string }
+> = {
+  campus: {
+    label: "校内机会",
+    english: "CAMPUS LEAGUE",
+    description: "由学校、院系、实验室或校内组织管理，优先核验校内资格与审批链。",
+  },
+  external: {
+    label: "校外机会",
+    english: "OPEN LEAGUE",
+    description: "由会议、赛事、基金会或雇主提供，单独核验差旅、费用、公开权利与外部规则。",
+  },
 };
 
 const STATUS_LABEL = {
@@ -218,6 +241,9 @@ function OpportunityCard({
     >
       <header>
         <div>
+          <span className={`is-scope-${opportunity.scope}`}>
+            {SCOPE_META[opportunity.scope].label}
+          </span>
           <span>{CATEGORY_LABEL[opportunity.category]}</span>
           <strong>{STATUS_LABEL[opportunity.status]}</strong>
         </div>
@@ -305,6 +331,34 @@ export function OpportunityMarketStudio({
   }, [state.selectedStage]);
 
   const opportunities = useMemo(() => visibleOpportunities(state), [state]);
+  const scopeCounts = useMemo(() => {
+    const currentPool = state.opportunities.filter(
+      (opportunity) =>
+        !state.showActiveOnly || opportunity.status === "active",
+    );
+    return {
+      all: currentPool.length,
+      campus: currentPool.filter((item) => item.scope === "campus").length,
+      external: currentPool.filter((item) => item.scope === "external").length,
+    };
+  }, [state.opportunities, state.showActiveOnly]);
+  const opportunityGroups = useMemo(
+    () =>
+      (["campus", "external"] as const)
+        .map((scope) => ({
+          scope,
+          opportunities: opportunities.filter(
+            (opportunity) => opportunity.scope === scope,
+          ),
+        }))
+        .filter(
+          (group) =>
+            group.opportunities.length > 0 &&
+            (state.scopeFilter === "all" ||
+              state.scopeFilter === group.scope),
+        ),
+    [opportunities, state.scopeFilter],
+  );
   const selectedOpportunity =
     state.opportunities.find(
       (item) => item.id === state.selectedOpportunityId,
@@ -411,6 +465,40 @@ export function OpportunityMarketStudio({
             当前显示 {opportunities.length} / {state.opportunities.length}；排序只按有效状态与截止时间。
           </p>
         </div>
+        <div
+          className="opportunity-scope-switch"
+          role="group"
+          aria-label="按机会来源范围切换"
+        >
+          <button
+            type="button"
+            aria-pressed={state.scopeFilter === "all"}
+            onClick={() =>
+              setState((current) => setScopeFilter(current, "all"))
+            }
+          >
+            <span>全部阵容</span>
+            <strong>{scopeCounts.all}</strong>
+            <small>分区展示，不再混排</small>
+          </button>
+          {(Object.entries(SCOPE_META) as Array<
+            [OpportunityScope, (typeof SCOPE_META)[OpportunityScope]]
+          >).map(([scope, meta]) => (
+            <button
+              key={scope}
+              type="button"
+              className={`is-${scope}`}
+              aria-pressed={state.scopeFilter === scope}
+              onClick={() =>
+                setState((current) => setScopeFilter(current, scope))
+              }
+            >
+              <span>{meta.label}</span>
+              <strong>{scopeCounts[scope]}</strong>
+              <small>{meta.english}</small>
+            </button>
+          ))}
+        </div>
         <div className="opportunity-filters">
           <label>
             <Search24Regular aria-hidden="true" />
@@ -468,6 +556,7 @@ export function OpportunityMarketStudio({
                 setState((current) => ({
                   ...current,
                   query: "",
+                  scopeFilter: "all",
                   categoryFilter: "all",
                   showActiveOnly: true,
                 }))
@@ -477,26 +566,46 @@ export function OpportunityMarketStudio({
             </button>
           </div>
         ) : (
-          <div className="opportunity-card-grid">
-            {opportunities.map((opportunity) => (
-              <OpportunityCard
-                key={opportunity.id}
-                opportunity={opportunity}
-                saved={state.savedOpportunities.some(
-                  (item) => item.opportunityId === opportunity.id,
-                )}
-                disabled={state.offline}
-                onOpen={() =>
-                  commit((current) =>
-                    selectOpportunity(current, opportunity.id),
-                  )
-                }
-                onSave={() =>
-                  commit((current) =>
-                    saveOpportunity(current, opportunity.id),
-                  )
-                }
-              />
+          <div className="opportunity-scope-groups">
+            {opportunityGroups.map((group) => (
+              <section
+                key={group.scope}
+                className={`opportunity-scope-group is-${group.scope}`}
+                aria-labelledby={`opportunity-scope-${group.scope}`}
+              >
+                <header>
+                  <div>
+                    <span>{SCOPE_META[group.scope].english}</span>
+                    <h3 id={`opportunity-scope-${group.scope}`}>
+                      {SCOPE_META[group.scope].label}
+                    </h3>
+                  </div>
+                  <p>{SCOPE_META[group.scope].description}</p>
+                  <strong>{group.opportunities.length} 项</strong>
+                </header>
+                <div className="opportunity-card-grid">
+                  {group.opportunities.map((opportunity) => (
+                    <OpportunityCard
+                      key={opportunity.id}
+                      opportunity={opportunity}
+                      saved={state.savedOpportunities.some(
+                        (item) => item.opportunityId === opportunity.id,
+                      )}
+                      disabled={state.offline}
+                      onOpen={() =>
+                        commit((current) =>
+                          selectOpportunity(current, opportunity.id),
+                        )
+                      }
+                      onSave={() =>
+                        commit((current) =>
+                          saveOpportunity(current, opportunity.id),
+                        )
+                      }
+                    />
+                  ))}
+                </div>
+              </section>
             ))}
           </div>
         )}
@@ -509,6 +618,7 @@ export function OpportunityMarketStudio({
       <section className="opportunity-detail-panel">
         <header>
           <span>
+            {SCOPE_META[selectedOpportunity.scope].label} ·{" "}
             {CATEGORY_LABEL[selectedOpportunity.category]} ·{" "}
             {STATUS_LABEL[selectedOpportunity.status]}
           </span>
@@ -602,7 +712,21 @@ export function OpportunityMarketStudio({
           <div>
             <dt>官方规则</dt>
             <dd title={selectedOpportunity.sourceUrl}>
-              {selectedOpportunity.sourceUrl}
+              {isLiveOpportunityUrl(selectedOpportunity.sourceUrl) ? (
+                <a
+                  href={selectedOpportunity.sourceUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  打开官方规则
+                  <Open24Regular aria-hidden="true" />
+                </a>
+              ) : (
+                <>
+                  {selectedOpportunity.sourceUrl}
+                  <small>Fixture 地址，不发起外部访问</small>
+                </>
+              )}
             </dd>
           </div>
           <div>
@@ -891,7 +1015,7 @@ export function OpportunityMarketStudio({
             );
             return {
               label: opportunity?.title ?? result.opportunityId,
-              value: `匹配带 ${MATCH_LABEL[result.fitBand]}；理由 ${result.reasons.join("、") || "无"}；冲突 ${result.conflicts.join("、") || "无"}；未知 ${result.unknowns.join("、") || "无"}`,
+              value: `${opportunity ? SCOPE_META[opportunity.scope].label : "范围未知"}；匹配带 ${MATCH_LABEL[result.fitBand]}；理由 ${result.reasons.join("、") || "无"}；冲突 ${result.conflicts.join("、") || "无"}；未知 ${result.unknowns.join("、") || "无"}`,
               source_id: `opportunity-match:${result.opportunityId}`,
             };
           })}
@@ -1066,9 +1190,23 @@ export function OpportunityMarketStudio({
             <Open24Regular aria-hidden="true" />
             <div>
               <strong>正式申请留在权威外部系统</strong>
-              <p title={selectedOpportunity.externalApplicationUrl}>
-                {selectedOpportunity.externalApplicationUrl}
-              </p>
+              {isLiveOpportunityUrl(
+                selectedOpportunity.externalApplicationUrl,
+              ) ? (
+                <a
+                  href={selectedOpportunity.externalApplicationUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  title={selectedOpportunity.externalApplicationUrl}
+                >
+                  打开官方详情 / 申请入口
+                  <Open24Regular aria-hidden="true" />
+                </a>
+              ) : (
+                <p title={selectedOpportunity.externalApplicationUrl}>
+                  Fixture 外部入口尚未连接
+                </p>
+              )}
             </div>
             <label>
               <input
@@ -1571,7 +1709,7 @@ export function OpportunityMarketStudio({
         )}
         <strong>{state.offline ? "离线只读" : "透明 Fixture"}</strong>
         <span>
-          1 条 AdventureX 官方规则核验快照 + 7 条虚构机会；个人状态、匹配与回应仍为 Fixture，不自动申请、不预测录取、不付费排序、不随机资格、不拍卖人。
+          AdventureX、CHI 2027 与 ICRA 2027 使用官方规则核验快照，其余为明确标注的 Fixture；个人状态、匹配与回应仍是演示数据，不自动申请、不预测录取、不付费排序、不随机资格、不拍卖人。
         </span>
       </div>
 

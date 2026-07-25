@@ -136,6 +136,232 @@
       ]
     }
   ],
+  "season_plan": [
+    {
+      "week": 1,
+      "phase": "PRESEASON",
+      "title": "从真实波形签下课程合同",
+      "guiding_question": "一条曲线在什么条件下才是可以解释、复现和质疑的信号？",
+      "sessions": [
+        { "mode": "briefing", "title": "示波器、音频与 IMU 波形开场" },
+        { "mode": "workshop", "title": "输入、输出、状态、单位与边界" },
+        { "mode": "replay", "title": "前置诊断与个人补给路线" }
+      ],
+      "evidence": "一页系统边界图 + 单位与数据来源清单",
+      "checkpoint": "能区分波形、数据、信号模型与显示插值",
+      "source_refs": ["training-1-structure", "training-3-sampling"]
+    },
+    {
+      "week": 2,
+      "phase": "FOUNDATION",
+      "title": "系统性质不是球探标签",
+      "guiding_question": "怎样用反例而不是印象判断线性、时不变、因果与稳定？",
+      "sessions": [
+        { "mode": "briefing", "title": "移位、缩放、反转的关键点战术" },
+        { "mode": "workshop", "title": "四类系统性质反例挑战" },
+        { "mode": "replay", "title": "把错误直觉改写成可检验命题" }
+      ],
+      "evidence": "四个性质的定义—反例—边界卡",
+      "checkpoint": "不再用“看起来正常”代替性质证明",
+      "source_refs": ["training-2-signal-operations", "training-2-system-properties"]
+    },
+    {
+      "week": 3,
+      "phase": "TIME DOMAIN",
+      "title": "从 RC/RLC 拓扑建立方程",
+      "guiding_question": "为什么同一组元件在输出节点或初态改变后会成为不同系统？",
+      "sessions": [
+        { "mode": "briefing", "title": "参考方向、状态变量与初始条件" },
+        { "mode": "workshop", "title": "KCL/KVL 到量纲一致微分方程" },
+        { "mode": "replay", "title": "解析解与极限情况交叉检查" }
+      ],
+      "evidence": "拓扑—变量—方程—单位四联表",
+      "checkpoint": "能从电路而非模板推出一阶与二阶方程",
+      "source_refs": ["training-1-rc-rlc", "training-2-differential-equation"]
+    },
+    {
+      "week": 4,
+      "phase": "TIME DOMAIN",
+      "title": "把历史与外力拆开",
+      "guiding_question": "零输入、零状态、自然与受迫响应分别在解释什么？",
+      "sessions": [
+        { "mode": "briefing", "title": "储能与初态的物理含义" },
+        { "mode": "workshop", "title": "阶跃、冲激与响应分解" },
+        { "mode": "replay", "title": "同一输入、不同初态对照赛" }
+      ],
+      "evidence": "带初态 RC/RLC 响应分解 Notebook",
+      "checkpoint": "不会让传递函数吞掉初始状态",
+      "source_refs": ["training-2-response-decomposition", "training-2-step-response"]
+    },
+    {
+      "week": 5,
+      "phase": "TIME DOMAIN",
+      "title": "卷积：每一次延迟贡献的团队配合",
+      "guiding_question": "卷积积分的区间为什么会随移位变化？",
+      "sessions": [
+        { "mode": "briefing", "title": "翻转—移位—相乘—累积动画" },
+        { "mode": "workshop", "title": "矩形、指数与离散序列分段卷积" },
+        { "mode": "replay", "title": "用单位、支撑区间和极限值验算" }
+      ],
+      "evidence": "手绘重叠区间 + 数值卷积对照",
+      "checkpoint": "能口述每个积分区间的来由",
+      "source_refs": ["training-2-convolution"]
+    },
+    {
+      "week": 6,
+      "phase": "FREQUENCY DOMAIN",
+      "title": "周期信号的阵容拆解",
+      "guiding_question": "方波为什么需要一支谐波阵容，又为什么永远会有边缘振铃？",
+      "sessions": [
+        { "mode": "briefing", "title": "声音与方波的谐波竞猜" },
+        { "mode": "workshop", "title": "傅里叶级数、线谱与截断重构" },
+        { "mode": "replay", "title": "Gibbs 现象与有限带宽边界" }
+      ],
+      "evidence": "谐波项数—波形误差—频谱占用对照",
+      "checkpoint": "能同时解释线谱位置、幅值和相位",
+      "source_refs": ["training-2-fourier-series"]
+    },
+    {
+      "week": 7,
+      "phase": "FREQUENCY DOMAIN",
+      "title": "从傅里叶变换进入频谱 Film Room",
+      "guiding_question": "同样的幅度谱为什么仍可能对应完全不同的波形？",
+      "sessions": [
+        { "mode": "briefing", "title": "非周期信号与连续频谱" },
+        { "mode": "workshop", "title": "时移、尺度、调制与卷积性质" },
+        { "mode": "replay", "title": "幅度谱与相位谱重构挑战" }
+      ],
+      "evidence": "变换约定卡 + 三组幅相重构实验",
+      "checkpoint": "每次结果都声明 f/ω 与 2π 约定",
+      "source_refs": ["training-2-fourier-transform", "training-2-transform-properties"]
+    },
+    {
+      "week": 8,
+      "phase": "MIDSEASON",
+      "title": "Midseason Replay：时域与频域会师",
+      "guiding_question": "同一系统的微分方程、冲激响应、极点与频率响应怎样互相校验？",
+      "sessions": [
+        { "mode": "briefing", "title": "概念图谱与最小前置复盘" },
+        { "mode": "workshop", "title": "开放资料 Key Match" },
+        { "mode": "replay", "title": "错误证据回放与补练签约" }
+      ],
+      "evidence": "一张多表示互证地图 + 修订记录",
+      "checkpoint": "能从任一表示追到其假设与失效条件",
+      "source_refs": ["training-2-system-function", "course-audit-sig-01-19"]
+    },
+    {
+      "week": 9,
+      "phase": "SYSTEM FUNCTION",
+      "title": "Laplace、系统函数与极点零点",
+      "guiding_question": "极点和零点如何决定系统的自然模态、稳定性与可见响应？",
+      "sessions": [
+        { "mode": "briefing", "title": "单边/双边 Laplace 与收敛域边界" },
+        { "mode": "workshop", "title": "H(s)、极点零点与部分分式" },
+        { "mode": "replay", "title": "零初态假设与稳定语境辨析" }
+      ],
+      "evidence": "系统函数—极点图—响应形状三联卡",
+      "checkpoint": "不会把零点解释成固定的零输出时刻",
+      "source_refs": ["training-2-transfer-function", "training-2-stability"]
+    },
+    {
+      "week": 10,
+      "phase": "FILTER SCOUTING",
+      "title": "Bode 战术板与滤波选择",
+      "guiding_question": "截止频率、带宽、相位与群时延怎样共同决定信号是否失真？",
+      "sessions": [
+        { "mode": "briefing", "title": "对数坐标、分贝与渐近线" },
+        { "mode": "workshop", "title": "RC/RLC Bode 预测—仿真—测量" },
+        { "mode": "replay", "title": "无失真条件与滤波器球探报告" }
+      ],
+      "evidence": "幅相图、-3 dB 换算与带内误差预算",
+      "checkpoint": "能用 K·e^(-jωt0) 解释幅度与相位失真",
+      "source_refs": ["training-1-bode", "training-2-distortionless"]
+    },
+    {
+      "week": 11,
+      "phase": "SAMPLING",
+      "title": "采样、混叠与不可逆交易",
+      "guiding_question": "为什么增加 FFT 点数救不回已经发生的混叠？",
+      "sessions": [
+        { "mode": "briefing", "title": "频谱复制与 Nyquist 可视化" },
+        { "mode": "workshop", "title": "混叠听辨与抗混叠方案" },
+        { "mode": "replay", "title": "采样率—带宽—成本权衡" }
+      ],
+      "evidence": "两种采样率的频谱复制与重建对照",
+      "checkpoint": "能根据真实带宽给出采样与前端滤波理由",
+      "source_refs": ["training-3-sampling", "training-3-aliasing"]
+    },
+    {
+      "week": 12,
+      "phase": "DIGITAL FILM ROOM",
+      "title": "DFT/FFT 证据链",
+      "guiding_question": "一张频谱图至少要交代哪些条件才可以被相信？",
+      "sessions": [
+        { "mode": "briefing", "title": "DFT、有限记录与周期延拓" },
+        { "mode": "workshop", "title": "频率轴、单双边谱、窗与归一化" },
+        { "mode": "replay", "title": "泄漏、栅栏效应与 Parseval 核验" }
+      ],
+      "evidence": "可运行 Notebook + 参数卡 + 错误版本对照",
+      "checkpoint": "图中同时标明采样率、记录长度、窗、单位与缩放",
+      "source_refs": ["training-3-dft", "audit-sig-frequency-axis", "audit-sig-normalization"]
+    },
+    {
+      "week": 13,
+      "phase": "DISCRETE SYSTEMS",
+      "title": "Z 变换与离散系统赛场",
+      "guiding_question": "离散系统的极点、收敛域和单位圆怎样连接稳定与频率响应？",
+      "sessions": [
+        { "mode": "briefing", "title": "序列、差分方程与 Z 变换" },
+        { "mode": "workshop", "title": "极点零点、ROC 与系统函数" },
+        { "mode": "replay", "title": "连续—离散模型映射边界" }
+      ],
+      "evidence": "差分方程—Z 域—数值响应互证表",
+      "checkpoint": "不会只给代数式而忽略收敛域",
+      "source_refs": ["training-3-z-transform"]
+    },
+    {
+      "week": 14,
+      "phase": "LAB SERIES",
+      "title": "解析、仿真、实测三联赛",
+      "guiding_question": "三条曲线不重合时，怎样把差异变成模型证据而不是一句“实验误差”？",
+      "sessions": [
+        { "mode": "briefing", "title": "参数冻结、求解器与仪器加载" },
+        { "mode": "workshop", "title": "RC/RLC 三路结果采集" },
+        { "mode": "replay", "title": "误差分类、容差传播与修订" }
+      ],
+      "evidence": "原始 CSV、脚本、设置、误差表与复现实录",
+      "checkpoint": "能区分模型、数值、仪器、元件与操作差异",
+      "source_refs": ["training-1-multisim", "audit-sig-instrument", "training-1-error-table"]
+    },
+    {
+      "week": 15,
+      "phase": "CAPSTONE",
+      "title": "机器人传感—处理—执行闭环",
+      "guiding_question": "采样、滤波、通信、调度与执行器如何共同形成端到端时延？",
+      "sessions": [
+        { "mode": "briefing", "title": "IMU/编码器日志与系统边界" },
+        { "mode": "workshop", "title": "滤波、频谱、P50/P95/P99 与辨识" },
+        { "mode": "replay", "title": "失败注入、回滚与验证集复核" }
+      ],
+      "evidence": "控制链预算 + 模型验证 + 可复现证据包",
+      "checkpoint": "不以平均时延或拟合重合冒充系统稳定",
+      "source_refs": ["capstone-sensor-control", "capstone-latency-jitter", "capstone-model-identification"]
+    },
+    {
+      "week": 16,
+      "phase": "WORLD EXAM FINALS",
+      "title": "五万人学术体育场 · 模型保卫战",
+      "guiding_question": "面对新条件，能否说明模型为什么成立、在哪里失效、下一步怎样验证？",
+      "sessions": [
+        { "mode": "briefing", "title": "公开安全赛前简报与证据检查" },
+        { "mode": "workshop", "title": "分区开放资料挑战与实时解说" },
+        { "mode": "replay", "title": "匿名聚合直播、个人私密复盘与赛季归档" }
+      ],
+      "evidence": "模型答辩、来源回放、未知项与下一赛季改进合同",
+      "checkpoint": "公开内容经本人和教师确认；无公开排名、羞辱或正式成绩写回",
+      "source_refs": ["capstone-reproducibility", "portfolio-fixture-sls240"]
+    }
+  ],
   "labs": [
     { "id": "lab-rc-rlc", "title": "RC/RLC 解析—仿真—实测三联赛", "deliverable": "参数冻结表、三条波形、误差归因与模型边界 Replay", "evidence": ["方程与单位", "Multisim/MATLAB/Python 设置", "仪器量程与重复测量"], "safety": "先检查供电、接地、量程和元件额定值；Demo 不直接控制真实设备。" },
     { "id": "lab-convolution", "title": "卷积滑动与区间口述", "deliverable": "分段卷积结果、重叠区间解释与一个反例", "evidence": ["关键点草图", "数值对照"], "safety": "纯软件练习；答案自动保存，可撤回重做。" },

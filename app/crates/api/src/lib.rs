@@ -1335,6 +1335,7 @@ async fn get_roster_import_capabilities() -> Json<RosterImportCapabilitiesRespon
                 accepted_locator_prefixes: vec![
                     "https://catalog.arizona.edu/".to_owned(),
                     "https://uaccess.schedule.arizona.edu/".to_owned(),
+                    "https://uacourses-api.uaccess.arizona.edu/".to_owned(),
                 ],
                 validation_only: true,
                 authorization_gate:
@@ -4549,7 +4550,7 @@ mod tests {
         let (demo_status, demo) = get_json(app.clone(), "/api/v1/demo/opportunity-market").await;
         assert_eq!(demo_status, StatusCode::OK);
         assert_eq!(demo["data_mode"], "demo_fixture");
-        assert_eq!(demo["opportunities"].as_array().map(Vec::len), Some(8));
+        assert_eq!(demo["opportunities"].as_array().map(Vec::len), Some(10));
         assert_eq!(demo["packs"].as_array().map(Vec::len), Some(2));
         assert!(
             demo["opportunities"]
@@ -4558,6 +4559,7 @@ mod tests {
                     item["paid_ranking_factor"].as_f64() == Some(0.0)
                         && item["random_allocation"] == false
                         && item["auction_enabled"] == false
+                        && matches!(item["scope"].as_str(), Some("campus") | Some("external"))
                 }))
         );
 
@@ -4610,7 +4612,7 @@ mod tests {
         let matching = json_request(app, "POST", "/api/v1/opportunity-match", json!({})).await;
         assert_eq!(matching.status(), StatusCode::OK);
         let matching = response_json(matching).await;
-        assert_eq!(matching.as_array().map(Vec::len), Some(7));
+        assert_eq!(matching.as_array().map(Vec::len), Some(9));
         assert!(
             matching
                 .as_array()
@@ -4784,7 +4786,7 @@ mod tests {
         assert_eq!(matching.status(), StatusCode::OK);
         assert_eq!(
             response_json(matching).await.as_array().map(Vec::len),
-            Some(7)
+            Some(9)
         );
 
         let report = json_request(

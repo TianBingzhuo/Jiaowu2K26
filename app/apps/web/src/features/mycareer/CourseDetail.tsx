@@ -183,11 +183,12 @@ export function CourseDetail({
           <SourceBoundCoach
             task="course_explanation"
             eyebrow="AI FILM ROOM // SOURCE-BOUND"
-            title="把下一知识点讲明白，再进模拟赛"
+            title="生成一条真正可执行的 AI 学习路径"
             subject={`${course.code} ${course.title}`}
-            question="请根据课程进度、下一动作和公开课程索引，给出一个可验证的学习回合。"
+            question="请根据课程进度、下一动作和公开课程索引，给出从诊断、讲解、练习到证据回放的可验证学习路径。"
             consentRequired={false}
             boundary="只发送 Demo 课程状态和公开索引引用；AI 不能读取原始私人课件、改成绩或替代教师审核。"
+            actionLabel="生成本课程 AI 学习路径"
             facts={[
               {
                 label: "当前进度",

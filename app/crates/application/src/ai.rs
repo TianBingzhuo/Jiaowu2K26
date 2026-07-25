@@ -290,6 +290,34 @@ mod tests {
     }
 
     #[test]
+    fn every_supported_task_has_a_source_bound_fallback() {
+        let tasks = [
+            AiTask::StudentSupportCase,
+            AiTask::TeachingImprovement,
+            AiTask::CurriculumImpact,
+            AiTask::PolicyImpact,
+            AiTask::CareerPath,
+            AiTask::OpportunityBrief,
+            AiTask::CourseExplanation,
+        ];
+        for task in tasks {
+            let mut input = request();
+            input.task = task;
+            let advice = rules_fallback_advice(&input, Some("fixture"));
+            assert_eq!(advice.mode, AiAdviceMode::RulesFallback);
+            assert!(!advice.formal_decision);
+            assert_eq!(advice.source_ids, vec!["case-fixture-001"]);
+            assert!(!advice.suggestions.is_empty());
+            assert!(
+                advice
+                    .suggestions
+                    .iter()
+                    .all(|item| item.source_ids == vec!["case-fixture-001"])
+            );
+        }
+    }
+
+    #[test]
     fn timestamp_conversion_is_rfc3339_utc() {
         assert_eq!(unix_seconds_to_rfc3339(0), "1970-01-01T00:00:00Z");
         assert_eq!(

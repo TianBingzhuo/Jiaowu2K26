@@ -78,7 +78,10 @@ impl CatalogImportValidationRequest {
                 .starts_with("https://catalog.arizona.edu/")
                 || self
                     .source_locator
-                    .starts_with("https://uaccess.schedule.arizona.edu/"))
+                    .starts_with("https://uaccess.schedule.arizona.edu/")
+                || self
+                    .source_locator
+                    .starts_with("https://uacourses-api.uaccess.arizona.edu/"))
         {
             return Err(invariant(
                 "UArizona imports require an approved public catalog or class-search source",
@@ -229,6 +232,15 @@ mod tests {
         assert!(!receipt.imported);
         assert!(!receipt.persisted);
         assert!(!receipt.is_formal_enrollment);
+    }
+
+    #[test]
+    fn accepts_the_verified_uarizona_courses_api_origin() {
+        let mut candidate = request();
+        candidate.source_locator =
+            "https://uacourses-api.uaccess.arizona.edu/courses?term_code=2262&subject_code=ECE"
+                .to_owned();
+        assert!(candidate.validate().is_ok());
     }
 
     #[test]

@@ -180,7 +180,7 @@ bash scripts/smoke-api.sh
 
 ## 模型配置与 BYOK 当前边界
 
-当前 Rust API 已实现 provider-neutral OpenAI-compatible BYOK 运行时，支持 Moonshot/Kimi K3、GX10 loopback 端点和其他经过核验的兼容服务。模型 SDK、key 和供应商类型仍不得进入领域层；没有凭据或模型失败时，`/api/v1/ai/advice` 会明确返回 `rules_fallback`，不会伪装成模型输出。
+当前 Rust API 已实现 provider-neutral OpenAI-compatible BYOK 运行时，默认使用 Moonshot/Kimi K2.6 Fast（关闭深度思考），同时支持 GX10 loopback 端点和其他经过核验的兼容服务。模型 SDK、key 和供应商类型仍不得进入领域层；没有凭据或模型失败时，`/api/v1/ai/advice` 会明确返回 `rules_fallback`，不会伪装成模型输出。
 
 - 可共享：provider 类型、endpoint、精确 model ID、能力、数据区域、超时和 `key_ref` 的无秘密 profile。
 - 只留本机：API key、token、Cookie、登录凭据；优先放操作系统凭据库或受控进程环境。
@@ -197,7 +197,8 @@ bash scripts/smoke-api.sh
 | `RUST_LOG` | `info` | Rust 日志过滤 |
 | `J2K26_AI_PROVIDER` | `moonshot` | AI adapter；只返回无秘密名称 |
 | `J2K26_AI_BASE_URL` | `https://api.moonshot.cn/v1` | 只允许 HTTPS，或显式 loopback HTTP |
-| `J2K26_AI_MODEL` | `kimi-k3` | 精确模型 ID；GX10 必须使用 `/v1/models` 实测值 |
+| `J2K26_AI_MODEL` | `kimi-k2.6` | 精确模型 ID；GX10 必须使用 `/v1/models` 实测值 |
+| `J2K26_AI_THINKING` | `disabled`（K2.6） | `disabled`/`fast` 为低延迟档；复杂任务才显式使用 `enabled` |
 | `J2K26_AI_AUTH_MODE` | `bearer` | `none` 仅允许 `127.0.0.1`、`localhost`、`::1` |
 | `MOONSHOT_API_KEY` / `J2K26_AI_API_KEY` | 无 | 仅由 Rust 服务端进程读取；前者用于 Moonshot，后者用于通用兼容端点 |
 | `J2K26_PRIVATE_PROFILE_PATH` | `.data/university2k26/private-profile.json` | 可选去标识发展档案；不得提交 |
@@ -209,23 +210,17 @@ $env:J2K26_DATABASE_URL = 'sqlite::memory:'
 $env:J2K26_BIND = '127.0.0.1:3000'
 ```
 
-### Moonshot / Kimi K3 本机验证
+### Moonshot / Kimi K2.6 Fast 本机验证
 
-先停止旧 API，再在当前 PowerShell 进程中遮罩输入密钥：
+推荐使用当前 Windows 用户 DPAPI 加密的本机 BYOK 配置。脚本会隐藏输入、把密钥保存到 Git 已忽略的 `.data/`，并自动重启后端、执行课程学习路径、机会匹配和职业路线三类来源约束冒烟测试：
 
 ```powershell
-pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\Stop-University2K26.ps1
-$env:J2K26_AI_PROVIDER = 'moonshot'
-$env:J2K26_AI_BASE_URL = 'https://api.moonshot.cn/v1'
-$env:J2K26_AI_MODEL = 'kimi-k3'
-$env:MOONSHOT_API_KEY = Read-Host -MaskInput 'Moonshot API key'
-pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\Start-University2K26.ps1
-Remove-Item Env:MOONSHOT_API_KEY
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\Configure-University2K26-AI.ps1
 ```
 
-启动器通过 `WSLENV` 把允许的变量传给 WSL 子进程；密钥不进入命令行、运行回执或日志。先看 `/api/v1/ai/status`，再只用脱敏 Fixture 触发一次建议。`configured=true` 只表示已配置，实际请求返回 `mode=model` 才是本次通路证据。Kimi K3 采用官方当前合同：`reasoning_effort=low`、有界 `max_completion_tokens` 和严格 JSON Schema；不要把一次成功当成质量评测。
+启动器只在当前进程中解密凭据，通过 `WSLENV` 把允许的变量传给 WSL 子进程，随后清除临时环境变量；密钥不进入命令行、浏览器存储、运行回执或日志。`configured=true` 只表示已配置，三类测试全部返回 `mode=model` 才是本次通路证据。Kimi K2.6 Fast 采用官方当前合同：`thinking={"type":"disabled"}`、有界 `max_completion_tokens` 和严格 JSON Schema；不要把一次成功当成质量评测。
 
-官方说明：[Kimi API 快速开始](https://platform.kimi.com/docs/overview)、[Kimi K3 参数与结构化输出](https://platform.kimi.com/docs/guide/kimi-k3-quickstart)、[模型列表](https://platform.kimi.com/docs/models)。
+需要临时启用深度思考时使用 `-Thinking enabled`；清除本机密钥使用 `-Clear`。官方说明：[Kimi K2.6 快速开始](https://platform.kimi.com/docs/guide/kimi-k2-6-quickstart)、[思考模式开关](https://platform.kimi.com/docs/guide/use-kimi-k2-thinking-model)、[模型列表](https://platform.kimi.com/docs/models)。
 
 ### GX10 loopback 验证
 
@@ -241,7 +236,7 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\Start-University2K26.ps1
 
 远端 HTTP、URL 内凭据、query/fragment 或无界模型响应会被 adapter 拒绝。完整设备批准点、容器和回执见 `engineering/GX10-V09-DEPLOYMENT-HANDOFF.md` 与 `deploy/gx10/README.md`。
 
-`j2k26` CLI 与操作系统凭据库仍须等待独立任务；现有 BYOK 只接受受控服务端进程环境。长期合同见 `engineering/ARCHITECTURE.md#9-cli外部-ai-与-byok-自动化合同`。
+`j2k26` CLI 仍须等待独立任务；Windows 本机 BYOK 已使用当前用户 DPAPI，其他平台凭据库仍待分别实现。长期合同见 `engineering/ARCHITECTURE.md#9-cli外部-ai-与-byok-自动化合同`。
 
 ## AI 最小接手协议
 

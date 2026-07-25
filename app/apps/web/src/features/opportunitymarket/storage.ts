@@ -14,10 +14,13 @@ export function loadOpportunityState(
       parsed.dataMode !== "demo_fixture" ||
       parsed.studentId !== "student-nan-fixture" ||
       parsed.lastUpdatedAt !== currentFixture.lastUpdatedAt ||
+      parsed.message !== currentFixture.message ||
+      !["all", "campus", "external"].includes(parsed.scopeFilter) ||
       parsed.opportunities.length !== currentFixture.opportunities.length ||
       parsed.opportunities.some(
         (opportunity, index) =>
-          opportunity.id !== currentFixture.opportunities[index]?.id,
+          opportunity.id !== currentFixture.opportunities[index]?.id ||
+          !["campus", "external"].includes(opportunity.scope),
       )
     ) {
       return null;

@@ -449,6 +449,99 @@
   transform: none;
 }
 
+.world-finals-stadium {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+  padding: 18px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 82% 0%, rgb(88 166 255 / 17%), transparent 36%),
+    linear-gradient(125deg, rgb(247 140 26 / 10%), transparent 52%),
+    rgb(4 11 19 / 94%);
+  border: 1px solid rgb(88 166 255 / 38%);
+  box-shadow: inset 0 3px 0 rgb(247 140 26 / 62%);
+}
+
+.world-finals-stadium > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.world-finals-stadium > header > div {
+  min-width: 0;
+}
+
+.world-finals-stadium > header span,
+.world-finals-stadium__grid small {
+  color: #78bcff;
+  font: 800 9px/1 "Barlow Condensed", "Noto Sans SC Variable", sans-serif;
+  letter-spacing: 0.1em;
+}
+
+.world-finals-stadium > header h2 {
+  margin: 7px 0 5px;
+  font-size: clamp(20px, 2.5vw, 30px);
+  line-height: 1.08;
+}
+
+.world-finals-stadium > header p {
+  max-width: 780px;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.world-finals-stadium__fixture {
+  flex: 0 0 auto;
+  max-width: 160px;
+  padding: 8px 10px;
+  color: #ffd18f !important;
+  background: rgb(247 140 26 / 10%);
+  border: 1px solid rgb(247 140 26 / 42%);
+  line-height: 1.35 !important;
+  text-align: center;
+}
+
+.world-finals-stadium__grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.world-finals-stadium__grid article {
+  display: grid;
+  min-width: 0;
+  gap: 10px;
+  padding: 12px;
+  background: rgb(8 18 30 / 84%);
+  border: 1px solid rgb(88 166 255 / 22%);
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.world-finals-stadium__grid article > svg {
+  color: var(--color-accent-primary);
+}
+
+.world-finals-stadium__grid article > span {
+  display: grid;
+  gap: 5px;
+}
+
+.world-finals-stadium__grid strong {
+  font-size: 12px;
+}
+
+.world-finals-stadium__grid p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 9px;
+  line-height: 1.5;
+}
+
 .exam-calendar-strip {
   display: grid;
   margin-top: 14px;
@@ -1583,6 +1676,10 @@
     grid-template-columns: 1fr;
   }
 
+  .world-finals-stadium__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .match-layout > nav {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1682,10 +1779,20 @@
 
   .exam-featured-event dl,
   .exam-calendar-strip,
+  .world-finals-stadium__grid,
   .briefing-grid,
   .match-layout,
   .exam-box-score dl {
     grid-template-columns: 1fr;
+  }
+
+  .world-finals-stadium > header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .world-finals-stadium__fixture {
+    max-width: none;
   }
 
   .exam-featured-event dl > div + div,

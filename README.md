@@ -62,8 +62,10 @@ AI 的回执至少应包含：
 - 技术栈状态：Rust / Axum / Tokio + SQLite 的 P0-00 本地证据及 GitHub Actions Ubuntu/Windows/合同文档门禁已通过，仍等待第二台机器复现与产品总集成人员接受决定；OceanBase 仍是未验证的可选适配器
 - 实现状态：已通过的 Option 1 首页美术已晋升为 `app/apps/web` 中的 University2K26 V0.9 正式 Web/PWA 外壳；严格 TypeScript、Vite 6.4.3 构建、统一 Motion Tokens 与显式 Fixture 降级已就绪。首页现提供学生、教师、辅导员 / 学业导师、专业负责人 / 系主任、本科生院 / 教务处五种 Demo Role Lens，共用同一游戏世界、输入合同和责任链。F-001～F-009 的学习、生涯、数据镜像、排课、赛事、能力、球探、校园生活与机会纵向切片，以及 F-010 Campus Pass 的 Wallet→Reader→Access Queue→Safety Desk→Replay 脱敏切片均通过本地技术验证；状态均为 `technical_review`，未获人类接受的模块不得称为完成
 - 公开主仓：[TianBingzhuo/Jiaowu2K26](https://github.com/TianBingzhuo/Jiaowu2K26)；GitHub Issue / PR 是开仓后的实时工作源
-- 当前代码证据：76 项 Rust 工作区测试、35 份 JSON Schema、10 份 Golden Fixture、OpenAPI/Manifest 合同检查通过；F-001～F-010、五角色 Experience Shell、四个机构工作台、来源约束 AI/规则回退、完整 SLS 课程蓝图、AdventureX 机会彩蛋和 `conda_style_v1` 目录验证门通过严格 TypeScript、152 项 Vitest 与 Vite Production Build。当前 Edge / Chromium 已复测学生与四个机构工作台、角色切换、浏览器返回、规则回退、SLS 课程蓝图、AdventureX 检索/授权门、排课验证门、390×844 移动端和英文角色导览；Moonshot/GX10 实时模型、真实 UArizona/HEBUT 目录、生产 SSO/授权、全量双语和 Firefox/Safari 均不在已完成证据中
-- Demo 课程：信号与线性系统为首页主赛程，光学、电子电路、高等数学、学术英语、工程训练构成课程阵容；仅使用本地已审核 README/索引中的名称、主题与证据边界，分析路径、身份、进度、等级和建议均明确标记为 Fixture，详见 [Demo 课程来源与脱敏边界](reference/DEMO-COURSE-PROVENANCE.md)
+- 当前代码证据：79 项 Rust 工作区测试、35 份 JSON Schema、10 份 Golden Fixture、OpenAPI/Manifest 合同检查通过；F-001～F-010、五角色 Experience Shell、四个机构工作台、来源约束 AI/规则回退、完整 SLS 课程蓝图、校内/校外双联赛机会市场、AdventureX 彩蛋和 `conda_style_v1` 目录验证门通过严格 TypeScript、161 项 Vitest 与 Vite Production Build。当前 Edge / Chromium 已复测学生与四个机构工作台、角色切换、浏览器返回、规则回退、SLS 16 周课程蓝图、机会分区、UArizona Summer 2026 公开目录检索、排课验证门、390×844 移动端和英文角色导览；Moonshot/GX10 实时模型、UArizona 后端持久化与真实求解、HEBUT 目录导入、生产 SSO/授权、全量双语和 Firefox/Safari 均不在已完成证据中
+- Demo 课程：信号与线性系统为首页主赛程，已展开为 16 周、48 个学习场次、5 个单元、38 个知识节点；光学、电子电路、高等数学、学术英语、工程训练构成其余课程阵容。仅使用本地已审核 README/索引中的名称、主题与证据边界，分析路径、身份、进度、等级和建议均明确标记为 Fixture，详见 [Demo 课程来源与脱敏边界](reference/DEMO-COURSE-PROVENANCE.md)
+- 机会市场：默认按 **校内机会 / Campus League** 与 **校外机会 / Open League** 分区展示，再按期刊、会议、竞赛、科研、实习、资助等类别细筛；两区分别解释资格、时效、成本和外部规则，不做跨区“重要性总榜”
+- UArizona 公开目录：Summer 2026 只读快照已接入 Roster Lab，共 2,592 门课程、10,606 条 section 行、201 个学科代码；它可搜索、筛选和打开官方来源，但尚未进入后端持久化、培养方案约束或正式选课求解
 - 全部学科发现池：桌面“学科”中的 43 个快捷方式已只读映射为 40 个唯一来源目录，10 个已有根 README；它们是待复核候选，不是选课记录或已完成分析，详见 [本地学科发现池快照](reference/COURSE-CATALOG-SNAPSHOT.md)
 - 稳定 ID：F-001～F-014 各功能表中已经发布的编号与含义不得重新编号或复用
 - 路线图：F-010～F-014 已纳入产品范围并合并维护于 University OS 扩展包；F-010 为当前 `technical_review` 候选，F-011～F-014 仍未排期、可裁剪
@@ -71,7 +73,7 @@ AI 的回执至少应包含：
 - 视觉硬约束：学生 / 教师 / 学校三端共用一套游戏化 Design System，任何模块不得独立换肤
 - 输入硬约束：产品是 multi-input native，手柄只是突出展示路径；键盘、鼠标、触控、读屏与高风险确认拥有信息等价、可独立完成且不可被削弱的路径
 - 动效硬约束：游戏感来自 `输入确认 → 因果变化 → Replay → Next Move`，不是特效数量；详细状态机、性能、声音/触觉和 Reduced Motion 以 [`MOTION-SYSTEM`](engineering/MOTION-SYSTEM.md) 为准
-- AI 运行时：Rust API 已实现 provider-neutral OpenAI-compatible adapter、Moonshot/Kimi K3 服务端 BYOK、GX10 loopback 通路、严格 `source_ids`、结构化输出校验和明确规则回退；未提供密钥时完整 Demo 仍可用，实时模型输出仍待本人用已轮换的本机密钥验证
+- AI 运行时：Rust API 已实现 provider-neutral OpenAI-compatible adapter、Moonshot/Kimi K2.6 Fast 服务端 BYOK、Windows DPAPI 本机密钥存储、GX10 loopback 通路、严格 `source_ids`、结构化输出校验和明确规则回退；未提供密钥时完整 Demo 仍可用，实时模型输出仍须由 `scripts/Test-University2K26-AI.ps1` 形成无密钥回执
 - 本地 AI 候选：ASUS Ascent GX10 作为单校 Sovereign Node 进入条件 Spike；首选本地主模型是 Qwen3.6-35B-A3B-NVFP4，当前仍没有实机模型证据，失败必须回到规则/Fixture
 - GX10 交接：另一位 AI 必须按 [V0.9 部署交接](engineering/GX10-V09-DEPLOYMENT-HANDOFF.md) 和仓库中的 `deploy/gx10/` 先做只读 inventory，再验证 ARM64 应用镜像、独立模型服务、来源约束与停服回退；在 GX10 回执通过前只能写“adapter/部署骨架已实现，实机未验证”
 - 自动化与模型边界：`/api/v1/ai/status` 与 `/api/v1/ai/advice` 已进入共享合同；未来 `j2k26` CLI 仍只消费同一 `/api/v1`/Schema/权限/Replay 合同。密钥仅留服务端进程环境，高风险动作不能由通用 `--yes` 或 AI 自我确认

@@ -58,6 +58,10 @@ function Get-PhysicalToolingRoot {
 $ProjectRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 $ToolingRoot = Get-PhysicalToolingRoot -LogicalRoot $ProjectRoot
 $DocsRoot = Join-Path $ToolingRoot 'docs-site'
+$PinnedNodeVersion = (Get-Content -Raw (Join-Path $ToolingRoot '.node-version')).Trim()
+$LocalNodeRoot = Join-Path $ToolingRoot ".tools\node-v$PinnedNodeVersion-win-x64"
+$LocalNode = Join-Path $LocalNodeRoot 'node.exe'
+$LocalNpm = Join-Path $LocalNodeRoot 'npm.cmd'
 $env:J2K26_CANONICAL_ROOT = $ProjectRoot
 $RuntimeRoot = Join-Path $DocsRoot '.runtime'
 $LogsRoot = Join-Path $DocsRoot '.logs'
@@ -99,15 +103,24 @@ function Get-RequiredCommand([string]$Name) {
     return $command.Source
 }
 
+function Get-NpmRuntime {
+    if (Test-Path -LiteralPath $LocalNpm) {
+        return $LocalNpm
+    }
+    return Get-RequiredCommand 'npm.cmd'
+}
+
 function Test-NodeRuntime {
-    $node = Get-RequiredCommand 'node'
+    $node = if (Test-Path -LiteralPath $LocalNode) {
+        $LocalNode
+    }
+    else {
+        Get-RequiredCommand 'node'
+    }
     $raw = (& $node --version).Trim().TrimStart('v')
     $version = [version]$raw
-    if ($version.Major -lt 24) {
-        throw "当前 Node.js 为 v$raw；文档门户要求 Node.js 24 LTS 或更高的受支持版本。"
-    }
-    if ($version.Major -eq 25) {
-        Write-GentleWarning "当前 Node.js v$raw 已结束官方支持；本次继续运行，但建议尽快换成 Node.js 24 LTS。"
+    if ($raw -ne $PinnedNodeVersion) {
+        throw "当前 Node.js 为 v$raw；项目已锁定 v$PinnedNodeVersion。请先运行 scripts\bootstrap.ps1。"
     }
     return @{ Path = $node; Version = $version }
 }
@@ -148,7 +161,7 @@ function Invoke-SafeGitPull {
 
 function Ensure-Dependencies {
     $null = Test-NodeRuntime
-    $npm = Get-RequiredCommand 'npm.cmd'
+    $npm = Get-NpmRuntime
     $packageLock = Join-Path $DocsRoot 'package-lock.json'
     $nodeModules = Join-Path $DocsRoot 'node_modules'
     $needInstall = -not (Test-Path -LiteralPath $nodeModules)
@@ -182,7 +195,7 @@ function Ensure-Dependencies {
 }
 
 function Build-Portal {
-    $npm = Get-RequiredCommand 'npm.cmd'
+    $npm = Get-NpmRuntime
     if ($ToolingRoot -ne $ProjectRoot) {
         Write-Host "[J2K26] 检测到 junction：稳定入口保留 $ProjectRoot；Astro 本轮统一使用等效物理路径 $ToolingRoot。" -ForegroundColor DarkGray
         foreach ($relative in @('.astro', 'node_modules\.vite')) {
@@ -265,14 +278,14 @@ function New-DesktopShortcut {
     $desktop = [Environment]::GetFolderPath('Desktop')
     if (-not $desktop) { throw '无法确定当前用户桌面路径。' }
     $shell = New-Object -ComObject WScript.Shell
-    $shortcutPath = Join-Path $desktop 'Jiaowu2K26 文档中心.lnk'
+    $shortcutPath = Join-Path $desktop '大学2K26 文档中心.lnk'
     $shortcut = $shell.CreateShortcut($shortcutPath)
     $hostCommand = Get-Command pwsh -ErrorAction SilentlyContinue
     if (-not $hostCommand) { $hostCommand = Get-Command powershell -ErrorAction Stop }
     $shortcut.TargetPath = $hostCommand.Source
     $shortcut.Arguments = "-NoLogo -NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`" -Action Open -Pull"
     $shortcut.WorkingDirectory = $ProjectRoot
-    $shortcut.Description = '安全拉取最新内容并打开 Jiaowu2K26 本地文档门户'
+    $shortcut.Description = '安全拉取最新内容并打开大学2K26 / University2K26 本地文档门户'
     $shortcut.IconLocation = "$env:SystemRoot\System32\shell32.dll,220"
     $shortcut.WindowStyle = 7
     $shortcut.Save()
@@ -286,11 +299,11 @@ function Show-Doctor {
         Write-Host "构建物理路径：$ToolingRoot（仅用于规避 junction 构建器兼容问题）"
     }
     Write-Host "文档目录：$DocsRoot"
-    $node = Get-Command node -ErrorAction SilentlyContinue
-    $npm = Get-Command npm.cmd -ErrorAction SilentlyContinue
+    $node = if (Test-Path -LiteralPath $LocalNode) { $LocalNode } else { (Get-Command node -ErrorAction SilentlyContinue).Source }
+    $npm = if (Test-Path -LiteralPath $LocalNpm) { $LocalNpm } else { (Get-Command npm.cmd -ErrorAction SilentlyContinue).Source }
     $git = Get-Command git -ErrorAction SilentlyContinue
-    Write-Host "Node.js：$(if ($node) { & $node.Source --version } else { '未安装' })"
-    Write-Host "npm：$(if ($npm) { & $npm.Source --version } else { '未安装' })"
+    Write-Host "Node.js：$(if ($node) { & $node --version } else { '未安装' })"
+    Write-Host "npm：$(if ($npm) { & $npm --version } else { '未安装' })"
     Write-Host "Git：$(if ($git) { & $git.Source --version } else { '未安装' })"
     Write-Host "Git 仓库：$(if (Test-Path (Join-Path $ToolingRoot '.git')) { '是' } else { '否（当前会安全跳过拉取）' })"
     Write-Host "依赖目录：$(if (Test-Path (Join-Path $DocsRoot 'node_modules')) { '已存在' } else { '未安装' })"

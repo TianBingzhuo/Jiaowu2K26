@@ -242,8 +242,23 @@ async function writeSectionIndexes() {
       // Generated below.
     }
     const entries = await fs.readdir(directory, { withFileTypes: true });
-    const links = entries
-      .filter((entry) => entry.name !== 'index.md' && entry.name !== 'assets')
+    const linkableEntries = [];
+    for (const entry of entries) {
+      if (entry.name === 'index.md' || entry.name === 'assets') continue;
+      if (entry.isFile() && entry.name.toLowerCase().endsWith('.md')) {
+        linkableEntries.push(entry);
+        continue;
+      }
+      if (entry.isDirectory()) {
+        try {
+          await fs.access(path.join(directory, entry.name, 'index.md'));
+          linkableEntries.push(entry);
+        } catch {
+          // Asset-only directories (for example screenshot evidence) are not pages.
+        }
+      }
+    }
+    const links = linkableEntries
       .sort((left, right) => left.name.localeCompare(right.name, 'zh-CN'))
       .map((entry) => {
         const target = entry.isDirectory() ? `${entry.name}/` : entry.name;

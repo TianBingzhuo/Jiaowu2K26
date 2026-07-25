@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://university2k26.local/contracts/v1/world-exam-session.schema.json",
+  "title": "University2K26 F-005 private World Exam session",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "data_mode",
+    "event_id",
+    "student_id",
+    "status",
+    "warmup_attempts",
+    "checkpoints",
+    "answers",
+    "timeline",
+    "reflection",
+    "sync_status",
+    "pending_sync_count"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^1\\." },
+    "data_mode": { "const": "fixture" },
+    "event_id": { "type": "string", "minLength": 1 },
+    "student_id": { "type": "string", "minLength": 1 },
+    "status": {
+      "enum": [
+        "scheduled",
+        "briefing_open",
+        "warmup",
+        "exam_active",
+        "review",
+        "archived"
+      ]
+    },
+    "warmup_attempts": { "type": "array" },
+    "checkpoints": { "type": "array" },
+    "answers": { "type": "array" },
+    "timeline": { "type": "array" },
+    "reflection": {
+      "type": ["object", "null"]
+    },
+    "sync_status": {
+      "enum": ["synced", "offline_cached", "memory_fallback"]
+    },
+    "pending_sync_count": { "type": "integer", "minimum": 0 }
+  },
+  "not": {
+    "anyOf": [
+      { "required": ["rank"] },
+      { "required": ["ranking"] },
+      { "required": ["predicted_grade"] },
+      { "required": ["pass_probability"] }
+    ]
+  }
+}

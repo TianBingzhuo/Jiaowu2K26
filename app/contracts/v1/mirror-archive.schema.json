@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TianBingzhuo/Jiaowu2K26/app/contracts/v1/mirror-archive.schema.json",
+  "title": "Academic Mirror Portable Archive v1",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "archive_type",
+        "data_mode",
+        "student_id",
+        "authoritative",
+        "records",
+        "consents",
+        "source_boundary",
+        "audit_receipt"
+      ],
+      "properties": {
+        "schema_version": { "type": "string", "pattern": "^1\\." },
+        "archive_type": { "const": "readable_untrusted" },
+        "data_mode": { "const": "fixture" },
+        "student_id": { "type": "string", "minLength": 1 },
+        "authoritative": { "const": false },
+        "records": { "type": "array" },
+        "consents": { "type": "array" },
+        "source_boundary": { "type": "string", "minLength": 20 },
+        "audit_receipt": {
+          "type": "object",
+          "required": ["event_count", "latest_event_hash"],
+          "properties": {
+            "event_count": { "type": "integer", "minimum": 0 },
+            "latest_event_hash": {
+              "oneOf": [{ "type": "string" }, { "type": "null" }]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "archive_type",
+        "data_mode",
+        "student_id",
+        "content_hash",
+        "issuer",
+        "signature_status",
+        "encryption_status",
+        "import_disposition",
+        "authoritative",
+        "warning"
+      ],
+      "properties": {
+        "schema_version": { "type": "string", "pattern": "^1\\." },
+        "archive_type": { "const": "trusted_archive_contract_fixture" },
+        "data_mode": { "const": "fixture" },
+        "student_id": { "type": "string", "minLength": 1 },
+        "content_hash": { "type": "string", "minLength": 1 },
+        "issuer": { "const": "DEMO_NOT_AN_ISSUER" },
+        "signature_status": { "const": "demo_not_signed" },
+        "encryption_status": { "const": "not_encrypted" },
+        "import_disposition": { "const": "quarantine_and_preview_only" },
+        "authoritative": { "const": false },
+        "warning": { "type": "string", "minLength": 20 }
+      },
+      "additionalProperties": false
+    }
+  ]
+}

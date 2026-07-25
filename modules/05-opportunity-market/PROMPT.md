@@ -7,15 +7,15 @@
 
 ## 项目上下文（30 秒）
 
-jiaowu2K26 是覆盖大学四到八年学习、选课、成长、协作与机会发现的体验层。Opportunity Market 是 P1 候选模块——**透明发现期刊/会议/竞赛/科研/实习与权益，解释资格并做经同意的双向匹配**。
+jiaowu2K26 是覆盖大学四到八年学习、选课、成长、协作与机会发现的体验层。Opportunity Market 是 P1 候选模块——**先区分校内与校外赛场，再透明发现期刊/会议/竞赛/科研/实习与权益，解释资格并做经同意的双向匹配**。
 
 ## 本模块使命
 
 大学生发现机会的路径极度碎片化：期刊在学院网站、竞赛在公众号、实习在招聘平台、科研在导师口头通知。更严重的是，学生看到一个机会时往往不知道"我够不够格"、"申请需要什么"、"我的数据会被谁看到"。
 
-Opportunity Market 把散落的公开机会聚合到一处，用结构化资格规则替代"自己去猜"，用四态解释（已满足/可能满足/未满足/未知）替代综合打分，用本人控制资料替代自动投递。**明确禁止：付费资格、随机资格、人员拍卖、自动投递、付费排名。**
+Opportunity Market 把散落的公开机会聚合到一处，第一层按 **Campus League（校内）/ Open League（校外）** 分区，第二层再按类别筛选；UArizona Demo 把校内赛区品牌化为 **Bear Down League**，其他学校可替换名称和来源适配器。它用结构化资格规则替代"自己去猜"，用四态解释（已满足/可能满足/未满足/未知）替代综合打分，用本人控制资料替代自动投递。**明确禁止：跨区重要性总榜、付费资格、随机资格、人员拍卖、自动投递、付费排名。**
 
-**一句话价值：** 学生用 5-10 条公开机会，系统对一条机会逐项解释四态资格；学生选择本次可用资料，保存后决定是否表达意向；Box Score 显示来源、个人数据使用范围和纠错入口。
+**一句话价值：** 当前 Demo 用 16 条公开/明确 Fixture 机会，系统对一条机会逐项解释四态资格；学生选择本次可用资料，保存后决定是否表达意向；Box Score 显示来源、个人数据使用范围和纠错入口。
 
 ---
 
@@ -48,7 +48,7 @@ Opportunity Market 把散落的公开机会聚合到一处，用结构化资格�
 ## 核心交互流程
 
 ```
-学生在机会发现页浏览公开机会（期刊/会议/竞赛/科研/实习/奖学金）
+学生在机会发现页先选择校内 / 校外范围，再浏览公开机会（期刊/会议/竞赛/科研/实习/奖学金）
   → 每张机会卡显示：标题、类别、提供方、截止日期、资格概要
   → 点击机会卡进入详情页：完整内容、资格规则、收益、义务、成本和风险
   → 学生进入资格检查：系统对资格规则逐项输出四态解释
@@ -75,7 +75,8 @@ Opportunity Market 把散落的公开机会聚合到一处，用结构化资格�
   "id": "string (opp-xxx)",
   "title": "string",
   "provider": "string (提供方名称)",
-  "category": "journal | conference | competition | research | internship | scholarship | workshop | campus_project",
+  "scope": "campus | external",
+  "category": "journal | conference | competition | research | internship | scholarship | workshop | career_event | campus_event | campus_project",
   "source_url": "string (官方来源 URL)",
   "source_version": "string",
   "fetched_at": "ISO-8601",
@@ -240,7 +241,7 @@ Opportunity Market 把散落的公开机会聚合到一处，用结构化资格�
 
 | 方法 | 路径 | 描述 | 请求体 | 响应体 |
 |------|------|------|--------|--------|
-| GET | `/api/v1/opportunities` | 列出机会 | `?category=&deadline_after=&status=` | `{ opportunities: Opportunity[] }` |
+| GET | `/api/v1/opportunities` | 列出机会 | —（当前返回全部；范围/类别由前端本地过滤） | `Opportunity[]` |
 | GET | `/api/v1/opportunities/:id` | 获取机会详情 | — | `Opportunity` |
 | POST | `/api/v1/opportunities/:id/check` | 资格检查 | `{ profile_fields?: string[] }` | `EligibilityCheck` |
 | GET | `/api/v1/profile` | 获取学生档案 | `?student_id=` | `StudentProfile` |
@@ -288,7 +289,7 @@ Opportunity Market 把散落的公开机会聚合到一处，用结构化资格�
 
 ## 验收标准
 
-- [ ] 使用 5-10 条公开/虚构机会完成全流程
+- [ ] 使用 5–20 条公开/明确 Fixture 机会完成全流程
 - [ ] 每张机会卡显示完整信息（内容/资格/收益/义务/成本/风险）
 - [ ] 资格检查对每条规则输出四态之一 + 证据 + 下一步
 - [ ] 学生可选择本次匹配使用的资料（逐项授权）
@@ -312,7 +313,7 @@ Opportunity Market 把散落的公开机会聚合到一处，用结构化资格�
 
 | 如果 | 则 |
 |------|-----|
-| 机会数据来源不可用 | 使用手工准备的 fixture 机会（5-10 条） |
+| 机会数据来源不可用 | 使用手工准备的 fixture 机会（5–20 条） |
 | F-003 数据不可用 | 使用学生 Profile 自报数据做资格检查 |
 | 资格规则过于复杂 | 简化为关键字段匹配 + 标注"规则简化" |
 | 匹配算法不可用 | 退化为关键词筛选 + 人工浏览 |

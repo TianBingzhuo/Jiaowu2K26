@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TianBingzhuo/Jiaowu2K26/app/contracts/v1/performance-center-session.schema.json",
+  "title": "University2K26 F-006 private Performance Center session",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "data_mode",
+    "student_id",
+    "climate_variant",
+    "climate_enabled",
+    "recommendations",
+    "share_grants",
+    "corrections",
+    "harm_signals",
+    "status_label",
+    "audit"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^1\\." },
+    "data_mode": { "const": "fixture" },
+    "student_id": { "type": "string", "minLength": 1 },
+    "climate_variant": {
+      "enum": ["a_numbers", "b_words", "c_dimensions"]
+    },
+    "climate_enabled": { "type": "boolean" },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "$ref": "performance-center-fixture.schema.json#/$defs/recommendation"
+      }
+    },
+    "share_grants": {
+      "type": "array",
+      "items": {
+        "$ref": "performance-center-fixture.schema.json#/$defs/shareGrant"
+      }
+    },
+    "corrections": {
+      "type": "array",
+      "items": {
+        "$ref": "performance-center-fixture.schema.json#/$defs/correction"
+      }
+    },
+    "harm_signals": {
+      "type": "array",
+      "items": {
+        "$ref": "performance-center-fixture.schema.json#/$defs/harmSignal"
+      }
+    },
+    "status_label": {
+      "$ref": "performance-center-fixture.schema.json#/$defs/statusLabel"
+    },
+    "audit": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "performance-center-fixture.schema.json#/$defs/auditEvent"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "climate_variant": { "const": "c_dimensions" } },
+        "required": ["climate_variant"]
+      },
+      "then": {
+        "properties": { "climate_enabled": { "const": false } }
+      }
+    }
+  ],
+  "not": {
+    "anyOf": [
+      { "required": ["class_rank"] },
+      { "required": ["predicted_grade"] },
+      { "required": ["medical_diagnosis"] }
+    ]
+  }
+}

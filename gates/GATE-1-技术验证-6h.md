@@ -5,28 +5,28 @@
 > **前置**：[GATE-0-赛前准备.md](GATE-0-赛前准备.md) 全部 ✅
 > **引用**：技术回退表同步至 [GATE-2-P0稳定-36h.md](GATE-2-P0稳定-36h.md) 停损判定使用
 > **来源**：[ENGINEERING.md](../archive/superseded-8entries-20260721/ENGINEERING.md) 前6小时技术闸门、[PLAYBOOK.md](../archive/superseded-8entries-20260721/PLAYBOOK.md) 72h作战节奏
+> **当前判定：** 本机后端/SQLite 证据已就绪，等待 GitHub Actions、第二台机器、Web 壳与用户批准；不得提前判定 Go。
 
 ---
 
 ## 阶段 0-1h：规则、空白基线与协作底座
 
-- [ ] 赛事规则已保存（主题 / 赛道 / 赞助权益 / 资源清单快照）
-- [ ] 记录官方宣布 Hacking 开始的时间
-- [ ] **只在官方宣布 Hacking 开始后**创建全新 GitHub 主仓，并用 `--allow-empty` 建立首个空白 commit、记录时间
-- [ ] 赛前研究/规格如进入仓库，使用独立 `docs(pre-event): ...` commit 明确标注来源与“非本届实现”，不得混入历史原型
-- [ ] 四名成员已加入；`main` 禁止直接 push / force push / delete，PR 至少一名非作者审核，检查通过后只用 squash merge
-- [ ] GitHub Project 仅有一个 Active Feature；列使用 `Backlog → Ready → In Progress → Review → Accepted / Blocked`
-- [ ] 任务板、决策日志、环境清单与第三方归属表已建立；每张任务带唯一验收 ID、owner、输入、输出、不做和回退
-- [ ] Manifest `current_work` 已同步为 phase=`hacking`、gate=`GATE-1`、active_slice=`P0-00`、task_source.mode=`github_live`，并记录 Project/Issue URL 与同步时间
-- [ ] 四位队员分别问一次“我现在能干什么？”，Task Router 返回本人已认领任务或角色匹配的 Ready 任务；不返回 P1/Vision，不自动改变 owner
-- [ ] 若账号方案支持，启用 `main` 保护、必需检查、对话已解决与线性历史；不支持时由总集成人员作为唯一合并人执行同一规则
-- [ ] 可选国内备份仅允许 GitHub → Gitee 单向同步或由总集成人员在 Accepted Tag 后推送；其他成员不得向备份仓写入
-- [ ] 记录四台机器的 OS / 架构 / Git / Node / Rust / Python 版本和最终演示机；版本差异已消除或标为不参与相应组件
-- [ ] 已提交 `.editorconfig`、`.gitattributes`、`.gitignore`、`.env.example` 与依赖锁；选择的工具链有版本钉住文件
-- [ ] `scripts/doctor`、`scripts/bootstrap`、`scripts/verify` 至少在最终演示机和另一台机器通过；Docker/OceanBase 不得成为唯一启动路径，SQLite 回退可用
-- [ ] Web → API 最小请求跑通（一次真实 HTTP 请求返回数据）
-- [ ] source record 数据结构定义（含 id / material_id / type / locator / rights_status）
-- [ ] 核心状态迁移可实现（draft → approved → published / removed）
+- [x] 赛事规则、主题、赛道与赞助资料已保存；未确认事实仍保持待核验
+- [x] 产品总集成人员现场确认 Hacking 已开始后才授权建仓；精确公告瞬间没有独立截图，Manifest 保留该证据局限
+- [x] 全新公开 GitHub 主仓已建立；首个 `d4e0f82` 是公开安全的规格/协作基线，不是伪造的空提交，也不含赛前产品代码
+- [x] 赛前研究、概念图和规格都明确标注为研究/候选/非实现；历史原型在 archive，不能计入本届实现
+- [x] 团队改为弹性能力池，不假定固定四人；`main` 禁止 force push/delete，要求 PR、三项 Actions 状态检查、对话解决、线性历史和 squash merge；CODEOWNERS 只保留责任映射，不强制不存在的非作者审批
+- [x] 当前只有 [P0-00 Issue](https://github.com/TianBingzhuo/Jiaowu2K26/issues/1) 处于 Active；不为形式额外建立第二任务系统
+- [x] Manifest 已包含每个工作包的验收 ID、owner、输入、输出、不做和回退，并同步 phase=`hacking`、gate=`GATE-1`、active_slice=`P0-00`
+- [ ] 所有实际队员分别用 Task Router 完成一次“询问 → 认领 → PR”走查
+- [ ] GitHub Actions 首次通过后，把 `Rust (Ubuntu)`、`Rust (Windows)`、`Contracts and docs` 设为 `main` 必需检查
+- [x] 国内平台只允许 Accepted 后由总集成人员做 GitHub → Gitee 单向备份；当前不双写
+- [ ] 最终演示机与至少一台队友机器都完成环境记录和同一验证命令；当前仅最终开发机有完整证据
+- [x] `.editorconfig`、`.gitattributes`、`.gitignore`、`.env.example`、`.node-version`、`rust-toolchain.toml`、Cargo/npm lockfile 已建立
+- [ ] `doctor/bootstrap/verify` 在第二台机器通过；本机已通过，Docker/OceanBase 不参与启动，SQLite + Fixture 可离线运行
+- [x] HTTP client → API 真实请求跑通：`health → review → approve → publish → replay`；Web/PWA 客户端仍待 P0-00-D
+- [x] `Material` 与 `SourceFragment` 合同分开表达 rights、id、material_id、type 和 locator；Golden Fixture 保留 source_ids/evidence
+- [x] 核心状态迁移与停损已测试：draft → review → approved → published，以及 removed 终态、非法迁移、未知未来状态和 stale revision
 
 **通过标准**：一次真实请求可重现，证据齐全、P0 一致
 
@@ -36,9 +36,9 @@
 
 ## 阶段 1-2h：数据层验证
 
-- [ ] 数据库写入 / 查询 / 事务跑通
+- [x] SQLite 数据库写入 / 查询 / 审核与发布事务跑通
 - [ ] AI 模型结构化输出可用（输入材料 → 输出 schema 合格对象）
-- [ ] 来源追溯记录可写入和查询（source_fragment → generated_object 关联）
+- [x] Golden Fixture 的 `source_ids → evidence → generated_object` 可写入、查询并进入 Replay；独立材料解析表仍待产品切片
 - [ ] Provider 响应信封格式验证（provider / model_version / source_ids / schema_valid）
 
 **通过标准**：完整的数据读写循环
@@ -49,15 +49,15 @@
 
 ## 阶段 2-4h：核心组件验证
 
-- [ ] 🔴 Rust 编译 + 运行（如果采用）：至少一位队员能独立调试
-- [ ] 🔴 在最终机器上完成：一条写入、一条查询、一次审核状态迁移、一次前端调用、一个失败响应
+- [ ] 🔴 Rust 编译 + 运行已通过；仍需至少一位人类队员独立完成一次调试走查
+- [ ] 🔴 最终机器已完成写入、查询、审核状态迁移、真实 HTTP 调用和失败响应；React 前端调用仍待 P0-00-D
 - [ ] 🔴 OceanBase 采用测试（如果采用）：
   - [ ] 🔴 连接与 TLS
   - [ ] 🔴 SQLx migration
   - [ ] 🔴 审核状态事务提交和回滚
   - [ ] 🔴 来源—对象—事件的关键 join
   - [ ] 🔴 切换 SQLite 后领域测试仍通过
-- [ ] 🟡 SQLite 回退已验证（与主库共享 repository 合同）——仅在 OceanBase 不可用时触发
+- [x] 🟡 SQLite 路径已验证并位于可替换 repository port 后；OceanBase 不可用不阻塞启动
 - [ ] 🔴 AI 模型小样：输入课程材料 → 输出结构化草稿（含 source_ids）
 - [ ] 🔴 前端框架搭建 + 一个页面渲染（React + Vite）
 
@@ -72,7 +72,7 @@
 - [ ] Primary / Secondary / Fallback 组合确定
 - [ ] 每个技术项指定责任人
 - [ ] 不可行项已切换到回退方案
-- [ ] 为实际依赖登记版本、许可证与用途
+- [ ] 实际直接依赖的版本、许可证元数据与用途已登记；完整传递依赖许可证/NOTICE 报告仍待补
 - [ ] 验证全部回退能在最终演示机工作
 - [ ] 最小实体、API 契约和状态机测试已建立
 
@@ -113,11 +113,11 @@
 
 | 技术项 | 最终决策 | 决策时间 | 原因 | 责任人 |
 |--------|---------|---------|------|--------|
-| 后端 | | | | |
-| 数据库 | | | | |
-| AI 模型 | | | | |
-| 前端 | | | | |
-| 部署 | | | | |
+| 后端 | PR 候选：Rust 1.97.1 + Axum 0.8.9 + Tokio 1.53.1 | 2026-07-23 | WSL2 compile/test/clippy + live API smoke 通过；待 CI/人审 | product_integrator |
+| 数据库 | 已验证本地路径：SQLite + SQLx 0.9.0；OceanBase 未选 | 2026-07-23 | 同 repository 合同、事务与 Replay 通过；无云依赖 | product_integrator |
+| AI 模型 | 未选择；当前仅 Fixture | 2026-07-23 | 不把预生成内容伪装成模型能力 | product_integrator |
+| 前端 | 未选择为已实现；React/Vite 仍是候选 | 2026-07-23 | P0-00-D 尚未开始 | unclaimed |
+| 部署 | localhost / WSL2 实验；公开部署未选择 | 2026-07-23 | 先保证可复现，再评估赞助云 | product_integrator |
 
 ---
 

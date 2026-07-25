@@ -1,0 +1,36 @@
+receipt_version: "1.0"
+state: "INVENTORY_RECORDED"
+repo_commit: "<sha>"
+device:
+  reported_model: "ASUS Ascent GX10"
+  os_arch: "<redacted summary>"
+  memory_total_and_available: "<redacted summary>"
+  disk_free: "<redacted summary>"
+runtime:
+  image: "<exact registry/repository:tag@sha256:digest>"
+  model_id: "<exact /v1/models id>"
+  model_revision: "<immutable revision>"
+  quantization: "<exact format>"
+  license: "<SPDX or reviewed terms reference>"
+  listen: "127.0.0.1:8000"
+  authentication: "none_loopback"
+  context_limit: 0
+  max_concurrency: 0
+tests:
+  models_endpoint: "not_run"
+  structured_json: "not_run"
+  source_id_enforcement: "not_run"
+  cancellation: "not_run"
+  model_mode: "not_run"
+  stopped_model_rules_fallback: "not_run"
+resources:
+  download_bytes: 0
+  peak_unified_memory: "<not measured>"
+  free_memory_after_load: "<not measured>"
+  cold_start_seconds: 0
+  first_token_seconds: 0
+rollback:
+  stop_command: "<exact scoped command>"
+  ports_closed: "not_checked"
+  app_fallback_after_stop: "not_checked"
+decision: "awaiting_user_approval"

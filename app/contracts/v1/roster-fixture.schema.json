@@ -1,0 +1,355 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://university2k26.local/contracts/v1/roster-fixture.schema.json",
+  "title": "University2K26 F-004 Roster Lab fixture",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "data_mode",
+    "student_id",
+    "semester",
+    "catalog_version",
+    "source_boundary",
+    "credit_range",
+    "catalog",
+    "prefix",
+    "pins",
+    "preferences",
+    "goal_order",
+    "plans",
+    "unsat"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^1\\." },
+    "data_mode": { "const": "fixture" },
+    "student_id": { "const": "student-nan-fixture" },
+    "semester": { "type": "string", "minLength": 1 },
+    "catalog_version": { "type": "string", "minLength": 1 },
+    "source_boundary": { "type": "string", "minLength": 40 },
+    "credit_range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min", "max"],
+      "properties": {
+        "min": { "type": "integer", "minimum": 0 },
+        "max": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "catalog": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 20,
+      "items": { "$ref": "#/$defs/course_spec" }
+    },
+    "prefix": { "$ref": "#/$defs/prefix" },
+    "pins": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/pin" }
+    },
+    "preferences": { "$ref": "#/$defs/preferences" },
+    "goal_order": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/goal" }
+    },
+    "plans": {
+      "type": "array",
+      "minItems": 3,
+      "items": { "$ref": "#/$defs/plan" }
+    },
+    "unsat": { "$ref": "#/$defs/unsat" }
+  },
+  "$defs": {
+    "time_slot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["weekday", "start", "end", "room"],
+      "properties": {
+        "weekday": { "enum": ["Mon", "Tue", "Wed", "Thu", "Fri"] },
+        "start": { "type": "string", "pattern": "^[0-2][0-9]:[0-5][0-9]$" },
+        "end": { "type": "string", "pattern": "^[0-2][0-9]:[0-5][0-9]$" },
+        "room": { "type": "string", "minLength": 1 }
+      }
+    },
+    "offering": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["offering_id", "capacity", "enrolled", "time_slots"],
+      "properties": {
+        "offering_id": { "type": "string", "minLength": 1 },
+        "capacity": { "type": "integer", "minimum": 1 },
+        "enrolled": { "type": "integer", "minimum": 0 },
+        "time_slots": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/time_slot" }
+        }
+      }
+    },
+    "course_spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "course_id",
+        "title",
+        "credits",
+        "role",
+        "department",
+        "prerequisites",
+        "corequisites",
+        "substitutes",
+        "exclusions",
+        "offerings"
+      ],
+      "properties": {
+        "course_id": { "type": "string", "pattern": "^[A-Z]{2,4}[0-9]{3}$" },
+        "title": { "type": "string", "minLength": 1 },
+        "credits": { "type": "integer", "minimum": 1, "maximum": 8 },
+        "role": { "enum": ["required", "elective", "general_ed", "lab"] },
+        "department": { "type": "string", "minLength": 1 },
+        "prerequisites": { "type": "array", "items": { "type": "string" } },
+        "corequisites": { "type": "array", "items": { "type": "string" } },
+        "substitutes": { "type": "array", "items": { "type": "string" } },
+        "exclusions": { "type": "array", "items": { "type": "string" } },
+        "offerings": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/offering" }
+        }
+      }
+    },
+    "selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["course_id", "offering_id"],
+      "properties": {
+        "course_id": { "type": "string", "minLength": 1 },
+        "offering_id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "prefix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "student_id",
+        "version",
+        "completed",
+        "in_progress",
+        "planned",
+        "dropped",
+        "total_credits_earned"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "student_id": { "const": "student-nan-fixture" },
+        "version": { "type": "integer", "minimum": 1 },
+        "completed": { "type": "array", "items": { "type": "string" } },
+        "in_progress": { "type": "array", "items": { "type": "string" } },
+        "planned": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/selection" }
+        },
+        "dropped": { "type": "array", "items": { "type": "string" } },
+        "total_credits_earned": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "pin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "pin_type",
+        "course_id",
+        "offering_id",
+        "time_slot",
+        "lock_reason",
+        "active"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^pin-" },
+        "pin_type": {
+          "enum": [
+            "required_course",
+            "lab_section",
+            "time_block",
+            "qualification",
+            "personal_commitment"
+          ]
+        },
+        "course_id": { "type": ["string", "null"] },
+        "offering_id": { "type": ["string", "null"] },
+        "time_slot": {
+          "oneOf": [
+            { "$ref": "#/$defs/time_slot" },
+            { "type": "null" }
+          ]
+        },
+        "lock_reason": { "type": "string", "minLength": 1 },
+        "active": { "type": "boolean" }
+      }
+    },
+    "preferences": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["time_of_day", "compactness", "variety", "stability"],
+      "properties": {
+        "time_of_day": { "enum": ["morning", "daytime", "late"] },
+        "compactness": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "variety": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "stability": { "type": "integer", "minimum": 0, "maximum": 3 }
+      }
+    },
+    "goal": {
+      "enum": [
+        "hard_constraints",
+        "graduation_progress",
+        "minimal_change",
+        "personal_preference",
+        "minimal_gaps"
+      ]
+    },
+    "tradeoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["impact", "title", "detail"],
+      "properties": {
+        "impact": { "enum": ["positive", "negative", "neutral"] },
+        "title": { "type": "string", "minLength": 1 },
+        "detail": { "type": "string", "minLength": 1 }
+      }
+    },
+    "risk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["severity", "description"],
+      "properties": {
+        "severity": { "enum": ["low", "medium", "high"] },
+        "description": { "type": "string", "minLength": 1 }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "strategy",
+        "course_selections",
+        "total_credits",
+        "hard_constraints_met",
+        "preference_score",
+        "migration_cost",
+        "tradeoffs",
+        "risks",
+        "solver_backend",
+        "is_simulation",
+        "input_fingerprint",
+        "is_formal_enrollment"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "strategy": { "type": "string", "minLength": 1 },
+        "course_selections": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/selection" }
+        },
+        "total_credits": { "type": "integer", "minimum": 1 },
+        "hard_constraints_met": { "const": true },
+        "preference_score": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "migration_cost": { "type": "integer", "minimum": 0 },
+        "tradeoffs": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/tradeoff" }
+        },
+        "risks": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/risk" }
+        },
+        "solver_backend": { "const": "deterministic_heuristic_fixture" },
+        "is_simulation": { "type": "boolean" },
+        "input_fingerprint": { "type": "string", "minLength": 1 },
+        "is_formal_enrollment": { "const": false }
+      }
+    },
+    "violation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["violation_type", "course_ids", "description"],
+      "properties": {
+        "violation_type": {
+          "enum": [
+            "prerequisite",
+            "time_conflict",
+            "credit_limit",
+            "capacity",
+            "exclusion",
+            "pin"
+          ]
+        },
+        "course_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "description": { "type": "string", "minLength": 1 }
+      }
+    },
+    "unsat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_id",
+        "minimal_conflict_set",
+        "blocking_chain",
+        "relaxable_items"
+      ],
+      "properties": {
+        "request_id": { "type": "string", "minLength": 1 },
+        "minimal_conflict_set": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/violation" }
+        },
+        "blocking_chain": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["step", "description"],
+            "properties": {
+              "step": { "type": "integer", "minimum": 1 },
+              "description": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "relaxable_items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["item", "impact_if_relaxed", "alternative_course_ids"],
+            "properties": {
+              "item": { "type": "string", "minLength": 1 },
+              "impact_if_relaxed": { "type": "string", "minLength": 1 },
+              "alternative_course_ids": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

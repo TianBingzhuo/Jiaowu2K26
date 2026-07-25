@@ -1,36 +1,83 @@
-# Jiaowu2K26 文档门户：5 分钟配置、AI 接手与一键更新
+# 大学2K26 / University2K26：5 分钟配置、运行与 AI 接手
 
-这份说明同时面向第一次接手项目的同学和 AI。目标不是要求所有人读完全部资料，而是让每个人快速进入同一事实体系。
+这份说明同时面向第一次接手项目的同学和 AI。目标是让任何人从一次全新克隆出发，先运行可玩的 V0.9 Demo，再按自己的角色补齐文档、Rust/API 或 AI 环境。
 
 ## 先记住三个事实
 
-1. 项目稳定逻辑路径是 `D:\10451\Desktop\黑客松`；不要同时用 C 盘等效路径重复扫描或索引。
+1. 每台机器只使用自己的 Git 克隆根目录；维护者工作站的稳定逻辑入口是 `D:\10451\Desktop\黑客松`，不要和 C 盘等效路径重复扫描或索引。
 2. 根目录 Markdown 与 `PROJECT-MANIFEST.json` 是规范事实源；`docs-site/src/content/docs/` 是每次构建生成的只读浏览副本，禁止直接编辑。
-3. 文档门户是赛前协作工具，不是 Jiaowu2K26 产品原型，也不能被表述为本届已实现功能。
+3. 文档门户是协作工具，不是 University2K26 产品原型，也不能被表述为本届已实现功能；`app/` 内 Phase 0 代码与 V0.9 外壳也只能按证据称为技术切片。
 
-本机的稳定入口位于 junction 下。启动脚本会继续向人和 AI 展示 `D:\10451\Desktop\黑客松`，但检测到 Astro/Vite 会因 reparse point 混用路径而丢失 CSS 时，会把**同一轮构建**整体切换到等效物理路径 `C:\Desktop\黑客松`。二者是同一批文件，不能分别扫描、同步或当成两份项目。
+维护者工作站的稳定入口位于 junction 下。启动脚本会继续向人和 AI 展示 `D:\10451\Desktop\黑客松`，但检测到 Astro/Vite 会因 reparse point 混用路径而丢失 CSS 时，会把**同一轮构建**整体切换到等效物理路径 `C:\Desktop\黑客松`。二者是同一批文件，不能分别扫描、同步或当成两份项目。其他队友的普通克隆不需要创建 junction。
+
+## 先选择你需要的运行方式
+
+| 目标 | 需要什么 | 启动方式 |
+|---|---|---|
+| 试玩、路演、UI/UX、产品验收 | Git + PowerShell 7；脚本自动准备 Node | `bootstrap.ps1 -WebOnly -SkipDocs` → `Start-University2K26.ps1 -FixtureOnly` |
+| 阅读和搜索全部项目文档 | Git + PowerShell 7；脚本自动准备 Node | `tools/Docs.ps1 -Action Setup` |
+| Rust/API/数据库开发 | 上述环境 + rustup；本机策略拦截 Rust DLL 时还需 Ubuntu WSL2 | 完整 `bootstrap.ps1` → `verify.ps1` → `Start-University2K26.ps1` |
+| macOS / Linux Web 开发 | Node 24.18.0、npm 11.16.0 | 在 `app/apps/web` 中执行 `npm ci && npm run dev` |
+
+绝大多数新队友先走第一条即可。Fixture 模式会开放完整 Demo 功能和脱敏演示数据，不要求模型密钥、学校账号、数据库服务、Rust 或 WSL。
+
+### 最短可运行路径（Windows）
+
+```powershell
+git clone https://github.com/TianBingzhuo/Jiaowu2K26.git jiaowu2k26
+Set-Location .\jiaowu2k26
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\bootstrap.ps1 -WebOnly -SkipDocs
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\Start-University2K26.ps1 -FixtureOnly
+```
+
+浏览器会打开 `http://127.0.0.1:4173/`。结束后运行：
+
+```powershell
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\Stop-University2K26.ps1
+```
+
+### 试玩五种角色
+
+首页右上角“切换角色”可选择学生、教师、辅导员 / 学业导师、专业负责人 / 系主任、本科生院 / 教务处。五种 Role Lens 使用同一套游戏世界、输入模型和证据合同；刷新页面会保留本浏览器当前角色。公开 Demo 只模拟任务入口和数据边界，不是学校真实登录：生产环境仍必须接学校 SSO，并由服务端执行角色、组织范围、用途和时限授权。
 
 ## Windows 同学：首次配置
 
 ### 必需环境
 
 - Git：用于克隆、分支、提交、PR 和安全更新。
-- Node.js 24 LTS：文档站的统一运行时。不要使用已经结束支持的 Node.js 25。
-- PowerShell 7 推荐；Windows PowerShell 5.1 也可完成启动。
+- PowerShell 7：推荐用于统一执行仓库脚本；Windows PowerShell 5.1 只能作为文档启动的兼容路径。
+- Node.js 无需预装：Windows 的 `bootstrap.ps1` 会从 Node.js 官方地址下载、校验并使用仓库本地的 24.18.0；不要改用其他版本覆盖锁定运行时。
+- 只试玩 Demo 或参与前端/设计时不需要 Rust、WSL、Docker、数据库服务或模型密钥。
+- 完整后端开发需要 rustup；`bootstrap.ps1` 会用它安装锁定的 Rust 1.97.1、rustfmt 与 Clippy。
+- Ubuntu WSL2 仅在 Windows 安全策略阻止本地 Rust proc-macro DLL，或使用当前一键完整栈启动器时需要；脚本只读检测，不会关闭 Smart App Control。
 
-安装后，在 PowerShell 中进入项目根目录并运行：
+完整栈开发者安装 Git、PowerShell 7 与 rustup 后，在项目根目录运行：
 
 ```powershell
-pwsh -NoProfile -ExecutionPolicy Bypass -File .\tools\Docs.ps1 -Action Setup
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\bootstrap.ps1
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\verify.ps1
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\Start-University2K26.ps1
 ```
 
-该命令只会：
+当前组合启动器在需要自行拉起 API 时使用 Ubuntu WSL2。若另一台 Windows 没有 Smart App Control 冲突、原生 Rust 可以工作但没有 WSL，可先在一个终端手动启动 API：
 
-- 安装 `docs-site/package-lock.json` 锁定的依赖；
+```powershell
+$env:J2K26_BIND = '127.0.0.1:3000'
+$env:J2K26_DATABASE_URL = 'sqlite::memory:'
+rustup run 1.97.1 cargo run --locked --manifest-path .\app\Cargo.toml --bin j2k26-api
+```
+
+API 就绪后，在第二个终端运行不带 `-FixtureOnly` 的 `Start-University2K26.ps1`；启动器会复用已有 API，只启动 Web。
+
+这两个命令会：
+
+- 准备经过 SHA-256 校验的仓库本地 Node 运行时和锁定的 Rust 工具链；
+- 安装 `docs-site` 和 `app/apps/web` 锁定的依赖；
 - 从规范源生成只读浏览内容；
 - 构建离线全文搜索索引；
 - 验证核心 Starlight CSS、Career Control Room、Pagefind 与关键接手页面没有缺失；
-- 在当前用户桌面创建 `Jiaowu2K26 文档中心` 快捷方式。
+- 验证 Manifest、公开合同、Web、Rust/SQLite/API 技术基线；
+- 在当前用户桌面创建 `大学2K26 文档中心` 快捷方式。
 
 以后双击桌面快捷方式即可。它会按以下安全顺序运行：
 
@@ -43,7 +90,17 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\tools\Docs.ps1 -Action Setup
 
 ## macOS / Linux 同学
 
-文档内容和网站本身跨平台；桌面快捷方式脚本是 Windows 专用。安装 Node.js 24 LTS 后运行：
+PowerShell 桌面快捷方式和组合启动器是 Windows 专用。安装 Node.js 24.18.0、npm 11.16.0 后，可直接运行 Web/PWA：
+
+```bash
+cd app/apps/web
+npm ci
+npm run dev
+```
+
+然后打开 `http://127.0.0.1:4173/`。没有 API 时，界面会明确降级到 Fixture，不需要伪造连接状态。
+
+需要文档门户时另开终端：
 
 ```bash
 cd docs-site
@@ -52,7 +109,13 @@ npm run build
 npm run preview
 ```
 
-然后打开 `http://127.0.0.1:4321/`。
+文档地址为 `http://127.0.0.1:4321/`。需要后端时安装 `rustup`，确认 `rustc 1.97.1` 后，在仓库根目录运行：
+
+```bash
+J2K26_BIND=127.0.0.1:3000 \
+J2K26_DATABASE_URL='sqlite::memory:' \
+cargo run --locked --manifest-path app/Cargo.toml --bin j2k26-api
+```
 
 ## 日常编辑文档
 
@@ -76,7 +139,7 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\tools\Docs.ps1 -Action Open
 首次获得仓库地址后，在你自己的开发目录运行：
 
 ```powershell
-git clone <仓库 HTTPS 地址> jiaowu2k26
+git clone https://github.com/TianBingzhuo/Jiaowu2K26.git jiaowu2k26
 Set-Location .\jiaowu2k26
 pwsh -NoProfile -ExecutionPolicy Bypass -File .\tools\Docs.ps1 -Action Setup
 ```
@@ -89,6 +152,92 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\tools\Docs.ps1 -Action Update
 
 遇到冲突时停止，不要强推。非技术同学的完整 GitHub 图形化流程见 `engineering/GITHUB-COLLAB.md`。
 
+## 参与代码：统一环境与验证
+
+准备写代码的同学先运行：
+
+```powershell
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\bootstrap.ps1
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\verify.ps1 -SkipDocs
+```
+
+工具链固定为 Node 24.18.0 / npm 11.16.0 / Rust 1.97.1。当前演示机的 Smart App Control 处于 enforcement，Windows 会阻止 Rust 加载本地未签名的 proc-macro DLL；仓库不会替用户修改安全设置。`doctor.ps1` 会只读识别该状态，并在已有 Ubuntu WSL2 时由 `rust-checks.ps1` 自动切换执行器。其他机器若没有此策略冲突则使用原生 Windows Rust。
+
+只改 Web/PWA 的同学可以使用更轻的检查：
+
+```powershell
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\doctor.ps1 -WebOnly
+& .\.tools\node-v24.18.0-win-x64\npm.cmd run verify --prefix .\app\apps\web
+```
+
+只想复现实 API 的同学，可在 Linux/WSL 中执行：
+
+```bash
+bash scripts/smoke-api.sh
+```
+
+成功只证明 Fixture + SQLite 的审核/发布/Replay 底座；AI adapter 需要单独验证，OceanBase、真实学校系统与生产授权仍未完成。
+
+## 模型配置与 BYOK 当前边界
+
+当前 Rust API 已实现 provider-neutral OpenAI-compatible BYOK 运行时，默认使用 Moonshot/Kimi K2.6 Fast（关闭深度思考），同时支持 GX10 loopback 端点和其他经过核验的兼容服务。模型 SDK、key 和供应商类型仍不得进入领域层；没有凭据或模型失败时，`/api/v1/ai/advice` 会明确返回 `rules_fallback`，不会伪装成模型输出。
+
+- 可共享：provider 类型、endpoint、精确 model ID、能力、数据区域、超时和 `key_ref` 的无秘密 profile。
+- 只留本机：API key、token、Cookie、登录凭据；优先放操作系统凭据库或受控进程环境。
+- 禁止：提交 `.env*`、把 key 写进浏览器存储/URL、命令行参数、日志、Issue、PR、聊天或截图。
+- 无论使用哪个模型，都必须通过同一 Result Envelope、Schema、来源、人工审核与 Fixture 回退。
+
+只使用 `.env.example` 了解变量名称，不要向它写真实值，也不要假设根 `.env` 会被自动加载。当前真正读取的覆盖项包括：
+
+| 变量 | 默认值 | 读取方 |
+|---|---|---|
+| `J2K26_BIND` | `127.0.0.1:3000` | Rust API |
+| `J2K26_DATABASE_URL` | `sqlite://.data/j2k26-phase0.db?mode=rwc` | Rust API |
+| `VITE_API_ORIGIN` | `http://127.0.0.1:3000` | Vite 开发/预览代理 |
+| `RUST_LOG` | `info` | Rust 日志过滤 |
+| `J2K26_AI_PROVIDER` | `moonshot` | AI adapter；只返回无秘密名称 |
+| `J2K26_AI_BASE_URL` | `https://api.moonshot.cn/v1` | 只允许 HTTPS，或显式 loopback HTTP |
+| `J2K26_AI_MODEL` | `kimi-k2.6` | 精确模型 ID；GX10 必须使用 `/v1/models` 实测值 |
+| `J2K26_AI_THINKING` | `disabled`（K2.6） | `disabled`/`fast` 为低延迟档；复杂任务才显式使用 `enabled` |
+| `J2K26_AI_AUTH_MODE` | `bearer` | `none` 仅允许 `127.0.0.1`、`localhost`、`::1` |
+| `MOONSHOT_API_KEY` / `J2K26_AI_API_KEY` | 无 | 仅由 Rust 服务端进程读取；前者用于 Moonshot，后者用于通用兼容端点 |
+| `J2K26_PRIVATE_PROFILE_PATH` | `.data/university2k26/private-profile.json` | 可选去标识发展档案；不得提交 |
+
+临时覆盖请放在当前进程环境中。例如 PowerShell：
+
+```powershell
+$env:J2K26_DATABASE_URL = 'sqlite::memory:'
+$env:J2K26_BIND = '127.0.0.1:3000'
+```
+
+### Moonshot / Kimi K2.6 Fast 本机验证
+
+推荐使用当前 Windows 用户 DPAPI 加密的本机 BYOK 配置。脚本会隐藏输入、把密钥保存到 Git 已忽略的 `.data/`，并自动重启后端、执行课程学习路径、机会匹配和职业路线三类来源约束冒烟测试：
+
+```powershell
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\Configure-University2K26-AI.ps1
+```
+
+启动器只在当前进程中解密凭据，通过 `WSLENV` 把允许的变量传给 WSL 子进程，随后清除临时环境变量；密钥不进入命令行、浏览器存储、运行回执或日志。`configured=true` 只表示已配置，三类测试全部返回 `mode=model` 才是本次通路证据。Kimi K2.6 Fast 采用官方当前合同：`thinking={"type":"disabled"}`、有界 `max_completion_tokens` 和严格 JSON Schema；不要把一次成功当成质量评测。
+
+需要临时启用深度思考时使用 `-Thinking enabled`；清除本机密钥使用 `-Clear`。官方说明：[Kimi K2.6 快速开始](https://platform.kimi.com/docs/guide/kimi-k2-6-quickstart)、[思考模式开关](https://platform.kimi.com/docs/guide/use-kimi-k2-thinking-model)、[模型列表](https://platform.kimi.com/docs/models)。
+
+### GX10 loopback 验证
+
+模型服务在同机 `127.0.0.1:8000/v1` 健康后：
+
+```powershell
+$env:J2K26_AI_PROVIDER = 'gx10-local'
+$env:J2K26_AI_BASE_URL = 'http://127.0.0.1:8000/v1'
+$env:J2K26_AI_MODEL = '<实测 /v1/models 返回的模型 ID>'
+$env:J2K26_AI_AUTH_MODE = 'none'
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\Start-University2K26.ps1
+```
+
+远端 HTTP、URL 内凭据、query/fragment 或无界模型响应会被 adapter 拒绝。完整设备批准点、容器和回执见 `engineering/GX10-V09-DEPLOYMENT-HANDOFF.md` 与 `deploy/gx10/README.md`。
+
+`j2k26` CLI 仍须等待独立任务；Windows 本机 BYOK 已使用当前用户 DPAPI，其他平台凭据库仍待分别实现。长期合同见 `engineering/ARCHITECTURE.md#9-cli外部-ai-与-byok-自动化合同`。
+
 ## AI 最小接手协议
 
 新 AI 进入项目后依次执行：
@@ -98,9 +247,10 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\tools\Docs.ps1 -Action Update
 3. 用户问“我现在能干什么？”时，只按 `AGENTS.md` 返回一个当前合法任务；
 4. 只有需要理解全貌时，才按 Manifest 的 `canonical_read_order` 展开；
 5. 不把 `archive/`、`docs-site/src/content/docs/` 或聊天记录当作并列事实源；
-6. 一次任务只使用 `D:\10451\Desktop\黑客松` 这一条逻辑路径；
+6. 一次任务只使用当前 Git 克隆根目录；维护者工作站使用 `D:\10451\Desktop\黑客松` 逻辑入口；
 7. 不因看到文档门户、概念图或规格，就声称产品已经实现；
-8. 外部发布、建仓、推送、阶段切换和任务认领仍需明确授权。
+8. 在宣称“已了解项目”前，必须完成角色与任务、任务相关技术熟悉度、目标与建议三项回执，并得到队友本人确认；
+9. 三项确认不等于任务认领；外部发布、建仓、推送、阶段切换和任务认领仍需明确授权。
 
 可以直接交给 AI 的启动指令：
 
@@ -109,8 +259,25 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\tools\Docs.ps1 -Action Update
 PROJECT-MANIFEST.json 的 status、current_work 与 collaboration_contract。
 不要扫描 archive，也不要读取 docs-site/src/content/docs 生成副本。
 统一使用当前克隆根路径，不混用 junction 的物理别名。
-先只回答：当前阶段、唯一事实源、我现在能做的一个任务，以及禁止事项。
-未经我确认不要认领、写文件、建分支、推送或发布。
+先只读，不要认领、写文件、建分支、推送或发布。
+
+在你说“已了解项目”前，以“理解状态：待本人确认”开头并提交三项回执：
+1. 建议我的协作角色与当前唯一任务，复述输入、交付物、Done 和禁止事项；
+2. 列出任务实际涉及的技术栈，让我逐项填写“熟悉 / 可在辅助下完成 / 不熟悉”；
+3. 用自己的话复述目标、非目标和成功证据，并列出建议、风险与待确认问题。
+技术不熟悉时给出“保留并结对 / 改派任务 / 替换该层实现”三个可审方向，
+不得擅自更换共享合同或全局架构。只有我逐项确认后才能写“入场确认完成”；
+确认仍不等于认领任务。
+```
+
+队友可以这样回执：
+
+```text
+角色与任务：确认 / 调整为 ______
+技术熟悉度：Rust ______；React/TypeScript ______；本任务其他技术 ______
+目标与边界：确认 / 调整为 ______
+建议处理：接受 ______；暂不接受 ______
+我是否现在认领任务：否 / 是，我认领 <task_id>，角色是 <role>
 ```
 
 ## 自检与故障排查
@@ -119,8 +286,14 @@ PROJECT-MANIFEST.json 的 status、current_work 与 collaboration_contract。
 # 查看环境、依赖、Git、构建和服务器状态
 pwsh -NoProfile -ExecutionPolicy Bypass -File .\tools\Docs.ps1 -Action Doctor
 
+# 只检查可运行 Web Demo 所需环境
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\doctor.ps1 -WebOnly
+
 # 关闭由本项目启动的本地文档服务器
 pwsh -NoProfile -ExecutionPolicy Bypass -File .\tools\Docs.ps1 -Action Stop
+
+# 关闭 University2K26 Web/API
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\Stop-University2K26.ps1
 
 # 单独验证全部页面、内部链接和构建
 Set-Location .\docs-site
@@ -130,3 +303,7 @@ npm run verify
 日志位于 `docs-site/.logs/`，运行状态位于 `docs-site/.runtime/`；二者都不会提交到 Git。
 
 如果页面突然变成白底、蓝色下划线和普通项目符号，那不是设计稿，而是核心 CSS 没有进入构建产物。重新执行 `Setup`；`Doctor` 会显示稳定入口和本轮构建使用的等效物理路径，构建后守卫会在样式仍缺失时直接报错。
+
+如果 `4173` 端口被占用，先运行停止脚本，再用 `Get-NetTCPConnection -LocalPort 4173` 查明占用者；启动器使用 `strictPort`，不会偷偷换端口造成队友打开错误页面。完整栈启动提示缺少 Ubuntu 时，可以先用 `-FixtureOnly` 继续 UI/产品工作，或按上面的 macOS/Linux 命令在原生 Rust 可用的环境中手动启动 API。
+
+完整栈启动器还会在 `.data/university2k26-v09/api.wsl.pid` 保存本仓库 API 的 WSL PID 回执。Windows 休眠、Codex 更新或 WSL 端口转发失效后，如果 `http://127.0.0.1:3000/api/v1/health` 不可达，再次运行启动器会先核对该 PID 的可执行文件确实是 `j2k26-api`，只终止这一项后端再重启；停止脚本也使用同一回执。不要用 `wsl --shutdown`、`killall` 或宽泛进程名清理代替它，以免影响同机其他 WSL 工作。

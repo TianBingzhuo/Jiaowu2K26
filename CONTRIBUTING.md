@@ -1,4 +1,4 @@
-# 为 jiaowu2K26 做贡献
+# 为大学2K26 / University2K26 做贡献
 
 感谢你来一起做这件事。本项目把产品研究、功能规格、赛事交付与未来实现放在同一个可追溯体系中；贡献的第一原则不是“多做一点”，而是让每次改变都能被另一位同学或 AI 找到、解释、验证和回退。
 
@@ -6,8 +6,9 @@
 
 1. 从根目录读取 [`AGENTS.md`](AGENTS.md)。
 2. 查看 [`PROJECT-MANIFEST.json`](PROJECT-MANIFEST.json) 的 `status` 与 `current_work`。
-3. 问“我现在能干什么？”，获得一个带输入、输出、Done 和禁止事项的任务。
-4. 只有明确认领任务后才改变 owner；作者只能提交 `review`，不能自行宣布 `accepted`。
+3. 问“我现在能干什么？”，让 AI 按 README 的入场协议提交角色与任务、技术熟悉度、目标与建议三项回执。
+4. 本人确认或调整三项回执；技术不熟悉时，由队友与总集成人员决定结对、改派或替换该层实现，AI 不得静默换栈。
+5. 只有明确认领任务后才改变 owner；作者只能提交 `review`，不能自行宣布 `accepted`。
 
 赛事阶段门禁高于本文。当前为 `hacking / GATE-1 / P0-00`，只允许处理当前 Issue 中 `allowed_now=true` 的工作包；不得因为看见十四个模块或长期愿景就提前展开下一切片。
 
@@ -46,7 +47,7 @@
 1. 从最新 `main` 建一个短分支：`docs/*`、`design/*`、`feat/*` 或 `fix/*`。
 2. 一次 PR 只服务一个任务或验收 ID；相关规格、状态与证据一起更新。
 3. 提交前逐文件查看 diff，不提交秘密、真实学生数据、缓存、构建产物或来源不明资产。
-4. Push 后先创建 Draft PR，跑完任务卡指定的实际实验并附证据；至少一名非作者审核后，由总集成人员 squash 合并。
+4. Push 后先创建 Draft PR，跑完任务卡指定的实际实验并附证据；三项必需 CI 通过后，由 Codex 生成中心化技术审查报告，产品总集成人员决定接受并 squash 合并。队友 Reviewer 是可选增强，不是当前合并硬依赖。
 5. `main` 始终保持可阅读、可验证；Accepted 切片才允许进入下一切片。
 
 不会 Git 的同学按 [`engineering/GITHUB-COLLAB.md`](engineering/GITHUB-COLLAB.md) 的 VS Code 或 GitHub Desktop 图形化路径操作。脚本的自动更新只使用 `git pull --ff-only`；有未提交修改时会安全跳过。

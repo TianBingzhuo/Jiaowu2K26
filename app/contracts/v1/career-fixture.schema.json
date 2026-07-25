@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://university2k26.local/contracts/v1/career-fixture.schema.json",
+  "title": "University2K26 F-002 career fixture",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "data_mode",
+    "source_boundary",
+    "updated_at",
+    "semester",
+    "courses",
+    "deadlines",
+    "opportunity"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^1\\." },
+    "data_mode": { "const": "fixture" },
+    "source_boundary": { "type": "string", "minLength": 1 },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "semester": { "$ref": "#/$defs/semester" },
+    "courses": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/course" }
+    },
+    "deadlines": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/deadline" }
+    },
+    "opportunity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "detail", "source_ref"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "detail": { "type": "string", "minLength": 1 },
+        "source_ref": { "type": "string", "minLength": 1 }
+      }
+    }
+  },
+  "$defs": {
+    "semester": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "student_id",
+        "name",
+        "season_number",
+        "total_seasons",
+        "stage",
+        "start_date",
+        "end_date",
+        "status",
+        "courses"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "student_id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "season_number": { "type": "integer", "minimum": 1 },
+        "total_seasons": { "type": "integer", "minimum": 1 },
+        "stage": {
+          "enum": ["undergraduate", "master", "doctoral", "exchange", "gap"]
+        },
+        "start_date": { "type": "string", "format": "date" },
+        "end_date": { "type": "string", "format": "date" },
+        "status": { "enum": ["current", "completed", "upcoming"] },
+        "courses": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "learning_session": {
+      "type": ["object", "null"],
+      "required": [
+        "completion_pct",
+        "correct_count",
+        "total_questions",
+        "duration_seconds",
+        "completed_at"
+      ],
+      "properties": {
+        "completion_pct": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "correct_count": { "type": "integer", "minimum": 0 },
+        "total_questions": { "type": "integer", "minimum": 0 },
+        "duration_seconds": { "type": "integer", "minimum": 0 },
+        "completed_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "course": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "semester_id",
+        "name",
+        "code",
+        "credits",
+        "role",
+        "schedule",
+        "status",
+        "progress_pct",
+        "next_action",
+        "linked_published_id",
+        "last_session",
+        "source_ref",
+        "authority"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "semester_id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "code": { "type": "string", "minLength": 1 },
+        "credits": { "type": "integer", "minimum": 0 },
+        "role": { "enum": ["required", "elective", "general"] },
+        "schedule": { "type": "string", "minLength": 1 },
+        "status": {
+          "enum": ["active", "completed", "dropped", "attention", "critical"]
+        },
+        "progress_pct": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "next_action": { "type": "string", "minLength": 1 },
+        "linked_published_id": { "type": ["string", "null"] },
+        "last_session": { "$ref": "#/$defs/learning_session" },
+        "source_ref": { "type": "string", "minLength": 1 },
+        "authority": { "const": "fixture" }
+      }
+    },
+    "deadline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "course_id",
+        "title",
+        "due_at",
+        "source_ref",
+        "authority"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "course_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "due_at": { "type": "string", "format": "date-time" },
+        "source_ref": { "type": "string", "minLength": 1 },
+        "authority": { "const": "fixture" }
+      }
+    }
+  }
+}

@@ -1,10 +1,12 @@
 # 安全与负责任披露
 
-jiaowu2K26 未来可能连接学生、教师、学校与支付相关系统，因此安全、隐私和数据主权从规格阶段就属于产品合同，而不是上线前补丁。
+大学2K26 / University2K26 未来可能连接学生、教师、学校与支付相关系统，因此安全、隐私和数据主权从规格阶段就属于产品合同，而不是上线前补丁。
 
 ## 当前支持状态
 
-当前没有正式产品版本，也没有生产服务。项目已进入 Phase 0 技术基线阶段；可验证范围包括公开文档仓、协作工具和 GATE-1 基座，产品功能仍为 `pending`。任何概念图、Fixture 或 Demo 数据都不应被解释为真实校园系统或真实用户数据。
+当前没有正式产品版本，也没有生产服务。项目处于 `hacking / GATE-1`；可验证范围包括公开文档仓、协作工具、Phase 0 基座、F-001～F-010 的脱敏 Fixture 技术候选和五种前端 Role Lens。它们仍为 `technical_review`，F-011～F-014 保持 `pending`。任何概念图、Fixture、前端角色切换或 API 回执都不应被解释为真实校园身份、服务端授权、学校权威数据或生产能力。
+
+默认 API 与 Web 只绑定 `127.0.0.1`。当前请求中的 `actor_id` 是 Fixture 审计标签，不是身份凭证；在完成服务端认证、按角色/组织/用途/时限授权、限流、请求体上限、TLS 与租户隔离前，禁止把 Demo 改为非回环或公网服务。
 
 ## 私下报告问题
 
@@ -17,12 +19,17 @@ jiaowu2K26 未来可能连接学生、教师、学校与支付相关系统，因
 
 - 默认只使用原创或明确授权的 Golden Fixtures；不使用真实学生、教师、门禁、成绩、支付或健康数据。
 - `.env`、本地凭据、构建日志和缓存不得提交；示例配置只能包含占位符。
+- BYOK profile 可以共享无秘密的 provider/model/capability 元数据，真实 key 只进入操作系统凭据库、批准的 secret manager 或当前受控进程环境。浏览器不得写入 `localStorage`、`IndexedDB`、Service Worker cache、URL 或遥测，CLI 不接受 `--api-key` 一类会进入 history/进程列表的参数。
+- 外部 AI、CLI 与未来 MCP adapter 默认只读，只能调用 allowlist 应用能力；高风险写入必须绑定具体 actor、资源、动作、过期时间和 nonce 的一次性人类批准，不能用通用 `--yes`、模型自我确认或 Shell/数据库直通代替。
+- 自定义模型 endpoint 需要 scheme、重定向、DNS/IP 与数据外发范围校验；不得允许其探测云元数据、link-local、未批准私网或任意本机服务。
 - Academic Mirror、Campus Pass 与 General Balance 均须经过最小权限、租户隔离、审计、撤回、数据保留和威胁模型评审后才能接真实系统。
 - 可阅读导出不具权威性；可信归档必须有发行方签名、版本与导入隔离，不能因“能解密”就覆盖学校权威数据。
 - 支付默认只使用 sandbox/fixture；不得在黑客松 Demo 中收集真实银行卡或开通真实免密代扣。
 - NBA、2K、maimai 等资料只作机制研究，不复制商标、界面、音频、角色或其他受保护资产。
 
 产品边界见 [`product/BOUNDARIES.md`](product/BOUNDARIES.md)，跨系统安全合同见 [`engineering/ARCHITECTURE.md`](engineering/ARCHITECTURE.md)，通用质量门禁见 [`gates/QUALITY.md`](gates/QUALITY.md)。
+本轮 Qoder 改动与独立安全复核见
+[`reference/audit/2026-07-24-qoder-security-integration-review/AUDIT.md`](reference/audit/2026-07-24-qoder-security-integration-review/AUDIT.md)。
 
 ## 修复与披露流程
 

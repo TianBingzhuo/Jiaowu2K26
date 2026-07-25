@@ -1,0 +1,160 @@
+{
+  "schema_version": "1.0.0",
+  "data_mode": "fixture",
+  "source_boundary": "课程名称和知识点摘要来自已复核的本地索引；身份、日期、进度、状态、截止日和建议均为公开演示数据。",
+  "updated_at": "2026-07-24T10:30:00+08:00",
+  "semester": {
+    "id": "sem-2026-spring-demo",
+    "student_id": "student-nan-fixture",
+    "name": "2026 春季演示赛季",
+    "season_number": 4,
+    "total_seasons": 8,
+    "stage": "undergraduate",
+    "start_date": "2026-02-23",
+    "end_date": "2026-07-31",
+    "status": "current",
+    "courses": [
+      "signal-linear-systems",
+      "optics",
+      "electronic-circuits",
+      "advanced-mathematics",
+      "academic-english",
+      "engineering-practice"
+    ]
+  },
+  "courses": [
+    {
+      "id": "signal-linear-systems",
+      "semester_id": "sem-2026-spring-demo",
+      "name": "信号与线性系统",
+      "code": "SLS 240",
+      "credits": 4,
+      "role": "required",
+      "schedule": "周一 / 周三 10:00–11:40",
+      "status": "active",
+      "progress_pct": 68,
+      "next_action": "继续 RC / RLC 理解检查",
+      "linked_published_id": "published-sls-v1",
+      "last_session": {
+        "completion_pct": 100,
+        "correct_count": 1,
+        "total_questions": 1,
+        "duration_seconds": 18,
+        "completed_at": "2026-07-24T10:39:00+08:00"
+      },
+      "source_ref": "course-index:signal-linear-systems:2026-07-22",
+      "authority": "fixture"
+    },
+    {
+      "id": "optics",
+      "semester_id": "sem-2026-spring-demo",
+      "name": "光学",
+      "code": "OPT 210",
+      "credits": 3,
+      "role": "elective",
+      "schedule": "周二 14:00–16:40",
+      "status": "completed",
+      "progress_pct": 100,
+      "next_action": "整理实验现象与模型边界",
+      "linked_published_id": null,
+      "last_session": null,
+      "source_ref": "course-index:optics:2026-07-22",
+      "authority": "fixture"
+    },
+    {
+      "id": "electronic-circuits",
+      "semester_id": "sem-2026-spring-demo",
+      "name": "电子电路",
+      "code": "ECE 220",
+      "credits": 4,
+      "role": "required",
+      "schedule": "周二 / 周四 08:00–09:40",
+      "status": "attention",
+      "progress_pct": 54,
+      "next_action": "补全量程与供电安全检查",
+      "linked_published_id": null,
+      "last_session": null,
+      "source_ref": "course-index:electronic-circuits:2026-07-22",
+      "authority": "fixture"
+    },
+    {
+      "id": "advanced-mathematics",
+      "semester_id": "sem-2026-spring-demo",
+      "name": "高等数学",
+      "code": "MATH 201",
+      "credits": 5,
+      "role": "required",
+      "schedule": "周一 / 周四 14:00–15:40",
+      "status": "critical",
+      "progress_pct": 41,
+      "next_action": "7 月 26 日前完成常微分方程诊断",
+      "linked_published_id": null,
+      "last_session": null,
+      "source_ref": "course-index:advanced-mathematics:2026-07-22",
+      "authority": "fixture"
+    },
+    {
+      "id": "academic-english",
+      "semester_id": "sem-2026-spring-demo",
+      "name": "学术英语",
+      "code": "ENG 206",
+      "credits": 2,
+      "role": "general",
+      "schedule": "周五 10:00–11:40",
+      "status": "active",
+      "progress_pct": 76,
+      "next_action": "提交主张—证据—限制短稿",
+      "linked_published_id": null,
+      "last_session": null,
+      "source_ref": "course-index:academic-english:2026-07-22",
+      "authority": "fixture"
+    },
+    {
+      "id": "engineering-practice",
+      "semester_id": "sem-2026-spring-demo",
+      "name": "工程训练",
+      "code": "ENGR 230",
+      "credits": 2,
+      "role": "elective",
+      "schedule": "周六 09:00–11:40",
+      "status": "dropped",
+      "progress_pct": 24,
+      "next_action": "查看正式退选记录与资料保留范围",
+      "linked_published_id": null,
+      "last_session": null,
+      "source_ref": "course-index:engineering-practice:2026-07-22",
+      "authority": "fixture"
+    }
+  ],
+  "deadlines": [
+    {
+      "id": "deadline-math-ode-diagnostic",
+      "course_id": "advanced-mathematics",
+      "title": "常微分方程诊断练习",
+      "due_at": "2026-07-26T20:00:00+08:00",
+      "source_ref": "fixture-calendar:math201:ode-diagnostic",
+      "authority": "fixture"
+    },
+    {
+      "id": "deadline-ece-safety-check",
+      "course_id": "electronic-circuits",
+      "title": "测量安全检查单",
+      "due_at": "2026-07-28T18:00:00+08:00",
+      "source_ref": "fixture-calendar:ece220:safety-check",
+      "authority": "fixture"
+    },
+    {
+      "id": "deadline-eng-claim-draft",
+      "course_id": "academic-english",
+      "title": "主张—证据—限制短稿",
+      "due_at": "2026-07-30T12:00:00+08:00",
+      "source_ref": "fixture-calendar:eng206:claim-draft",
+      "authority": "fixture"
+    }
+  ],
+  "opportunity": {
+    "title": "Signal Film Room · 同伴复盘",
+    "detail": "可选择带一张误差表参与 7 月 29 日的开放复盘；不影响成绩。",
+    "source_ref": "fixture-opportunity:sls-film-room:2026-07-29"
+  }
+}

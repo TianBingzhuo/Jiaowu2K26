@@ -1,0 +1,248 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TianBingzhuo/Jiaowu2K26/app/contracts/v1/campus-life-session.schema.json",
+  "title": "University2K26 Campus Life Session",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "data_mode",
+    "profile",
+    "saved_items",
+    "calendar_entries",
+    "journey_mirrors",
+    "team_intents",
+    "mentor_handoffs",
+    "notification_settings",
+    "source_corrections",
+    "receipts",
+    "audit"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "data_mode": { "const": "demo_fixture" },
+    "profile": { "$ref": "#/$defs/profile" },
+    "saved_items": { "type": "array", "items": { "$ref": "#/$defs/savedItem" } },
+    "calendar_entries": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/calendarEntry" }
+    },
+    "journey_mirrors": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/journey" }
+    },
+    "team_intents": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/teamIntent" }
+    },
+    "mentor_handoffs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/mentorHandoff" }
+    },
+    "notification_settings": { "$ref": "#/$defs/notifications" },
+    "source_corrections": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/correction" }
+    },
+    "receipts": { "type": "array", "items": { "$ref": "#/$defs/receipt" } },
+    "audit": { "type": "array", "items": { "$ref": "#/$defs/auditEvent" } }
+  },
+  "$defs": {
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profiling_enabled",
+        "interests",
+        "academic_stage",
+        "purpose",
+        "expires_at"
+      ],
+      "properties": {
+        "profiling_enabled": { "type": "boolean" },
+        "interests": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+        "academic_stage": { "type": "string" },
+        "purpose": { "type": "string" },
+        "expires_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "savedItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_id", "target_type", "saved_at"],
+      "properties": {
+        "target_id": { "type": "string" },
+        "target_type": { "enum": ["service", "event", "team", "mentor"] },
+        "saved_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "calendarEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "starts_at",
+        "ends_at",
+        "conflict_labels",
+        "registration_performed",
+        "saved_at"
+      ],
+      "properties": {
+        "event_id": { "type": "string" },
+        "starts_at": { "type": "string", "format": "date-time" },
+        "ends_at": { "type": "string", "format": "date-time" },
+        "conflict_labels": { "type": "array", "items": { "type": "string" } },
+        "registration_performed": { "const": false },
+        "saved_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "journey": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "resource_id",
+        "status",
+        "completed_step_ids",
+        "personal_note",
+        "authoritative",
+        "last_checked_at"
+      ],
+      "properties": {
+        "resource_id": { "type": "string" },
+        "status": { "enum": ["saved", "in_progress", "waiting_external", "closed"] },
+        "completed_step_ids": { "type": "array", "items": { "type": "string" } },
+        "personal_note": { "type": "string" },
+        "authoritative": { "const": false },
+        "last_checked_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "teamIntent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "listing_id",
+        "student_confirmed",
+        "provider_confirmed",
+        "disclosure_status",
+        "disclosed_fields",
+        "updated_at"
+      ],
+      "properties": {
+        "listing_id": { "type": "string" },
+        "student_confirmed": { "type": "boolean" },
+        "provider_confirmed": { "type": "boolean" },
+        "disclosure_status": { "enum": ["waiting_counterparty", "mutual_intent"] },
+        "disclosed_fields": { "type": "array", "items": { "type": "string" } },
+        "updated_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "mentorHandoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "mentor_id",
+        "questions",
+        "evidence_ids",
+        "consent_confirmed",
+        "mentor_response",
+        "status",
+        "created_at"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "mentor_id": { "type": "string" },
+        "questions": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "evidence_ids": { "type": "array", "items": { "type": "string" } },
+        "consent_confirmed": { "const": true },
+        "mentor_response": { "type": "null" },
+        "status": { "const": "ready_for_student" },
+        "created_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "notifications": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled_categories",
+        "frequency",
+        "quiet_hours",
+        "emergency_enabled",
+        "marketing_enabled"
+      ],
+      "properties": {
+        "enabled_categories": { "type": "array", "items": { "type": "string" } },
+        "frequency": { "enum": ["realtime", "daily_digest", "weekly"] },
+        "quiet_hours": { "type": "string" },
+        "emergency_enabled": { "const": true },
+        "marketing_enabled": { "type": "boolean" }
+      }
+    },
+    "correction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "target_id",
+        "reason",
+        "status",
+        "created_at",
+        "review_due_at"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "target_id": { "type": "string" },
+        "reason": { "type": "string" },
+        "status": { "enum": ["submitted", "in_review", "resolved", "rejected"] },
+        "created_at": { "type": "string", "format": "date-time" },
+        "review_due_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "target_id",
+        "participation",
+        "reflection",
+        "private",
+        "affects_student_value",
+        "created_at"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "target_id": { "type": "string" },
+        "participation": { "enum": ["attended", "not_attended", "unknown"] },
+        "reflection": { "type": "string" },
+        "private": { "const": true },
+        "affects_student_value": { "const": false },
+        "created_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "auditEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "sequence",
+        "action",
+        "target_id",
+        "detail",
+        "occurred_at",
+        "previous_event_hash",
+        "event_hash"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "sequence": { "type": "integer", "minimum": 1 },
+        "action": { "type": "string" },
+        "target_id": { "type": "string" },
+        "detail": { "type": "string" },
+        "occurred_at": { "type": "string", "format": "date-time" },
+        "previous_event_hash": { "type": ["string", "null"] },
+        "event_hash": { "type": "string" }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+version: 2
+updates:
+  - package-ecosystem: cargo
+    directory: /app
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+    labels: [dependencies, phase-0]
+  - package-ecosystem: npm
+    directory: /docs-site
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+    labels: [dependencies, documentation]

@@ -1,0 +1,62 @@
+name: Phase 0 quality
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: phase0-quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rust:
+    name: Rust (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Install pinned Rust toolchain
+        run: rustup toolchain install 1.97.1 --profile minimal --component rustfmt --component clippy
+      - name: Check formatting
+        run: cargo +1.97.1 fmt --all -- --check
+      - name: Check all targets
+        run: cargo +1.97.1 check --workspace --all-targets --locked
+      - name: Run tests
+        run: cargo +1.97.1 test --workspace --all-targets --locked
+      - name: Run live API smoke path
+        if: runner.os == 'Linux'
+        run: bash ../scripts/smoke-api.sh
+      - name: Run Clippy
+        run: cargo +1.97.1 clippy --workspace --all-targets --locked -- -D warnings
+
+  contracts-and-docs:
+    name: Contracts and docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Install pinned Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 24.18.0
+          cache: npm
+          cache-dependency-path: docs-site/package-lock.json
+      - name: Verify contracts and manifest
+        run: node scripts/check-contracts.mjs
+      - name: Install locked docs dependencies
+        run: npm ci --prefix docs-site
+      - name: Audit docs dependencies
+        run: npm audit --audit-level=low --prefix docs-site
+      - name: Build and verify documentation portal
+        run: npm run build --prefix docs-site

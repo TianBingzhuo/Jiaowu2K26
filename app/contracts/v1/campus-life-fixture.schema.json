@@ -1,0 +1,311 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TianBingzhuo/Jiaowu2K26/app/contracts/v1/campus-life-fixture.schema.json",
+  "title": "University2K26 Campus Life Fixture",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "data_mode",
+    "generated_at",
+    "last_updated_at",
+    "sources",
+    "resources",
+    "events",
+    "locations",
+    "routes",
+    "team_listings",
+    "mentors",
+    "escalation_routes",
+    "interest_catalog",
+    "invariants"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "data_mode": { "const": "demo_fixture" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "last_updated_at": { "type": "string", "format": "date-time" },
+    "sources": {
+      "type": "array",
+      "minItems": 3,
+      "items": { "$ref": "#/$defs/source" }
+    },
+    "resources": {
+      "type": "array",
+      "minItems": 5,
+      "items": { "$ref": "#/$defs/resource" }
+    },
+    "events": {
+      "type": "array",
+      "minItems": 4,
+      "items": { "$ref": "#/$defs/event" }
+    },
+    "locations": {
+      "type": "array",
+      "minItems": 4,
+      "items": { "$ref": "#/$defs/location" }
+    },
+    "routes": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "$ref": "#/$defs/route" }
+    },
+    "team_listings": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/teamListing" }
+    },
+    "mentors": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/mentor" }
+    },
+    "escalation_routes": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "$ref": "#/$defs/escalation" }
+    },
+    "interest_catalog": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "invariants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "no_official_result_claims",
+        "no_auto_registration_or_cancellation",
+        "profiling_can_be_disabled",
+        "mycourt_private_by_default",
+        "no_default_location_tracking",
+        "mutual_intent_before_disclosure",
+        "emergency_routes_are_direct",
+        "emergency_and_marketing_separated",
+        "no_participation_value_score"
+      ],
+      "properties": {
+        "no_official_result_claims": { "const": true },
+        "no_auto_registration_or_cancellation": { "const": true },
+        "profiling_can_be_disabled": { "const": true },
+        "mycourt_private_by_default": { "const": true },
+        "no_default_location_tracking": { "const": true },
+        "mutual_intent_before_disclosure": { "const": true },
+        "emergency_routes_are_direct": { "const": true },
+        "emergency_and_marketing_separated": { "const": true },
+        "no_participation_value_score": { "const": true }
+      }
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "provider",
+        "official_url",
+        "version",
+        "updated_at",
+        "expires_at",
+        "verification_status",
+        "correction_route"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "provider": { "type": "string" },
+        "official_url": { "type": "string", "format": "uri", "pattern": "^https://" },
+        "version": { "type": "string" },
+        "updated_at": { "type": "string", "format": "date-time" },
+        "expires_at": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "verification_status": {
+          "enum": ["verified_fixture", "unverified", "expired"]
+        },
+        "correction_route": { "type": "string", "minLength": 8 }
+      }
+    },
+    "resource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "category",
+        "title",
+        "summary",
+        "intent_tags",
+        "location_id",
+        "delivery_mode",
+        "accessibility",
+        "official_action_url",
+        "service_boundary",
+        "source_id",
+        "status"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "category": { "type": "string" },
+        "title": { "type": "string" },
+        "summary": { "type": "string" },
+        "intent_tags": { "type": "array", "items": { "type": "string" } },
+        "location_id": { "type": ["string", "null"] },
+        "delivery_mode": { "enum": ["online", "in_person", "hybrid"] },
+        "accessibility": { "type": "array", "items": { "type": "string" } },
+        "official_action_url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "service_boundary": { "type": "string" },
+        "source_id": { "type": "string" },
+        "status": { "enum": ["active", "expired", "unknown"] }
+      }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "host",
+        "starts_at",
+        "ends_at",
+        "deadline_at",
+        "location_id",
+        "delivery_mode",
+        "cost_label",
+        "eligibility",
+        "accessibility",
+        "source_id",
+        "status"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "host": { "type": "string" },
+        "starts_at": { "type": "string", "format": "date-time" },
+        "ends_at": { "type": "string", "format": "date-time" },
+        "deadline_at": { "type": "string", "format": "date-time" },
+        "location_id": { "type": "string" },
+        "delivery_mode": { "enum": ["online", "in_person", "hybrid"] },
+        "cost_label": { "type": "string" },
+        "eligibility": { "type": "string" },
+        "accessibility": { "type": "array", "items": { "type": "string" } },
+        "source_id": { "type": "string" },
+        "status": { "enum": ["active", "expired", "unknown"] }
+      }
+    },
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "zone", "x", "y", "accessibility", "source_id"],
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "type": "string" },
+        "zone": { "type": "string" },
+        "x": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "y": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "accessibility": { "type": "array", "items": { "type": "string" } },
+        "source_id": { "type": "string" }
+      }
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "from_location_id",
+        "to_location_id",
+        "label",
+        "estimated_minutes",
+        "accessible",
+        "steps",
+        "source_id"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "from_location_id": { "type": "string" },
+        "to_location_id": { "type": "string" },
+        "label": { "type": "string" },
+        "estimated_minutes": { "type": "integer", "minimum": 1 },
+        "accessible": { "type": "boolean" },
+        "steps": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "source_id": { "type": "string" }
+      }
+    },
+    "teamListing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "role_gap",
+        "hours_per_week",
+        "collaboration_mode",
+        "minimum_public_fields",
+        "source_id",
+        "report_route"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "role_gap": { "type": "string" },
+        "hours_per_week": { "type": "integer", "minimum": 1 },
+        "collaboration_mode": { "type": "string" },
+        "minimum_public_fields": { "type": "array", "items": { "type": "string" } },
+        "source_id": { "type": "string" },
+        "report_route": { "type": "string" }
+      }
+    },
+    "mentor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "display_name",
+        "qualification",
+        "help_topics",
+        "boundaries",
+        "verified",
+        "source_id",
+        "report_route"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "display_name": { "type": "string" },
+        "qualification": { "type": "string" },
+        "help_topics": { "type": "array", "items": { "type": "string" } },
+        "boundaries": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "verified": { "type": "boolean" },
+        "source_id": { "type": "string" },
+        "report_route": { "type": "string" }
+      }
+    },
+    "escalation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "issue_type",
+        "title",
+        "channel",
+        "official_url",
+        "scope",
+        "emergency",
+        "available_label",
+        "source_id"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "issue_type": { "type": "string" },
+        "title": { "type": "string" },
+        "channel": { "type": "string" },
+        "official_url": { "type": "string", "format": "uri", "pattern": "^https://" },
+        "scope": { "type": "string" },
+        "emergency": { "type": "boolean" },
+        "available_label": { "type": "string" },
+        "source_id": { "type": "string" }
+      }
+    }
+  }
+}

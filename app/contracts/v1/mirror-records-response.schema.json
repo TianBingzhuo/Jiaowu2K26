@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TianBingzhuo/Jiaowu2K26/app/contracts/v1/mirror-records-response.schema.json",
+  "title": "MirrorRecordsResponse v1",
+  "type": "object",
+  "required": ["schema_version", "data_mode", "read_only", "records"],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^1\\." },
+    "data_mode": { "const": "fixture" },
+    "read_only": { "const": true },
+    "records": {
+      "type": "array",
+      "items": {
+        "$ref": "./academic-mirror-fixture.schema.json#/$defs/normalizedRecord"
+      }
+    }
+  },
+  "additionalProperties": false
+}

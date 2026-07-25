@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "id": "generated-bst-search-001",
+  "course_id": "course-dsa-fixture",
+  "kind": "quiz",
+  "body": "在二叉搜索树中查找目标值时，下一步应比较目标值与当前节点，并选择左子树或右子树。",
+  "source_ids": [
+    "source-bst-transcript-001",
+    "source-bst-slide-001"
+  ],
+  "evidence": [
+    {
+      "id": "evidence-bst-transcript-001",
+      "source_fragment_id": "source-bst-transcript-001",
+      "source_ref": "fixture://bst/transcript#t=00:01:18-00:01:35",
+      "source_type": "transcript",
+      "quote": "目标值小于当前节点就向左查找，大于当前节点就向右查找。",
+      "summary": "教师口播给出了二叉搜索树查找方向。",
+      "confidence": 0.96,
+      "teacher_action": null
+    },
+    {
+      "id": "evidence-bst-slide-001",
+      "source_fragment_id": "source-bst-slide-001",
+      "source_ref": "fixture://bst/slides#page=3",
+      "source_type": "slide",
+      "quote": "left < node < right",
+      "summary": "授权演示幻灯片显示了节点有序关系。",
+      "confidence": 0.9,
+      "teacher_action": null
+    }
+  ],
+  "evidence_status": "supported",
+  "unknowns": [],
+  "generation_mode": "fixture",
+  "generator_version": "phase0-golden-v1",
+  "review_state": "draft",
+  "revision": 0,
+  "fixture": true
+}

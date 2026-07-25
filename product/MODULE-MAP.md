@@ -19,7 +19,7 @@
 | 7 | F-006 | Performance Center | P2 | 低 | 私密进度与能力中心 |
 | 8 | F-007 | Coach & Scouting | P2 | 低 | 课程信息与教学风格发现 |
 | 9 | F-008 | Campus Life Hub | Vision | 不排 | 校园服务长期枢纽 |
-| 10 | F-010 | Campus Pass & Entitlements | P2 / Vision | 不排 | 门禁、实验室、设备与非货币权益的可解释钱包 |
+| 10 | F-010 | Campus Pass & Entitlements | P2 / Vision | technical_review | 门禁、实验室、设备与非货币权益的可解释钱包；当前仅脱敏 Fixture 技术候选 |
 | 11 | F-011 | General Balance & Campus Commerce | P2 / Vision | 不排 | 通用余额、政策资金、支付通道和学生模块预算 |
 | 12 | F-012 | Dining & Wellbeing | P2 / Vision | 不排 | 菜单、预算内饮食建议与食堂运营优化 |
 | 13 | F-013 | Faculty Success Studio | P2 / Vision | 不排 | 教师教学、科研、合规与晋升证据工作台 |
@@ -227,6 +227,7 @@ University OS 扩展包？
 | X-13 | 统一游戏体验 | 全局壳、Token、组件、图标、动效、声音和任务循环只维护一套；模块不得独立换肤 | **是** |
 | X-14 | 策略与权益 | 角色、范围、前置条件、期限、同意、例外和权威来源可解释 | P2 |
 | X-15 | 分账与预算 | General Cash、Policy Balance、External Rails、Module Cap、Entitlement 语义分离 | P2 |
+| X-16 | Controller-first 多输入 | 手柄、键盘、触控与读屏共享语义动作；确定性焦点、动态键帽、校准/重映射、断连回退和高风险二次确认 | **P0 演示主路径** |
 
 ## 本地黑客松与成品案例归并（实验验收 ID）
 

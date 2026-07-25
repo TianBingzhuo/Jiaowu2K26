@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TianBingzhuo/Jiaowu2K26/app/contracts/v1/error-response.schema.json",
+  "title": "ErrorResponse v1",
+  "type": "object",
+  "required": ["schema_version", "code", "message", "retryable"],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^1\\." },
+    "code": { "type": "string", "minLength": 1 },
+    "message": { "type": "string", "minLength": 1 },
+    "retryable": { "type": "boolean" }
+  },
+  "additionalProperties": true
+}

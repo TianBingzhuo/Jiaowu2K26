@@ -1,0 +1,567 @@
+{
+  "schema_version": "1.0.0",
+  "data_mode": "fixture",
+  "student_id": "student-nan-fixture",
+  "private_by_default": true,
+  "comparison_mode": "self_only",
+  "source_boundary": "这里只看脱敏的学习过程和本人主动填写的感受；GPA、排名、门禁、消费、深夜在线、健康和人气数据都不进场。",
+  "last_updated_at": "2026-07-24T11:40:00+08:00",
+  "forbidden_inputs": [
+    "gpa",
+    "class_rank",
+    "campus_access_trace",
+    "payment_or_consumption",
+    "night_activity",
+    "device_sensor",
+    "medical_or_mental_health",
+    "peer_popularity",
+    "paid_behavior"
+  ],
+  "metrics": [
+    {
+      "id": "metric-revision-quality",
+      "label": "有依据的修订",
+      "unit": "次 / 14 天",
+      "definition": "查看来源后产生的可回放有效修订次数。",
+      "purpose": "观察本人近期迭代行为。",
+      "limitation": "次数不代表质量、能力或成绩。",
+      "correction_route": "从 Replay 提交人工校对。",
+      "version": "metric-r1",
+      "source_types": ["learning_event", "review_object"],
+      "can_correct": true,
+      "comparison_mode": "self_only"
+    },
+    {
+      "id": "metric-source-checks",
+      "label": "主动核对来源",
+      "unit": "次 / 14 天",
+      "definition": "在答题、复习或修改前主动打开定位来源的次数。",
+      "purpose": "发现需要先核对证据的任务。",
+      "limitation": "打开来源不等于理解来源，不能用于排名。",
+      "correction_route": "从 Evidence Pack 报告重复或错误事件。",
+      "version": "metric-r1",
+      "source_types": ["learning_event"],
+      "can_correct": true,
+      "comparison_mode": "self_only"
+    },
+    {
+      "id": "metric-task-clarity",
+      "label": "任务清晰度",
+      "unit": "有 Done 与来源的任务",
+      "definition": "未来七天同时具有要求、完成口径、来源和下一步的任务数。",
+      "purpose": "暴露模糊要求，不把问题归咎学生。",
+      "limitation": "只表示信息完整度，不表示任务容易或学生能力。",
+      "correction_route": "提交课程镜像校对。",
+      "version": "metric-r1",
+      "source_types": ["academic_mirror", "review_object"],
+      "can_correct": true,
+      "comparison_mode": "self_only"
+    },
+    {
+      "id": "metric-deadline-density",
+      "label": "期限密度",
+      "unit": "个 / 7 天",
+      "definition": "未来七天已知截止任务数量与冲突。",
+      "purpose": "提前发现任务聚集并安排缓冲。",
+      "limitation": "只包含已授权且仍新鲜的任务。",
+      "correction_route": "从 Academic Mirror 核对课程日历。",
+      "version": "metric-r1",
+      "source_types": ["academic_mirror"],
+      "can_correct": true,
+      "comparison_mode": "self_only"
+    },
+    {
+      "id": "metric-capacity",
+      "label": "承诺 / 可用容量",
+      "unit": "小时 / 周",
+      "definition": "本人主动填写的可用时间与已承诺任务时间。",
+      "purpose": "帮助调整计划，不把资源不足写成个人失败。",
+      "limitation": "完全依赖本人短期自报，不从设备行为推断。",
+      "correction_route": "本人可修改或删除。",
+      "version": "metric-r1",
+      "source_types": ["self_report"],
+      "can_correct": true,
+      "comparison_mode": "self_only"
+    },
+    {
+      "id": "metric-recovery",
+      "label": "恢复感受",
+      "unit": "本人自报",
+      "definition": "本人可选填写的短期恢复感受。",
+      "purpose": "让减压动作以本人感受为依据。",
+      "limitation": "不是医学或心理诊断；不提供不影响权益。",
+      "correction_route": "本人可立即修改、撤回或删除。",
+      "version": "metric-r1",
+      "source_types": ["self_report"],
+      "can_correct": true,
+      "comparison_mode": "self_only"
+    }
+  ],
+  "observations": [
+    {
+      "id": "obs-revision-quality",
+      "metric_id": "metric-revision-quality",
+      "value": 3,
+      "display_value": "3 次",
+      "range_label": "比本人前一窗口多 1 次",
+      "period_start": "2026-07-11",
+      "period_end": "2026-07-24",
+      "updated_at": "2026-07-24T10:39:00+08:00",
+      "expires_at": "2026-08-01T10:39:00+08:00",
+      "source_ids": ["ev-revision-001", "ev-review-001"],
+      "confidence": "medium",
+      "confidence_reason": "事件可回放，但样本窗口只有 14 天。",
+      "data_gaps": ["7 月 17 日离线学习未产生结构化修订事件。"],
+      "trend": [
+        {"period": "W1", "label": "6/27", "value": 1, "status": "observed"},
+        {"period": "W2", "label": "7/04", "value": 2, "status": "observed"},
+        {"period": "W3", "label": "7/11", "value": null, "status": "gap"},
+        {"period": "W4", "label": "7/18", "value": 3, "status": "observed"},
+        {"period": "W5", "label": "7/24", "value": 3, "status": "observed"}
+      ]
+    },
+    {
+      "id": "obs-source-checks",
+      "metric_id": "metric-source-checks",
+      "value": 5,
+      "display_value": "5 次",
+      "range_label": "本人近期窗口：3–5 次",
+      "period_start": "2026-07-11",
+      "period_end": "2026-07-24",
+      "updated_at": "2026-07-24T10:39:00+08:00",
+      "expires_at": "2026-08-01T10:39:00+08:00",
+      "source_ids": ["ev-source-open-001", "ev-exam-source-001"],
+      "confidence": "medium",
+      "confidence_reason": "只计算显式打开 Evidence 的事件，不推断是否真正阅读。",
+      "data_gaps": ["纸面笔记与外部阅读不在此记录。"],
+      "trend": [
+        {"period": "W1", "label": "6/27", "value": 2, "status": "observed"},
+        {"period": "W2", "label": "7/04", "value": 3, "status": "observed"},
+        {"period": "W3", "label": "7/11", "value": 3, "status": "observed"},
+        {"period": "W4", "label": "7/18", "value": 4, "status": "observed"},
+        {"period": "W5", "label": "7/24", "value": 5, "status": "observed"}
+      ]
+    },
+    {
+      "id": "obs-task-clarity",
+      "metric_id": "metric-task-clarity",
+      "value": 5,
+      "display_value": "5 / 6",
+      "range_label": "1 项仍缺少清晰 Done",
+      "period_start": "2026-07-24",
+      "period_end": "2026-07-31",
+      "updated_at": "2026-07-24T11:20:00+08:00",
+      "expires_at": "2026-07-25T11:20:00+08:00",
+      "source_ids": ["ev-mirror-course-001", "ev-review-001"],
+      "confidence": "low",
+      "confidence_reason": "课程目录接近过期，且有一项要求待教师确认。",
+      "data_gaps": ["工程训练任务的完成口径仍未知。"],
+      "trend": [
+        {"period": "D1", "label": "周一", "value": 4, "status": "observed"},
+        {"period": "D2", "label": "周二", "value": 4, "status": "observed"},
+        {"period": "D3", "label": "周三", "value": null, "status": "gap"},
+        {"period": "D4", "label": "周四", "value": 5, "status": "observed"}
+      ]
+    },
+    {
+      "id": "obs-deadline-density",
+      "metric_id": "metric-deadline-density",
+      "value": 4,
+      "display_value": "4 个",
+      "range_label": "其中 2 个集中在 48 小时内",
+      "period_start": "2026-07-24",
+      "period_end": "2026-07-31",
+      "updated_at": "2026-07-24T11:20:00+08:00",
+      "expires_at": "2026-07-25T11:20:00+08:00",
+      "source_ids": ["ev-mirror-course-001", "ev-season-deadline-001"],
+      "confidence": "medium",
+      "confidence_reason": "只包含当前授权课程镜像。",
+      "data_gaps": ["未授权社团与个人事务不在系统中。"],
+      "trend": [
+        {"period": "D1", "label": "周五", "value": 1, "status": "observed"},
+        {"period": "D2", "label": "周六", "value": 0, "status": "observed"},
+        {"period": "D3", "label": "周日", "value": 2, "status": "observed"},
+        {"period": "D4", "label": "周一", "value": 1, "status": "observed"}
+      ]
+    },
+    {
+      "id": "obs-capacity",
+      "metric_id": "metric-capacity",
+      "value": 34,
+      "display_value": "34 / 36 小时",
+      "range_label": "本人保留 2 小时缓冲",
+      "period_start": "2026-07-21",
+      "period_end": "2026-07-27",
+      "updated_at": "2026-07-24T11:32:00+08:00",
+      "expires_at": null,
+      "source_ids": ["ev-self-capacity-001"],
+      "confidence": "low",
+      "confidence_reason": "本人自报计划，不等于实际投入。",
+      "data_gaps": ["临时责任可能改变容量。"],
+      "trend": [
+        {"period": "W1", "label": "上周", "value": 31, "status": "observed"},
+        {"period": "W2", "label": "本周", "value": 34, "status": "observed"}
+      ]
+    },
+    {
+      "id": "obs-recovery",
+      "metric_id": "metric-recovery",
+      "value": null,
+      "display_value": "需要缓冲",
+      "range_label": "本人主动填写 · 可删除",
+      "period_start": "2026-07-24",
+      "period_end": "2026-07-27",
+      "updated_at": "2026-07-24T11:33:00+08:00",
+      "expires_at": "2026-07-27T23:59:00+08:00",
+      "source_ids": ["ev-self-recovery-001"],
+      "confidence": "low",
+      "confidence_reason": "敏感自报只描述本人当下感受，不转成分数。",
+      "data_gaps": [],
+      "trend": []
+    }
+  ],
+  "abilities": [
+    {
+      "id": "ability-knowledge",
+      "label": "知识理解",
+      "observed_label": "4 / 5 次证据检查后答对",
+      "description": "只描述本期有来源的理解检查。",
+      "source_ids": ["ev-exam-source-001"],
+      "confidence": "medium"
+    },
+    {
+      "id": "ability-applied",
+      "label": "应用与修订",
+      "observed_label": "3 次可回放修订",
+      "description": "展示作品行为，不折算永久能力。",
+      "source_ids": ["ev-revision-001", "ev-review-001"],
+      "confidence": "medium"
+    },
+    {
+      "id": "ability-collaboration",
+      "label": "协作",
+      "observed_label": "数据不足，暂不展示精确值",
+      "description": "没有授权同伴反馈，因此不猜测。",
+      "source_ids": [],
+      "confidence": "insufficient"
+    },
+    {
+      "id": "ability-habit",
+      "label": "学习习惯",
+      "observed_label": "5 / 7 个计划检查点已完成",
+      "description": "只比较本人近期计划，不追踪深夜在线。",
+      "source_ids": ["ev-season-deadline-001"],
+      "confidence": "low"
+    }
+  ],
+  "load_signals": [
+    {
+      "id": "load-credits",
+      "label": "课程承诺",
+      "display_value": "18 学分",
+      "severity": "watch",
+      "text_equivalent": "课程承诺较高；不是学校正式状态。",
+      "source_ids": ["ev-mirror-course-001"]
+    },
+    {
+      "id": "load-deadlines",
+      "label": "截止期限",
+      "display_value": "4 个 / 7 天",
+      "severity": "high",
+      "text_equivalent": "未来七天四个已知任务，两个集中在四十八小时。",
+      "source_ids": ["ev-season-deadline-001"]
+    },
+    {
+      "id": "load-time",
+      "label": "时间容量",
+      "display_value": "34 / 36 小时",
+      "severity": "high",
+      "text_equivalent": "本人计划只剩两小时缓冲。",
+      "source_ids": ["ev-self-capacity-001"]
+    },
+    {
+      "id": "load-feeling",
+      "label": "本人感受",
+      "display_value": "需要缓冲",
+      "severity": "watch",
+      "text_equivalent": "本人主动填写；不是医学判断。",
+      "source_ids": ["ev-self-recovery-001"]
+    }
+  ],
+  "support_actions": [
+    {
+      "id": "support-plan-buffer",
+      "title": "先保留缓冲",
+      "action": "在试排中移动一个演示任务，释放 90 分钟。",
+      "availability": "可立即预演，不修改正式课表。",
+      "source_id": "ev-season-deadline-001"
+    },
+    {
+      "id": "support-office-hour",
+      "title": "带证据提问",
+      "action": "整理一个来源冲突，使用课程官方人工渠道。",
+      "availability": "当前只展示演示入口，真实预约时间需另行确认。",
+      "source_id": "ev-support-001"
+    },
+    {
+      "id": "support-pause",
+      "title": "关闭状态提示",
+      "action": "关闭 Academic Climate 与建议提醒。",
+      "availability": "本机立即生效，不影响权益。",
+      "source_id": "ev-self-recovery-001"
+    }
+  ],
+  "badges": [
+    {
+      "id": "badge-source-challenger",
+      "title": "SOURCE CHALLENGER",
+      "subtitle": "来源挑战者",
+      "criteria": "在三个不同学习对象中主动查看并质疑可定位来源。",
+      "evidence_ids": ["ev-source-open-001", "ev-exam-source-001"],
+      "status": "earned",
+      "earned_at": "2026-07-24T10:39:00+08:00",
+      "progress_label": "3 / 3 个对象",
+      "private": true,
+      "affects_rights": false
+    },
+    {
+      "id": "badge-revision-builder",
+      "title": "REVISION BUILDER",
+      "subtitle": "持续修订",
+      "criteria": "完成三次带前后版本与来源的有效修订。",
+      "evidence_ids": ["ev-revision-001", "ev-review-001"],
+      "status": "earned",
+      "earned_at": "2026-07-24T10:38:00+08:00",
+      "progress_label": "3 / 3 次修订",
+      "private": true,
+      "affects_rights": false
+    },
+    {
+      "id": "badge-assist-play",
+      "title": "ASSIST PLAY",
+      "subtitle": "协作传球",
+      "criteria": "留下两次可确认、非人气化的帮助记录。",
+      "evidence_ids": [],
+      "status": "in_progress",
+      "earned_at": null,
+      "progress_label": "数据不足 · 不猜测",
+      "private": true,
+      "affects_rights": false
+    }
+  ],
+  "status_label": {
+    "id": "status-week-2026-30",
+    "words": "稳态，但期限密集",
+    "number_preview": "98.6°F · 稳态（仅 A 版研究文案）",
+    "basis_ids": [
+      "obs-revision-quality",
+      "obs-deadline-density",
+      "obs-capacity",
+      "obs-recovery"
+    ],
+    "starts_at": "2026-07-24T00:00:00+08:00",
+    "expires_at": "2026-07-28T00:00:00+08:00",
+    "withdrawn_at": null,
+    "private": true,
+    "non_medical": true
+  },
+  "recommendations": [
+    {
+      "id": "rec-buffer",
+      "title": "先腾出 90 分钟缓冲",
+      "basis_ids": ["obs-deadline-density", "obs-capacity", "obs-recovery"],
+      "cost": "需要移动一个尚未开始的演示任务。",
+      "expected_effect": "减少任务重叠；不保证成绩或效率提升。",
+      "alternative": "保留原计划，只关闭非紧急提醒。",
+      "unknowns": ["临时责任尚未录入。"],
+      "generation_mode": "rule_fixture",
+      "status": "open"
+    },
+    {
+      "id": "rec-source",
+      "title": "把一个来源冲突带进 Office Hours",
+      "basis_ids": ["obs-source-checks", "obs-task-clarity"],
+      "cost": "整理问题约十分钟。",
+      "expected_effect": "让模糊要求由教师澄清。",
+      "alternative": "先提交私密 Challenge Call。",
+      "unknowns": ["真实 Office Hours 未连接。"],
+      "generation_mode": "rule_fixture",
+      "status": "open"
+    },
+    {
+      "id": "rec-collaboration",
+      "title": "暂不生成协作能力建议",
+      "basis_ids": [],
+      "cost": "无。",
+      "expected_effect": "避免用缺失数据贴标签。",
+      "alternative": "本人可导入授权协作记录或保持空白。",
+      "unknowns": ["没有授权同伴反馈。"],
+      "generation_mode": "rule_fixture",
+      "status": "open"
+    }
+  ],
+  "share_grants": [],
+  "corrections": [],
+  "harm_signals": [
+    {
+      "id": "harm-climate-a-preflight",
+      "category": "score_misread",
+      "description": "数字版可能被误解为成绩、医学体温或越高越好。",
+      "severity": "watch",
+      "status": "mitigated",
+      "action_taken": "默认关闭数字隐喻；A 版只用于研究预览。",
+      "created_at": "2026-07-24T09:00:00+08:00"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-revision-001",
+      "evidence_type": "learning_event",
+      "source_id": "F-001:interaction-sls-003",
+      "label": "三次来源后修订",
+      "locator": "Replay event 003–005",
+      "updated_at": "2026-07-24T10:38:00+08:00",
+      "authority": "demo_fixture",
+      "freshness": "fresh",
+      "detail": "不复制原课程材料。"
+    },
+    {
+      "id": "ev-review-001",
+      "evidence_type": "review_object",
+      "source_id": "F-001:generated-sls-explainer-001",
+      "label": "教师审核对象与版本差异",
+      "locator": "review revision 3",
+      "updated_at": "2026-07-24T10:35:00+08:00",
+      "authority": "demo_fixture",
+      "freshness": "fresh",
+      "detail": "来自演示流程中的教师审核记录。"
+    },
+    {
+      "id": "ev-source-open-001",
+      "evidence_type": "learning_event",
+      "source_id": "F-001:evidence-open-bundle",
+      "label": "Evidence 主动打开事件",
+      "locator": "Replay source_open × 3",
+      "updated_at": "2026-07-24T10:39:00+08:00",
+      "authority": "demo_fixture",
+      "freshness": "fresh",
+      "detail": "打开次数不等于理解。"
+    },
+    {
+      "id": "ev-exam-source-001",
+      "evidence_type": "learning_event",
+      "source_id": "F-005:exam-source-challenge",
+      "label": "World Exam 来源挑战",
+      "locator": "match replay q-001",
+      "updated_at": "2026-07-24T10:42:00+08:00",
+      "authority": "demo_fixture",
+      "freshness": "fresh",
+      "detail": "模拟赛事，不是正式考试。"
+    },
+    {
+      "id": "ev-mirror-course-001",
+      "evidence_type": "academic_mirror",
+      "source_id": "F-003:nr-course-sls201",
+      "label": "课程目录镜像",
+      "locator": "snapshot snap-catalog-001",
+      "updated_at": "2026-07-23T16:00:00+08:00",
+      "authority": "demo_fixture",
+      "freshness": "warning",
+      "detail": "公开演示不会冒充学校正式记录。"
+    },
+    {
+      "id": "ev-season-deadline-001",
+      "evidence_type": "academic_mirror",
+      "source_id": "F-002:season-deadlines",
+      "label": "第 4 / 8 赛季截止日",
+      "locator": "career dashboard deadline deck",
+      "updated_at": "2026-07-24T10:30:00+08:00",
+      "authority": "demo_fixture",
+      "freshness": "fresh",
+      "detail": "不是学校正式日历。"
+    },
+    {
+      "id": "ev-self-capacity-001",
+      "evidence_type": "self_report",
+      "source_id": "student-nan-fixture:capacity-week-30",
+      "label": "本人本周可用时间",
+      "locator": "private local input",
+      "updated_at": "2026-07-24T11:32:00+08:00",
+      "authority": "self_declared",
+      "freshness": "no_expiry",
+      "detail": "本人可删除，不从行为日志反推。"
+    },
+    {
+      "id": "ev-self-recovery-001",
+      "evidence_type": "self_report",
+      "source_id": "student-nan-fixture:recovery-2026-07-24",
+      "label": "本人短期恢复感受",
+      "locator": "private local input",
+      "updated_at": "2026-07-24T11:33:00+08:00",
+      "authority": "self_declared",
+      "freshness": "fresh",
+      "detail": "不是医学或心理数据。"
+    },
+    {
+      "id": "ev-support-001",
+      "evidence_type": "support_directory",
+      "source_id": "fixture:sls201-office-hours",
+      "label": "课程支持渠道样例",
+      "locator": "course detail support rail",
+      "updated_at": "2026-07-24T10:30:00+08:00",
+      "authority": "demo_fixture",
+      "freshness": "warning",
+      "detail": "真实时间需课程官方确认。"
+    }
+  ],
+  "research_gate": {
+    "status": "deferred_pending_human_evidence",
+    "default_variant": "c_dimensions",
+    "evidence_count": 0,
+    "required_participants": "6-10",
+    "variants": [
+      {
+        "id": "a_numbers",
+        "label": "A · 数字隐喻",
+        "description": "四张离散温度文案；只用于盲测，不作计算。"
+      },
+      {
+        "id": "b_words",
+        "label": "B · 文字状态",
+        "description": "只显示回暖中、室温、稳态与过热。"
+      },
+      {
+        "id": "c_dimensions",
+        "label": "C · 无隐喻",
+        "description": "只显示原始维度与未知项。"
+      }
+    ],
+    "stop_conditions": [
+      "重复被理解为成绩、医学诊断或越高越好。",
+      "找不到关闭、依据、纠错或减压入口。",
+      "引发明显羞辱、焦虑或身份标签。"
+    ]
+  },
+  "audit": [
+    {
+      "id": "perf-event-001",
+      "sequence": 1,
+      "action": "climate_toggle",
+      "target_id": "status-week-2026-30",
+      "detail": "数字隐喻默认关闭；C 版为安全基线。",
+      "occurred_at": "2026-07-24T09:00:00+08:00",
+      "previous_event_hash": null,
+      "event_hash": "fnv1a-perf-event-001"
+    },
+    {
+      "id": "perf-event-002",
+      "sequence": 2,
+      "action": "correction_request",
+      "target_id": "metric-catalog",
+      "detail": "指标目录固定为 self_only，没有 OVR。",
+      "occurred_at": "2026-07-24T09:05:00+08:00",
+      "previous_event_hash": "fnv1a-perf-event-001",
+      "event_hash": "fnv1a-perf-event-002"
+    }
+  ]
+}

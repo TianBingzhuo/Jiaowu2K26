@@ -1,0 +1,273 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://university2k26.local/contracts/v1/world-exam-fixture.schema.json",
+  "title": "University2K26 F-005 World Exam fixture",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "data_mode",
+    "student_id",
+    "course_id",
+    "source_boundary",
+    "event",
+    "briefing",
+    "warmup",
+    "playbook",
+    "match_questions"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^1\\." },
+    "data_mode": { "const": "fixture" },
+    "student_id": { "type": "string", "minLength": 1 },
+    "course_id": { "type": "string", "minLength": 1 },
+    "source_boundary": { "type": "string", "minLength": 20 },
+    "event": { "$ref": "#/$defs/event" },
+    "briefing": { "$ref": "#/$defs/briefing" },
+    "warmup": { "$ref": "#/$defs/question" },
+    "playbook": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/playbook_section" }
+    },
+    "match_questions": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/match_question" }
+    }
+  },
+  "$defs": {
+    "source_id": {
+      "type": "string",
+      "pattern": "^source-sls-"
+    },
+    "object_id": {
+      "type": "string",
+      "pattern": "^generated-sls-"
+    },
+    "option": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 }
+      }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "course_id",
+        "title",
+        "event_type",
+        "scheduled_at",
+        "duration_minutes",
+        "status",
+        "is_formal",
+        "source_authority"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "course_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "event_type": {
+          "enum": ["warmup", "quiz", "midterm", "final", "project"]
+        },
+        "scheduled_at": { "type": "string", "format": "date-time" },
+        "duration_minutes": { "type": "integer", "minimum": 1 },
+        "status": {
+          "enum": [
+            "scheduled",
+            "briefing_open",
+            "warmup",
+            "exam_active",
+            "review",
+            "archived"
+          ]
+        },
+        "is_formal": { "const": false },
+        "source_authority": { "const": "fixture" }
+      }
+    },
+    "briefing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scope_summary",
+        "sources",
+        "competency_targets",
+        "available_resources",
+        "readiness"
+      ],
+      "properties": {
+        "scope_summary": { "type": "string", "minLength": 1 },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["source_id", "locator", "coverage"],
+            "properties": {
+              "source_id": { "$ref": "#/$defs/source_id" },
+              "locator": { "type": "string", "minLength": 1 },
+              "coverage": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "competency_targets": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "available_resources": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "readiness": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["coverage_pct", "weak_areas", "unknown_areas"],
+          "properties": {
+            "coverage_pct": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "weak_areas": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 }
+            },
+            "unknown_areas": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    "question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "object_id",
+        "prompt",
+        "options",
+        "correct_answer",
+        "explanation",
+        "source_ids"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "object_id": { "$ref": "#/$defs/object_id" },
+        "prompt": { "type": "string", "minLength": 1 },
+        "options": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/$defs/option" }
+        },
+        "correct_answer": { "type": "string", "minLength": 1 },
+        "explanation": { "type": "string", "minLength": 1 },
+        "source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/source_id" }
+        }
+      }
+    },
+    "playbook_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "object_id",
+        "title",
+        "estimated_minutes",
+        "source_ids"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "object_id": { "$ref": "#/$defs/object_id" },
+        "title": { "type": "string", "minLength": 1 },
+        "estimated_minutes": { "type": "integer", "minimum": 1 },
+        "source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/source_id" }
+        }
+      }
+    },
+    "playbook_section": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "knowledge_points", "items"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "knowledge_points": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/playbook_item" }
+        }
+      }
+    },
+    "match_question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "object_id",
+        "prompt",
+        "response_type",
+        "options",
+        "correct_answer",
+        "source_ids",
+        "ai_trace"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "object_id": { "$ref": "#/$defs/object_id" },
+        "prompt": { "type": "string", "minLength": 1 },
+        "response_type": {
+          "enum": ["single_choice", "source_challenge"]
+        },
+        "options": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/$defs/option" }
+        },
+        "correct_answer": { "type": "string", "minLength": 1 },
+        "source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/source_id" }
+        },
+        "ai_trace": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "claim", "source_id", "confidence"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "claim": { "type": "string", "minLength": 1 },
+              "source_id": { "$ref": "#/$defs/source_id" },
+              "confidence": {
+                "enum": ["high", "medium", "low", "unsupported"]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

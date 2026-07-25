@@ -4550,8 +4550,8 @@ mod tests {
         let (demo_status, demo) = get_json(app.clone(), "/api/v1/demo/opportunity-market").await;
         assert_eq!(demo_status, StatusCode::OK);
         assert_eq!(demo["data_mode"], "demo_fixture");
-        assert_eq!(demo["opportunities"].as_array().map(Vec::len), Some(10));
-        assert_eq!(demo["packs"].as_array().map(Vec::len), Some(2));
+        assert_eq!(demo["opportunities"].as_array().map(Vec::len), Some(16));
+        assert_eq!(demo["packs"].as_array().map(Vec::len), Some(3));
         assert!(
             demo["opportunities"]
                 .as_array()
@@ -4612,7 +4612,7 @@ mod tests {
         let matching = json_request(app, "POST", "/api/v1/opportunity-match", json!({})).await;
         assert_eq!(matching.status(), StatusCode::OK);
         let matching = response_json(matching).await;
-        assert_eq!(matching.as_array().map(Vec::len), Some(9));
+        assert_eq!(matching.as_array().map(Vec::len), Some(14));
         assert!(
             matching
                 .as_array()
@@ -4786,7 +4786,7 @@ mod tests {
         assert_eq!(matching.status(), StatusCode::OK);
         assert_eq!(
             response_json(matching).await.as_array().map(Vec::len),
-            Some(9)
+            Some(14)
         );
 
         let report = json_request(

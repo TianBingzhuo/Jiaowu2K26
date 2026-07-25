@@ -6,6 +6,8 @@ export type OpportunityCategory =
   | "internship"
   | "scholarship"
   | "workshop"
+  | "career_event"
+  | "campus_event"
   | "campus_project";
 
 export type OpportunityScope = "campus" | "external";

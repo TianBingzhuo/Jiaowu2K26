@@ -141,6 +141,8 @@ const CATEGORY_LABEL: Record<OpportunityCategory, string> = {
   internship: "实习",
   scholarship: "资助",
   workshop: "工作坊",
+  career_event: "职业活动",
+  campus_event: "校内活动",
   campus_project: "校园项目",
 };
 
@@ -150,8 +152,9 @@ const SCOPE_META: Record<
 > = {
   campus: {
     label: "校内机会",
-    english: "CAMPUS LEAGUE",
-    description: "由学校、院系、实验室或校内组织管理，优先核验校内资格与审批链。",
+    english: "BEAR DOWN LEAGUE",
+    description:
+      "UArizona Bear Down 活动、院系、实验室与本校组织的独立赛区；优先核验校内身份、时区、费用和审批链。",
   },
   external: {
     label: "校外机会",
@@ -199,9 +202,20 @@ function downloadJson(filename: string, payload: unknown) {
   URL.revokeObjectURL(url);
 }
 
-function formatDeadline(deadline: string | null): string {
-  if (!deadline) return "无固定截止";
-  return deadline.slice(0, 10);
+function isEventOpportunity(opportunity: Opportunity): boolean {
+  return (
+    opportunity.category === "campus_event" ||
+    opportunity.category === "career_event"
+  );
+}
+
+function formatOpportunityDate(opportunity: Opportunity): string {
+  if (!opportunity.deadline) {
+    return isEventOpportunity(opportunity)
+      ? "持续开放 / 以官方页为准"
+      : "无固定截止";
+  }
+  return opportunity.deadline.slice(0, 10);
 }
 
 function EligibilityBadge({ status }: { status: EligibilityStatus }) {
@@ -276,7 +290,7 @@ function OpportunityCard({
       <footer>
         <span>
           <CalendarClock24Regular aria-hidden="true" />
-          {formatDeadline(opportunity.deadline)}
+          {formatOpportunityDate(opportunity)}
         </span>
         <span title={opportunity.sourceUrl}>
           <ShieldCheckmark24Regular aria-hidden="true" />
@@ -440,7 +454,7 @@ export function OpportunityMarketStudio({
             <h2 id="pack-heading">机会包不是抽卡包</h2>
           </div>
           <p>
-            两个主题集合共 {state.opportunities.length} 项，内容完全可见；无概率、稀有度、付费解锁或假稀缺。
+            {state.packs.length} 个主题集合共 {state.opportunities.length} 项，内容完全可见；无概率、稀有度、付费解锁或假稀缺。
           </p>
         </div>
         <div className="opportunity-pack-grid">
@@ -462,7 +476,7 @@ export function OpportunityMarketStudio({
             <h2 id="discovery-heading">透明机会阵容</h2>
           </div>
           <p>
-            当前显示 {opportunities.length} / {state.opportunities.length}；排序只按有效状态与截止时间。
+            当前显示 {opportunities.length} / {state.opportunities.length}；排序只按有效状态与时间节点。
           </p>
         </div>
         <div
@@ -698,8 +712,8 @@ export function OpportunityMarketStudio({
             <dd>{selectedOpportunity.location}</dd>
           </div>
           <div>
-            <dt>截止</dt>
-            <dd>{formatDeadline(selectedOpportunity.deadline)}</dd>
+            <dt>{isEventOpportunity(selectedOpportunity) ? "活动日期" : "截止"}</dt>
+            <dd>{formatOpportunityDate(selectedOpportunity)}</dd>
           </div>
           <div>
             <dt>来源版本</dt>
@@ -960,7 +974,7 @@ export function OpportunityMarketStudio({
                     </section>
                   </div>
                   <footer>
-                    <span>排序：资格四态 → 截止时间 · 付费影响 0</span>
+                    <span>排序：资格四态 → 时间节点 · 付费影响 0</span>
                     <button
                       type="button"
                       onClick={() =>
@@ -1709,7 +1723,7 @@ export function OpportunityMarketStudio({
         )}
         <strong>{state.offline ? "离线只读" : "透明 Fixture"}</strong>
         <span>
-          AdventureX、CHI 2027 与 ICRA 2027 使用官方规则核验快照，其余为明确标注的 Fixture；个人状态、匹配与回应仍是演示数据，不自动申请、不预测录取、不付费排序、不随机资格、不拍卖人。
+          UArizona Bear Down×6、AdventureX、CHI 2027×2 与 ICRA 2027 使用官方页面核验快照，其余为明确标注的 Fixture；不读取私人邮箱，个人状态、匹配与回应仍是演示数据，不自动申请、不预测录取、不付费排序、不随机资格、不拍卖人。
         </span>
       </div>
 
@@ -1751,7 +1765,7 @@ export function OpportunityMarketStudio({
         </span>
         <span>
           <ShieldCheckmark24Regular aria-hidden="true" />
-          排序：资格四态 → 截止时间 · Paid 0
+          排序：资格四态 → 时间节点 · Paid 0
         </span>
         <span>
           <History24Regular aria-hidden="true" />

@@ -15,7 +15,7 @@
 | 领域合同 | 无框架 domain crate；OpenAPI 3.1、35 份 JSON Schema、10 份 Golden Fixture | **进入本地技术评审**；未知枚举保留并阻止高风险自动动作，F-003 固定来源/快照/字段血缘/同意/审计边界，F-004 固定 Prefix/Pins/Plan/Unsat/Transaction/Lock 与目录验证门，F-005 复用同一证据命名空间与状态机，F-006 固定私密指标/证据/授权/纠错/STOP，F-007 固定课程来源/版本/纠错/公平/治理边界，F-008 固定画像关闭/日历冲突/非权威镜像/最小披露/紧急升级/私有回执边界，F-009 固定透明来源/四态资格/选择性 Profile/双向意向/最小披露/零自动投递/公平 Replay 边界 |
 | SQLx 0.9.0 / SQLite | 写入、查询、乐观并发、审核/发布事务与 Replay 通过 | **当前已验证数据路径**，无云账号也能运行 |
 | OceanBase | 尚未做账号、TLS、migration、事务和 join 实验 | **未采用 / 未否定**；只是可选后续 adapter，不阻塞启动 |
-| React 19 / TypeScript 5.9 / Vite 6.4.3 | 用户已接受 Option 1 首页美术；`app/apps/web` V0.9 与 F-001～F-010 Fixture 纵向切片通过类型检查、161 项测试和生产构建；当前 Edge/Chromium 已复测四个机构工作台、角色切换、浏览器返回、AI 规则回退、SLS 16 周蓝图、机会市场校内/校外双联赛、AdventureX、UArizona Summer 2026 公开目录检索、排课门、移动端与英文角色导览 | **本地技术评审**；五角色/四工作台、来源约束建议组件、完整 SLS 课程、分区机会市场、公开目录浏览器及既有十模块路径已落地，实体手柄、真实触屏、Firefox/Safari 运行时、动效 profile、真实求解器和第二台机器仍待补证 |
+| React 19 / TypeScript 5.9 / Vite 6.4.3 | 用户已接受 Option 1 首页美术；`app/apps/web` V0.9 与 F-001～F-010 Fixture 纵向切片通过类型检查、161 项测试和生产构建；当前 Edge/Chromium 已复测四个机构工作台、角色切换、浏览器返回、AI 规则回退、SLS 16 周蓝图、机会市场 Bear Down/Open 双联赛、AdventureX、UArizona Summer 2026 公开目录检索、排课门、移动端与英文角色导览 | **本地技术评审**；五角色/四工作台、来源约束建议组件、完整 SLS 课程、分区机会市场、UArizona 官方校园活动快照、公开目录浏览器及既有十模块路径已落地，实体手柄、真实触屏、Firefox/Safari 运行时、动效 profile、真实求解器和第二台机器仍待补证 |
 | AI Provider / GX10 | provider-neutral OpenAI-compatible adapter、Moonshot/Kimi K2.6 Fast 当前参数合同、Windows DPAPI 服务端 BYOK、loopback 无凭据模式、严格来源校验与规则回退已通过本地测试；GX10 未实机运行 | **adapter 已实现 / 实时模型证据未形成**；Qwen3.6 35B 是首个 GX10 Spike，模型故障不得阻塞产品 |
 | Unity / Unreal / Tauri / WinUI 3 | 未接入 | **不进入当前基座** |
 

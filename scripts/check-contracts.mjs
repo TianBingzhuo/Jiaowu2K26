@@ -224,9 +224,9 @@ assert(
 assert(
   Array.isArray(opportunityFixture.opportunities) &&
     opportunityFixture.opportunities.length >= 5 &&
-    opportunityFixture.opportunities.length <= 10 &&
+    opportunityFixture.opportunities.length <= 20 &&
     opportunityFixture.opportunities.some((item) => item.status === 'expired'),
-  'Opportunity Market needs 5-10 transparent items and an explicit expired example.',
+  'Opportunity Market needs 5-20 transparent items and an explicit expired example.',
 );
 assert(
   opportunityFixture.opportunities.every(

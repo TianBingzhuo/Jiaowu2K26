@@ -25,12 +25,12 @@ import {
 } from "../src/features/opportunitymarket/engine";
 
 describe("F-009 Opportunity Market transparent consent-aware fixture", () => {
-  it("starts with ten complete opportunities and hard anti-manipulation invariants", () => {
+  it("starts with sixteen complete opportunities and hard anti-manipulation invariants", () => {
     const state = createOpportunityMarketState();
     expect(state.dataMode).toBe("demo_fixture");
     expect(state.profileVisibility).toBe("private");
-    expect(state.opportunities).toHaveLength(10);
-    expect(state.packs).toHaveLength(2);
+    expect(state.opportunities).toHaveLength(16);
+    expect(state.packs).toHaveLength(3);
     expect(
       state.opportunities.every(
         (opportunity) =>
@@ -58,7 +58,7 @@ describe("F-009 Opportunity Market transparent consent-aware fixture", () => {
     const state = createOpportunityMarketState();
     const campus = visibleOpportunities(setScopeFilter(state, "campus"));
     const external = visibleOpportunities(setScopeFilter(state, "external"));
-    expect(campus).toHaveLength(3);
+    expect(campus).toHaveLength(8);
     expect(external).toHaveLength(6);
     expect(campus.every((opportunity) => opportunity.scope === "campus")).toBe(
       true,
@@ -69,11 +69,22 @@ describe("F-009 Opportunity Market transparent consent-aware fixture", () => {
     expect(
       external.filter((opportunity) => opportunity.category === "conference"),
     ).toHaveLength(3);
+    const bearDown = state.opportunities.filter((opportunity) =>
+      opportunity.id.startsWith("opp-ua-"),
+    );
+    expect(bearDown).toHaveLength(6);
+    expect(
+      bearDown.every(
+        (opportunity) =>
+          opportunity.scope === "campus" &&
+          opportunity.sourceUrl.includes("arizona.edu"),
+      ),
+    ).toBe(true);
   });
 
   it("filters expired opportunities by default without deleting their replay evidence", () => {
     const state = createOpportunityMarketState();
-    expect(visibleOpportunities(state)).toHaveLength(9);
+    expect(visibleOpportunities(state)).toHaveLength(14);
     expect(
       visibleOpportunities(state).some(
         (opportunity) => opportunity.id === "opp-journal-clinic",
@@ -83,6 +94,12 @@ describe("F-009 Opportunity Market transparent consent-aware fixture", () => {
       state.opportunities.find((item) => item.id === "opp-journal-clinic")
         ?.status,
     ).toBe("expired");
+    expect(
+      visibleOpportunities(state).some(
+        (opportunity) =>
+          opportunity.id === "opp-ua-bear-down-music-festival-2026",
+      ),
+    ).toBe(false);
     expect(state.notifications[0].kind).toBe("expiry");
   });
 
@@ -201,7 +218,7 @@ describe("F-009 Opportunity Market transparent consent-aware fixture", () => {
 
   it("matches deterministically without paid influence, random allocation or a score", () => {
     const matched = runSelectiveMatch(createOpportunityMarketState());
-    expect(matched.matchResults).toHaveLength(9);
+    expect(matched.matchResults).toHaveLength(14);
     expect(
       matched.matchResults.every(
         (result) =>
@@ -333,7 +350,7 @@ describe("F-009 Opportunity Market transparent consent-aware fixture", () => {
     const offline = toggleOpportunityOffline(createOpportunityMarketState());
     expect(offline.offline).toBe(true);
     expect(offline.message).toContain("不生成新匹配");
-    expect(visibleOpportunities(offline)).toHaveLength(9);
+    expect(visibleOpportunities(offline)).toHaveLength(14);
     expect(() => runSelectiveMatch(offline)).toThrow(/离线缓存为只读/);
     expect(() => saveOpportunity(offline, "opp-signal-lab")).toThrow(
       /离线缓存为只读/,

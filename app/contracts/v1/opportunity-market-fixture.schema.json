@@ -47,7 +47,7 @@
     "opportunities": {
       "type": "array",
       "minItems": 5,
-      "maxItems": 10,
+      "maxItems": 20,
       "items": { "$ref": "#/$defs/opportunity" }
     },
     "packs": {
@@ -184,6 +184,8 @@
             "internship",
             "scholarship",
             "workshop",
+            "career_event",
+            "campus_event",
             "campus_project"
           ]
         },

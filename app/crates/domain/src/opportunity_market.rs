@@ -238,9 +238,9 @@ impl OpportunityMarketFixture {
                 "Opportunity Market must remain an explicitly private demo_fixture".to_owned(),
             ));
         }
-        if !(5..=10).contains(&self.opportunities.len()) {
+        if !(5..=20).contains(&self.opportunities.len()) {
             return Err(DomainError::InvariantViolation(
-                "Opportunity Market fixture must contain 5 to 10 opportunities".to_owned(),
+                "Opportunity Market fixture must contain 5 to 20 opportunities".to_owned(),
             ));
         }
         let opportunity_ids = unique_ids(
@@ -1555,8 +1555,8 @@ mod tests {
     fn fixture_enforces_transparency_privacy_and_non_manipulation() {
         let fixture = fixture();
         fixture.validate().expect("fixture must satisfy invariants");
-        assert_eq!(fixture.opportunities.len(), 10);
-        assert_eq!(fixture.packs.len(), 2);
+        assert_eq!(fixture.opportunities.len(), 16);
+        assert_eq!(fixture.packs.len(), 3);
         assert!(fixture.opportunities.iter().all(|item| {
             item.paid_ranking_factor == 0.0 && matches!(item.scope.as_str(), "campus" | "external")
         }));
@@ -1602,7 +1602,7 @@ mod tests {
         let matches = session
             .run_selective_match(&fixture)
             .expect("matching should work");
-        assert_eq!(matches.len(), 9);
+        assert_eq!(matches.len(), 14);
         assert!(matches.iter().all(|item| !item.paid_influence));
     }
 

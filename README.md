@@ -64,7 +64,7 @@ AI 的回执至少应包含：
 - 公开主仓：[TianBingzhuo/Jiaowu2K26](https://github.com/TianBingzhuo/Jiaowu2K26)；GitHub Issue / PR 是开仓后的实时工作源
 - 当前代码证据：79 项 Rust 工作区测试、35 份 JSON Schema、10 份 Golden Fixture、OpenAPI/Manifest 合同检查通过；F-001～F-010、五角色 Experience Shell、四个机构工作台、来源约束 AI/规则回退、完整 SLS 课程蓝图、校内/校外双联赛机会市场、AdventureX 彩蛋和 `conda_style_v1` 目录验证门通过严格 TypeScript、161 项 Vitest 与 Vite Production Build。当前 Edge / Chromium 已复测学生与四个机构工作台、角色切换、浏览器返回、规则回退、SLS 16 周课程蓝图、机会分区、UArizona Summer 2026 公开目录检索、排课验证门、390×844 移动端和英文角色导览；Moonshot/GX10 实时模型、UArizona 后端持久化与真实求解、HEBUT 目录导入、生产 SSO/授权、全量双语和 Firefox/Safari 均不在已完成证据中
 - Demo 课程：信号与线性系统为首页主赛程，已展开为 16 周、48 个学习场次、5 个单元、38 个知识节点；光学、电子电路、高等数学、学术英语、工程训练构成其余课程阵容。仅使用本地已审核 README/索引中的名称、主题与证据边界，分析路径、身份、进度、等级和建议均明确标记为 Fixture，详见 [Demo 课程来源与脱敏边界](reference/DEMO-COURSE-PROVENANCE.md)
-- 机会市场：默认按 **校内机会 / Campus League** 与 **校外机会 / Open League** 分区展示，再按期刊、会议、竞赛、科研、实习、资助等类别细筛；两区分别解释资格、时效、成本和外部规则，不做跨区“重要性总榜”
+- 机会市场：默认按 **校内机会 / Bear Down League** 与 **校外机会 / Open League** 分区展示，再按期刊、会议、竞赛、科研、实习、职业活动和校园活动等类别细筛；Bear Down Camp、Wildcat Student Employment & Research Fair、Bear Down Week、Fall Festival、社团入口及 Music Festival Replay 均保留 UArizona 官方来源和 Arizona Time，两区不做跨区“重要性总榜”
 - UArizona 公开目录：Summer 2026 只读快照已接入 Roster Lab，共 2,592 门课程、10,606 条 section 行、201 个学科代码；它可搜索、筛选和打开官方来源，但尚未进入后端持久化、培养方案约束或正式选课求解
 - 全部学科发现池：桌面“学科”中的 43 个快捷方式已只读映射为 40 个唯一来源目录，10 个已有根 README；它们是待复核候选，不是选课记录或已完成分析，详见 [本地学科发现池快照](reference/COURSE-CATALOG-SNAPSHOT.md)
 - 稳定 ID：F-001～F-014 各功能表中已经发布的编号与含义不得重新编号或复用

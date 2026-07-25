@@ -942,15 +942,15 @@ paths:
       responses:
         '200':
           description: >-
-            All ten transparent Fixture opportunities with explicit campus or
-            external scope, including the expired replay example. No paid or
-            random ordering.
+            All sixteen transparent Fixture opportunities with explicit Bear
+            Down campus or external scope, including two expired replay
+            examples. No paid or random ordering.
           content:
             application/json:
               schema:
                 type: array
                 minItems: 5
-                maxItems: 10
+                maxItems: 20
                 items:
                   $ref: './opportunity-market-fixture.schema.json#/$defs/opportunity'
   /opportunities/{opportunity_id}:
